@@ -1,11 +1,12 @@
-install node\
-install yarn via npm\
-clone this repo\
-cd to the folder , run "yarn" to install package and dependency\
+```
+install node
+install yarn via npm
+clone this repo
+cd to the folder , run "yarn" to install package and dependency
 to test in dev mode , run 'yarn start'.
 
 do not mix npm and yarn.
-
+```
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
