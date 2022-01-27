@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Block from "./components/Block";
+import { COLOR } from "./CONSTANT";
 function App() {
   const [number, setNumber] = useState(0);
 
@@ -14,7 +15,7 @@ function App() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "green",
+        backgroundColor: COLOR["mint/300"],
         height: "100vh",
         flexDirection: "column",
       }}
