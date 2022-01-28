@@ -1,39 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
-import Block from "./components/Block";
-import { COLOR } from "./CONSTANT";
-function App() {
-  const [number, setNumber] = useState(0);
-
-  const increment = () => {
-    setNumber((prevNumber) => prevNumber + 1);
-  };
-
+import LandingPage from "./pages/LandingPage";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+const App = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: COLOR["mint/300"],
-        height: "100vh",
-        flexDirection: "column",
-      }}
-    >
-      This page is rendered {number} times
-      <Block>
-        This is Landing Page of fortune168
-        <></>
-      </Block>
-      <button
-        style={{ width: 120, height: 20, marginTop: 20 }}
-        type="button"
-        onClick={increment}
-      >
-        Click to rerender
-      </button>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/register" element={<></>} />
+          <Route path="/login" element={<></>} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
-}
+};
 
 export default App;
