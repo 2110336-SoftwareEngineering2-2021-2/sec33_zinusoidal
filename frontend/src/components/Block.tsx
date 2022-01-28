@@ -1,6 +1,6 @@
 // example of how component work
 
-import React, { ReactNode, ReactPropTypes } from "react";
+import React from "react";
 
 const Block: React.FC = ({ children }) => {
   return (
