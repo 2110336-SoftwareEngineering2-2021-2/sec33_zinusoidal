@@ -55,3 +55,14 @@ func (h *Handler) ProviderrRegisterHandler(c *gin.Context) {
 		"message": "OK",
 	})
 }
+
+func (h *Handler) LoginHandler(c *gin.Context) {
+	var req LoginRequest
+	var err error
+	if err = c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid request",
+		})
+		return
+	}
+}
