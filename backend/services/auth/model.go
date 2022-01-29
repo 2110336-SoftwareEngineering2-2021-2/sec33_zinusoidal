@@ -27,3 +27,8 @@ type ProviderRegisterRequest struct {
 	PhoneNumber    string   `json:"phoneNumber"`
 	WorkExperience string   `json:"workExperience"`
 }
+
+type LoginRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
