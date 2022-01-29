@@ -2,9 +2,15 @@ package main
 
 import (
 	"log"
+	"time"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 )
 
@@ -27,7 +33,40 @@ func main() {
 	router.Use(cors.New(config))
 
 	/* Router */
+	db := NewSQLConn()
+	auth_handler := auth.NewHandler(*auth.NewService(*auth_repo.New(db)))
+	v1fortune := router.Group("api/fortune168/v1")
+	{
+		v1fortune.POST("/customer_register", auth_handler.CustomerRegisterHandler)
+		v1fortune.POST("/provider_register", auth_handler.ProviderrRegisterHandler)
+		v1fortune.POST("/login", auth_handler.LoginHandler)
+	}
+
+	search_handler := search.NewHandler(*search.NewService(*auth_repo.New(db)))
+	{
+		v1fortune.POST("/search", search_handler.SearchHandler)
+	}
 
 	router.Run(":" + viper.GetString("app.port"))
+}
+
+func NewSQLConn() *gorm.DB {
+
+	conf := mysql.Config{
+		DBName: "PAINTPLZIO",
+		User:   "root",
+		Passwd: "123456",
+		Net:    "tcp",
+		Addr:   "127.0.0.1:3306",
+		Loc:    time.Local,
+	}
+
+	conn, err := gorm.Open("mysql", conf.FormatDSN())
+
+	if err != nil {
+		log.Fatalln("connection error")
+	}
+
+	return conn
 
 }
