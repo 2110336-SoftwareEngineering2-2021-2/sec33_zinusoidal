@@ -11,6 +11,6 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/jinzhu/gorm v1.9.16
+	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/spf13/viper v1.10.1
-	gorm.io/gorm v1.22.5
 )
