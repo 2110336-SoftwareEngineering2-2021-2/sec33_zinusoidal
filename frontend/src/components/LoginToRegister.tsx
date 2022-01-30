@@ -7,11 +7,11 @@ const LoginToRegister = () => {
     <div>
       <JoinUs>Join Us !</JoinUs>
       <TextAndbuttonProvider>
-        <Text style={{color:COLOR["magenta/300"]}}>As Provider</Text>
+        <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
         <Button>Register</Button>
       </TextAndbuttonProvider>
       <TextAndbuttonCustomer>
-        <Text style={{color:COLOR["blue/200"]}}>As Customer</Text>
+        <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
         <Button>Register</Button>
       </TextAndbuttonCustomer>
     </div>

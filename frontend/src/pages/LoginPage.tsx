@@ -4,7 +4,6 @@ import styled from "styled-components";
 import LoginToRegister from "../components/LoginToRegister";
 
 const LoginPage = () => {
-
   return (
     <Layout>
       <LoginForm />
