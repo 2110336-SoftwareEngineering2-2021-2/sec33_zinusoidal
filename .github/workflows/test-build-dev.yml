@@ -49,7 +49,7 @@ jobs:
       -
         name: Get in to backend folder
         run: |-
-          cd backend
+          cd frontend
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
