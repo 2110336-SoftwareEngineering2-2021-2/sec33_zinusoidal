@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
 import Register from "./pages/Register";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 const App = () => {
@@ -10,7 +11,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<></>} />
+          <Route path="/login" element={<LoginPage />} />
+
         </Routes>
       </BrowserRouter>
     </>
