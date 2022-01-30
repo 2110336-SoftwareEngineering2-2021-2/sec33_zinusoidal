@@ -6,7 +6,7 @@ const Register = () => {
   return (
     <Layout>
       <TermAndCondition />
-      <GridItem style={{}}></GridItem>
+      <GridItem style={{}}> </GridItem>
     </Layout>
   );
 };
