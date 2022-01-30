@@ -1,9 +1,6 @@
-
 import React from "react";
 import { COLOR } from "../CONSTANT";
 import styled from "styled-components";
-
-
 
 const LoginForm: React.FC = () => {
   return (
@@ -17,16 +14,21 @@ const LoginForm: React.FC = () => {
       </InputDiv>
       <InputDiv>
         <FormLabel>Password</FormLabel>
-        <Forminput type="password" id="fname" name="fname"/>
+        <Forminput type="password" id="fname" name="fname" />
       </InputDiv>
-    
+
       <RememberAndForgetDiv>
         <RememberDiv>
-          <CheckboxStyle type="checkbox" id="vehicle1" name="vehicle1" value="Bike"/>
+          <CheckboxStyle
+            type="checkbox"
+            id="vehicle1"
+            name="vehicle1"
+            value="Bike"
+          />
           <p>Remember me</p>
         </RememberDiv>
-        <Forget href = ''>Forget password?</Forget>
-      </RememberAndForgetDiv>  
+        <Forget href="">Forget password?</Forget>
+      </RememberAndForgetDiv>
 
       <LoginButton>Login</LoginButton>
     </LoginFormLayout>

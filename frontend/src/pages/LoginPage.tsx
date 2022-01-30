@@ -1,16 +1,15 @@
-import React, { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import { COLOR } from "../CONSTANT";
 import styled from "styled-components";
+import LoginToRegister from "../components/LoginToRegister";
 
 const LoginPage = () => {
 
   return (
     <Layout>
-
       <LoginForm />
+      <LoginToRegister />
     </Layout>
-      
   );
 };
 
