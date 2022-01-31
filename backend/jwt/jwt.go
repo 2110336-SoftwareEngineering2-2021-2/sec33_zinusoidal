@@ -1,8 +1,11 @@
 package jwt
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -13,7 +16,13 @@ type JwtClaims struct {
 	jwt.StandardClaims
 }
 
-func VerifyToken(c *gin.Context) (*jwt.Token, error) {
+var JWTSignedKey string
+
+func Init() {
+	JWTSignedKey = os.Getenv("JWT_SIGNED_KEY")
+}
+
+func VerifyToken(c *gin.Context) (*JwtClaims, error) {
 	token := ExtractToken(c)
 	jwtToken, err := jwt.ParseWithClaims(
 		token,
@@ -28,7 +37,12 @@ func VerifyToken(c *gin.Context) (*jwt.Token, error) {
 	if err != nil {
 		return nil, err
 	}
-	return jwtToken, nil
+	var claims *JwtClaims
+	claims, ok := jwtToken.Claims.(*JwtClaims)
+	if !ok {
+		return nil, errors.New("jwt token error")
+	}
+	return claims, nil
 }
 
 func ExtractToken(c *gin.Context) string {
@@ -38,4 +52,28 @@ func ExtractToken(c *gin.Context) string {
 		return splitToken[1]
 	}
 	return ""
+}
+
+func CreateToken(userID string) (string, error) {
+	// atClaims := jwt.MapClaims{}
+
+	// atClaims["authorized"] = true
+	// atClaims["user_id"] = userID
+	// atClaims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	x := JwtClaims{
+		UserID: userID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 2400).Unix(),
+		},
+	}
+
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, x)
+
+	access_token, err := at.SignedString([]byte(JWTSignedKey))
+	if err != nil {
+		return "", err
+	}
+
+	return access_token, nil
 }

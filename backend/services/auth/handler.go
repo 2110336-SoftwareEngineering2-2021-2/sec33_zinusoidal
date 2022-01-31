@@ -36,7 +36,7 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	})
 }
 
-func (h *Handler) ProviderrRegisterHandler(c *gin.Context) {
+func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	var req ProviderRegisterRequest
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
