@@ -33,7 +33,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./backend
           push: false
           tags: ${{ format('{0}-backend:latest', github.repository) }}
 
@@ -61,6 +61,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./frontend
           push: false
           tags: ${{ format('{0}-frontend:latest', github.repository) }}
