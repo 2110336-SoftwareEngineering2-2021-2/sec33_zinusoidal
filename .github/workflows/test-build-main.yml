@@ -1,9 +1,8 @@
-name: "[Development] Pull request: Build test"
+name: "[Production] Pull request: Build test"
 
 on:
   pull_request:
-    branches: [ dev ]
-    types: [ labeled ]
+    branches: [ main ]
 
 env:
   DEPLOYMENT_NAME: ${{ github.event.repository.name }}
@@ -11,7 +10,6 @@ env:
 jobs:
   docker-backend-build:
     name: "Backend Docker build and create an image"
-    if: ${{ github.event.label.name == 'Backend' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +37,6 @@ jobs:
 
   docker-frontend-build:
     name: "Backend Docker build and create an image"
-    if: ${{ github.event.label.name == 'Frontend' }}
     runs-on: ubuntu-latest
 
     steps:
