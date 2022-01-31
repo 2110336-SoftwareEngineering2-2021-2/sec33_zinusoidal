@@ -10,22 +10,12 @@ const Register = () => {
     </Layout>
   );
 };
-const styles = {
-  divStyle: {
-    color: "red",
-  },
-  header: {
-    backgroundColor: "green",
-    width: "100%",
-    minHeight: 100,
-  },
-};
 
 const Layout = styled.div`
   background-color: ${COLOR["blue/100"]};
   height: 100vh;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 40% 60%;
   @media (max-width: 450px) {
     display: flex;
     flex-direction: column;
