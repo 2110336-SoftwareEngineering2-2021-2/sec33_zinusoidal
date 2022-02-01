@@ -26,6 +26,14 @@ func (db *GromDB) Login(username, password string) (string, error) {
 	return userId, nil
 }
 
+func (db *GromDB) InsertConfirmationKey(userId, key string) error {
+	return nil
+}
+
+func (db *GromDB) ConfirmEmail(key string) error {
+	return nil
+}
+
 func (db *GromDB) IsExistUsernameAndEmail(username, email string) error {
 	return nil
 }
