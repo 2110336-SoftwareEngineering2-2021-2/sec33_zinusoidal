@@ -21,6 +21,11 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 	return nil
 }
 
-func (db *GromDB) IsExistUsernameAndEmail() bool {
-	return false
+func (db *GromDB) Login(username, password string) (string, error) {
+	userId := "P_dummy12345"
+	return userId, nil
+}
+
+func (db *GromDB) IsExistUsernameAndEmail(username, email string) error {
+	return nil
 }

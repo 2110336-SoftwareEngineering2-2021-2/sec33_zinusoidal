@@ -7,7 +7,7 @@ type CustomerRegisterRequest struct {
 	FirstName     string `json:"firstName" binding:"required"`
 	LastName      string `json:"lastName" binding:"required"`
 	Nickname      string `json:"nickname"`
-	Birthdate     string `json:"birthdate"`
+	Birthday      string `json:"birthday"`
 	ProfilePicUrl string `json:"profilePicUrl"`
 	Address       string `json:"address"`
 	PhoneNumber   string `json:"phoneNumber"`
@@ -22,7 +22,7 @@ type ProviderRegisterRequest struct {
 	Email          string   `json:"email" binding:"required"`
 	FirstName      string   `json:"firstName" binding:"required"`
 	LastName       string   `json:"lastName" binding:"required"`
-	Birthdate      string   `json:"birthdate" binding:"required"`
+	Birthday       string   `json:"birthday" binding:"required"`
 	FortuneType    []string `json:"fortuneType"`
 	ProfilePicUrl  string   `json:"profilePicUrl"`
 	Address        string   `json:"address"`

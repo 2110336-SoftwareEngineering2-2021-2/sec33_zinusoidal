@@ -18,6 +18,7 @@ type Service struct {
 type Databaser interface {
 	RegisterCustomer(customer model.Customer) error
 	RegisterProvider(provider model.Provider) error
+	Login(username, password string) (string, error)
 }
 
 type Servicer interface {
@@ -73,6 +74,11 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	return s.database.RegisterProvider(provider)
 }
 
-func (s *Service) Login(req LoginRequest) error {
-	return nil
+func (s *Service) Login(req LoginRequest) (string, error) {
+	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", errors.New("hashed failed")
+	}
+	userId, err := s.database.Login(req.Username, string(hash_password))
+	return userId, err
 }

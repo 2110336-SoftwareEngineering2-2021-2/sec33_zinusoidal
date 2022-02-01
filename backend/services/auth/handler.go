@@ -3,6 +3,7 @@ package auth
 import (
 	"net/http"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -65,4 +66,25 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		})
 		return
 	}
+	userId, err := h.service.Login(req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	token, err := jwt.CreateToken(userId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
+}
+
+func (h *Handler) ProviderEditProfileHandler(c *gin.Context) {
+
 }

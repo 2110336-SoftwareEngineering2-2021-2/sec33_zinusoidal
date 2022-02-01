@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
@@ -33,7 +34,9 @@ func main() {
 	router.Use(cors.New(config))
 
 	/* Router */
-	db := NewSQLConn()
+	db := NewSQLConn() /// connect database
+	jwt.Init()         /// init jwt
+
 	auth_handler := auth.NewHandler(*auth.NewService(auth_repo.New(db)))
 	v1fortune := router.Group("api/fortune168/v1")
 	{
