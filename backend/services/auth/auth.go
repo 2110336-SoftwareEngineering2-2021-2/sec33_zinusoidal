@@ -120,7 +120,7 @@ func sendEmailConfirmationLink(email, key string) error {
 	mail.SetHeader("To", email)
 	mail.SetBody("text/plain", "http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, sender, password)
+	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	err := d.DialAndSend(mail)
