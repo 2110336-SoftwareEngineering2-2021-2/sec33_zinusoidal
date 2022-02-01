@@ -85,6 +85,22 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 	})
 }
 
-func (h *Handler) ProviderEditProfileHandler(c *gin.Context) {
-
+func (h *Handler) ActivateEmail(c *gin.Context) {
+	key := c.GetString("key")
+	if key == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid key",
+		})
+		return
+	}
+	err := h.service.ConfirmEmail(key)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "email confirmed",
+	})
 }
