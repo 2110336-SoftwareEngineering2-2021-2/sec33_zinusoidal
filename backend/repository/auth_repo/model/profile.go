@@ -8,7 +8,7 @@ type Customer struct {
 	Nickname      string `gorm:"column:nickname" json:"nickname"`
 	Email         string `gorm:"column:email" json:"email"`
 	Password      string `gorm:"column:password"`
-	CitizenId     string `gorm:"column:citizenId"`
+	CitizenId     string `gorm:"column:citizen_id" json:"citizenId"`
 	ProfilePicUrl string `gorm:"column:profile_image" json:"profilePicUrl"`
 	CreateAt      string `gorm:"column:create_datetime"`
 	DeleteAt      string `gorm:"column:delete_datetime"`
