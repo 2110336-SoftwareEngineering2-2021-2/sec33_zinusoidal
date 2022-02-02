@@ -4,9 +4,6 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  DEPLOYMENT_NAME: ${{ github.event.repository.name }}
-
 jobs:
   docker-backend-build:
     name: "Backend Docker build and create an image"
