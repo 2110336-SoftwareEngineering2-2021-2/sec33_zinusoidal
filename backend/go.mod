@@ -12,5 +12,10 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jinzhu/now v1.1.4 // indirect
+	github.com/mashingan/smapping v0.1.13
+	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/spf13/viper v1.10.1
+	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )

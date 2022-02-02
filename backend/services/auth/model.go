@@ -1,18 +1,13 @@
 package auth
 
 type CustomerRegisterRequest struct {
-	Username     string `json:"username" binding:"required"`
-	Password     string `json:"password" binding:"required"`
-	Email        string `json:"email" binding:"required"`
-	FirstName    string `json:"firstName" binding:"required"`
-	LastName     string `json:"lastName" binding:"required"`
-	Nickname     string `json:"nickname" binding:"required"`
-	Birthdate    string `json:"birthdate" binding:"required"`
-	Address      string `json:"address"`
-	PhoneNumber  string `json:"phoneNumber"`
-	CarRegNumber string `json:"carRegNumber"`
-	BloodType    int8   `json:"bloodType"`
-	Gender       int8   `json:"gender"`
+	Username      string `json:"username" binding:"required"`
+	Password      string `json:"password" binding:"required"`
+	Email         string `json:"email" binding:"required"`
+	FirstName     string `json:"firstName" binding:"required"`
+	LastName      string `json:"lastName" binding:"required"`
+	ProfilePicUrl string `json:"profilePicUrl"`
+	CitizenId     string `json:"citizenId"`
 }
 
 type ProviderRegisterRequest struct {
@@ -21,11 +16,10 @@ type ProviderRegisterRequest struct {
 	Email          string   `json:"email" binding:"required"`
 	FirstName      string   `json:"firstName" binding:"required"`
 	LastName       string   `json:"lastName" binding:"required"`
-	Birthdate      string   `json:"birthdate" binding:"required"`
 	FortuneType    []string `json:"fortuneType"`
-	Address        string   `json:"address"`
-	PhoneNumber    string   `json:"phoneNumber"`
+	ProfilePicUrl  string   `json:"profilePicUrl"`
 	WorkExperience string   `json:"workExperience"`
+	CitizenId      string   `json:"citizenId"`
 }
 
 type LoginRequest struct {

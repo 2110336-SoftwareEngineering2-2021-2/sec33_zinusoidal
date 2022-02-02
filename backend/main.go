@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
@@ -33,13 +34,16 @@ func main() {
 	router.Use(cors.New(config))
 
 	/* Router */
-	db := NewSQLConn()
-	auth_handler := auth.NewHandler(*auth.NewService(*auth_repo.New(db)))
+	db := NewSQLConn() /// connect database
+	jwt.Init()         /// init jwt
+
+	auth_handler := auth.NewHandler(*auth.NewService(auth_repo.New(db)))
 	v1fortune := router.Group("api/fortune168/v1")
 	{
 		v1fortune.POST("/customer_register", auth_handler.CustomerRegisterHandler)
-		v1fortune.POST("/provider_register", auth_handler.ProviderrRegisterHandler)
+		v1fortune.POST("/provider_register", auth_handler.ProviderRegisterHandler)
 		v1fortune.POST("/login", auth_handler.LoginHandler)
+		v1fortune.POST("/activate/:key", auth_handler.ActivateEmail)
 	}
 
 	search_handler := search.NewHandler(*search.NewService(*auth_repo.New(db)))
@@ -52,8 +56,12 @@ func main() {
 
 func NewSQLConn() *gorm.DB {
 
+	/**
+	* Dummy
+	* TODO:  Add these config to config.yaml and call via viper
+	 */
 	conf := mysql.Config{
-		DBName: "PAINTPLZIO",
+		DBName: viper.GetString("dbname"),
 		User:   "root",
 		Passwd: "123456",
 		Net:    "tcp",
