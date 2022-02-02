@@ -61,7 +61,7 @@ func NewSQLConn() *gorm.DB {
 	* TODO:  Add these config to config.yaml and call via viper
 	 */
 	conf := mysql.Config{
-		DBName: "fortune168",
+		DBName: viper.GetString("dbname"),
 		User:   "root",
 		Passwd: "123456",
 		Net:    "tcp",

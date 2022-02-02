@@ -6,14 +6,8 @@ type CustomerRegisterRequest struct {
 	Email         string `json:"email" binding:"required"`
 	FirstName     string `json:"firstName" binding:"required"`
 	LastName      string `json:"lastName" binding:"required"`
-	Nickname      string `json:"nickname"`
-	Birthday      string `json:"birthday"`
 	ProfilePicUrl string `json:"profilePicUrl"`
-	Address       string `json:"address"`
-	PhoneNumber   string `json:"phoneNumber"`
-	CarRegNumber  string `json:"carRegNumber"`
-	BloodType     int8   `json:"bloodType"`
-	Gender        int8   `json:"gender"`
+	CitizenId     string `json:"citizenId"`
 }
 
 type ProviderRegisterRequest struct {
@@ -22,12 +16,10 @@ type ProviderRegisterRequest struct {
 	Email          string   `json:"email" binding:"required"`
 	FirstName      string   `json:"firstName" binding:"required"`
 	LastName       string   `json:"lastName" binding:"required"`
-	Birthday       string   `json:"birthday" binding:"required"`
 	FortuneType    []string `json:"fortuneType"`
 	ProfilePicUrl  string   `json:"profilePicUrl"`
-	Address        string   `json:"address"`
-	PhoneNumber    string   `json:"phoneNumber"`
 	WorkExperience string   `json:"workExperience"`
+	CitizenId      string   `json:"citizenId"`
 }
 
 type LoginRequest struct {

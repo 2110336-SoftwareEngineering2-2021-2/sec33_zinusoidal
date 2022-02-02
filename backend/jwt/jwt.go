@@ -55,11 +55,6 @@ func ExtractToken(c *gin.Context) string {
 }
 
 func CreateToken(userID string) (string, error) {
-	// atClaims := jwt.MapClaims{}
-
-	// atClaims["authorized"] = true
-	// atClaims["user_id"] = userID
-	// atClaims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	x := JwtClaims{
 		UserID: userID,
