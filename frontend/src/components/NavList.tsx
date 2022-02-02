@@ -12,7 +12,7 @@ const NavList = () => {
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="/" style={{ textDecoration: "none" }}>
+        <NavLink to="/profile/edit" style={{ textDecoration: "none" }}>
           <P>Edit Profile</P>
         </NavLink>
       </NavItem>

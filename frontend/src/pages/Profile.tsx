@@ -3,25 +3,14 @@ import React from "react";
 import styled from "styled-components";
 import ProifileNavbar from "../components/ProifileNavbar";
 import { COLOR } from "../CONSTANT";
+import ProfileEdit from "../components/ProfileEdit";
+import { Outlet } from "react-router-dom";
 const Profile = () => {
   return (
     <Layout>
       <ProifileNavbar></ProifileNavbar>
       <Content>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla facere
-          facilis odio delectus. Optio fugit quam suscipit aperiam libero
-          consequuntur facere expedita vero vel, dignissimos accusantium
-          molestias omnis aliquam quae deserunt quidem inventore exercitationem
-          nostrum cum eum? Id explicabo, quae at totam minima fugiat eius culpa
-          sed consequatur magnam ut, sapiente distinctio, commodi facilis
-          quaerat quas fugit nihil earum harum sint. Repudiandae rerum libero
-          qui? Iure, necessitatibus suscipit vero expedita aspernatur officia
-          quia sequi impedit repellendus labore optio doloremque voluptatibus
-          nobis iusto dicta fugit voluptate soluta ea architecto eaque autem?
-          Atque consequuntur maiores repudiandae exercitationem quas animi
-          similique iusto! Ipsam.
-        </p>
+        <Outlet />
       </Content>
     </Layout>
   );
@@ -41,7 +30,11 @@ const Content = styled.div`
   /* background: transparent; */
   height: 100vh;
   overflow-y: scroll;
-  flex: 1;
   border-radius: 20px 0 0 20px;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 export default Profile;
