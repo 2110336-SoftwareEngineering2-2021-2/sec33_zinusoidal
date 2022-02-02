@@ -20,11 +20,14 @@ const Layout = styled.div`
   height: 100vh;
 `;
 const LoingImg = styled.img`
-  width: 441px;
-  height: 493px;
+  margin:0px;
+  padding: 0px;
+  width: 441.5px;
+  height: 470px;
   position: absolute;
-  left: 843px;
-  top: 493px;
+  left: 1000px;
+  top: 467px;
+  
 `;
 
 export default LoginPage;

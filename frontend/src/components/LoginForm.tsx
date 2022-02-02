@@ -7,8 +7,8 @@ const LoginForm: React.FC = () => {
     <LoginFormLayout>
       <LoginFormHeader1>Fortune 168</LoginFormHeader1>
       <LoginFormHeader2>Login</LoginFormHeader2>
-
       <InputDiv>
+        <ErrorText>Invalid Username or Password</ErrorText>
         <FormLabel>Username</FormLabel>
         <Forminput type="text" id="fname" name="fname" />
       </InputDiv>
@@ -33,17 +33,21 @@ const LoginFormLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 390px;
-  height: 531px;
+  width: 490px;
   background: #ffffff;
   padding: 50px;
   row-gap: 30px;
   border-radius: 20px;
   position: absolute;
-  left: 162px;
+  left: 202px;
   top: 210px;
   font-family: Baloo 2;
   font-weight: bold;
+`;
+
+const ErrorText = styled.div`
+  color: ${COLOR["magenta/500"]};
+  display: none;
 `;
 
 const InputDiv = styled.div`
@@ -67,6 +71,10 @@ const FormLabel = styled.p`
   font-size: 16px;
 `;
 const Forminput = styled.input`
+  padding-left:5px;
+  font-size: 16px;
+  font-family: Baloo 2;
+  font-weight: bold;
   width: 100%;
   height: 32px;
   border-radius: 8px;
@@ -100,7 +108,7 @@ const Forget = styled.a`
 const LoginButton = styled.button`
   border: none;
   width: 100%;
-  height: 55px;
+  padding: 13.5px 0px 13.5px 0px;
   background-color: ${COLOR["violet/400"]};
   text-decoration: none;
   color: #ffffff;
