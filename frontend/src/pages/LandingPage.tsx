@@ -24,6 +24,7 @@ const LandingPage = () => {
             top: 0,
             width: "100%",
             height: "100%",
+            zIndex: 0,
           }}
         />
         <AboutInfo>
@@ -50,6 +51,7 @@ const LandingPage = () => {
             width: "100%",
             height: "100%",
           }}
+          alt="img2"
         />
         <MiddleDescription>
           <MiddleText>
@@ -110,6 +112,7 @@ const AboutInfo = styled.div`
   margin-top: 60px;
   margin-left: 40px;
   flex: 1;
+  z-index: 1;
 `;
 
 const HeaderText = styled.h1`
@@ -169,6 +172,7 @@ const MiddleDescription = styled.div`
   display: flex;
   justify-content: center;
   padding: 4rem 4rem;
+  z-index: 1;
 `;
 
 const MiddleText = styled.p`
