@@ -8,14 +8,16 @@ const TermAndCondition = () => {
       <TermHeader></TermHeader>
       <Term>
         <TextDetail>
-          <h1 style={{ fontSize: "1.5vw" }}>Terms and Conditions</h1>
+          <Header style={{ fontSize: "1.5vw"}}>Terms and Conditions</Header>
           <p style={{ fontSize: "0.9vw" }}>{TERMS}</p>
         </TextDetail>
-        <AgreeDiv>
-          <CheckboxStyle type="checkbox" id="" name="" value="" />
-          <AgreeText>I agree to the terms and conditions</AgreeText>
-        </AgreeDiv>
-        <NextButton>Next</NextButton>
+        <TermFooter>
+          <AgreeDiv>
+            <CheckboxStyle type="checkbox" id="" name="" value="" />
+            <AgreeText>I agree to the terms and conditions</AgreeText>
+          </AgreeDiv>
+          <NextButton>Next</NextButton>
+        </TermFooter>
       </Term>
     </Layout>
   );
@@ -24,26 +26,23 @@ const TermAndCondition = () => {
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  height: 566px;
-  width: 506px;
+  width: 535px;
   position: absolute;
   left: 131px;
   top: 164px;
 `;
 
 const TermHeader = styled.div`
+  height: 95;
   border-radius: 20px 20px 0px 0px;
   background-color: ${COLOR["violet/400"]};
   width: 100%;
   height: 95px;
 `;
-
 const Term = styled.div`
+  width: 100%;
+  height: 596px;
   padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   row-gap: 10px;
   background-color: white;
   border-radius: 0px 0px 20px 20px;
@@ -55,13 +54,24 @@ const Term = styled.div`
   }
 `;
 
+const TermFooter = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: center;
+    align-content: center;
+`;
+
 const AgreeDiv = styled.div`
+  align-self: center;
   display: flex;
   column-gap: 8px;
   align-items: center;
   text-align: center;
 `;
 const AgreeText = styled.div`
+
   font-size: 16px;
   font-family: baloo 2;
   font-weight: bold;
@@ -77,8 +87,13 @@ const TextDetail = styled.div`
   padding: 15px;
   margin: 0px;
 `;
-
+const Header = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+`;
 const NextButton = styled.button`
+  align-self: center;
+
   border: none;
   width: 86px;
   height: 40px;

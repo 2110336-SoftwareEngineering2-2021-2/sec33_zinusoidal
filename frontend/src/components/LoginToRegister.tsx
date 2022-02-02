@@ -9,13 +9,13 @@ const LoginToRegister = () => {
 
       <TextAndbuttonProvider>
         <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
-        <Button>Register</Button>
+        <ProviderButton href="/register/provider">Register</ProviderButton>
         <RightTriangle></RightTriangle>
       </TextAndbuttonProvider>
 
       <TextAndbuttonCustomer>
         <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
-        <Button>Register</Button>
+        <CustomerButton href="/register/customer">Register</CustomerButton>
         <LeftTriangle></LeftTriangle>
       </TextAndbuttonCustomer>
     </div>
@@ -28,42 +28,40 @@ const JoinUs = styled.p`
   color: #ffffff;
   font-size: 48px;
   position: absolute;
-  left: 781px;
-  top: 297px;
+  left: 931px;
+  top: 240px;
 `;
 
 const TextAndbuttonProvider = styled.div`
   margin: 0px;
   background: #ffffff;
-  padding: 15px;
-  width: 230px;
-  height: 143px;
+  width: 260px;
+  height: 173px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  row-gap: 10px;
+  row-gap: 20px;
   position: absolute;
-  left: 781px;
-  top: 382px;
+  left: 931px;
+  top: 310px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const TextAndbuttonCustomer = styled.div`
   margin: 0px;
   background: #ffffff;
-  padding: 15px;
-  width: 230px;
-  height: 143px;
+  width: 260px;
+  height: 173px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  row-gap: 10px;
+  row-gap: 20px;
   position: absolute;
-  left: 1083px;
-  top: 382px;
+  left: 1233px;
+  top: 310px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const Text = styled.p`
@@ -72,7 +70,7 @@ const Text = styled.p`
   font-weight: bold;
   font-size: 28px;
 `;
-const Button = styled.button`
+const ProviderButton = styled.a`
   border: none;
   margin: 0px;
   font-family: Baloo 2;
@@ -83,6 +81,32 @@ const Button = styled.button`
   width: 133px;
   text-align: center;
   border-radius: 10000px;
+  text-align: center;
+  text-decoration: none;
+  text-justify: center;
+  padding: 5px;
+  &:hover {
+    background-color: ${COLOR["magenta/100"]};
+  }
+`;
+const CustomerButton = styled.a`
+  border: none;
+  margin: 0px;
+  font-family: Baloo 2;
+  font-size: 20px;
+  color: #ffffff;
+  background: ${COLOR["violet/400"]};
+  height: 40px;
+  width: 133px;
+  text-align: center;
+  border-radius: 10000px;
+  text-align: center;
+  text-decoration: none;
+  text-justify: center;
+  padding: 5px;
+  &:hover {
+    background-color: ${COLOR["blue/200"]};
+  }
 `;
 const RightTriangle = styled.div`
   width: 0;
@@ -90,17 +114,17 @@ const RightTriangle = styled.div`
   border-top: 37.5px solid white;
   border-left: 37.5px solid transparent;
   position: absolute;
-  left: 75px;
-  top: 172px;
-`;
+  left: 50px;
+  top: 173px;
+  `;
 const LeftTriangle = styled.div`
   width: 0;
   height: 0;
   border-top: 37.5px solid white;
   border-right: 37.5px solid transparent;
   position: absolute;
-  left: 155px;
-  top: 172px;
+  left: 150px;
+  top: 173px;
 `;
 
 export default LoginToRegister;
