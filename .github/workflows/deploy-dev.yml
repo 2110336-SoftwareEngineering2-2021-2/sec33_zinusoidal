@@ -6,7 +6,7 @@ on:
 
 jobs:
   docker-backend:
-    name: "Build and push backend image to ghcr.io"
+    name: "Build and push backend image to Dockerhub"
     runs-on: ubuntu-latest
 
     steps:
@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: ${{ format('{0}/zinusoidal-backend:latest', secrets.DOCKER_USERNAME )}}
   docker-frontend:
-    name: "Build and push frontend image to ghcr.io"
+    name: "Build and push frontend image to Dockerhub"
     runs-on: ubuntu-latest
 
     steps:
