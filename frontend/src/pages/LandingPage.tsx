@@ -36,7 +36,7 @@ const LandingPage = () => {
           </HeaderDescription>
           <Button>
             Button
-            <AiOutlineArrowRight />
+            <AiOutlineArrowRight color="red" />
           </Button>
         </AboutInfo>
         <div style={{ flex: 1, background: "transparent" }}></div>
