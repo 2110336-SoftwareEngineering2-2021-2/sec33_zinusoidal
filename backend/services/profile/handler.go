@@ -16,22 +16,6 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
-// func (h *Handler) EditHandler(c *gin.Context) {
-// 	id := c.Param("id")
-// 	var req ProviderEditRequest
-// 	var err error
-
-// 	if err = h.service.ProviderEdit(req, id); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"message": "invalid request",
-// 		})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"message": "OK",
-// 	})
-// }
-
 func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
 
 	user_id := c.Param("id")
@@ -60,4 +44,9 @@ func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *Handler) EditProviderHandler(c *gin.Context) {
+
+	return
 }
