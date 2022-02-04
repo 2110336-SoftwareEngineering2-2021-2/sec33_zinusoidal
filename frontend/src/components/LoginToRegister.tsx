@@ -1,6 +1,8 @@
-import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../CONSTANT";
+
+import { MdOutlineNavigateNext } from "react-icons/md";
+
 
 const LoginToRegister = () => {
   return (
@@ -8,19 +10,33 @@ const LoginToRegister = () => {
       <JoinUs>Join Us !</JoinUs>
 
       <TextAndbuttonProvider>
+        
+
         <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
-        <ProviderButton href="/register/provider">Register</ProviderButton>
+        <ProviderButton>
+          <LinkText href="/register/provider">Register </LinkText>
+          <MdOutlineNavigateNext/>
+        </ProviderButton>
         <RightTriangle></RightTriangle>
       </TextAndbuttonProvider>
 
       <TextAndbuttonCustomer>
         <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
-        <CustomerButton href="/register/customer">Register</CustomerButton>
+        <CustomerButton>
+          <LinkText href="/register/customer">Register</LinkText>
+          <MdOutlineNavigateNext/>
+        </CustomerButton>
         <LeftTriangle></LeftTriangle>
       </TextAndbuttonCustomer>
     </div>
   );
 };
+
+const LinkText = styled.a`
+  text-decoration: none;
+  color: #ffffff;
+`;
+
 const JoinUs = styled.p`
   margin: 0px;
   font-family: Baloo 2;
@@ -85,16 +101,23 @@ const ProviderButton = styled.a`
   text-decoration: none;
   text-justify: center;
   padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+
   &:hover {
     background-color: ${COLOR["magenta/100"]};
   }
 `;
-const CustomerButton = styled.a`
+const CustomerButton = styled.div`
   border: none;
   margin: 0px;
   font-family: Baloo 2;
   font-size: 20px;
-  color: #ffffff;
+  color: white;
+
+  column-gap: 5px;
   background: ${COLOR["violet/400"]};
   height: 40px;
   width: 133px;
@@ -104,6 +127,9 @@ const CustomerButton = styled.a`
   text-decoration: none;
   text-justify: center;
   padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:hover {
     background-color: ${COLOR["blue/200"]};
   }
