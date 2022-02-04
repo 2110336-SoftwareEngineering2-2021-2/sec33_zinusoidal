@@ -15,17 +15,15 @@ func New(db *gorm.DB) *GromDB {
 
 func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error) {
 
-	var provider profile.ProviderProfile
-	err := db.database.First(&provider, userID).Error
-	return provider, err
+	var providerProfile profile.ProviderProfile
+	return providerProfile, nil
 
 }
 
 func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error) {
 
-	var customer profile.CustomerProfile
-	err := db.database.First(&customer, userID).Error
-	return customer, err
+	var customerProfile profile.CustomerProfile
+	return customerProfile, nil
 
 }
 
