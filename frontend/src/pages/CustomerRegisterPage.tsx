@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import CustomerRegister from "../components/CustomerRegister";
-
+import CustomerRegister from "../components/customer_register/CustomerRegister";
 
 import { COLOR } from "../CONSTANT";
-const Register = () => {
+const CustomerRegisterPage = () => {
   return (
     <Layout>
-      <CustomerRegister/>
+      <CustomerRegister />
     </Layout>
   );
 };
@@ -14,7 +13,6 @@ const Register = () => {
 const Layout = styled.div`
   background-color: ${COLOR["blue/100"]};
   height: 100vh;
-
 `;
 
-export default Register;
+export default CustomerRegisterPage;
