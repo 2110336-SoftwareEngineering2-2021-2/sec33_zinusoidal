@@ -3,6 +3,7 @@ package auth
 import (
 	"net/http"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,7 +37,7 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	})
 }
 
-func (h *Handler) ProviderrRegisterHandler(c *gin.Context) {
+func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	var req ProviderRegisterRequest
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
@@ -65,4 +66,41 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		})
 		return
 	}
+	userId, err := h.service.Login(req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	token, err := jwt.CreateToken(userId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
+}
+
+func (h *Handler) ActivateEmail(c *gin.Context) {
+	key := c.GetString("key")
+	if key == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid key",
+		})
+		return
+	}
+	err := h.service.ConfirmEmail(key)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "email confirmed",
+	})
 }

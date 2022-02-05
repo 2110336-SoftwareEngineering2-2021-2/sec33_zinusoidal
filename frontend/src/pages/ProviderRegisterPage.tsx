@@ -1,11 +1,10 @@
-import React from "react";
 import styled from "styled-components";
-import TermAndCondition from "../components/TermAndCondition";
+import ProviderRegister from "../components/provider_register/ProviderRegister";
 import { COLOR } from "../CONSTANT";
-const Register = () => {
+const ProviderRegisterPage = () => {
   return (
     <Layout>
-      <TermAndCondition />
+      <ProviderRegister />
     </Layout>
   );
 };
@@ -13,7 +12,6 @@ const Register = () => {
 const Layout = styled.div`
   background-color: ${COLOR["magenta/100"]};
   height: 100vh;
-
 `;
 
-export default Register;
+export default ProviderRegisterPage;

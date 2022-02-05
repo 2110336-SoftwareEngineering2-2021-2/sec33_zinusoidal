@@ -78,6 +78,12 @@ const Forminput = styled.input`
   width: 100%;
   height: 32px;
   border-radius: 8px;
+  border:solid #808080 1px;
+
+  &:focus {
+    outline:solid ${COLOR["violet/400"]} 1px;
+    border:solid ${COLOR["violet/400"]} 1px;
+  }
 `;
 
 const RememberAndForgetDiv = styled.div`

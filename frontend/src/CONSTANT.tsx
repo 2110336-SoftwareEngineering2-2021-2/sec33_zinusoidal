@@ -256,7 +256,7 @@ const TERMS = (
     created with the terms and conditions generator.<br></br>
     <b>Contacting us</b>: If you have any questions, concerns, or complaints
     regarding this Agreement, we encourage you to contact us using the details
-    below: https://www.firtune168.com/contact/ <br></br>
+    below: https://www.fortune168.com/contact/ <br></br>
     <br></br>This document was last updated on January 27, 2022;
   </>
 );
