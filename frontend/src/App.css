@@ -6,6 +6,12 @@
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  font-family: "Baloo 2";
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 html,

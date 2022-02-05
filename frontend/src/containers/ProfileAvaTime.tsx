@@ -1,22 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../CONSTANT";
-const ProfileServiceType = () => {
+const ProfileAvaTime = () => {
   return (
     <Layout>
       <SearchBar>
-        <p>Service Type</p>
-        <Input>
-          <input type="text" />
-          <button>Search</button>
-        </Input>
+        <p>Available Time</p>
       </SearchBar>
-      <ServiceList>
-        <MyService>
-          <h1>My Service</h1>
-        </MyService>
-        <div style={{ flex: 1 }}>dd</div>
-      </ServiceList>
     </Layout>
   );
 };
@@ -97,4 +87,4 @@ const MyService = styled.div`
     color: ${COLOR["blue/900"]};
   }
 `;
-export default ProfileServiceType;
+export default ProfileAvaTime;
