@@ -14,7 +14,10 @@ const ProfileEdit = () => {
         }}
         size={100}
         color="white"
-        style={{ visibility: current == 0 ? "hidden" : "visible" }}
+        style={{
+          visibility: current == 0 ? "hidden" : "visible",
+          cursor: "pointer",
+        }}
       />
       <Layout>
         <HeaderBar />
@@ -32,6 +35,7 @@ const ProfileEdit = () => {
         color="white"
         style={{
           visibility: current == 2 ? "hidden" : "visible",
+          cursor: "pointer",
         }}
       />
     </View>
