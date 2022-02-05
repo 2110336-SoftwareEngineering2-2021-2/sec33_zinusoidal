@@ -1,11 +1,12 @@
-import React from "react";
 import styled from "styled-components";
-import TermAndCondition from "../components/TermAndCondition";
+import ProviderRegistrationForm from "../components/ProviderRegisterForm";
+import ProviderTermAndCondition from "../components/ProviderTermAndCondition";
 import { COLOR } from "../CONSTANT";
 const Register = () => {
   return (
     <Layout>
-      <TermAndCondition />
+      <ProviderTermAndCondition />
+      <ProviderRegistrationForm />
     </Layout>
   );
 };
