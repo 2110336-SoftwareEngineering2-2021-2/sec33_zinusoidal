@@ -1,6 +1,6 @@
-CREATE DATABASE fortune168;
+CREATE DATABASE `fortune168`;
 
-USE fortune168;
+USE `fortune168`;
 
 DROP TABLE IF EXISTS `fortune_user`;
 CREATE TABLE `fortune_user`
@@ -10,14 +10,25 @@ CREATE TABLE `fortune_user`
 	`citizen_id` varchar(13) NOT NULL,
 	`email` varchar(100) NOT NULL,
 	`password` varchar(256) NOT NULL,
-	`create_datetime` datetime NOT NULL,
+	`create_datetime` datetime default NOW(),
 	`delete_datetime` datetime,
-	`user_type` bit NOT NULL
+	`user_type` bit NOT NULL,
+	`email_confirmed` bit,
 
 	CONSTRAINT UNIQUE(`username`),
 	CONSTRAINT UNIQUE(`email`),
     PRIMARY KEY (`id`)
-)
+);
+
+DROP TABLE IF EXISTS `activation_key`;
+CREATE TABLE `activation_key`
+(
+	`id` varchar(100) NOT NULL,
+	`activation_key` varchar(100) NOT NULL,
+	`create_time` datetime default NOW(),
+
+	PRIMARY KEY (`id`)
+);
 
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` 
@@ -26,7 +37,6 @@ CREATE TABLE `customer`
 	`first_name` varchar(50) NOT NULL,
 	`last_name` varchar(50) NOT NULL,
 	`profile_image` varchar(1000),
-	`email_confirmed` bit,
 	
     PRIMARY KEY (`id`),
 	FOREIGN KEY (`id`) REFERENCES `fortune_user`(`id`)
@@ -40,6 +50,7 @@ CREATE TABLE `provider`
 	`last_name` varchar(50) NOT NULL,
 	`profile_image` varchar(1000),
 	`biography` text(500),
+	`work_schedule` varchar(336),
 	`last_update_datetime` datetime,
 	
 	PRIMARY KEY (`id`),
@@ -53,7 +64,7 @@ CREATE TABLE `login_log`
 	`id` varchar(100),
 	`ip` varchar(50),
 	`device` varchar(100),
-	`login_datetime` datetime NOT NULL
+	`login_datetime` datetime default NOW(),
 	
 	FOREIGN KEY (`id`) REFERENCES `fortune_user`(`id`),
 	PRIMARY KEY(`login_id`)

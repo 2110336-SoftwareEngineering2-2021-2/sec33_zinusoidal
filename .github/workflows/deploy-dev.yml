@@ -69,3 +69,32 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ format('{0}/zinusoidal-frontend:latest', secrets.DOCKER_USERNAME ) }}
+  push-to-vm:
+    name: "Push and deploy to VM"
+    needs: 
+      - docker-backend
+      - docker-frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      -
+        name: Create docker-compose and run on VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_INSTANCE_DNS }}
+          username: ${{ secrets.AWS_INSTANCE_USERNAME }}
+          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          script: |
+            echo "version: \"2\"" > docker-compose.yml
+            echo "services:" >> docker-compose.yml
+            echo "  web:" >> docker-compose.yml
+            echo "    image: kirkpig/zinusoidal-frontend:latest" >> docker-compose.yml
+            echo "    ports:" >> docker-compose.yml
+            echo "      - \"80:80\"" >> docker-compose.yml
+            echo "  logic:" >> docker-compose.yml
+            echo "    image: kirkpig/zinusoidal-backend:latest" >> docker-compose.yml
+            echo "    ports:" >> docker-compose.yml
+            echo "      - \"1323:1323\"" >> docker-compose.yml
+
+            sudo docker-compose down
+            sudo docker-compose up -d

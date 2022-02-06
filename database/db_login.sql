@@ -1,2 +1,3 @@
-INSERT INTO `login_log`(`login_id`,`id`,`ip`,`device`,`login_datetime`)
-    VALUES (`login_id`,`id`,`ip`,`device`,`login_datetime`)
+SELECT U.`id`
+    FROM `fortune_user` U
+    WHERE U.`username` = @username AND U.`password` = @password;

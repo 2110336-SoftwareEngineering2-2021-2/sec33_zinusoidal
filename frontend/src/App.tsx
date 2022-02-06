@@ -7,6 +7,7 @@ import ProviderRegister from "./pages/ProviderRegisterPage";
 import LoginPage from "./pages/LoginPage";
 import Profile from "./pages/Profile";
 import ProfileEdit from "./components/ProfileEdit";
+import CustomerHome from "./pages/CustomerHome";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />}>
             <Route path="edit" element={<ProfileEdit />} />
           </Route>
+          <Route path="/home" element={<CustomerHome />} />
         </Routes>
       </BrowserRouter>
     </>
