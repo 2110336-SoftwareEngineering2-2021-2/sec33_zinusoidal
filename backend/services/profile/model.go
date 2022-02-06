@@ -14,12 +14,9 @@ type Logger struct {
 }
 
 type CustomerProfile struct {
-	UserId        string
 	Username      string
 	FirstName     string
 	LastName      string
-	Email         string
-	CitizenId     string
 	ProfilePicUrl string
 }
 
@@ -30,7 +27,6 @@ type ProviderProfile struct {
 	Email          string
 	Username       string
 	FortuneType    []string
-	CitizenId      string
 	WorkExperience string
 	WorkSchedule   string
 }
