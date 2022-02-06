@@ -14,7 +14,7 @@ const LandingNav = () => {
         <h1>Home</h1>
       </StyledLink>
 
-      <StyledLink to="/register/customer">
+      <StyledLink to="/search">
         <h1>Find provider</h1>
       </StyledLink>
       <StyledLink to="/register/customer" last>
@@ -25,6 +25,7 @@ const LandingNav = () => {
 };
 
 const Layout = styled.div`
+  width: 100%;
   height: 101px;
   display: flex;
   padding-left: 32px;
