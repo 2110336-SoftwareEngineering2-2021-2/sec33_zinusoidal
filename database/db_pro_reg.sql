@@ -1,5 +1,5 @@
-INSERT INTO `fortune_user`(`id`,`username`,`citizen_id`,`email`,`password`,`create_datetime`)
-    VALUES (@id,@username,@citizen_id,@email,@password,NOW());
+INSERT INTO `fortune_user`(`id`,`username`,`citizen_id`,`email`,`password`)
+    VALUES (@id,@username,@citizen_id,@email,@password);
 
 INSERT INTO `provider`(`id`,`first_name`,`last_name`,`profile_image`,`biography`,`schedule`)
     VALUES (@id,@first_name,@last_name,@profile_image,@biography,@schedule);
