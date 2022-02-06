@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import Profile from "./pages/Profile";
 import ProfileEdit from "./components/ProfileEdit";
 import CustomerHome from "./pages/CustomerHome";
+import SearchPage from "./pages/SearchPage";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 const App = () => {
   return (
@@ -15,6 +16,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/search" element={<SearchPage />} />
+
           <Route path="/register/customer" element={<CustomerRegister />} />
           <Route path="/register/provider" element={<ProviderRegister />} />
           <Route path="/login" element={<LoginPage />} />
