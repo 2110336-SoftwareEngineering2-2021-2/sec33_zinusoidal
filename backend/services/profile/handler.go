@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,8 +22,15 @@ func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
 	user_id := c.Param("id")
 	response, err := h.service.getProviderProfile(user_id)
 
+	if err.Error() == errors.New("Provider not found").Error() {
+		c.JSON(http.StatusNotFound, &Logger{
+			Log: "Provider not found",
+		})
+		return
+	}
+
 	if err != nil {
-		c.JSON(http.StatusBadRequest, &Logger{
+		c.JSON(http.StatusInternalServerError, &Logger{
 			Log: "Response failed",
 		})
 		return
@@ -36,8 +44,15 @@ func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
 	user_id := c.Param("id")
 	response, err := h.service.getCustomerProfile(user_id)
 
+	if err.Error() == errors.New("Customer not found").Error() {
+		c.JSON(http.StatusNotFound, &Logger{
+			Log: "Customer not found",
+		})
+		return
+	}
+
 	if err != nil {
-		c.JSON(http.StatusBadRequest, &Logger{
+		c.JSON(http.StatusInternalServerError, &Logger{
 			Log: "Response failed",
 		})
 		return

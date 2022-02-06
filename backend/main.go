@@ -6,7 +6,9 @@ import (
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/profile_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -49,6 +51,13 @@ func main() {
 	search_handler := search.NewHandler(*search.NewService(*auth_repo.New(db)))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
+	}
+
+	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db)))
+	{
+		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
+		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
+		v1fortune.PATCH("/provider/:id", profile_handler.EditProviderHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
