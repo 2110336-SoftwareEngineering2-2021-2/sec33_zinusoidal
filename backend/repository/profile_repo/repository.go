@@ -16,14 +16,33 @@ func New(db *gorm.DB) *GromDB {
 func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error) {
 
 	var providerProfile profile.ProviderProfile
-	return providerProfile, nil
+
+	query := `SELECT *
+    FROM fortune_user U 
+    RIGHT JOIN provider P ON U.id = P.id
+    RIGHT JOIN provider_service S ON P.id = S.id
+    WHERE U.id = ?;`
+
+	err := db.database.Raw(query, userID).Scan(&providerProfile).Error
+
+	return providerProfile, err
 
 }
 
 func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error) {
 
 	var customerProfile profile.CustomerProfile
-	return customerProfile, nil
+
+	query := `SELECT U.username,
+    C.first_name,
+    C.last_name,
+    C.profile_image,
+FROM fortune_user U RIGHT JOIN customer C ON U.id = C.id
+WHERE U.id = ?;`
+
+	err := db.database.Raw(query, userID).Scan(&customerProfile).Error
+
+	return customerProfile, err
 
 }
 
