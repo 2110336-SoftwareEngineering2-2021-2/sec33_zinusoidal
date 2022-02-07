@@ -55,5 +55,6 @@ const Layout = styled.div`
   display: flex;
   /* background-color: red; */
   align-self: flex-start;
+  margin: 0 10rem;
 `;
 export default RangeAndRating;

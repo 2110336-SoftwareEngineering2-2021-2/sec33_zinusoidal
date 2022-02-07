@@ -82,8 +82,7 @@ const SearchBar = () => {
 };
 
 const Layout = styled.div`
-  margin: 76px 10rem;
-  height: 20px;
+  margin: 76px 10rem 16px;
   display: flex;
   align-items: center;
 
