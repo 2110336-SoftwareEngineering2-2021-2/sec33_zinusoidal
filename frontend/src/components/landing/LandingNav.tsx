@@ -17,7 +17,7 @@ const LandingNav = () => {
       <StyledLink to="/search">
         <h1>Find provider</h1>
       </StyledLink>
-      <StyledLink to="/register/customer" last>
+      <StyledLink to="/login" last>
         <p>login/register</p>
       </StyledLink>
     </Layout>

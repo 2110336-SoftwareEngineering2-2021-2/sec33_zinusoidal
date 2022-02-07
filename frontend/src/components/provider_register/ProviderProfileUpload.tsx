@@ -99,6 +99,10 @@ const Button = styled.button`
   align-items: center;
   column-gap: 5px;
   cursor: pointer;
+  &:hover{
+    background-color: ${COLOR["violet/500"]};
+
+  }
 `;
 
 export default ProviderProfileUpload;
