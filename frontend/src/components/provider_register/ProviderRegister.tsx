@@ -8,7 +8,7 @@ import { AiOutlineCheck } from "react-icons/ai";
 
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
-  const [clicked, setClicked] = useState(true);
+  const [clicked, setClicked] = useState(false);
   const clickToggle = () => {
     setClicked(!clicked);
   };
@@ -29,7 +29,7 @@ const CustomerRegister = () => {
       <ButtonDiv
         style={{ justifyContent: current == 0 ? "center" : "space-between" }}
       >
-        <Button
+        <PrevButton
           onClick={() => {
             setCurrent(Math.max(0, current - 1));
           }}
@@ -37,9 +37,11 @@ const CustomerRegister = () => {
         >
           <MdOutlineNavigateBefore />
           Back
-        </Button>
+        </PrevButton>
         <Button
           style={{
+            // backgroundColor: clicked ?  {COLOR["violet/400"]} : {COLOR["grey/400"]},
+
             pointerEvents: clicked ? "unset" : "none",
           }}
           onClick={() => {
@@ -110,7 +112,29 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const PrevButton = styled.button`
+  cursor: pointer;
+  border: ${COLOR["violet/400"]} solid 1px;
+  width: 86px;
+  height: 40px;
+  background-color: white;
+  text-decoration: none;
+  color: ${COLOR["violet/400"]};
+  border-radius: 10000px;
+  font-size: 16px;
+  font-weight:bold;
 
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  &:hover{
+    border: ${COLOR["violet/500"]} solid 1px;
+    color: ${COLOR["violet/500"]};
+
+  }
+`;
 const Button = styled.button`
   cursor: pointer;
   border: none;
@@ -121,10 +145,14 @@ const Button = styled.button`
   color: white;
   border-radius: 10000px;
   font-size: 16px;
+  font-weight:bold;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
+  &:hover{
+    background-color: ${COLOR["violet/500"]};
+  }
 `;
 export default CustomerRegister;

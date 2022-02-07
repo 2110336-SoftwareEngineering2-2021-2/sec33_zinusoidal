@@ -135,6 +135,7 @@ const Biotext = styled.textarea`
   padding: 5px;
   font-size: 16px;
   font-weight: bold;
+  border-radius: 8px;
   &:focus {
     outline: solid ${COLOR["magenta/100"]} 1px;
     border: solid ${COLOR["magenta/100"]} 1px;
