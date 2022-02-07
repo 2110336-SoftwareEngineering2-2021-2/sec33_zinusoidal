@@ -95,6 +95,7 @@ const Layout = styled.div`
     font-size: 16px;
     line-height: 25px;
     color: white;
+    cursor: pointer;
 
     :hover {
       background-color: ${COLOR["violet/500"]};
@@ -145,6 +146,7 @@ const ServiceTypeSelector = styled.div`
   flex-direction: row;
   align-items: center;
   position: relative;
+  cursor: pointer;
 
   p {
     margin-left: 8px;

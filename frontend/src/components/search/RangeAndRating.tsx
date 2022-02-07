@@ -48,6 +48,7 @@ const PriceRange = styled("div")<PriceRangeType>`
     border-radius: 8px;
     /* border: none; */
     border: 2px solid ${COLOR["magenta/700"]};
+    cursor: pointer;
   }
 `;
 
