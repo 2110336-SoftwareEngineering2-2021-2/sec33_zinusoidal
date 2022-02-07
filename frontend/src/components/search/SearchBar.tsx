@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { FiSearch } from "react-icons/fi";
@@ -9,10 +9,28 @@ const SearchBar = () => {
   const [searchWord, setSearchWord] = useState("");
   const [serviceList, setServiceList] = useState(["All"] as string[]);
   const [dropDownOpen, setDropDownOpen] = useState(false);
+  const wrapperRef = useRef(null);
 
   const handleDropdown = (e: any) => {
     setDropDownOpen(!dropDownOpen);
   };
+
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setDropDownOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(wrapperRef);
 
   const handleServiceList = (service: string, type: number) => {
     //type 1 add
@@ -26,6 +44,7 @@ const SearchBar = () => {
       setServiceList(newServiceList);
     }
   };
+
   return (
     <Layout>
       <SearchInput>
@@ -37,24 +56,26 @@ const SearchBar = () => {
           onChange={(e) => setSearchWord(e.target.value)}
         />
       </SearchInput>
-      <ServiceTypeSelector>
-        <BsFillPersonLinesFill style={{ marginLeft: 16 }} />
-        <p>
-          {serviceList.length == 1 && serviceList[0] == "All"
-            ? "All types of service"
-            : serviceList.join(",")}
-        </p>
-        <DownArrow onClick={handleDropdown}>
-          <AiOutlineDown />
-        </DownArrow>
-
+      <ServiceTypeContainer ref={wrapperRef}>
+        <ServiceTypeSelector onClick={handleDropdown}>
+          <BsFillPersonLinesFill style={{ marginLeft: 16 }} />
+          <p>
+            {serviceList.length == 1 && serviceList[0] == "All"
+              ? "All types of service"
+              : serviceList.join(",")}
+          </p>
+          <DownArrow>
+            <AiOutlineDown />
+          </DownArrow>
+        </ServiceTypeSelector>
         {dropDownOpen ? (
           <SearchDropdown
             serviceList={serviceList}
             handleServiceList={handleServiceList}
           />
         ) : null}
-      </ServiceTypeSelector>
+      </ServiceTypeContainer>
+
       <button>Search</button>
     </Layout>
   );
@@ -109,6 +130,10 @@ const SearchInput = styled.div`
   }
 `;
 
+const ServiceTypeContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
 const ServiceTypeSelector = styled.div`
   height: 38px;
   background-color: white;
@@ -117,6 +142,7 @@ const ServiceTypeSelector = styled.div`
   margin-right: 8px;
   border-radius: 8px;
   display: flex;
+  position: relative;
   flex-direction: row;
   align-items: center;
   position: relative;

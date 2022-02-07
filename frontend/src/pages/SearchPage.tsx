@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../components/search/SearchBar";
 import LandingNav from "../components/landing/LandingNav";
+import RangeAndRating from "../components/search/RangeAndRating";
 const SearchPage = () => {
   return (
     <Layout>
       <LandingNav />
       <SearchBar />
+      <RangeAndRating />
     </Layout>
   );
 };

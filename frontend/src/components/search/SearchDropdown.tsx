@@ -60,6 +60,7 @@ const Layout = styled.div`
   background-color: white;
   overflow: scroll;
   padding: 4px 0;
+  z-index: 1;
   /* pointer-events: none !important; */
 `;
 
