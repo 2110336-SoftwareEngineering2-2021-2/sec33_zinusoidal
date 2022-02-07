@@ -14,19 +14,19 @@ type Logger struct {
 }
 
 type CustomerProfile struct {
-	Username      string
-	FirstName     string
-	LastName      string
-	ProfilePicUrl string
+	Username      string `json:"username"`
+	FirstName     string `json:"firstName"`
+	LastName      string `json:"lastName"`
+	ProfilePicUrl string `json:"profilePicUrl"`
 }
 
 type ProviderProfile struct {
 	UserId         string
-	FirstName      string
-	LastName       string
-	Email          string
-	Username       string
-	FortuneType    []string
-	WorkExperience string
-	WorkSchedule   string
+	FirstName      string   `json:"firstName"`
+	LastName       string   `json:"lastName"`
+	Email          string   `json:"email"`
+	Username       string   `json:"username"`
+	FortuneType    []string `json:"fortuneType"`
+	WorkExperience string   `json:"workExperience"`
+	WorkSchedule   string   `json:"workSchedule"`
 }
