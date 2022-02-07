@@ -5,9 +5,9 @@ import Service from "./Service";
 
 const SERVICELIST = [
   "All",
-  "Dropdown Item #1",
-  "Dropdown Item #2",
-  "Dropdown Item #3",
+  "Taro",
+  "ไพ่ยิปซี",
+  "ไพ่",
   "Dropdown Item #4",
   "Dropdown Item #5",
   "Dropdown Item #6",
@@ -60,6 +60,7 @@ const Layout = styled.div`
   background-color: white;
   overflow: scroll;
   padding: 4px 0;
+  z-index: 1;
   /* pointer-events: none !important; */
 `;
 
