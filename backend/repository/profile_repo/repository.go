@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/jinzhu/gorm"
 )
 
@@ -62,4 +63,25 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
 func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRequest) error {
 
 	return nil
+}
+
+func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.ProviderProfile, error) {
+
+	var searchResults []profile.ProviderProfile
+
+	query := `SELECT P.id
+	FROM provider P
+	WHERE 
+		EXISTS (
+			SELECT *
+			FROM provider_service S
+			WHERE S.provider_id = P.id AND
+				(@fortune_type = " " OR S.fortune_type = ?) AND
+				S.price >= ? AND
+				S.price <= ?
+	);`
+
+	err := db.database.Raw(query, searchRequest.FortuneType, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
+
+	return searchResults, err
 }
