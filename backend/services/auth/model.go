@@ -29,3 +29,7 @@ type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
+type Logger struct {
+	Log string `json:"log"`
+}
