@@ -50,6 +50,7 @@ const CustomerRegister = () => {
                 : clicked
                 ? COLOR["violet/400"]
                 : COLOR["gray/400"],
+
             pointerEvents: clicked ? "unset" : "none",
           }}
           onClick={() => {
@@ -163,6 +164,7 @@ const Button = styled("button")<Current>`
       prop.currentPage == 4
         ? COLOR["green/500"]
         : COLOR["violet/500"]} !important ;
+
   }
 `;
 export default CustomerRegister;
