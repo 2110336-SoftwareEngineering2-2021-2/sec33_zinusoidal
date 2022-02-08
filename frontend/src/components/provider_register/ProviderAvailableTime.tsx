@@ -1,35 +1,43 @@
+import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import React from "react";
-
+import AvailableTimeInputForm from "./AvailableTimeInputForm";
+import ProviderRegisterTimeTable from "../../containers/ProviderRegisterTimeTable";
 import { MdRemoveRedEye } from "react-icons/md";
 
-const ProviderProfileUpload = () => {
+const ProviderAvailableTime = () => {
   return (
     <Layout>
-      <Padding>
+      <HeaderSection>
         <ProviderRegistration>
           <MdRemoveRedEye color={COLOR["violet/400"]} />
           Provider Registration
         </ProviderRegistration>
-        <AvailableTime>Available Time</AvailableTime>
-      </Padding>
+        <AvailableTime>
+          <p>Available Time</p>
+          <AvailableTimeInputForm />
+        </AvailableTime>
+      </HeaderSection>
+      <WorkingTimeSection>
+        <h1 style={{}}>My Working Time</h1>
+        <ProviderRegisterTimeTable />
+      </WorkingTimeSection>
     </Layout>
   );
 };
 const Layout = styled.div`
   width: 100%;
-  background-color: white;
   font-weight: bold;
-`;
-const Padding = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 15px;
   display: flex;
   flex-direction: column;
 `;
 
+const HeaderSection = styled.div`
+  min-height: 185px;
+  padding: 15px 15px 0 15px;
+  border-radius: 0 0 20px 20px;
+  background-color: white;
+`;
 const ProviderRegistration = styled.div`
   display: flex;
   align-items: center;
@@ -38,8 +46,27 @@ const ProviderRegistration = styled.div`
 `;
 
 const AvailableTime = styled.div`
-  font-size: 18px;
   width: 100%;
 `;
 
-export default ProviderProfileUpload;
+const WorkingTimeSection = styled.div`
+  /* margin-top: 7px; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px 20px 0 0;
+  margin-top: 7px;
+  background-color: white;
+
+  h1 {
+    margin-left: 87px;
+    margin-top: 19.87px;
+
+    color: ${COLOR["blue/900"]};
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 31px;
+  }
+`;
+
+export default ProviderAvailableTime;

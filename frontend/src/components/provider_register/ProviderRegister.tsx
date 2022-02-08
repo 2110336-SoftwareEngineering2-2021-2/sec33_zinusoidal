@@ -164,7 +164,6 @@ const Button = styled("button")<Current>`
       prop.currentPage == 4
         ? COLOR["green/500"]
         : COLOR["violet/500"]} !important ;
-
   }
 `;
 export default CustomerRegister;
