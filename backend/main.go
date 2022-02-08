@@ -71,7 +71,7 @@ func NewSQLConn() *gorm.DB {
 	 */
 	conf := mysql.Config{
 		DBName: viper.GetString("dbname"),
-		User:   "root",
+		User:   "fortune_user",
 		Passwd: "123456",
 		Net:    "tcp",
 		Addr:   "127.0.0.1:3306",
