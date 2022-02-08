@@ -27,8 +27,8 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 		return
 	}
 	if err = h.service.CustomerRegister(req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
 		})
 		return
 	}
@@ -48,7 +48,7 @@ func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	}
 	if err = h.service.ProviderRegister(req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+			"message": err.Error(),
 		})
 		return
 	}

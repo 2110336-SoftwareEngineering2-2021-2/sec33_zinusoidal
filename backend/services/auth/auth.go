@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"crypto/tls"
 	"errors"
 	"log"
 	"math/rand"
@@ -11,9 +10,7 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/mashingan/smapping"
 	uuid "github.com/nu7hatch/gouuid"
-	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/gomail.v2"
 )
 
 type Service struct {
@@ -66,7 +63,7 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	if err != nil {
 		return err
 	}
-	err = s.database.InsertConfirmationKey(userId.String(), key)
+	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
 
@@ -81,6 +78,10 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	}
 	provider.UserId = "P" + userId.String()
 	provider.CreateAt = time.Now().String()
+	err = s.database.RegisterProvider(provider)
+	if err != nil {
+		return err
+	}
 
 	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -92,16 +93,12 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	if err != nil {
 		return err
 	}
-	err = s.database.InsertConfirmationKey(userId.String(), key)
+	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }
 
 func (s *Service) Login(req LoginRequest) (string, error) {
-	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", errors.New("hashed failed")
-	}
-	userId, err := s.database.Login(req.Username, string(hash_password))
+	userId, err := s.database.Login(req.Username, req.Password)
 	return userId, err
 }
 
@@ -111,20 +108,20 @@ func (s *Service) ConfirmEmail(key string) error {
 }
 
 func sendEmailConfirmationLink(email, key string) error {
-	sender := viper.GetString("email.senderEmail")
-	password := viper.GetString("email.password")
-	mail := gomail.NewMessage()
-
-	mail.SetHeader("From", sender)
-	mail.SetHeader("Subject", "Email activation")
-	mail.SetHeader("To", email)
-	mail.SetBody("text/plain", "http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
-
-	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
-	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
-
-	err := d.DialAndSend(mail)
-	return err
+	/*
+		sender := viper.GetString("email.senderEmail")
+		password := viper.GetString("email.password")
+		mail := gomail.NewMessage()
+		mail.SetHeader("From", sender)
+		mail.SetHeader("Subject", "Email activation")
+		mail.SetHeader("To", email)
+		mail.SetBody("text/plain", "http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
+		d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
+		d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+		err := d.DialAndSend(mail)
+		return err
+	*/
+	return nil
 }
 
 func randomStringKey(numberOfDigits int) string {
