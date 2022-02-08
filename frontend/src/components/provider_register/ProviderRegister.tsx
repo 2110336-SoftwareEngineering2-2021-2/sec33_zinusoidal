@@ -5,7 +5,9 @@ import { COLOR } from "../../CONSTANT";
 import ProviderRegisterContainer from "../../containers/ProviderRegisterContainer";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { AiOutlineCheck } from "react-icons/ai";
-
+interface Current {
+  currentPage: any;
+}
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
@@ -39,9 +41,15 @@ const CustomerRegister = () => {
           Back
         </PrevButton>
         <Button
+          currentPage={current}
+          disabled={!clicked}
           style={{
-            // backgroundColor: clicked ?  {COLOR["violet/400"]} : {COLOR["grey/400"]},
-
+            backgroundColor:
+              current == 4
+                ? COLOR["green/400"]
+                : clicked
+                ? COLOR["violet/400"]
+                : COLOR["gray/400"],
             pointerEvents: clicked ? "unset" : "none",
           }}
           onClick={() => {
@@ -122,20 +130,19 @@ const PrevButton = styled.button`
   color: ${COLOR["violet/400"]};
   border-radius: 10000px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
 
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-  &:hover{
+  &:hover {
     border: ${COLOR["violet/500"]} solid 1px;
     color: ${COLOR["violet/500"]};
-
   }
 `;
-const Button = styled.button`
+const Button = styled("button")<Current>`
   cursor: pointer;
   border: none;
   width: 86px;
@@ -145,14 +152,17 @@ const Button = styled.button`
   color: white;
   border-radius: 10000px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-  &:hover{
-    background-color: ${COLOR["violet/500"]};
+  :hover {
+    background-color: ${(prop) =>
+      prop.currentPage == 4
+        ? COLOR["green/500"]
+        : COLOR["violet/500"]} !important ;
   }
 `;
 export default CustomerRegister;

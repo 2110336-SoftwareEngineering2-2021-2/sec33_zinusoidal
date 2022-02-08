@@ -4,7 +4,10 @@ import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import CustomerRegisterContainer from "../../containers/CustomerRegisterContainer";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
-
+import { AiOutlineCheck } from "react-icons/ai";
+interface Current {
+  currentPage: any;
+}
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
@@ -28,7 +31,7 @@ const CustomerRegister = () => {
       <ButtonDiv
         style={{ justifyContent: current == 0 ? "center" : "space-between" }}
       >
-        <Button
+        <PrevButton
           onClick={() => {
             setCurrent(Math.max(0, current - 1));
           }}
@@ -36,9 +39,16 @@ const CustomerRegister = () => {
         >
           <MdOutlineNavigateBefore />
           Back
-        </Button>
+        </PrevButton>
         <Button
+          currentPage={current}
           style={{
+            backgroundColor:
+              current == 2
+                ? COLOR["green/400"]
+                : clicked
+                ? COLOR["violet/400"]
+                : COLOR["gray/400"],
             pointerEvents: clicked ? "unset" : "none",
           }}
           onClick={() => {
@@ -48,7 +58,7 @@ const CustomerRegister = () => {
           {current == 2 ? (
             <>
               Done
-              <MdOutlineNavigateNext />{" "}
+              <AiOutlineCheck />{" "}
             </>
           ) : (
             <>
@@ -109,20 +119,49 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-const Button = styled.button`
+const PrevButton = styled.button`
   cursor: pointer;
+  border: ${COLOR["violet/400"]} solid 1px;
   width: 86px;
   height: 40px;
+  background-color: white;
+  text-decoration: none;
+  color: ${COLOR["violet/400"]};
+  border-radius: 10000px;
+  font-size: 16px;
+  font-weight: bold;
+
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  &:hover {
+    border: ${COLOR["violet/500"]} solid 1px;
+    color: ${COLOR["violet/500"]};
+  }
+`;
+const Button = styled("button")<Current>`
+  cursor: pointer;
   border: none;
+  width: 86px;
+  height: 40px;
   background-color: ${COLOR["violet/400"]};
   text-decoration: none;
   color: white;
   border-radius: 10000px;
   font-size: 16px;
+  font-weight: bold;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  column-gap: 5px;
+  :hover {
+    background-color: ${(prop) =>
+      prop.currentPage == 2
+        ? COLOR["green/500"]
+        : COLOR["violet/500"]} !important ;
+  }
 `;
 export default CustomerRegister;
