@@ -35,6 +35,8 @@ const Slider = styled("div")<SliderProp>`
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;
+  height: 584px;
+  overflow-y: visible;
 `;
 
 export default ProviderRegisterContainer;
