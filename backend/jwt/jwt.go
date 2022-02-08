@@ -2,7 +2,6 @@ package jwt
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -28,10 +27,7 @@ func VerifyToken(c *gin.Context) (*JwtClaims, error) {
 		token,
 		&JwtClaims{},
 		func(t *jwt.Token) (interface{}, error) {
-			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
-			}
-			return []byte("secret"), nil
+			return []byte(JWTSignedKey), nil
 		},
 	)
 	if err != nil {
