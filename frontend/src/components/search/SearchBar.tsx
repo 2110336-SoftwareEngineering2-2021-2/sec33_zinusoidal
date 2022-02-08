@@ -5,7 +5,11 @@ import { FiSearch } from "react-icons/fi";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
 import SearchDropdown from "./SearchDropdown";
-const SearchBar = () => {
+
+type SearchBarPropType = {
+  setShowResult: Function;
+};
+const SearchBar = ({ setShowResult }: SearchBarPropType) => {
   const [searchWord, setSearchWord] = useState("");
   const [serviceList, setServiceList] = useState(["All"] as string[]);
   const [dropDownOpen, setDropDownOpen] = useState(false);
@@ -76,7 +80,7 @@ const SearchBar = () => {
         ) : null}
       </ServiceTypeContainer>
 
-      <button>Search</button>
+      <button onClick={() => setShowResult()}>Search</button>
     </Layout>
   );
 };

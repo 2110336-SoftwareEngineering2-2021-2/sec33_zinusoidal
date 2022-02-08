@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import RangeDropDown from "./RangeDropDown";
@@ -9,11 +9,31 @@ interface PriceRangeType {
 }
 const RangeAndRating = () => {
   const [rangeOpen, setRangeOpen] = useState(false);
-  const [ratingOpen, setRatingOpen] = useState(true);
+  const [ratingOpen, setRatingOpen] = useState(false);
   const [range, setRange] = useState(null);
   const [rating, setRating] = useState([0, 5]);
+  const ratingWrapperRef = useRef(null);
+
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setRangeOpen(false);
+          setRatingOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(ratingWrapperRef);
+
   return (
-    <Layout>
+    <Layout ref={ratingWrapperRef}>
       <PriceRange range={range}>
         <button onClick={() => setRangeOpen(!rangeOpen)}>
           {range == null ? `Price range (per 30 min)` : `${range}`}

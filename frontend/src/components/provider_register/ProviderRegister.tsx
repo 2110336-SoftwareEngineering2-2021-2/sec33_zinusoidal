@@ -39,9 +39,9 @@ const CustomerRegister = () => {
           Back
         </PrevButton>
         <Button
+          disabled={!clicked}
           style={{
-            // backgroundColor: clicked ?  {COLOR["violet/400"]} : {COLOR["grey/400"]},
-
+            backgroundColor: clicked ? COLOR["violet/400"] : COLOR["gray/400"],
             pointerEvents: clicked ? "unset" : "none",
           }}
           onClick={() => {
@@ -122,17 +122,16 @@ const PrevButton = styled.button`
   color: ${COLOR["violet/400"]};
   border-radius: 10000px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
 
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-  &:hover{
+  &:hover {
     border: ${COLOR["violet/500"]} solid 1px;
     color: ${COLOR["violet/500"]};
-
   }
 `;
 const Button = styled.button`
@@ -145,14 +144,14 @@ const Button = styled.button`
   color: white;
   border-radius: 10000px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-  &:hover{
-    background-color: ${COLOR["violet/500"]};
+  &:hover {
+    background-color: ${COLOR["violet/500"]} !important;
   }
 `;
 export default CustomerRegister;
