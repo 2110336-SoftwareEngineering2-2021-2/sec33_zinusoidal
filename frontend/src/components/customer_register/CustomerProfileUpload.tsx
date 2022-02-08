@@ -98,6 +98,9 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   column-gap: 5px;
+  &:hover{
+    background-color: ${COLOR["violet/500"]};
+  }
 `;
 
 export default CustomerProfileUpload;

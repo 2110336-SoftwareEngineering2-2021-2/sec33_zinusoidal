@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-
+import React, { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
-
+import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 const ProviderRegistrationForm = () => {
+  const [seePassword, setSeePassword] = useState(false);
+  const [seeCPassword, setSeeCPassword] = useState(false);
+
   return (
     <Layout>
       <Padding>
@@ -43,12 +46,56 @@ const ProviderRegistrationForm = () => {
             <InputDiv>
               <FormLabel>Password</FormLabel>
               <Star>*</Star>
-              <Forminput type="password" id="fname" name="fname" />
+              {seePassword ? (
+                <PasswordDiv>
+                  <Forminput type="text" id="fname" name="fname" />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeePassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput type="password" id="fname" name="fname" />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeePassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}
             </InputDiv>
             <InputDiv>
               <FormLabel>Confirm Password</FormLabel>
               <Star>*</Star>
-              <Forminput type="password" id="fname" name="fname" />
+              {seeCPassword ? (
+                <PasswordDiv>
+                  <Forminput type="text" id="fname" name="fname" />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeeCPassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput type="password" id="fname" name="fname" />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeeCPassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}
             </InputDiv>
           </DoubleInput>
           <BioDiv>
@@ -142,4 +189,21 @@ const Biotext = styled.textarea`
   }
 `;
 
+const PasswordDiv = styled.div`
+  display: flex;
+  align-items: center;
+  border: solid #808080 1px;
+  border-radius: 8px;
+  :focus-within {
+    outline: solid ${COLOR["magenta/100"]} 1px;
+    border: solid ${COLOR["magenta/100"]} 1px;
+  }
+  input {
+    border: none;
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+`;
 export default ProviderRegistrationForm;

@@ -1,7 +1,14 @@
 import styled from "styled-components";
+import React, { useState } from "react";
+
 import { COLOR } from "../../CONSTANT";
 import { BsPeopleFill } from "react-icons/bs";
+import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
+
 const CustomerRegistrationForm = () => {
+  const [seePassword, setSeePassword] = useState(false);
+  const [seeCPassword, setSeeCPassword] = useState(false);
+
   return (
     <Layout>
       <Padding>
@@ -41,12 +48,56 @@ const CustomerRegistrationForm = () => {
             <InputDiv>
               <FormLabel>Password</FormLabel>
               <Star>*</Star>
-              <Forminput type="password" id="fname" name="fname" />
+              {seePassword ? (
+                <PasswordDiv>
+                  <Forminput type="text" id="fname" name="fname" />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeePassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput type="password" id="fname" name="fname" />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeePassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}
             </InputDiv>
             <InputDiv>
               <FormLabel>Confirm Password</FormLabel>
               <Star>*</Star>
-              <Forminput type="password" id="fname" name="fname" />
+              {seeCPassword ? (
+                <PasswordDiv>
+                  <Forminput type="text" id="fname" name="fname" />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeeCPassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput type="password" id="fname" name="fname" />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeeCPassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}{" "}
             </InputDiv>
           </DoubleInput>
         </Flex>
@@ -112,5 +163,21 @@ const Forminput = styled.input`
     border: solid ${COLOR["blue/300"]} 1px;
   }
 `;
-
+const PasswordDiv = styled.div`
+  display: flex;
+  align-items: center;
+  border: solid #808080 1px;
+  border-radius: 8px;
+  :focus-within {
+    outline: solid ${COLOR["blue/100"]} 1px;
+    border: solid ${COLOR["blue/100"]} 1px;
+  }
+  input {
+    border: none;
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+`;
 export default CustomerRegistrationForm;
