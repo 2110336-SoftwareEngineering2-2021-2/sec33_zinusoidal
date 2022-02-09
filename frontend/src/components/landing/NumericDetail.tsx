@@ -6,17 +6,23 @@ const NumericDetail = () => {
   return (
     <Layout>
       <NumberDiv>
-        <StyledCountUp start={0} end={15793} duration={10} redraw />
+        <StyledCountUp
+          start={0}
+          end={15793}
+          duration={10}
+          redraw
+          separator=","
+        />
         <H3>customers</H3>
       </NumberDiv>
 
       <NumberDiv>
-        <StyledCountUp end={4789} duration={9} redraw />
+        <StyledCountUp end={4789} duration={9} redraw separator="," />
         <H3>Fortune-tellers</H3>
       </NumberDiv>
 
       <NumberDiv>
-        <StyledCountUp end={1327} duration={8} redraw />
+        <StyledCountUp end={1327} duration={8} redraw separator="," />
         <H3>types of service</H3>
       </NumberDiv>
     </Layout>
