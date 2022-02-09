@@ -27,8 +27,8 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 		return
 	}
 	if err = h.service.CustomerRegister(req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
 		})
 		return
 	}
@@ -42,18 +42,18 @@ func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+			"log": "invalid request",
 		})
 		return
 	}
 	if err = h.service.ProviderRegister(req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+			"log": err.Error(),
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "OK",
+		"log": "OK",
 	})
 }
 
@@ -62,21 +62,21 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+			"log": "invalid request",
 		})
 		return
 	}
 	userId, err := h.service.Login(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+			"log": err.Error(),
 		})
 		return
 	}
 	token, err := jwt.CreateToken(userId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+			"log": err.Error(),
 		})
 		return
 	}
@@ -89,18 +89,18 @@ func (h *Handler) ActivateEmail(c *gin.Context) {
 	key := c.GetString("key")
 	if key == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid key",
+			"log": "invalid key",
 		})
 		return
 	}
 	err := h.service.ConfirmEmail(key)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+			"log": err.Error(),
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "email confirmed",
+		"log": "email confirmed",
 	})
 }

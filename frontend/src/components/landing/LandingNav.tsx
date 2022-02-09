@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
@@ -11,14 +12,18 @@ const LandingNav = () => {
     <Layout>
       <img src={logo} alt="logo" />
       <StyledLink to="/home">
-        <h1>Home</h1>
+        <motion.h1 whileHover={{ scale: 1.3, originX: 0 }}>Home</motion.h1>
       </StyledLink>
 
       <StyledLink to="/search">
-        <h1>Find provider</h1>
+        <motion.h1 whileHover={{ scale: 1.3, originX: 0 }}>
+          Find provider
+        </motion.h1>
       </StyledLink>
       <StyledLink to="/login" last>
-        <p>login/register</p>
+        <motion.p whileHover={{ scale: 1.3, originX: "100%" }}>
+          login/register
+        </motion.p>
       </StyledLink>
     </Layout>
   );

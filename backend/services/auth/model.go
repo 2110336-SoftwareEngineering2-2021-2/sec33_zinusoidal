@@ -1,5 +1,7 @@
 package auth
 
+import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+
 type CustomerRegisterRequest struct {
 	Username      string `json:"username" binding:"required"`
 	Password      string `json:"password" binding:"required"`
@@ -11,18 +13,23 @@ type CustomerRegisterRequest struct {
 }
 
 type ProviderRegisterRequest struct {
-	Username       string   `json:"username" binding:"required"`
-	Password       string   `json:"password" binding:"required"`
-	Email          string   `json:"email" binding:"required"`
-	FirstName      string   `json:"firstName" binding:"required"`
-	LastName       string   `json:"lastName" binding:"required"`
-	FortuneType    []string `json:"fortuneType"`
-	ProfilePicUrl  string   `json:"profilePicUrl"`
-	WorkExperience string   `json:"workExperience"`
-	CitizenId      string   `json:"citizenId"`
+	Username      string          `json:"username" binding:"required"`
+	Password      string          `json:"password" binding:"required"`
+	Email         string          `json:"email" binding:"required"`
+	FirstName     string          `json:"firstName" binding:"required"`
+	LastName      string          `json:"lastName" binding:"required"`
+	Schedule      string          `json:"schedule"`
+	Fortune       []model.Fortune `json:"fortuneList"`
+	ProfilePicUrl string          `json:"profilePicUrl"`
+	Biography     string          `json:"biography"`
+	CitizenId     string          `json:"citizenId"`
 }
 
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+}
+
+type Logger struct {
+	Log string `json:"log"`
 }
