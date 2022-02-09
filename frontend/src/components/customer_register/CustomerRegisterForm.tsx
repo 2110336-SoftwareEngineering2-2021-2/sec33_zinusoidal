@@ -144,6 +144,9 @@ const InputDiv = styled.div`
 const DoubleInput = styled.div`
   display: flex;
   column-gap: 15px;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
 
 const FormLabel = styled.p`

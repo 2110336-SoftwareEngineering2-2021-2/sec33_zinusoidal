@@ -143,13 +143,15 @@ const Star = styled.p`
 `;
 
 const InputDiv = styled.div`
-  margin: 0px;
   width: 100%;
 `;
 
 const DoubleInput = styled.div`
   display: flex;
   column-gap: 15px;
+  @media screen and (max-width: 1300px) {
+    flex-direction: column;
+  }
 `;
 
 const FormLabel = styled.p`
@@ -176,6 +178,9 @@ const BioDiv = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+  @media screen and (max-width: 1300px) {
+    height: 134px;
+  }
 `;
 
 const Biotext = styled.textarea`

@@ -7,8 +7,8 @@ const TermAndCondition = ({ checked, callBack }: any) => {
     <Layout>
       <Term>
         <TextDetail>
-          <Header style={{ fontSize: "1.5vw" }}>Terms and Conditions</Header>
-          <p style={{ fontSize: "0.9vw" }}>{TERMS}</p>
+          <Header>Terms and Conditions</Header>
+          <p>{TERMS}</p>
         </TextDetail>
         <TermFooter>
           <AgreeDiv>
