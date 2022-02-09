@@ -77,9 +77,6 @@ const Layout = styled.div`
   width: 535px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  left: 131px;
-  top: 164px;
 `;
 
 const Header = styled.div`

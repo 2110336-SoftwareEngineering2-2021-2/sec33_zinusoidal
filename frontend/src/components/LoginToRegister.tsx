@@ -1,37 +1,40 @@
 import styled from "styled-components";
 import { COLOR } from "../CONSTANT";
-
 import { MdOutlineNavigateNext } from "react-icons/md";
-
 
 const LoginToRegister = () => {
   return (
-    <div>
+    <Layout>
       <JoinUs>Join Us !</JoinUs>
-
-      <TextAndbuttonProvider>
-        
-
-        <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
-        <ProviderButton>
-          <LinkText href="/register/provider">Register </LinkText>
-          <MdOutlineNavigateNext/>
-        </ProviderButton>
-        <RightTriangle></RightTriangle>
-      </TextAndbuttonProvider>
-
-      <TextAndbuttonCustomer>
-        <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
-        <CustomerButton>
-          <LinkText href="/register/customer">Register</LinkText>
-          <MdOutlineNavigateNext/>
-        </CustomerButton>
-        <LeftTriangle></LeftTriangle>
-      </TextAndbuttonCustomer>
-    </div>
+      <CustomerAndProvider>
+        <Provider>
+          <TextAndbuttonProvider>
+            <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
+            <ProviderButton href="/register/provider">
+              <p>Register </p>
+              <MdOutlineNavigateNext />
+            </ProviderButton>
+          </TextAndbuttonProvider>
+          <RightTriangle></RightTriangle>
+        </Provider>
+        <Customer>
+          <TextAndbuttonCustomer>
+            <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
+            <CustomerButton href="/register/customer">
+              <p>Register</p>
+              <MdOutlineNavigateNext />
+            </CustomerButton>
+          </TextAndbuttonCustomer>
+          <LeftTriangle></LeftTriangle>
+        </Customer>
+      </CustomerAndProvider>
+    </Layout>
   );
 };
 
+const Layout = styled.div`
+  margin-top: 176px;
+`;
 const LinkText = styled.a`
   text-decoration: none;
   color: #ffffff;
@@ -43,11 +46,12 @@ const JoinUs = styled.p`
   font-weight: bold;
   color: #ffffff;
   font-size: 48px;
-  position: absolute;
-  left: 931px;
-  top: 240px;
 `;
-
+const CustomerAndProvider = styled.div`
+  display: flex;
+  width: 573px;
+  justify-content: space-between;
+`;
 const TextAndbuttonProvider = styled.div`
   margin: 0px;
   background: #ffffff;
@@ -59,10 +63,16 @@ const TextAndbuttonProvider = styled.div`
   align-items: center;
   border-radius: 20px;
   row-gap: 20px;
-  position: absolute;
-  left: 931px;
-  top: 310px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const Provider = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Customer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const TextAndbuttonCustomer = styled.div`
   margin: 0px;
@@ -75,9 +85,7 @@ const TextAndbuttonCustomer = styled.div`
   align-items: center;
   border-radius: 20px;
   row-gap: 20px;
-  position: absolute;
-  left: 1233px;
-  top: 310px;
+
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const Text = styled.p`
@@ -110,7 +118,7 @@ const ProviderButton = styled.a`
     background-color: ${COLOR["magenta/100"]};
   }
 `;
-const CustomerButton = styled.div`
+const CustomerButton = styled.a`
   border: none;
   margin: 0px;
   font-family: Baloo 2;
@@ -137,20 +145,16 @@ const CustomerButton = styled.div`
 const RightTriangle = styled.div`
   width: 0;
   height: 0;
-  border-top: 37.5px solid white;
-  border-left: 37.5px solid transparent;
-  position: absolute;
-  left: 50px;
-  top: 173px;
-  `;
+  border-top: 40px solid white;
+  border-left: 40px solid transparent;
+  margin-left: 20%;
+`;
 const LeftTriangle = styled.div`
   width: 0;
   height: 0;
   border-top: 37.5px solid white;
   border-right: 37.5px solid transparent;
-  position: absolute;
-  left: 150px;
-  top: 173px;
+  margin-left: 65%;
 `;
 
 export default LoginToRegister;
