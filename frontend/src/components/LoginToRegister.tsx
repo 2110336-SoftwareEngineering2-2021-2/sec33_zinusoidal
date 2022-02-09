@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { COLOR } from "../CONSTANT";
+import { NavLink, Link } from "react-router-dom";
 import { MdOutlineNavigateNext } from "react-icons/md";
 
 const LoginToRegister = () => {
@@ -10,20 +11,25 @@ const LoginToRegister = () => {
         <Provider>
           <TextAndbuttonProvider>
             <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
-            <ProviderButton href="/register/provider">
-              <p>Register </p>
-              <MdOutlineNavigateNext />
-            </ProviderButton>
+            <Link to="/register/provider" style={{ textDecoration: "none" }}>
+              <ProviderButton>
+                Register
+                <MdOutlineNavigateNext />
+              </ProviderButton>
+            </Link>
+
           </TextAndbuttonProvider>
           <RightTriangle></RightTriangle>
         </Provider>
         <Customer>
           <TextAndbuttonCustomer>
             <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
-            <CustomerButton href="/register/customer">
-              <p>Register</p>
-              <MdOutlineNavigateNext />
-            </CustomerButton>
+            <Link to="/register/customer" style={{ textDecoration: "none" }}>
+              <CustomerButton>
+                Register
+                <MdOutlineNavigateNext />
+              </CustomerButton>
+            </Link>
           </TextAndbuttonCustomer>
           <LeftTriangle></LeftTriangle>
         </Customer>
@@ -34,15 +40,12 @@ const LoginToRegister = () => {
 
 const Layout = styled.div`
   margin-top: 176px;
+
 `;
-const LinkText = styled.a`
-  text-decoration: none;
-  color: #ffffff;
-`;
+
 
 const JoinUs = styled.p`
   margin: 0px;
-  font-family: Baloo 2;
   font-weight: bold;
   color: #ffffff;
   font-size: 48px;
@@ -90,14 +93,10 @@ const TextAndbuttonCustomer = styled.div`
 `;
 const Text = styled.p`
   margin: 0px;
-  font-family: Baloo 2;
   font-weight: bold;
   font-size: 28px;
 `;
-const ProviderButton = styled.a`
-  border: none;
-  margin: 0px;
-  font-family: Baloo 2;
+const ProviderButton = styled.div`
   font-size: 20px;
   color: #ffffff;
   background: ${COLOR["violet/400"]};
@@ -106,7 +105,6 @@ const ProviderButton = styled.a`
   text-align: center;
   border-radius: 10000px;
   text-align: center;
-  text-decoration: none;
   text-justify: center;
   padding: 5px;
   display: flex;
@@ -118,13 +116,9 @@ const ProviderButton = styled.a`
     background-color: ${COLOR["magenta/100"]};
   }
 `;
-const CustomerButton = styled.a`
-  border: none;
-  margin: 0px;
-  font-family: Baloo 2;
+const CustomerButton = styled.div`
   font-size: 20px;
   color: white;
-
   column-gap: 5px;
   background: ${COLOR["violet/400"]};
   height: 40px;
@@ -132,7 +126,6 @@ const CustomerButton = styled.a`
   text-align: center;
   border-radius: 10000px;
   text-align: center;
-  text-decoration: none;
   text-justify: center;
   padding: 5px;
   display: flex;
