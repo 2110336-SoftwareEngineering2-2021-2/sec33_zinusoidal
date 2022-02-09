@@ -30,6 +30,9 @@ const Slider = styled("div")<SliderProp>`
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 540px) {
+    transform: ${(props) => `translateX(-${350 * props.idx}px)`};
+  } ;
 `;
 
 export default CustomerRegisterContainer;

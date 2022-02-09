@@ -77,9 +77,12 @@ const Layout = styled.div`
   width: 535px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  left: 131px;
-  top: 164px;
+  @media screen and (max-width: 1300px) {
+    margin-top: 50px;
+  }
+  @media screen and (max-width: 540px) {
+    width: 350px;
+  } ;
 `;
 
 const Header = styled.div`
@@ -87,6 +90,8 @@ const Header = styled.div`
   height: 95px;
   border-radius: 20px 20px 0px 0px;
   background-color: ${COLOR["violet/400"]};
+  display: flex;
+  justify-content: center;
 `;
 
 const Circle = styled.div`
@@ -94,9 +99,10 @@ const Circle = styled.div`
   height: 70px;
   background-color: ${COLOR["violet/400"]};
   border-radius: 10000px;
-  position: relative;
-  left: 232.5px;
-  top: -30px;
+  margin-top: -35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const InnerCircle = styled.div`
@@ -104,9 +110,6 @@ const InnerCircle = styled.div`
   height: 24px;
   background-color: ${COLOR["magenta/100"]};
   border-radius: 10000px;
-  position: relative;
-  left: 23px;
-  top: 23px;
 `;
 
 const Form = styled.div`
@@ -164,7 +167,6 @@ const Button = styled("button")<Current>`
       prop.currentPage == 4
         ? COLOR["green/500"]
         : COLOR["violet/500"]} !important ;
-
   }
 `;
 export default CustomerRegister;

@@ -1,53 +1,67 @@
 import styled from "styled-components";
 import { COLOR } from "../CONSTANT";
-
+import { NavLink, Link } from "react-router-dom";
 import { MdOutlineNavigateNext } from "react-icons/md";
-
 
 const LoginToRegister = () => {
   return (
-    <div>
+    <Layout>
       <JoinUs>Join Us !</JoinUs>
-
-      <TextAndbuttonProvider>
-        
-
-        <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
-        <ProviderButton>
-          <LinkText href="/register/provider">Register </LinkText>
-          <MdOutlineNavigateNext/>
-        </ProviderButton>
-        <RightTriangle></RightTriangle>
-      </TextAndbuttonProvider>
-
-      <TextAndbuttonCustomer>
-        <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
-        <CustomerButton>
-          <LinkText href="/register/customer">Register</LinkText>
-          <MdOutlineNavigateNext/>
-        </CustomerButton>
-        <LeftTriangle></LeftTriangle>
-      </TextAndbuttonCustomer>
-    </div>
+      <CustomerAndProvider>
+        <Provider>
+          <TextAndbuttonProvider>
+            <Text style={{ color: COLOR["magenta/300"] }}>As Provider</Text>
+            <Link to="/register/provider" style={{ textDecoration: "none" }}>
+              <ProviderButton>
+                Register
+                <MdOutlineNavigateNext />
+              </ProviderButton>
+            </Link>
+          </TextAndbuttonProvider>
+          <RightTriangle></RightTriangle>
+        </Provider>
+        <Customer>
+          <TextAndbuttonCustomer>
+            <Text style={{ color: COLOR["blue/200"] }}>As Customer</Text>
+            <Link to="/register/customer" style={{ textDecoration: "none" }}>
+              <CustomerButton>
+                Register
+                <MdOutlineNavigateNext />
+              </CustomerButton>
+            </Link>
+          </TextAndbuttonCustomer>
+          <LeftTriangle></LeftTriangle>
+        </Customer>
+      </CustomerAndProvider>
+    </Layout>
   );
 };
 
-const LinkText = styled.a`
-  text-decoration: none;
-  color: #ffffff;
+const Layout = styled.div`
+  margin-top: auto;
+  @media screen and (max-width: 1100px) {
+    margin-top: 0;
+  } ;
 `;
 
 const JoinUs = styled.p`
   margin: 0px;
-  font-family: Baloo 2;
   font-weight: bold;
   color: #ffffff;
   font-size: 48px;
-  position: absolute;
-  left: 931px;
-  top: 240px;
+  @media screen and (max-width: 750px) {
+    text-align: center;
+  } ;
 `;
-
+const CustomerAndProvider = styled.div`
+  display: flex;
+  width: 573px;
+  justify-content: space-between;
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+    width: fit-content;
+  } ;
+`;
 const TextAndbuttonProvider = styled.div`
   margin: 0px;
   background: #ffffff;
@@ -59,10 +73,19 @@ const TextAndbuttonProvider = styled.div`
   align-items: center;
   border-radius: 20px;
   row-gap: 20px;
-  position: absolute;
-  left: 931px;
-  top: 310px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const Provider = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 1100px) {
+    margin-bottom: 32px;
+  } ;
+`;
+const Customer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const TextAndbuttonCustomer = styled.div`
   margin: 0px;
@@ -75,21 +98,15 @@ const TextAndbuttonCustomer = styled.div`
   align-items: center;
   border-radius: 20px;
   row-gap: 20px;
-  position: absolute;
-  left: 1233px;
-  top: 310px;
+
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const Text = styled.p`
   margin: 0px;
-  font-family: Baloo 2;
   font-weight: bold;
   font-size: 28px;
 `;
-const ProviderButton = styled.a`
-  border: none;
-  margin: 0px;
-  font-family: Baloo 2;
+const ProviderButton = styled.div`
   font-size: 20px;
   color: #ffffff;
   background: ${COLOR["violet/400"]};
@@ -98,7 +115,6 @@ const ProviderButton = styled.a`
   text-align: center;
   border-radius: 10000px;
   text-align: center;
-  text-decoration: none;
   text-justify: center;
   padding: 5px;
   display: flex;
@@ -111,12 +127,8 @@ const ProviderButton = styled.a`
   }
 `;
 const CustomerButton = styled.div`
-  border: none;
-  margin: 0px;
-  font-family: Baloo 2;
   font-size: 20px;
   color: white;
-
   column-gap: 5px;
   background: ${COLOR["violet/400"]};
   height: 40px;
@@ -124,7 +136,6 @@ const CustomerButton = styled.div`
   text-align: center;
   border-radius: 10000px;
   text-align: center;
-  text-decoration: none;
   text-justify: center;
   padding: 5px;
   display: flex;
@@ -137,20 +148,22 @@ const CustomerButton = styled.div`
 const RightTriangle = styled.div`
   width: 0;
   height: 0;
-  border-top: 37.5px solid white;
-  border-left: 37.5px solid transparent;
-  position: absolute;
-  left: 50px;
-  top: 173px;
-  `;
+  border-top: 40px solid white;
+  border-left: 40px solid transparent;
+  margin-left: 20%;
+  margin-top: auto;
+  @media screen and (max-width: 1100px) {
+    border-left: 0 solid transparent;
+    border-right: 40px solid transparent;
+    margin-left: 65%;
+  } ;
+`;
 const LeftTriangle = styled.div`
   width: 0;
   height: 0;
-  border-top: 37.5px solid white;
-  border-right: 37.5px solid transparent;
-  position: absolute;
-  left: 150px;
-  top: 173px;
+  border-top: 40px solid white;
+  border-right: 40px solid transparent;
+  margin-left: 65%;
 `;
 
 export default LoginToRegister;
