@@ -73,9 +73,6 @@ const CustomerRegister = () => {
 };
 const Layout = styled.div`
   width: 535px;
-  position: absolute;
-  left: 131px;
-  top: 164px;
   display: flex;
   flex-direction: column;
 `;

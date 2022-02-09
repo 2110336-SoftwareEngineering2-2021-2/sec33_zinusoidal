@@ -36,11 +36,9 @@ const LoginFormLayout = styled.div`
   width: 490px;
   background: #ffffff;
   padding: 50px;
+  height: fit-content;
   row-gap: 30px;
   border-radius: 20px;
-  position: absolute;
-  left: 202px;
-  top: 210px;
   font-family: Baloo 2;
   font-weight: bold;
 `;
@@ -71,18 +69,18 @@ const FormLabel = styled.p`
   font-size: 16px;
 `;
 const Forminput = styled.input`
-  padding-left:5px;
+  padding-left: 5px;
   font-size: 16px;
   font-family: Baloo 2;
   font-weight: bold;
   width: 100%;
   height: 32px;
   border-radius: 8px;
-  border:solid #808080 1px;
+  border: solid #808080 1px;
 
   &:focus {
-    outline:solid ${COLOR["violet/400"]} 1px;
-    border:solid ${COLOR["violet/400"]} 1px;
+    outline: solid ${COLOR["violet/400"]} 1px;
+    border: solid ${COLOR["violet/400"]} 1px;
   }
 `;
 
@@ -112,6 +110,7 @@ const Forget = styled.a`
 `;
 
 const LoginButton = styled.button`
+  cursor: pointer;
   border: none;
   width: 100%;
   padding: 13.5px 0px 13.5px 0px;
@@ -122,6 +121,9 @@ const LoginButton = styled.button`
   font-family: Baloo 2;
   font-weight: bold;
   font-size: 24px;
+  &:hover {
+    background-color: ${COLOR["violet/500"]};
+  }
 `;
 
 export default LoginForm;
