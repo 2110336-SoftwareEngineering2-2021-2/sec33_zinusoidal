@@ -11,12 +11,12 @@ const NumericDetail = () => {
       </NumberDiv>
 
       <NumberDiv>
-        <StyledCountUp end={4789} duration={10} redraw />
+        <StyledCountUp end={4789} duration={9} redraw />
         <H3>Fortune-tellers</H3>
       </NumberDiv>
 
       <NumberDiv>
-        <StyledCountUp end={1327} duration={10} redraw />
+        <StyledCountUp end={1327} duration={8} redraw />
         <H3>types of service</H3>
       </NumberDiv>
     </Layout>
@@ -31,7 +31,7 @@ const Layout = styled.div`
   right: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 `;
 
@@ -39,6 +39,7 @@ const H3 = styled.h3`
   font-size: 20px;
   line-height: 31px;
   margin-left: 16px;
+  flex: 1;
 `;
 
 const NumberDiv = styled.div`
@@ -49,6 +50,8 @@ const NumberDiv = styled.div`
 const StyledCountUp = styled(CountUp)`
   font-size: 64px;
   line-height: 101px;
+  text-align: right;
+  flex: 1;
 `;
 
 export default NumericDetail;
