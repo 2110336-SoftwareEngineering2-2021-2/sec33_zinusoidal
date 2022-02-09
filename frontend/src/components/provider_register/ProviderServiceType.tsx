@@ -144,14 +144,6 @@ const ProviderProfileUpload = () => {
         </Padding>
       </FirstLayout>
       <SecondLayout>
-        <SecondHeader>
-          <Circle>
-            <Rect></Rect>
-          </Circle>
-          <Circle>
-            <Rect></Rect>
-          </Circle>
-        </SecondHeader>
         <Myservice>My service</Myservice>
         {myService.map((service: any) => (
           <MyServiceDiv>
@@ -233,6 +225,9 @@ const ServiceAndPriceDiv = styled.div`
   align-items: center;
   column-gap: 8px;
   justify-content: space-evenly;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  } ;
 `;
 const InputDiv = styled.div`
   padding: 0px;
@@ -251,6 +246,9 @@ const InputDiv = styled.div`
       outline: solid ${COLOR["magenta/100"]} 1px;
       border: solid ${COLOR["magenta/100"]} 1px;
     }
+  }
+  @media screen and (max-width: 540px) {
+    margin-top: 8px;
   }
 `;
 
@@ -280,6 +278,9 @@ const SecondInputDiv = styled.div`
       border: solid ${COLOR["magenta/100"]} 1px;
     }
   }
+  @media screen and (max-width: 540px) {
+    width: 70%;
+  } ;
 `;
 const SearchServiceDiv = styled.div`
   font-size: 20px;
@@ -344,28 +345,6 @@ const MyServiceDiv = styled.div`
 const PriceAndMinusDiv = styled.div`
   display: flex;
   column-gap: 8px;
-`;
-
-const Circle = styled.div`
-  width: 25px;
-  height: 25px;
-  border-radius: 10000px;
-  background-color: ${COLOR["magenta/100"]};
-  display: flex;
-  justify-content: center;
-`;
-const Rect = styled.div`
-  width: 16px;
-  height: 44px;
-  background-color: #c4c4c4;
-  position: absolute;
-  top: 286px;
-`;
-
-const SecondHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 20px 0px 20px;
 `;
 
 export default ProviderProfileUpload;

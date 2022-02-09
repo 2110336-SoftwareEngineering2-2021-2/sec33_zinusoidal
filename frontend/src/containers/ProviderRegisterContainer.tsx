@@ -37,6 +37,10 @@ const Slider = styled("div")<SliderProp>`
   flex-direction: row;
   height: 584px;
   overflow-y: visible;
+  justify-content: center;
+  @media screen and (max-width: 540px) {
+    transform: ${(props) => `translateX(-${350 * props.idx}px)`};
+  } ;
 `;
 
 export default ProviderRegisterContainer;

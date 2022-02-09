@@ -38,7 +38,10 @@ const LoginToRegister = () => {
 };
 
 const Layout = styled.div`
-  margin-top: 176px;
+  margin-top: auto;
+  @media screen and (max-width: 1100px) {
+    margin-top: 0;
+  } ;
 `;
 
 const JoinUs = styled.p`
@@ -46,11 +49,18 @@ const JoinUs = styled.p`
   font-weight: bold;
   color: #ffffff;
   font-size: 48px;
+  @media screen and (max-width: 750px) {
+    text-align: center;
+  } ;
 `;
 const CustomerAndProvider = styled.div`
   display: flex;
   width: 573px;
   justify-content: space-between;
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+    width: fit-content;
+  } ;
 `;
 const TextAndbuttonProvider = styled.div`
   margin: 0px;
@@ -69,6 +79,9 @@ const TextAndbuttonProvider = styled.div`
 const Provider = styled.div`
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 1100px) {
+    margin-bottom: 32px;
+  } ;
 `;
 const Customer = styled.div`
   display: flex;
@@ -138,12 +151,18 @@ const RightTriangle = styled.div`
   border-top: 40px solid white;
   border-left: 40px solid transparent;
   margin-left: 20%;
+  margin-top: auto;
+  @media screen and (max-width: 1100px) {
+    border-left: 0 solid transparent;
+    border-right: 40px solid transparent;
+    margin-left: 65%;
+  } ;
 `;
 const LeftTriangle = styled.div`
   width: 0;
   height: 0;
-  border-top: 37.5px solid white;
-  border-right: 37.5px solid transparent;
+  border-top: 40px solid white;
+  border-right: 40px solid transparent;
   margin-left: 65%;
 `;
 

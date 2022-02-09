@@ -14,11 +14,14 @@ const ProviderRegisterPage = () => {
 
 const Layout = styled.div`
   background-color: ${COLOR["magenta/100"]};
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  @media screen and (max-width: 1300px) {
+    flex-direction: column;
+  } ;
 `;
 
 export default ProviderRegisterPage;

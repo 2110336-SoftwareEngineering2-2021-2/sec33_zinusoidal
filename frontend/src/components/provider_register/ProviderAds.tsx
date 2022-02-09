@@ -6,7 +6,7 @@ const logo = require("../../assets/ProviderRegister.png");
 const ProviderAds = () => {
   return (
     <Layout>
-      <div>
+      <ProviderAdsDiv>
         <Ads>
           <Header>Why you should chose us</Header>
           <Bullet>
@@ -27,16 +27,32 @@ const ProviderAds = () => {
           </Bullet>
         </Ads>
         <RightTriangle></RightTriangle>
-      </div>
+      </ProviderAdsDiv>
       <CustomerRegisterImage src={logo} alt="" />
     </Layout>
   );
 };
 
 const Layout = styled.div`
-  margin-top: 16px;
+  position: relative;
+  margin-top: auto;
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 1300px) {
+    margin-top: 50px;
+  }
+  @media screen and (max-width: 540px) {
+    display: none;
+  } ;
+`;
+
+const ProviderAdsDiv = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0px;
+  @media screen and (max-width: 1300px) {
+    position: relative;
+  } ;
 `;
 const Ads = styled.div`
   background-color: #f3f4c1;
@@ -78,6 +94,9 @@ const CustomerRegisterImage = styled.img`
   padding: 0px;
   width: 736px;
   height: 918px;
+  @media screen and (max-width: 1300px) {
+    display: none;
+  } ;
 `;
 
 export default ProviderAds;

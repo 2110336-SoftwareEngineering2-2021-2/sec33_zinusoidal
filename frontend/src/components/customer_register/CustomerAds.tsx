@@ -6,7 +6,7 @@ const logo = require("../../assets/CustomerRegister.png");
 const CustomerAds = () => {
   return (
     <Layout>
-      <div>
+      <CustomerAdsDiv>
         <Ads>
           <Header>Why you should chose us</Header>
           <Bullet>
@@ -27,16 +27,36 @@ const CustomerAds = () => {
           </Bullet>
         </Ads>
         <RightTriangle></RightTriangle>
-      </div>
+      </CustomerAdsDiv>
       <CustomerRegisterImage src={logo} alt="" />
     </Layout>
   );
 };
 
 const Layout = styled.div`
-  margin-top: 108px;
+  position: relative;
+
+  margin-top: auto;
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 1300px) {
+    margin-top: 50px;
+  }
+  @media screen and (max-width: 540px) {
+    display: none;
+  } ;
+`;
+const CustomerAdsDiv = styled.div`
+  position: absolute;
+  top: 0;
+  left: -150px;
+  @media screen and (max-width: 1500px) {
+    left: -100px;
+  }
+  @media screen and (max-width: 1300px) {
+    position: relative;
+    left: 0px;
+  } ;
 `;
 const Ads = styled.div`
   background-color: #f3f4c1;
@@ -78,6 +98,9 @@ const CustomerRegisterImage = styled.img`
   padding: 0px;
   width: 523px;
   height: 829px;
+  @media screen and (max-width: 1300px) {
+    display: none;
+  } ;
 `;
 
 export default CustomerAds;
