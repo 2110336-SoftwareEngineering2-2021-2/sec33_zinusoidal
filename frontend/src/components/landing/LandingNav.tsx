@@ -11,7 +11,7 @@ const LandingNav = () => {
   return (
     <Layout>
       <img src={logo} alt="logo" />
-      <StyledLink to="/home">
+      <StyledLink to="/">
         <motion.h1 whileHover={{ scale: 1.3, originX: 0 }}>Home</motion.h1>
       </StyledLink>
 

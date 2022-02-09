@@ -17,6 +17,7 @@ const LoginToRegister = () => {
                 <MdOutlineNavigateNext />
               </ProviderButton>
             </Link>
+
           </TextAndbuttonProvider>
           <RightTriangle></RightTriangle>
         </Provider>
@@ -39,7 +40,9 @@ const LoginToRegister = () => {
 
 const Layout = styled.div`
   margin-top: 176px;
+
 `;
+
 
 const JoinUs = styled.p`
   margin: 0px;
