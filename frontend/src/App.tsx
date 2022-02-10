@@ -10,6 +10,7 @@ import ProfileEdit from "./components/ProfileEdit";
 import CustomerHome from "./pages/CustomerHome";
 import SearchPage from "./pages/SearchPage";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import SearchDetail from "./components/search/SearchDetail";
 const App = () => {
   return (
     <>
