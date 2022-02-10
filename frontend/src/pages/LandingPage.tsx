@@ -13,10 +13,10 @@ const img3 = require("../assets/landingBg3.png");
 
 const variants = {
   visible: {
-    opacity: 1,
+    y: 0,
   },
   hidden: {
-    opacity: 0,
+    y: "30vh",
   },
 };
 
@@ -27,8 +27,8 @@ const LandingPage = () => {
       <Content
         initial="hidden"
         whileInView="visible"
-        // viewport={{ once: false }}
-        transition={{ duration: 1.5 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
         variants={variants}
       >
         <HeaderDetail>
@@ -42,7 +42,8 @@ const LandingPage = () => {
       <LandingFeature
         initial="hidden"
         whileInView="visible"
-        transition={{ duration: 2 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
         variants={variants}
       >
         <LandingDetail
@@ -72,8 +73,8 @@ transaction transparantly"
       <Content2
         initial="hidden"
         whileInView="visible"
-        // viewport={{ once: false }}
-        transition={{ duration: 1.5 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
         variants={variants}
       >
         <NumericDetail></NumericDetail>
@@ -96,7 +97,7 @@ transaction transparantly"
 const Layout = styled.div`
   width: 100%;
   height: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
 `;
