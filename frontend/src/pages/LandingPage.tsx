@@ -96,6 +96,7 @@ transaction transparantly"
 const Layout = styled.div`
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;
@@ -154,7 +155,6 @@ const HeaderDetail = styled.div`
     line-height: 101px;
     font-weight: bold;
     color: ${COLOR["violet/500"]};
-    background-color: pink;
     @media screen and (max-width: 550px) {
       font-size: 36px;
       line-height: 57px;
