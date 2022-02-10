@@ -53,6 +53,7 @@ CREATE TABLE provider
 	biography text(500),
 	work_schedule varchar(336),
 	last_update_datetime datetime,
+	rating float(3,2) default 0.00,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES fortune_user(id)

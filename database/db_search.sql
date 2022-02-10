@@ -1,7 +1,7 @@
 SELECT P.id
 FROM provider P
-WHERE /*P.rating >= @minRating AND
-    P.rating <= @maxRating AND*/
+WHERE P.rating >= @minRating AND
+    P.rating <= @maxRating AND
     EXISTS (
         SELECT *
         FROM provider_service S
