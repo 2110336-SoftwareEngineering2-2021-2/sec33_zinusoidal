@@ -186,6 +186,11 @@ const Button = styled.button`
   font-weight: bold;
   color: white;
   margin-top: auto;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${COLOR["violet/500"]};
+  }
 `;
 const Content2 = styled(motion.div)`
   margin: 0rem 0rem 5rem;
