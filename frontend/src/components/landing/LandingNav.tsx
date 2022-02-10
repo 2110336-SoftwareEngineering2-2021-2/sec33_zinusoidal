@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { COLOR } from "../../CONSTANT";
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
@@ -36,7 +37,7 @@ const Layout = styled.div`
   padding-left: 32px;
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  /* background-color: red; */
+  background-color: ${COLOR["violet/100"]};
   img {
     height: 50px;
     width: 131px;
