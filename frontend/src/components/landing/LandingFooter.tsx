@@ -47,6 +47,7 @@ const Layout = styled(motion.div)`
     font-size: 48px;
     line-height: 76px;
     font-weight: bold;
+    text-align: center;
   }
 
   h3 {
