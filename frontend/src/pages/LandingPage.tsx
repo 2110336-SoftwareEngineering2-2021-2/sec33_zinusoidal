@@ -16,7 +16,7 @@ const variants = {
     y: 0,
   },
   hidden: {
-    y: "30vh",
+    y: 300,
   },
 };
 
