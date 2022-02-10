@@ -88,65 +88,67 @@ const AvailableTimeInputForm = ({ userData, changeUserData }: any) => {
           />
         ) : null}
       </DayDiv>
-      <Time>
-        <TimeDiv ref={wrapperRef1}>
-          <TimeInput
-            onClick={() => {
-              setStartTimeDropDownOpen(!startTimeDropDownOpen);
-            }}
-          >
-            {startTime == "-1.0" ? (
-              <PlaceHolder>start time</PlaceHolder>
-            ) : (
-              <p>{startTime}</p>
-            )}
-            <AiOutlineDown />
-          </TimeInput>
-          {startTimeDropDownOpen ? (
-            <StartTimeDropDown
-              stopTime={stopTime}
-              setStartTime={setStartTime}
-              setStartTimeDropDownOpen={setStartTimeDropDownOpen}
-            />
-          ) : null}
-        </TimeDiv>
-        <p>to</p>
-        <TimeDiv ref={wrapperRef2}>
-          <TimeInput
-            onClick={() => {
-              setStopTimeDropDownOpen(!stopTimeDropDownOpen);
-            }}
-          >
-            {stopTime == "24.0" ? (
-              <PlaceHolder>stop time</PlaceHolder>
-            ) : (
-              <p>{stopTime}</p>
-            )}
-            <AiOutlineDown />
-          </TimeInput>
-          {stopTimeDropDownOpen ? (
-            <StopTimeDropDown
-              startTime={startTime}
-              setStopTime={setStopTime}
-              setStopTimeDropDownOpen={setStopTimeDropDownOpen}
-            />
-          ) : null}
-        </TimeDiv>
-      </Time>
-      <Button
-        onClick={() => {
-          setDay("");
-          setStartTime("-1.0");
-          setStopTime("24.0");
-          changeUserData({
-            ...userData,
-            AvailableTime: { day: day, timeList: [startTime, stopTime] },
-          });
-          console.log(userData);
-        }}
-      >
-        Add
-      </Button>
+      <TimeAndButton>
+        <Time>
+          <TimeDiv ref={wrapperRef1}>
+            <TimeInput
+              onClick={() => {
+                setStartTimeDropDownOpen(!startTimeDropDownOpen);
+              }}
+            >
+              {startTime == "-1.0" ? (
+                <PlaceHolder>start time</PlaceHolder>
+              ) : (
+                <p>{startTime}</p>
+              )}
+              <AiOutlineDown />
+            </TimeInput>
+            {startTimeDropDownOpen ? (
+              <StartTimeDropDown
+                stopTime={stopTime}
+                setStartTime={setStartTime}
+                setStartTimeDropDownOpen={setStartTimeDropDownOpen}
+              />
+            ) : null}
+          </TimeDiv>
+          <p>to</p>
+          <TimeDiv ref={wrapperRef2}>
+            <TimeInput
+              onClick={() => {
+                setStopTimeDropDownOpen(!stopTimeDropDownOpen);
+              }}
+            >
+              {stopTime == "24.0" ? (
+                <PlaceHolder>stop time</PlaceHolder>
+              ) : (
+                <p>{stopTime}</p>
+              )}
+              <AiOutlineDown />
+            </TimeInput>
+            {stopTimeDropDownOpen ? (
+              <StopTimeDropDown
+                startTime={startTime}
+                setStopTime={setStopTime}
+                setStopTimeDropDownOpen={setStopTimeDropDownOpen}
+              />
+            ) : null}
+          </TimeDiv>
+        </Time>
+        <Button
+          onClick={() => {
+            setDay("");
+            setStartTime("-1.0");
+            setStopTime("24.0");
+            changeUserData({
+              ...userData,
+              AvailableTime: { day: day, timeList: [startTime, stopTime] },
+            });
+            console.log(userData);
+          }}
+        >
+          Add
+        </Button>
+      </TimeAndButton>
     </Layout>
   );
 };
@@ -157,14 +159,24 @@ const Layout = styled("div")`
   height: 38px;
   margin-top: 15px;
   align-items: center;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+    justify-content: center;
+  } ;
 `;
 
 const DayDiv = styled.div`
   height: 40px;
-  width: 150px;
+  width: 200px;
   border: 1px solid ${COLOR["gray/500"]};
   padding-right: 12px;
   border-radius: 8px;
+  @media screen and (max-width: 540px) {
+    width: 150px;
+
+    margin-top: 20px;
+    margin-bottom: 8px;
+  } ;
 `;
 
 const PlaceHolder = styled.p`
@@ -179,17 +191,27 @@ const DayInput = styled.div`
   padding-left: 10px;
   align-items: center;
 `;
-
+const TimeAndButton = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const Time = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  @media screen and (max-width: 540px) {
+    justify-content: center;
+  } ;
 `;
 
 const TimeDiv = styled.div`
+  font-size: 14px;
+  width: 100px;
   height: 36px;
-  width: 120px;
   border: 1px solid ${COLOR["gray/500"]};
   padding-right: 12px;
   border-radius: 8px;
@@ -207,12 +229,11 @@ const TimeInput = styled.div`
 `;
 
 const Button = styled.button`
-  width: 54px;
-  height: 28px;
+  width: 60px;
+  height: 30px;
   background-color: ${COLOR["violet/400"]};
   border-radius: 10000px;
   border: none;
-
   font-size: 12px;
   line-height: 19px;
   font-weight: bold;

@@ -87,6 +87,7 @@ const ProfilePicture = styled.div`
 
 const Button = styled.button`
   width: 97px;
+
   padding: 5px;
   border: none;
   color: white;
@@ -99,9 +100,8 @@ const Button = styled.button`
   align-items: center;
   column-gap: 5px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: ${COLOR["violet/500"]};
-
   }
 `;
 

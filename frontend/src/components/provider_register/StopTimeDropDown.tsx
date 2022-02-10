@@ -37,10 +37,12 @@ const StopTimeDropDown = ({
 };
 const DropDown = styled.div`
   margin-top: 10px;
-  width: 120px;
+  width: 100px;
   position: absolute;
   background-color: white;
   height: 150px;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 4px 4px;
   overflow-y: scroll;
   p {
     margin-left: initial;
@@ -50,7 +52,7 @@ const Item = styled.div`
   text-align: center;
   cursor: pointer;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   font-weight: normal;
   :hover {
     background-color: ${COLOR["magenta/100"]};

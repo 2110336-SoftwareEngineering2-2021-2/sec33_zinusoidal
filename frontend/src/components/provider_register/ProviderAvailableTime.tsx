@@ -22,7 +22,7 @@ const ProviderAvailableTime = ({ userData, changeUserData }: any) => {
         </AvailableTime>
       </HeaderSection>
       <WorkingTimeSection>
-        <h1 style={{}}>My Working Time</h1>
+        <h1>My Working Time</h1>
         <ProviderRegisterTimeTable userData={userData} />
       </WorkingTimeSection>
     </Layout>
@@ -53,7 +53,7 @@ const AvailableTime = styled.div`
 `;
 
 const WorkingTimeSection = styled.div`
-  /* margin-top: 7px; */
+  margin-top: 7px;
   height: 100%;
   display: flex;
   flex-direction: column;
