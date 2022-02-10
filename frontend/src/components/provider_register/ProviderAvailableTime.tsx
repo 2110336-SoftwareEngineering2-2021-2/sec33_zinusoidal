@@ -5,7 +5,7 @@ import AvailableTimeInputForm from "./AvailableTimeInputForm";
 import ProviderRegisterTimeTable from "../../containers/ProviderRegisterTimeTable";
 import { MdRemoveRedEye } from "react-icons/md";
 
-const ProviderAvailableTime = () => {
+const ProviderAvailableTime = ({ userData, changeUserData }: any) => {
   return (
     <Layout>
       <HeaderSection>
@@ -15,12 +15,15 @@ const ProviderAvailableTime = () => {
         </ProviderRegistration>
         <AvailableTime>
           <p>Available Time</p>
-          <AvailableTimeInputForm />
+          <AvailableTimeInputForm
+            userData={userData}
+            changeUserData={changeUserData}
+          />
         </AvailableTime>
       </HeaderSection>
       <WorkingTimeSection>
         <h1 style={{}}>My Working Time</h1>
-        <ProviderRegisterTimeTable />
+        <ProviderRegisterTimeTable userData={userData} />
       </WorkingTimeSection>
     </Layout>
   );

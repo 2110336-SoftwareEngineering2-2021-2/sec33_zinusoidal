@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import ProfileEdit from "./components/ProfileEdit";
 import CustomerHome from "./pages/CustomerHome";
 import SearchPage from "./pages/SearchPage";
+import Teach from "./components/login/test";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="edit" element={<ProfileEdit />} />
           </Route>
           <Route path="/home" element={<CustomerHome />} />
+          <Route path="/test" element={<Teach />} />
         </Routes>
       </BrowserRouter>
     </>

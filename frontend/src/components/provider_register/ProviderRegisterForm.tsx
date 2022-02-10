@@ -3,7 +3,7 @@ import { COLOR } from "../../CONSTANT";
 import React, { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
-const ProviderRegistrationForm = () => {
+const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
   const [seePassword, setSeePassword] = useState(false);
   const [seeCPassword, setSeeCPassword] = useState(false);
 
@@ -19,7 +19,12 @@ const ProviderRegistrationForm = () => {
             <InputDiv>
               <FormLabel>Name</FormLabel>
               <Star>*</Star>
-              <Forminput type="text" id="fname" name="fname" />
+              <Forminput
+                type="text"
+                onChange={(event) => {
+                  changeUserData({ ...userData, Name: event.target.value });
+                }}
+              />
             </InputDiv>
             <InputDiv>
               <FormLabel>Surname</FormLabel>
@@ -115,6 +120,10 @@ const Layout = styled.div`
   width: 100%;
   font-weight: bold;
   background-color: white;
+  overflow-y: scroll;
+  p {
+    margin-left: initial;
+  }
 `;
 const Padding = styled.div`
   width: 100%;

@@ -22,7 +22,10 @@ const CustomerRegisterContainer = ({ current, checked, callBack }: any) => {
 
 const Layout = styled.div`
   width: 100%;
-  overflow: hidden;
+  overflow-y: scroll;
+  p {
+    margin-left: initial;
+  }
 `;
 
 const Slider = styled("div")<SliderProp>`
