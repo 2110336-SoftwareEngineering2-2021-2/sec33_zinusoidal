@@ -4,6 +4,7 @@ SELECT U.username,
     P.profile_image,
     P.biography,
     P.work_schedule,
+    P.rating,
     S.fortune_type,
     S.price
 
