@@ -155,7 +155,6 @@ const HeaderDetail = styled.div`
     line-height: 101px;
     font-weight: bold;
     color: ${COLOR["violet/500"]};
-    background-color: pink;
     @media screen and (max-width: 550px) {
       font-size: 36px;
       line-height: 57px;
