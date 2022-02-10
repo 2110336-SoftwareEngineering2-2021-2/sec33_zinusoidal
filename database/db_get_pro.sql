@@ -9,5 +9,5 @@ SELECT U.username,
 
     FROM fortune_user U 
     RIGHT JOIN provider P ON U.id = P.id
-    RIGHT JOIN provider_service S ON P.id = S.id
+    RIGHT JOIN provider_service S ON P.id = S.provider_id
     WHERE U.id = @id;

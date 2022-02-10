@@ -5,7 +5,7 @@ WHERE /*P.rating >= @minRating AND
     EXISTS (
         SELECT *
         FROM provider_service S
-        WHERE S.id = P.id AND
+        WHERE S.provider_id = P.id AND
             (@fortune_type = " " OR S.fortune_type = @fortune_type) AND
             S.price >= @minPrice AND
             S.price <= @maxPrice 

@@ -13,7 +13,7 @@ CREATE TABLE fortune_user
 	create_datetime datetime default NOW(),
 	delete_datetime datetime,
 	user_type bit NOT NULL,
-	email_confirmed bit,
+	email_confirmed bit default 0,
 
 	CONSTRAINT UNIQUE(username),
 	CONSTRAINT UNIQUE(email),
@@ -27,7 +27,8 @@ CREATE TABLE activation_key
 	activation_key varchar(100) NOT NULL,
 	create_time datetime default NOW(),
 
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES fortune_user(id)
 );
 
 DROP TABLE IF EXISTS customer;
