@@ -10,6 +10,7 @@ import { COLOR } from "../CONSTANT";
 const img1 = require("../assets/landingBg.png");
 const img2 = require("../assets/landingBg2.png");
 const img3 = require("../assets/landingBg3.png");
+const img1_small = require("../assets/landing1_small.png");
 
 const variants = {
   visible: {
@@ -23,7 +24,7 @@ const variants = {
 const LandingPage = () => {
   return (
     <Layout>
-      <LandingNav></LandingNav>
+      {/* <LandingNav></LandingNav> */}
       <Content
         initial="hidden"
         whileInView="visible"
@@ -39,6 +40,7 @@ const LandingPage = () => {
           <Button>Join us</Button>
         </HeaderDetail>
       </Content>
+      <SmallContentImg></SmallContentImg>
       <LandingFeature
         initial="hidden"
         whileInView="visible"
@@ -79,16 +81,6 @@ transaction transparantly"
       >
         <NumericDetail></NumericDetail>
       </Content2>
-      {/* <Content3
-        initial="hidden"
-        whileInView="visible"
-        // viewport={{ once: false }}
-        transition={{ duration: 1.5 }}
-        variants={variants}
-      >
-        <div style={{ flex: 1 }}></div>
-        <Content3in></Content3in>
-      </Content3> */}
       <LandingFooter />
     </Layout>
   );
@@ -175,6 +167,18 @@ const HeaderDetail = styled.div`
   }
 `;
 
+const SmallContentImg = styled.div`
+  @media screen and (max-width: 900px) {
+    width: 50%;
+    padding-top: 45%;
+    /* height: 280px; */
+    background-size: 100% 100%;
+    background-image: url(${img1_small});
+    align-self: center;
+    margin-top: 62px;
+  }
+`;
+
 const Button = styled.button`
   width: 122px;
   height: 48px;
@@ -213,6 +217,16 @@ const Content2 = styled(motion.div)`
     padding-top: 677.5px;
     align-self: center;
   }
+
+  @media screen and (max-width: 900px) {
+    background-image: none;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: red; */
+    margin-bottom: 0rem;
+    padding-top: 0;
+  }
 `;
 
 const Content3 = styled(motion.div)`
@@ -238,7 +252,7 @@ const Content3in = styled.div`
 const LandingFeature = styled(motion.div)`
   display: flex;
   flex-direction: row;
-  margin: 5rem 5rem;
+  margin: 5rem 5rem 2rem;
   max-width: 1100px;
   align-self: center;
 `;
