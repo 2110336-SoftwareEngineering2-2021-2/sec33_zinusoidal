@@ -11,6 +11,7 @@ import CustomerHome from "./pages/CustomerHome";
 import SearchPage from "./pages/SearchPage";
 import Teach from "./components/login/test";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import SearchDetail from "./components/search/SearchDetail";
 const App = () => {
   return (
     <>
