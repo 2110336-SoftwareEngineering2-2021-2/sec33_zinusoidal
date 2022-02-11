@@ -22,18 +22,18 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
+			"log": "invalid request",
 		})
 		return
 	}
 	if err = h.service.CustomerRegister(req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": err.Error(),
+			"log": err.Error(),
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "OK",
+		"log": "OK",
 	})
 }
 
@@ -85,7 +85,7 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 	})
 }
 
-func (h *Handler) ActivateEmail(c *gin.Context) {
+func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 	key := c.GetString("key")
 	if key == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -103,4 +103,17 @@ func (h *Handler) ActivateEmail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"log": "email confirmed",
 	})
+}
+
+func (h *Handler) TestTokenHandler(c *gin.Context) {
+	claim, err := jwt.VerifyToken(c)
+	if err != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"log": err.Error(),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"log": claim.UserID,
+		})
+	}
 }

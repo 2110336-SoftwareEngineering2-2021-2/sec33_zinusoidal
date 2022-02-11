@@ -15,8 +15,8 @@ type Customer struct {
 }
 
 type Fortune struct {
-	FortuneType string `json:"fortuneType"`
-	Price       int    `json:"price"`
+	Name  string `json:"name"`
+	Price int    `json:"price"`
 }
 
 type Provider struct {
