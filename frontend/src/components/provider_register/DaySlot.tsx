@@ -11,7 +11,7 @@ type DaySlotPropType = {
 const DaySlot = ({ item }: DaySlotPropType) => {
   return (
     <Layout>
-      <Day>{item.day}</Day>
+      <Day>{item.day.slice(0, 3)}</Day>
 
       <Content>
         {item.timeList.length == 0 ? (
@@ -19,7 +19,9 @@ const DaySlot = ({ item }: DaySlotPropType) => {
             <p>Not available</p>
           </P>
         ) : (
-          item.timeList.map((time) => <TimeSlot time={time} />)
+          item.timeList.map((time, index) => (
+            <TimeSlot time={time} key={index} />
+          ))
         )}
       </Content>
     </Layout>
@@ -38,7 +40,7 @@ const Day = styled.div`
 
 const Content = styled.div`
   flex: 1;
-  margin-left: 15px;
+  margin-left: 0px;
   display: flex;
   flex-wrap: wrap;
 `;

@@ -22,6 +22,29 @@ const AvailableTimeInputForm = ({ userData, changeUserData }: any) => {
   const wrapperRef1 = useRef(null);
   const wrapperRef2 = useRef(null);
 
+  // console.log(day, startTime, stopTime);
+
+  const handleInputForm = () => {
+    // console.log(userData);
+    const remainTime = userData.AvailableTime.filter(
+      (dateSlot: any) => dateSlot.day != day
+    );
+    // console.log(remainTime);
+    const oldTimeList = userData.AvailableTime.filter(
+      (dateSlot: any) => dateSlot.day == day
+    )[0].timeList;
+    console.log(oldTimeList);
+    const newDate = {
+      ...userData,
+      AvailableTime: [
+        ...remainTime,
+        { day: day, timeList: [...oldTimeList, [startTime, stopTime]] },
+      ],
+    };
+    console.log("New DATA", newDate);
+    changeUserData(newDate);
+  };
+
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
       function handleClickOutside(event: Event) {
@@ -139,11 +162,8 @@ const AvailableTimeInputForm = ({ userData, changeUserData }: any) => {
             setDay("");
             setStartTime("-1.0");
             setStopTime("24.0");
-            changeUserData({
-              ...userData,
-              AvailableTime: { day: day, timeList: [startTime, stopTime] },
-            });
-            console.log(userData);
+            handleInputForm();
+            // console.log(userData);
           }}
         >
           Add

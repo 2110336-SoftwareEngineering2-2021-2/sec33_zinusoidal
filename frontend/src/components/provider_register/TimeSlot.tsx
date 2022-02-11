@@ -16,7 +16,7 @@ const TimeSlot = ({ time }: TimeSlotType) => {
 };
 
 const Layout = styled.div`
-  min-width: 141px;
+  min-width: 135px;
   height: 30px;
   border-radius: 1000px;
   background-color: ${COLOR["violet/100"]};

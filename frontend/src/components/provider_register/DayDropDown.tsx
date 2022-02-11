@@ -8,11 +8,11 @@ const DayDropDown = ({ selectDay, setDayDropDownOpen }: any) => {
     <DropDown>
       <Item onClick={() => {selectDay("Sunday");setDayDropDownOpen(false);}}>Sunday</Item>
       <Item onClick={() => {selectDay("Monday");setDayDropDownOpen(false);}}>Monday</Item>
-      <Item onClick={() => {selectDay("Tuesday");setDayDropDownOpen(false);}}>Tuesday</Item>
-      <Item onClick={() => {selectDay("Wednesday");setDayDropDownOpen(false);}}>Wednesday</Item>
-      <Item onClick={() => {selectDay("Thursday");setDayDropDownOpen(false);}}>Thursday</Item>
+      <Item onClick={() => {selectDay("Tueday");setDayDropDownOpen(false);}}>Tuesday</Item>
+      <Item onClick={() => {selectDay("Wedday");setDayDropDownOpen(false);}}>Wednesday</Item>
+      <Item onClick={() => {selectDay("Thuday");setDayDropDownOpen(false);}}>Thursday</Item>
       <Item onClick={() => {selectDay("Friday");setDayDropDownOpen(false);}}>Friday</Item>
-      <Item onClick={() => {selectDay("Saturday");setDayDropDownOpen(false);}}>Saturday</Item>
+      <Item onClick={() => {selectDay("Satday");setDayDropDownOpen(false);}}>Saturday</Item>
     </DropDown>
   );
 };
