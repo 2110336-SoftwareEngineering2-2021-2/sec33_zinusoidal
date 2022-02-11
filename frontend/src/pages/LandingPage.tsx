@@ -16,9 +16,11 @@ const img1_small = require("../assets/landing1_small.png");
 const variants = {
   visible: {
     y: 0,
+    opacity: 1,
   },
   hidden: {
     y: 300,
+    opacity: 0,
   },
 };
 
@@ -134,11 +136,12 @@ const Content = styled(motion.div)`
 const HeaderDetail = styled.div`
   position: absolute;
   width: 50%;
-  height: 40%;
-  top: 20%;
+  height: 60%;
+  top: 10%;
   left: 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   @media screen and (max-width: 900px) {
     position: relative;
@@ -157,6 +160,7 @@ const HeaderDetail = styled.div`
     line-height: 101px;
     font-weight: bold;
     color: ${COLOR["violet/500"]};
+
     @media screen and (max-width: 550px) {
       font-size: 36px;
       line-height: 57px;
@@ -176,18 +180,6 @@ const HeaderDetail = styled.div`
   }
 `;
 
-const SmallContentImg = styled(motion.div)`
-  @media screen and (max-width: 900px) {
-    width: 50%;
-    padding-top: 45%;
-    /* height: 280px; */
-    background-size: 100% 100%;
-    background-image: url(${img1_small});
-    align-self: center;
-    margin-top: 62px;
-  }
-`;
-
 const Button = styled.button`
   width: 122px;
   height: 48px;
@@ -199,13 +191,26 @@ const Button = styled.button`
   line-height: 31px;
   font-weight: bold;
   color: white;
-  margin-top: auto;
+  margin-top: 20px;
   cursor: pointer;
 
   :hover {
     background-color: ${COLOR["violet/500"]};
   }
 `;
+
+const SmallContentImg = styled(motion.div)`
+  @media screen and (max-width: 900px) {
+    width: 60%;
+    padding-top: 45%;
+    /* height: 280px; */
+    background-size: 100% 100%;
+    background-image: url(${img1_small});
+    align-self: center;
+    margin-top: 62px;
+  }
+`;
+
 const Content2 = styled(motion.div)`
   margin: 0rem 0rem 5rem;
   /* margin: 0rem 129px; */
