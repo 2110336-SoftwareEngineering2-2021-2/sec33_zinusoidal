@@ -1,7 +1,7 @@
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/login/LoginForm";
 import { COLOR } from "../CONSTANT";
 import styled from "styled-components";
-import LoginToRegister from "../components/LoginToRegister";
+import LoginToRegister from "../components/login/LoginToRegister";
 
 const logo = require("../assets/login.png");
 

@@ -14,7 +14,6 @@ const ProviderProfileUpload = () => {
   const [myService, setMyService] = useState([] as any);
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
-  console.log(myService);
 
   const addServiceToList = (newService: any) => {
     for (var service of myService) {

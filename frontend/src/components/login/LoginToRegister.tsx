@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { COLOR } from "../CONSTANT";
+import { COLOR } from "../../CONSTANT";
 import { NavLink, Link } from "react-router-dom";
 import { MdOutlineNavigateNext } from "react-icons/md";
 

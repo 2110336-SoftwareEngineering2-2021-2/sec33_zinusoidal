@@ -11,14 +11,29 @@ interface SliderProp {
 }
 
 interface ProviderRegisterContainer {}
-const ProviderRegisterContainer = ({ current, checked, callBack }: any) => {
+const ProviderRegisterContainer = ({
+  userData,
+  changeUserData,
+  current,
+  checked,
+  callBack,
+}: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <ProviderTermAndCondition checked={checked} callBack={callBack} />
-        <ProviderRegisterForm />
-        <ProviderServieType />
-        <ProviderAvailableTime />
+        <ProviderRegisterForm
+          userData={userData}
+          changeUserData={changeUserData}
+        />
+        <ProviderServieType
+        // userData={userInput}
+        // changeUserData={changeUserData}
+        />
+        <ProviderAvailableTime
+          userData={userData}
+          changeUserData={changeUserData}
+        />
         <ProviderProfileUpload />
       </Slider>
     </Layout>
