@@ -9,6 +9,9 @@ UPDATE provider P
 DELETE FROM provider_service S
     WHERE S.provider_id = @id;
 
-/* one-by-one */
 INSERT INTO provider_service(provider_id,fortune_type,price)
-    VALUES (@id,@fortune_type,@price);
+    VALUES @id+fortune_type+price_list;
+
+/* example
+@id+fortune_type+price_list = (4763,"ggggg",123.45),(2223,"e",167.89),(123,"sad",34.56)
+*/
