@@ -71,7 +71,8 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 
 	query := `SELECT P.id
 	FROM provider P
-	WHERE 
+	WHERE P.rating >= @minRating AND
+    P.rating <= @maxRating AND
 		EXISTS (
 			SELECT *
 			FROM provider_service S
