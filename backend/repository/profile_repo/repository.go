@@ -110,8 +110,8 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 
 	query := `SELECT P.id
 	FROM provider P
-	WHERE P.rating >= @minRating AND
-    P.rating <= @maxRating AND
+	WHERE P.rating >= ? AND
+    P.rating <= ? AND
 		EXISTS (
 			SELECT *
 			FROM provider_service S
@@ -121,7 +121,7 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 				S.price <= ?
 	);`
 
-	err := db.database.Raw(query, searchRequest.FortuneType, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
+	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, searchRequest.FortuneType, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
 
 	return searchResults, err
 }
