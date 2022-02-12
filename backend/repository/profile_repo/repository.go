@@ -60,7 +60,9 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
 
 }
 
-func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRequest) error {
+func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRequest) (profile.ProviderProfile, error) {
+
+	var providerProfile profile.ProviderProfile
 
 	query := `UPDATE provider P
     SET P.first_name = ?,
@@ -75,7 +77,7 @@ DELETE FROM provider_service S
 
 	err := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.WorkSchedule, userID).Error
 	if err != nil {
-		return err
+		return providerProfile, err
 	}
 
 	insert_fortune := `INSERT INTO provider_service(provider_id,fortune_type,price)
@@ -84,11 +86,22 @@ DELETE FROM provider_service S
 	for _, fortune := range editRequest.Fortune {
 		err = db.database.Exec(insert_fortune, userID, fortune.FortuneType, fortune.Price).Error
 		if err != nil {
-			return err
+			return providerProfile, err
 		}
 	}
 
-	return nil
+	findQuery := `SELECT *
+    FROM fortune_user U 
+    RIGHT JOIN provider P ON U.id = P.id
+    RIGHT JOIN provider_service S ON P.id = S.provider_id
+    WHERE U.id = ?;`
+
+	findErr := db.database.Raw(findQuery, userID).Scan(&providerProfile).Error
+	if findErr != nil {
+		return providerProfile, findErr
+	}
+
+	return providerProfile, nil
 }
 
 func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.ProviderProfile, error) {

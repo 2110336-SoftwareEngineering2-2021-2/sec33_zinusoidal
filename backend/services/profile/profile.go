@@ -7,7 +7,7 @@ type Service struct {
 type Databaser interface {
 	GetProviderByID(userID string) (ProviderProfile, error)
 	GetCustomerByID(userID string) (CustomerProfile, error)
-	EditProvider(string, ProviderEditRequest) error
+	EditProvider(string, ProviderEditRequest) (ProviderProfile, error)
 }
 
 func NewService(database Databaser) *Service {
@@ -31,7 +31,9 @@ func (s *Service) getCustomerProfile(userId string) (CustomerProfile, error) {
 }
 
 func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (ProviderProfile, error) {
-	provider, err := s.database.GetProviderByID(userId)
-
-	return provider, err
+	provider, err := s.database.EditProvider(userId, req)
+	if err != nil {
+		return provider, err
+	}
+	return provider, nil
 }
