@@ -6,7 +6,11 @@ WHERE P.rating >= @minRating AND
         SELECT *
         FROM provider_service S
         WHERE S.provider_id = P.id AND
-            (@fortune_type = " " OR S.fortune_type = @fortune_type) AND
+            S.fortune_type IN @fortune_list AND
             S.price >= @minPrice AND
             S.price <= @maxPrice 
 );
+
+/*
+@fortune_list = ('tarot','ball','ppl')
+*/
