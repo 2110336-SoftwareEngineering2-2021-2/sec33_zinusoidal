@@ -275,8 +275,8 @@ const InputDiv = styled.div`
     border-radius: 8px;
     border: solid #808080 1px;
     &:focus {
-      outline: solid ${COLOR["magenta/100"]} 1px;
-      border: solid ${COLOR["magenta/100"]} 1px;
+      outline: none;
+      border: solid ${COLOR["magenta/200"]} 1px;
     }
   }
   @media screen and (max-width: 540px) {
@@ -288,7 +288,7 @@ const Myservice = styled.p`
   font-size: 20px;
   font-weight: bold;
   color: ${COLOR["blue/900"]};
-  padding: 0px 50px 0px 80px;
+  padding: 20px 50px 0px 80px;
 `;
 
 const SecondInputDiv = styled.div`
@@ -306,8 +306,8 @@ const SecondInputDiv = styled.div`
     border-radius: 8px;
     border: solid #808080 1px;
     &:focus {
-      outline: solid ${COLOR["magenta/100"]} 1px;
-      border: solid ${COLOR["magenta/100"]} 1px;
+      outline: none;
+      border: solid ${COLOR["magenta/200"]} 1px;
     }
   }
   @media screen and (max-width: 540px) {
@@ -322,8 +322,8 @@ const SearchServiceDiv = styled.div`
   border-radius: 8px;
   border: solid #808080 1px;
   :focus-within {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/100"]} 2px;
   }
 `;
 
@@ -335,8 +335,8 @@ const FirstServiceInput = styled.input`
   border-radius: 8px;
   border: solid #808080 1px;
   &:focus {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
   }
 `;
 const ServiceInput = styled.input`

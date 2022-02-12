@@ -8,12 +8,21 @@ interface SliderProp {
 }
 
 interface CustomerRegisterContainer {}
-const CustomerRegisterContainer = ({ current, checked, callBack }: any) => {
+const CustomerRegisterContainer = ({
+  userData,
+  changeUserData,
+  current,
+  checked,
+  callBack,
+}: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <CustomerTermAndCondition checked={checked} callBack={callBack} />
-        <CustomerRegisterForm />
+        <CustomerRegisterForm
+          userData={userData}
+          changeUserData={changeUserData}
+        />
         <CustomerProfileUpload />
       </Slider>
     </Layout>

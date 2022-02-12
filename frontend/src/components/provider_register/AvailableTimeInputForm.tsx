@@ -222,7 +222,7 @@ const InputLayout = styled("div")`
 const DayDiv = styled.div`
   cursor: pointer;
   height: 40px;
-  width: 200px;
+  width: 180px;
   border: 1px solid ${COLOR["gray/500"]};
   padding-right: 12px;
   border-radius: 8px;

@@ -61,7 +61,6 @@ const WorkingTimeSection = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 20px 20px 0 0;
-  margin-top: 7px;
   background-color: white;
 
   h1 {
