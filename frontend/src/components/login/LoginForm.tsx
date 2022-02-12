@@ -1,8 +1,8 @@
 import React from "react";
-import { COLOR } from "../CONSTANT";
+import { COLOR } from "../../CONSTANT";
 import styled from "styled-components";
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   return (
     <LoginFormLayout>
       <LoginFormHeader1>Fortune 168</LoginFormHeader1>

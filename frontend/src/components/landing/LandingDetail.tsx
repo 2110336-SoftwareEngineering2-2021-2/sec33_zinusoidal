@@ -19,6 +19,8 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+
   h1 {
     font-weight: bold;
     font-size: 24px;

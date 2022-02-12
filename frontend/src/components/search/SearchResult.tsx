@@ -3,19 +3,31 @@ import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { MdOutlineStar } from "react-icons/md";
 
-type PersonType = {
+interface PersonType {
   name: string;
   username: string;
   rating: number;
   priceRange: string;
-};
-type SearchResultPropType = {
+}
+interface SearchResultPropType {
   person: PersonType;
-};
-const SearchResult = ({ person }: SearchResultPropType) => {
+  onClick?: Function;
+  selected: boolean;
+}
+
+interface LayoutPropType {
+  selected: boolean;
+}
+const SearchResult = ({ person, onClick, selected }: SearchResultPropType) => {
   const { name, username, rating, priceRange } = person;
   return (
-    <Layout>
+    <Layout
+      onClick={() => {
+        if (!onClick) return;
+        onClick(username);
+      }}
+      selected={selected}
+    >
       <Image>
         <img
           src="http://images.summitmedia-digital.com/preview/images/2020/06/09/son-ye-jin-most-beautiful-woman-nm.jpg"
@@ -51,11 +63,15 @@ const SearchResult = ({ person }: SearchResultPropType) => {
   );
 };
 
-const Layout = styled.div`
-  height: 89px;
+const Layout = styled("div")<LayoutPropType>`
+  height: 121px;
   display: flex;
   align-items: center;
-  margin: 0 10rem;
+  padding: 16px;
+  background-color: ${(props) =>
+    props.selected ? COLOR["violet/200"] : "transparent"};
+  border-radius: 8px;
+  /* min-width: 450px; */
 `;
 
 const Image = styled.div`

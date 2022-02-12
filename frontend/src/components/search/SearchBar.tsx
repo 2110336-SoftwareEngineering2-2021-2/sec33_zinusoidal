@@ -86,7 +86,7 @@ const SearchBar = ({ setShowResult }: SearchBarPropType) => {
 };
 
 const Layout = styled.div`
-  margin: 76px 10rem 16px;
+  margin: 0px 10rem 16px;
   display: flex;
   align-items: center;
 
