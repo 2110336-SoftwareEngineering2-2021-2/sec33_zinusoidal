@@ -7,8 +7,15 @@ type DaySlotPropType = {
     day: string;
     timeList: Array<Array<String>>;
   };
+  availableTime: any;
+  setAvailableTime: any;
 };
-const DaySlot = ({ item }: DaySlotPropType) => {
+
+const DaySlot = ({
+  item,
+  availableTime,
+  setAvailableTime,
+}: DaySlotPropType) => {
   return (
     <Layout>
       <Day>{item.day.slice(0, 3)}</Day>
@@ -20,7 +27,13 @@ const DaySlot = ({ item }: DaySlotPropType) => {
           </P>
         ) : (
           item.timeList.map((time, index) => (
-            <TimeSlot time={time} key={index} />
+            <TimeSlot
+              availableTime={availableTime}
+              setAvailableTime={setAvailableTime}
+              day={item.day}
+              time={time}
+              key={index}
+            />
           ))
         )}
       </Content>
