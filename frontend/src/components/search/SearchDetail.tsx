@@ -21,6 +21,10 @@ const Layout = styled.div`
   background-color: ${COLOR["violet/50"]};
   margin-left: 9px;
   border-radius: 8px;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export default SearchDetail;
