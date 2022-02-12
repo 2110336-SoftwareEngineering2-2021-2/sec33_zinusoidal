@@ -56,7 +56,7 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 	VALUES (?, ?, ?);`
 
 	for _, fortune := range provider.FortuneList {
-		err = db.database.Exec(insert_fortune, provider.UserId, fortune.Name, fortune.Price).Error
+		err = db.database.Exec(insert_fortune, provider.UserId, fortune.FortuneType, fortune.Price).Error
 		if err != nil {
 			return err
 		}
