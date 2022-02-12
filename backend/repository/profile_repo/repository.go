@@ -79,7 +79,7 @@ DELETE FROM provider_service S
 	}
 
 	insert_fortune := `INSERT INTO provider_service(provider_id,fortune_type,price)
-    VALUES (@id,@fortune_type,@price);`
+    VALUES (?, ?, ?);`
 
 	for _, fortune := range editRequest.Fortune {
 		err = db.database.Exec(insert_fortune, userID, fortune.FortuneType, fortune.Price).Error
