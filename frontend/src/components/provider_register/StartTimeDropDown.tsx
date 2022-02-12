@@ -20,9 +20,10 @@ const StartTimeDropDown = ({
 }: any) => {
   return (
     <DropDown>
-      {STARTTIME.map((timeSelect) =>
+      {STARTTIME.map((timeSelect, index) =>
         stopTime > timeSelect ? (
           <Item
+            key={index}
             onClick={() => {
               setStartTime(timeSelect);
               setStartTimeDropDownOpen(false);

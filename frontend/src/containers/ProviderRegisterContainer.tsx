@@ -14,6 +14,10 @@ interface ProviderRegisterContainer {}
 const ProviderRegisterContainer = ({
   userData,
   changeUserData,
+  service,
+  setService,
+  availableTime,
+  setAvailableTime,
   current,
   checked,
   callBack,
@@ -26,13 +30,10 @@ const ProviderRegisterContainer = ({
           userData={userData}
           changeUserData={changeUserData}
         />
-        <ProviderServieType
-        // userData={userInput}
-        // changeUserData={changeUserData}
-        />
+        <ProviderServieType service={service} setService={setService} />
         <ProviderAvailableTime
-          userData={userData}
-          changeUserData={changeUserData}
+          availableTime={availableTime}
+          setAvailableTime={setAvailableTime}
         />
         <ProviderProfileUpload />
       </Slider>

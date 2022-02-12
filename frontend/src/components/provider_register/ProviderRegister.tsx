@@ -20,17 +20,17 @@ const CustomerRegister = () => {
     Password: "",
     ConformPassword: "",
     Biography: "",
-    MyService: [],
-    AvailableTime: [
-      { day: "Sunday", timeList: [] },
-      { day: "Monday", timeList: [] },
-      { day: "Tueday", timeList: [] },
-      { day: "Wedday", timeList: [] },
-      { day: "Thuday", timeList: [] },
-      { day: "Friday", timeList: [] },
-      { day: "Satday", timeList: [] },
-    ],
   });
+  const [service, setService] = useState([]);
+  const [availableTime, setAvailableTime] = useState([
+    { day: "Sunday", timeList: [] },
+    { day: "Monday", timeList: [] },
+    { day: "Tuesday", timeList: [] },
+    { day: "Wednesday", timeList: [] },
+    { day: "Thursday", timeList: [] },
+    { day: "Friday", timeList: [] },
+    { day: "Saturday", timeList: [] },
+  ]);
   const clickToggle = () => {
     setClicked(!clicked);
   };
@@ -45,6 +45,10 @@ const CustomerRegister = () => {
         <ProviderRegisterContainer
           userData={userInput}
           changeUserData={setUserInput}
+          service={service}
+          setService={setService}
+          availableTime={availableTime}
+          setAvailableTime={setAvailableTime}
           current={current}
           checked={clicked}
           callBack={clickToggle}

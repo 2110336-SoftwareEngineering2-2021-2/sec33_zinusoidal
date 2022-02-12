@@ -1,22 +1,60 @@
 import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
+import { AiFillMinusCircle } from "react-icons/ai";
 
 type TimeSlotType = {
+  day: string;
   time: Array<String>;
+  availableTime: any;
+  setAvailableTime: any;
 };
-const TimeSlot = ({ time }: TimeSlotType) => {
+const TimeSlot = ({
+  day,
+  time,
+  availableTime,
+  setAvailableTime,
+}: TimeSlotType) => {
+  const deleteTime = (day: any, time: any) => {
+    console.log(day, time);
+    const remainTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day != day
+    );
+    console.log(remainTimeList);
+
+    const deleteTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == day
+    )[0].timeList;
+    console.log(deleteTimeList);
+    const remainingTime = deleteTimeList.filter((x: any) => x != time);
+    console.log(remainingTime);
+
+    const newData = [...remainTimeList, { day: day, timeList: remainingTime }];
+    console.log(newData);
+
+    setAvailableTime(newData);
+  };
   return (
     <Layout>
       <h3>
         {time[0]} - {time[1]}
       </h3>
+      <AiFillMinusCircle
+        color={COLOR["magenta/400"]}
+        size={16}
+        style={{
+          marginLeft: 4,
+          cursor: "pointer",
+        }}
+        onClick={() => deleteTime(day, time)}
+      />
     </Layout>
   );
 };
 
 const Layout = styled.div`
-  min-width: 141px;
+  padding: 6px;
+  min-width: 135px;
   height: 30px;
   border-radius: 1000px;
   background-color: ${COLOR["violet/100"]};
