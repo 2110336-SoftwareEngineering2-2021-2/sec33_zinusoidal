@@ -9,29 +9,37 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 
-const ProviderProfileUpload = () => {
+const ProviderProfileUpload = ({ service, setService }: any) => {
   const [choice, setChoice] = useState(true);
-  const [myService, setMyService] = useState([] as any);
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
-  console.log(myService);
-
+  const [enableAdd, setEnableAdd] = useState(false);
+  const addButtonHandler = () => {
+    if (serviceName == "" || servicePrice == 0) {
+      setEnableAdd(false);
+    } else {
+      setEnableAdd(true);
+    }
+  };
   const addServiceToList = (newService: any) => {
-    for (var service of myService) {
+    for (var s of service) {
       if (
-        service.serviceName == "" ||
-        service.servicePrice == 0 ||
-        (service.serviceName == newService.serviceName &&
-          service.servicePrice == newService.servicePrice)
+        s.serviceName == "" ||
+        s.servicePrice == 0 ||
+        (s.serviceName == newService.serviceName &&
+          s.servicePrice == newService.servicePrice)
       ) {
         return;
       }
     }
-    setMyService([...myService, newService]);
+    setService([...service, newService]);
+    setServiceName("");
+    setServicePrice(0);
+    setEnableAdd(false);
   };
   const deleteServiceFromList = (deleteService: any) => {
-    setMyService(
-      myService.filter(
+    setService(
+      service.filter(
         (service: any) =>
           service.serviceName != deleteService.serviceName ||
           service.servicePrice != deleteService.servicePrice
@@ -75,7 +83,11 @@ const ProviderProfileUpload = () => {
                 <FirstServiceInput
                   type="text"
                   placeholder="Service's name"
-                  onChange={(e) => setServiceName(e.target.value)}
+                  value={serviceName}
+                  onChange={(e) => {
+                    setServiceName(e.target.value);
+                    addButtonHandler();
+                  }}
                 />
                 <InputDiv>
                   <p>
@@ -83,7 +95,12 @@ const ProviderProfileUpload = () => {
                   </p>
                   <input
                     type="number"
-                    onChange={(e) => setServicePrice(Number(e.target.value))}
+                    placeholder="0"
+                    value={servicePrice == 0 ? "" : servicePrice}
+                    onChange={(e) => {
+                      setServicePrice(Number(e.target.value));
+                      addButtonHandler();
+                    }}
                   />
                   <p>
                     <b>/30 min</b>
@@ -91,6 +108,12 @@ const ProviderProfileUpload = () => {
                 </InputDiv>
               </ServiceAndPriceDiv>
               <AddButton
+                style={{
+                  backgroundColor: enableAdd
+                    ? COLOR["violet/400"]
+                    : COLOR["gray/400"],
+                  pointerEvents: enableAdd ? "unset" : "none",
+                }}
                 onClick={() => {
                   addServiceToList({
                     serviceName: serviceName,
@@ -138,14 +161,23 @@ const ProviderProfileUpload = () => {
                   <b>/30 min</b>
                 </p>
               </SecondInputDiv>
-              <AddButton>Add +</AddButton>
+              <AddButton
+                style={{
+                  backgroundColor: enableAdd
+                    ? COLOR["violet/400"]
+                    : COLOR["gray/400"],
+                  pointerEvents: enableAdd ? "none" : "unset",
+                }}
+              >
+                Add +
+              </AddButton>
             </InputLayout>
           )}
         </Padding>
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
-        {myService.map((service: any) => (
+        {service.map((service: any) => (
           <MyServiceDiv>
             <p>{service.serviceName}</p>
             <PriceAndMinusDiv>
@@ -328,9 +360,8 @@ const AddButton = styled.button`
   font-weight: bold;
   border-radius: 10000px;
   color: white;
-  background-color: ${COLOR["violet/400"]};
-  &:hover {
-    background-color: ${COLOR["violet/500"]};
+  :hover {
+    background-color: ${COLOR["violet/500"]} !important;
   }
 `;
 

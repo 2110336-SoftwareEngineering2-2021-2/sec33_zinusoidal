@@ -20,8 +20,8 @@ const LandingFooter = () => {
     <Layout
       initial="hidden"
       whileInView="visible"
-      // viewport={{ once: false }}
-      transition={{ duration: 1.5 }}
+      viewport={{ once: true }}
+      transition={{ duration: 3 }}
       variants={variants}
     >
       <h1>Wanna try this platform?</h1>
@@ -48,6 +48,11 @@ const Layout = styled(motion.div)`
     line-height: 76px;
     font-weight: bold;
     text-align: center;
+
+    @media screen and (max-width: 550px) {
+      font-size: 24px;
+      line-height: 38px;
+    }
   }
 
   h3 {
@@ -55,6 +60,10 @@ const Layout = styled(motion.div)`
     font-size: 28px;
     line-height: 44px;
     font-weight: bold;
+    @media screen and (max-width: 550px) {
+      font-size: 18px;
+      line-height: 28px;
+    }
   }
 `;
 
@@ -74,10 +83,18 @@ const Button = styled("button")<ButtonPropType>`
   :hover {
     background-color: ${COLOR["violet/500"]};
   }
+
+  @media screen and (max-width: 550px) {
+    margin-top: 16px;
+  }
 `;
 
 const ButtonDiv = styled.div`
   display: flex;
-  margin-top: 3rem;
+  margin-top: 16px;
+
+  @media screen and (max-width: 550px) {
+    flex-direction: column;
+  }
 `;
 export default LandingFooter;

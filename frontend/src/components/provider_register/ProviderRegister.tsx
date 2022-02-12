@@ -11,6 +11,26 @@ interface Current {
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
+  const [userInput, setUserInput] = useState({
+    Name: "",
+    Surname: "",
+    Email: "",
+    CitizenID: "",
+    Username: "",
+    Password: "",
+    ConformPassword: "",
+    Biography: "",
+  });
+  const [service, setService] = useState([]);
+  const [availableTime, setAvailableTime] = useState([
+    { day: "Sunday", timeList: [] },
+    { day: "Monday", timeList: [] },
+    { day: "Tuesday", timeList: [] },
+    { day: "Wednesday", timeList: [] },
+    { day: "Thursday", timeList: [] },
+    { day: "Friday", timeList: [] },
+    { day: "Saturday", timeList: [] },
+  ]);
   const clickToggle = () => {
     setClicked(!clicked);
   };
@@ -23,6 +43,12 @@ const CustomerRegister = () => {
       </Header>
       <Form>
         <ProviderRegisterContainer
+          userData={userInput}
+          changeUserData={setUserInput}
+          service={service}
+          setService={setService}
+          availableTime={availableTime}
+          setAvailableTime={setAvailableTime}
           current={current}
           checked={clicked}
           callBack={clickToggle}
