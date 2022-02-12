@@ -123,21 +123,25 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.ProviderProfile, error) {
 
 	var searchResults []profile.ProviderProfile
-
 	query := `SELECT P.id
 	FROM provider P
 	WHERE P.rating >= ? AND
-    P.rating <= ? AND
+		P.rating <= ? AND
 		EXISTS (
 			SELECT *
 			FROM provider_service S
 			WHERE S.provider_id = P.id AND
-				(@fortune_type = " " OR S.fortune_type = ?) AND
+				S.fortune_type IN ? AND
 				S.price >= ? AND
 				S.price <= ?
 	);`
 
-	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, searchRequest.FortuneType, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
+	var fortuneList string = "("
+	for _, element := range searchRequest.FortuneType {
+		fortuneList = fortuneList + "'" + element + "',"
+	}
+	fortuneList = fortuneList[:len(fortuneList)-1] + ")"
+	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, fortuneList, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
 
 	return searchResults, err
 }
