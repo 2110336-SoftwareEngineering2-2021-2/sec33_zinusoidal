@@ -31,4 +31,5 @@ type ProviderProfile struct {
 	Fortune       []model.Fortune `json:"fortuneList"`
 	Biography     string          `json:"biography"`
 	WorkSchedule  string          `json:"workSchedule"`
+	Rating        float64         `json:"rating"`
 }

@@ -61,5 +61,23 @@ func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
 
 func (h *Handler) EditProviderHandler(c *gin.Context) {
 
-	return
+	user_id := c.Param("id")
+	var req ProviderEditRequest
+	var err error
+	if err = c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"log": "invalid request",
+		})
+		return
+	}
+	provider, err := h.service.ProviderEdit(req, user_id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, &Logger{
+			Log: "Response failed",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, provider)
+
 }
