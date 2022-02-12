@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"errors"
+	"log"
 	"net/http"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
@@ -105,7 +107,19 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 	})
 }
 
-func (h *Handler) TestTokenHandler(c *gin.Context) {
+func (h *Handler) TestHandler(c *gin.Context) {
+	req := ProviderRegisterRequest{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+
+		c.JSON(500, gin.H{
+			"log": err.Error(),
+		})
+		return
+
+	}
+
+	kk := errors.New("dsfsf")
+	log.Print(kk)
 	claim, err := jwt.VerifyToken(c)
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
