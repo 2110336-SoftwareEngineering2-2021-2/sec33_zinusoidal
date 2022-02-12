@@ -1,12 +1,13 @@
 package profile
 
+import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+
 type ProviderEditRequest struct {
-	FirstName      string   `json:"firstName"`
-	LastName       string   `json:"lastName"`
-	FortuneType    []string `json:"fortuneType"`
-	ProfilePicUrl  string   `json:"profilePicUrl"`
-	WorkExperience string   `json:"workExperience"`
-	CitizenId      string   `json:"citizenId"`
+	FirstName    string          `json:"firstName"`
+	LastName     string          `json:"lastName"`
+	Fortune      []model.Fortune `json:"fortuneList"`
+	Biography    string          `json:"biography"`
+	WorkSchedule string          `json:"workSchedule"`
 }
 
 type Logger struct {
@@ -18,15 +19,16 @@ type CustomerProfile struct {
 	FirstName     string `json:"firstName"`
 	LastName      string `json:"lastName"`
 	ProfilePicUrl string `json:"profilePicUrl"`
+	Email         string `json:"email"`
 }
 
 type ProviderProfile struct {
-	UserId         string
-	FirstName      string   `json:"firstName"`
-	LastName       string   `json:"lastName"`
-	Email          string   `json:"email"`
-	Username       string   `json:"username"`
-	FortuneType    []string `json:"fortuneType"`
-	WorkExperience string   `json:"workExperience"`
-	WorkSchedule   string   `json:"workSchedule"`
+	Username      string          `json:"username"`
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
+	ProfilePicUrl string          `json:"profilePicUrl"`
+	Email         string          `json:"email"`
+	Fortune       []model.Fortune `json:"fortuneList"`
+	Biography     string          `json:"biography"`
+	WorkSchedule  string          `json:"workSchedule"`
 }
