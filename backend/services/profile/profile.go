@@ -1,5 +1,9 @@
 package profile
 
+import (
+	"fmt"
+)
+
 type Service struct {
 	database Databaser
 }
@@ -23,11 +27,16 @@ func (s *Service) getProviderProfile(userId string) (ProviderProfile, error) {
 }
 
 func (s *Service) getCustomerProfile(userId string) (CustomerProfile, error) {
+	fmt.Println("Id", userId)
 	customer, err := s.database.GetCustomerByID(userId)
+	fmt.Println("customer", customer)
+	//fmt.Println("errr", err.Error())
 	if err != nil {
+		fmt.Println("?")
 		return customer, err
 	}
-	return customer, nil
+	fmt.Println("Y")
+	return customer, err
 }
 
 func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (ProviderProfile, error) {

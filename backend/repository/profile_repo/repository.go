@@ -45,7 +45,8 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
 	query := `SELECT U.username,
     C.first_name,
     C.last_name,
-    C.profile_image
+    C.profile_image,
+	U.email
 	FROM fortune_user U RIGHT JOIN customer C ON U.id = C.id
 	WHERE U.id = ?;`
 
@@ -56,7 +57,7 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
 		return customerProfile, err
 	}
 
-	return customerProfile, err
+	return customerProfile, nil
 
 }
 
