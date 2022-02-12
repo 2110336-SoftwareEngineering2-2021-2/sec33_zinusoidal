@@ -37,7 +37,6 @@ const SearchPage = () => {
         <RangeAndRating />
       </SearchPane>
 
-      <br></br>
       {showResult && (
         <SearchContent>
           <SearchResultList>
@@ -46,6 +45,7 @@ const SearchPage = () => {
                 key={index}
                 person={item}
                 onClick={setSelectedPerson}
+                selected={selectedPerson == item.username}
               />
             ))}
           </SearchResultList>
@@ -82,7 +82,7 @@ const SearchPane = styled("div")<SearchPanePropType>`
 
 const SearchContent = styled.div`
   display: flex;
-  margin: 0 10rem 5rem;
+  margin: 8px 65px 5rem;
 
   flex: 1;
 `;
@@ -91,5 +91,7 @@ const SearchResultList = styled.div`
   background-color: ${COLOR["violet/50"]};
   align-self: flex-start;
   border-radius: 8px;
+  /* width: 450px; */
+  /* background-color: red; */
 `;
 export default SearchPage;
