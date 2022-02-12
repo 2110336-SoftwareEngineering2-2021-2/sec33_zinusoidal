@@ -52,6 +52,17 @@ const RangeAndRating = () => {
   );
 };
 
+const Layout = styled.div`
+  display: flex;
+  align-self: flex-start;
+  width: 100%;
+  max-width: 1150px;
+  align-self: center;
+  margin-top: 16px;
+  @media screen and (max-width: 768px) {
+    margin-top: 11px;
+  }
+`;
 const PriceRange = styled("div")<PriceRangeType>`
   min-width: 174px;
   position: relative;
@@ -72,10 +83,4 @@ const PriceRange = styled("div")<PriceRangeType>`
   }
 `;
 
-const Layout = styled.div`
-  display: flex;
-  /* background-color: red; */
-  align-self: flex-start;
-  margin: 0 10rem;
-`;
 export default RangeAndRating;
