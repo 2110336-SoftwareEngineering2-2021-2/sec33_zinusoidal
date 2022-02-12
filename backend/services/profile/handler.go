@@ -31,7 +31,7 @@ func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
 		}
 
 		c.JSON(http.StatusInternalServerError, &Logger{
-			Log: "Response failed",
+			Log: err.Error(),
 		})
 		return
 	}
@@ -52,7 +52,7 @@ func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusInternalServerError, &Logger{
-			Log: "Response failed",
+			Log: err.Error(),
 		})
 		return
 	}
@@ -65,8 +65,8 @@ func (h *Handler) EditProviderHandler(c *gin.Context) {
 	var req ProviderEditRequest
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"log": "invalid request",
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "invalid request",
 		})
 		return
 	}
@@ -74,7 +74,7 @@ func (h *Handler) EditProviderHandler(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, &Logger{
-			Log: "Response failed",
+			Log: err.Error(),
 		})
 		return
 	}

@@ -35,7 +35,7 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
     FROM fortune_user U 
     RIGHT JOIN provider P ON U.id = P.id
     RIGHT JOIN provider_service S ON P.id = S.provider_id
-    WHERE U.id = @id;`
+    WHERE U.id = ?;`
 
 	err := db.database.Raw(query, userID).Scan(&providerProfile).Error
 
@@ -81,14 +81,19 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
         P.biography = ?,
         P.work_schedule = ?,
         P.last_update_datetime = NOW()
-    WHERE P.id = ?;
-
-DELETE FROM provider_service S
-    WHERE S.provider_id = ?;`
+    WHERE P.id = ?;`
 
 	err := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.WorkSchedule, userID).Error
 	if err != nil {
 		return providerProfile, err
+	}
+
+	deleteQuery := `DELETE FROM provider_service S
+    WHERE S.provider_id = ?;`
+
+	delErr := db.database.Exec(deleteQuery, userID).Error
+	if delErr != nil {
+		return providerProfile, delErr
 	}
 
 	insert_fortune := `INSERT INTO provider_service(provider_id,fortune_type,price)
