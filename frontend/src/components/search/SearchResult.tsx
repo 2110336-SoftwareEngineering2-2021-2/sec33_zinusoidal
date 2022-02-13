@@ -12,15 +12,21 @@ interface PersonType {
 interface SearchResultPropType {
   person: PersonType;
   onClick?: Function;
+  selected: boolean;
 }
-const SearchResult = ({ person, onClick }: SearchResultPropType) => {
+
+interface LayoutPropType {
+  selected: boolean;
+}
+const SearchResult = ({ person, onClick, selected }: SearchResultPropType) => {
   const { name, username, rating, priceRange } = person;
   return (
     <Layout
       onClick={() => {
         if (!onClick) return;
-        onClick(person);
+        onClick(username);
       }}
+      selected={selected}
     >
       <Image>
         <img
@@ -57,11 +63,15 @@ const SearchResult = ({ person, onClick }: SearchResultPropType) => {
   );
 };
 
-const Layout = styled.div`
-  height: 89px;
+const Layout = styled("div")<LayoutPropType>`
+  height: 121px;
   display: flex;
   align-items: center;
-  margin: 16px;
+  padding: 16px;
+  background-color: ${(props) =>
+    props.selected ? COLOR["violet/200"] : "transparent"};
+  border-radius: 8px;
+  /* min-width: 450px; */
 `;
 
 const Image = styled.div`

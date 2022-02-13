@@ -35,22 +35,25 @@ const SearchPage = () => {
           }}
         />
         <RangeAndRating />
+        <Button onClick={() => {}}>Search</Button>
       </SearchPane>
 
-      <br></br>
       {showResult && (
-        <SearchContent>
-          <SearchResultList>
-            {SEARCHRESULT.map((item, index) => (
-              <SearchResult
-                key={index}
-                person={item}
-                onClick={setSelectedPerson}
-              />
-            ))}
-          </SearchResultList>
-          {selectedPerson ? <SearchDetail person={selectedPerson} /> : null}
-        </SearchContent>
+        <Padding>
+          <SearchContent>
+            <SearchResultList>
+              {SEARCHRESULT.map((item, index) => (
+                <SearchResult
+                  key={index}
+                  person={item}
+                  onClick={setSelectedPerson}
+                  selected={selectedPerson == item.username}
+                />
+              ))}
+            </SearchResultList>
+            {selectedPerson ? <SearchDetail person={selectedPerson} /> : null}
+          </SearchContent>
+        </Padding>
       )}
     </Layout>
   );
@@ -62,15 +65,38 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   background-size: 100% 100%;
+
   background-image: url(https://s3-alpha-sig.figma.com/img/df68/cd15/425f624aed5ae4c31cf5ece70613ca84?Expires=1645401600&Signature=Hd1OzQVwT-uOMTRjqoEMw4FU5QBa25WlvGZUD1XrfEJqGoNyPal2oD0VWwjt275HfYulQGopTjaf2x3eMzuVpogyqkmXPCHFkoha9zh97lUfwFmyNLkrErVHwmsPtC7xVO-ExcpOXxayyZfTsf5E9XDN6kMZM5A3sY3S7o~JRHmDIXKAFJWmf2AOyQvHp92Ar4FzpbAnt330nScB8ckksZNn2Rb0-FwGxUGdYgLl2BIudPiA6jeP8GA9PMFrJHcxW-33r9AYBArVyNlk0ucOOugrW3bekHxg5OH7Qr~GAZyWyqQMP8UVlYBHLh1~z~nakS2lu47zg8MeDePsoknb5g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA);
 `;
 
+const Button = styled.button`
+  height: 36px;
+  background-color: ${COLOR["violet/400"]};
+  border: none;
+  border-radius: 10000px;
+  width: 163px;
+  font-size: 16px;
+  line-height: 25px;
+  color: white;
+  cursor: pointer;
+  margin-top: 11px;
+  align-self: flex-start;
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+  :hover {
+    background-color: ${COLOR["violet/500"]};
+  }
+  :active {
+    background-color: ${COLOR["violet/600"]};
+  }
+`;
 const SearchPane = styled("div")<SearchPanePropType>`
   background-color: ${COLOR["violet/200"]};
   display: flex;
   flex-direction: column;
-  padding: ${(props) => (props.pressed ? "32px" : "64px")} 0;
-
+  padding: ${(props) => (props.pressed ? "32px" : "64px")};
+  align-items: center;
   h1 {
     font-size: 36px;
     line-height: 57px;
@@ -80,16 +106,40 @@ const SearchPane = styled("div")<SearchPanePropType>`
   }
 `;
 
+const Padding = styled.div`
+  background-color: blue;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const SearchContent = styled.div`
   display: flex;
-  margin: 0 10rem 5rem;
+  margin: 8px 0px 17px;
+  background-color: red;
 
+  max-width: 1150px;
   flex: 1;
+  width: 100%;
+
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const SearchResultList = styled.div`
   background-color: ${COLOR["violet/50"]};
   align-self: flex-start;
   border-radius: 8px;
+  width: 450px;
+  /* background-color: red;*/
+
+  @media screen and (max-width: 900px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
+
 export default SearchPage;
