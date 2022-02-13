@@ -92,7 +92,7 @@ jobs:
       -
         name: Migrate database
         run: |-
-          migrate -source ./database/migrations -database mysql://$DB_USER:$DB_PASS@$AWS_HOST:3306/$DB_NAME up
+          migrate -path ./database/migrations -database mysql://$DB_USER:$DB_PASS@$AWS_HOST:3306/$DB_NAME up
       
   push-to-vm:
     name: "Push and deploy to VM"
