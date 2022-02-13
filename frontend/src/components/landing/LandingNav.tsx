@@ -7,7 +7,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
-  last?: boolean;
+  ending?: boolean | null;
 }
 const LandingNav = () => {
   return (
@@ -23,7 +23,7 @@ const LandingNav = () => {
           Find provider
         </motion.h1>
       </StyledLink>
-      <StyledLink to="/login" last>
+      <StyledLink to="/login" ending={true}>
         <motion.p whileHover={{ scale: 1.3, originX: "100%" }}>
           login/register
         </motion.p>
@@ -71,8 +71,8 @@ const StyledLink = styled(Link)<StyledLinkPropType>`
   font-weight: bold;
   cursor: pointer;
   color: black;
-  margin-left: ${(props) => (props.last ? "auto" : "60px")};
-  margin-right: ${(props) => (props.last ? "32px" : "0px")};
+  margin-left: ${(props) => (props.ending == true ? "auto" : "60px")};
+  margin-right: ${(props) => (props.ending == true ? "32px" : "0px")};
 
   @media screen and (max-width: 800px) {
     font-size: 16px;
