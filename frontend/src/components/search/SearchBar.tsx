@@ -39,13 +39,25 @@ const SearchBar = ({ setShowResult }: SearchBarPropType) => {
   const handleServiceList = (service: string, type: number) => {
     //type 1 add
     if (type == 1) {
-      const newServiceList: Array<string> = [...serviceList, service];
-      setServiceList(newServiceList);
+      if (service == "All") {
+        setServiceList(["All"]);
+        return;
+      }
+      if (serviceList.length == 1 && serviceList[0] == "All") {
+        setServiceList([service]);
+      } else {
+        const newServiceList: Array<string> = [...serviceList, service];
+        setServiceList(newServiceList);
+      }
     } else {
       const newServiceList: Array<string> = serviceList.filter(
         (s) => s != service
       );
-      setServiceList(newServiceList);
+      if (newServiceList.length === 0) {
+        setServiceList(["All"]);
+      } else {
+        setServiceList(newServiceList);
+      }
     }
   };
 
@@ -89,7 +101,6 @@ const Layout = styled.div`
   margin-bottom: 0 0px 16px;
   display: flex;
   align-items: center;
-  background-color: red;
   max-width: 1150px;
   width: 100%;
   @media screen and (max-width: 768px) {
