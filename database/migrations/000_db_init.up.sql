@@ -1,7 +1,3 @@
-CREATE DATABASE fortune168;
-
-USE fortune168;
-
 DROP TABLE IF EXISTS fortune_user;
 CREATE TABLE fortune_user
 (
@@ -13,7 +9,7 @@ CREATE TABLE fortune_user
 	create_datetime datetime default NOW(),
 	delete_datetime datetime,
 	user_type bit NOT NULL,
-	email_confirmed bit,
+	email_confirmed bit default 0,
 
 	CONSTRAINT UNIQUE(username),
 	CONSTRAINT UNIQUE(email),
@@ -27,7 +23,8 @@ CREATE TABLE activation_key
 	activation_key varchar(100) NOT NULL,
 	create_time datetime default NOW(),
 
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES fortune_user(id)
 );
 
 DROP TABLE IF EXISTS customer;
@@ -52,6 +49,7 @@ CREATE TABLE provider
 	biography text(500),
 	work_schedule varchar(336),
 	last_update_datetime datetime,
+	rating float(3,2) default 0.00,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES fortune_user(id)

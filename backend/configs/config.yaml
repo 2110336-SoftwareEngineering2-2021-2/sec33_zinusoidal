@@ -1,6 +1,13 @@
 app:
   port: 1323
-dbname: "fortune168"
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  username: ""
+  password: ""
+  db_name: "fortune_db"
+  net: "tcp"
+
 smtp:
   ip: 192.168.1.10
   port: 335

@@ -4,6 +4,12 @@ on:
   push:
     branches: [ dev ]
 
+env:
+  AWS_HOST: ${{ secrets.AWS_INSTANCE_DNS }}
+  DB_NAME: ${{ secrets.MYSQL_DATABASE }}
+  DB_USER: ${{ secrets.MYSQL_USERNAME }}
+  DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
+
 jobs:
   docker-backend:
     name: "Build and push backend image to Dockerhub"
@@ -69,6 +75,25 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ format('{0}/zinusoidal-frontend:latest', secrets.DOCKER_USERNAME ) }}
+  migration-db:
+    name: "Migrate database in VM"
+    runs-on: ubuntu-latest
+
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v2
+      -
+        name: Install golang-migrate
+        run: |-
+          curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | sudo bash
+          sudo apt-get update
+          sudo apt-get install -y migrate
+      -
+        name: Migrate database
+        run: |-
+          migrate -path ./database/migrations -database "mysql://$DB_USER:$DB_PASS@tcp($AWS_HOST:3306)/$DB_NAME" up
+      
   push-to-vm:
     name: "Push and deploy to VM"
     needs: 
