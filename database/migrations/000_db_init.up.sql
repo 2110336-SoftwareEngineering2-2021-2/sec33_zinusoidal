@@ -1,7 +1,3 @@
-CREATE DATABASE fortune168;
-
-USE fortune168;
-
 DROP TABLE IF EXISTS fortune_user;
 CREATE TABLE fortune_user
 (
