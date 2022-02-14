@@ -110,7 +110,6 @@ const SearchPane = styled("div")<SearchPanePropType>`
     /* margin-left: 10rem; */
     margin-bottom: 32px;
 
-    background-color: red;
     width: 100%;
     max-width: 1150px;
 
