@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -60,10 +61,16 @@ func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
 }
 
 func (h *Handler) EditProviderHandler(c *gin.Context) {
-
-	user_id := c.Param("id")
-	var req ProviderEditRequest
 	var err error
+	token, err := jwt.VerifyToken(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "invalid jwt token",
+		})
+		return
+	}
+	user_id := token.UserID
+	var req ProviderEditRequest
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "invalid request",
