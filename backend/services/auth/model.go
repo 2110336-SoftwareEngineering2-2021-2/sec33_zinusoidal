@@ -13,16 +13,17 @@ type CustomerRegisterRequest struct {
 }
 
 type ProviderRegisterRequest struct {
-	Username      string          `json:"username" binding:"required"`
-	Password      string          `json:"password" binding:"required"`
-	Email         string          `json:"email" binding:"required"`
-	FirstName     string          `json:"firstName" binding:"required"`
-	LastName      string          `json:"lastName" binding:"required"`
-	Schedule      string          `json:"schedule"`
-	Fortune       []model.Fortune `json:"fortuneList"`
-	ProfilePicUrl string          `json:"profilePicUrl"`
-	Biography     string          `json:"biography"`
-	CitizenId     string          `json:"citizenId"`
+	Username      string               `json:"username" binding:"required"`
+	Password      string               `json:"password" binding:"required"`
+	Email         string               `json:"email" binding:"required"`
+	FirstName     string               `json:"firstName" binding:"required"`
+	LastName      string               `json:"lastName" binding:"required"`
+	Schedule      string               `json:"schedule"`
+	WorkSchedule  []model.WorkSchedule `json:"workSchedule"`
+	Fortune       []model.Fortune      `json:"fortuneList"`
+	ProfilePicUrl string               `json:"profilePicUrl"`
+	Biography     string               `json:"biography"`
+	CitizenId     string               `json:"citizenId"`
 }
 
 type LoginRequest struct {
