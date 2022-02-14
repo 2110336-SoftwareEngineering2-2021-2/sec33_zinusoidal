@@ -6,9 +6,46 @@ import {
   MdRadioButtonUnchecked,
   MdRadioButtonChecked,
 } from "react-icons/md";
+import { FiSearch } from "react-icons/fi";
+import { AiFillMinusCircle } from "react-icons/ai";
 
-const ProviderProfileUpload = () => {
+const ProviderProfileUpload = ({ service, setService }: any) => {
   const [choice, setChoice] = useState(true);
+  const [serviceName, setServiceName] = useState("");
+  const [servicePrice, setServicePrice] = useState(0);
+  const [enableAdd, setEnableAdd] = useState(false);
+  const addButtonHandler = () => {
+    if (serviceName == "" || servicePrice == 0) {
+      setEnableAdd(false);
+    } else {
+      setEnableAdd(true);
+    }
+  };
+  const addServiceToList = (newService: any) => {
+    for (var s of service) {
+      if (
+        s.serviceName == "" ||
+        s.servicePrice == 0 ||
+        (s.serviceName == newService.serviceName &&
+          s.servicePrice == newService.servicePrice)
+      ) {
+        return;
+      }
+    }
+    setService([...service, newService]);
+    setServiceName("");
+    setServicePrice(0);
+    setEnableAdd(false);
+  };
+  const deleteServiceFromList = (deleteService: any) => {
+    setService(
+      service.filter(
+        (service: any) =>
+          service.serviceName != deleteService.serviceName ||
+          service.servicePrice != deleteService.servicePrice
+      )
+    );
+  };
   return (
     <Layout>
       <FirstLayout>
@@ -43,18 +80,49 @@ const ProviderProfileUpload = () => {
                 </p>
               </ChoiceDiv>
               <ServiceAndPriceDiv>
-                <ServiceInput type="text" placeholder="Service's name" />
+                <FirstServiceInput
+                  type="text"
+                  placeholder="Service's name"
+                  value={serviceName}
+                  onChange={(e) => {
+                    setServiceName(e.target.value);
+                    addButtonHandler();
+                  }}
+                />
                 <InputDiv>
                   <p>
                     <b>Price</b>
                   </p>
-                  <input type="number" />
+                  <input
+                    type="number"
+                    placeholder="0"
+                    value={servicePrice == 0 ? "" : servicePrice}
+                    onChange={(e) => {
+                      setServicePrice(Number(e.target.value));
+                      addButtonHandler();
+                    }}
+                  />
                   <p>
                     <b>/30 min</b>
                   </p>
                 </InputDiv>
               </ServiceAndPriceDiv>
-              <AddButton>Add +</AddButton>
+              <AddButton
+                style={{
+                  backgroundColor: enableAdd
+                    ? COLOR["violet/400"]
+                    : COLOR["gray/400"],
+                  pointerEvents: enableAdd ? "unset" : "none",
+                }}
+                onClick={() => {
+                  addServiceToList({
+                    serviceName: serviceName,
+                    servicePrice: servicePrice,
+                  });
+                }}
+              >
+                Add +
+              </AddButton>
             </InputLayout>
           ) : (
             <InputLayout>
@@ -80,7 +148,10 @@ const ProviderProfileUpload = () => {
                   Select an <b>existing</b> type of service
                 </p>
               </ChoiceDiv>
-              <ServiceInput type="text" placeholder="search" />
+              <SearchServiceDiv>
+                <FiSearch style={{ marginLeft: 16 }} size={16} />
+                <ServiceInput type="text" placeholder="search"></ServiceInput>
+              </SearchServiceDiv>
               <SecondInputDiv>
                 <p>
                   <b>Price</b>
@@ -90,12 +161,41 @@ const ProviderProfileUpload = () => {
                   <b>/30 min</b>
                 </p>
               </SecondInputDiv>
-              <AddButton>Add +</AddButton>
+              <AddButton
+                style={{
+                  backgroundColor: enableAdd
+                    ? COLOR["violet/400"]
+                    : COLOR["gray/400"],
+                  pointerEvents: enableAdd ? "none" : "unset",
+                }}
+              >
+                Add +
+              </AddButton>
             </InputLayout>
           )}
         </Padding>
       </FirstLayout>
-      <SecondLayout>My service</SecondLayout>
+      <SecondLayout>
+        <Myservice>My service</Myservice>
+        {service.map((service: any) => (
+          <MyServiceDiv>
+            <p>{service.serviceName}</p>
+            <PriceAndMinusDiv>
+              <p>฿ {service.servicePrice} /30min</p>
+              <AiFillMinusCircle
+                color={COLOR["magenta/400"]}
+                size={24}
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  deleteServiceFromList(service);
+                }}
+              />
+            </PriceAndMinusDiv>
+          </MyServiceDiv>
+        ))}
+      </SecondLayout>
     </Layout>
   );
 };
@@ -115,6 +215,7 @@ const SecondLayout = styled.div`
   height: 100%;
   background-color: white;
   border-radius: 20px 20px 0px 0px;
+  overflow-y: scroll;
 `;
 const Padding = styled.div`
   width: 100%;
@@ -157,6 +258,9 @@ const ServiceAndPriceDiv = styled.div`
   align-items: center;
   column-gap: 8px;
   justify-content: space-evenly;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  } ;
 `;
 const InputDiv = styled.div`
   padding: 0px;
@@ -172,10 +276,20 @@ const InputDiv = styled.div`
     border-radius: 8px;
     border: solid #808080 1px;
     &:focus {
-      outline: solid ${COLOR["magenta/100"]} 1px;
-      border: solid ${COLOR["magenta/100"]} 1px;
+      outline: none;
+      border: solid ${COLOR["magenta/200"]} 1px;
     }
   }
+  @media screen and (max-width: 540px) {
+    margin-top: 8px;
+  }
+`;
+
+const Myservice = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${COLOR["blue/900"]};
+  padding: 20px 50px 0px 80px;
 `;
 
 const SecondInputDiv = styled.div`
@@ -193,21 +307,48 @@ const SecondInputDiv = styled.div`
     border-radius: 8px;
     border: solid #808080 1px;
     &:focus {
-      outline: solid ${COLOR["magenta/100"]} 1px;
-      border: solid ${COLOR["magenta/100"]} 1px;
+      outline: none;
+      border: solid ${COLOR["magenta/200"]} 1px;
     }
   }
+  @media screen and (max-width: 540px) {
+    width: 70%;
+  } ;
 `;
-const ServiceInput = styled.input`
-font-size:16px;
+const SearchServiceDiv = styled.div`
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 8px;
+  border: solid #808080 1px;
+  :focus-within {
+    outline: none;
+    border: solid ${COLOR["magenta/100"]} 2px;
+  }
+`;
+
+const FirstServiceInput = styled.input`
+  font-size: 16px;
   padding-left: 5px;
   width: 100%;
   height: 38px;
   border-radius: 8px;
   border: solid #808080 1px;
   &:focus {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
+  }
+`;
+const ServiceInput = styled.input`
+  font-size: 16px;
+  padding-left: 5px;
+  width: 100%;
+  height: 38px;
+  border: none;
+  &:focus {
+    outline: none;
+    border: none;
   }
 `;
 const AddButton = styled.button`
@@ -220,10 +361,22 @@ const AddButton = styled.button`
   font-weight: bold;
   border-radius: 10000px;
   color: white;
-  background-color: ${COLOR["violet/400"]};
-  &:hover {
-    background-color: ${COLOR["violet/500"]};
+  :hover {
+    background-color: ${COLOR["violet/500"]} !important;
   }
+`;
+
+const MyServiceDiv = styled.div`
+  padding: 0px 15px 15px 15px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+`;
+
+const PriceAndMinusDiv = styled.div`
+  display: flex;
+  column-gap: 8px;
 `;
 
 export default ProviderProfileUpload;

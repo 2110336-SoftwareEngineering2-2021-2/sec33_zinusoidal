@@ -5,13 +5,39 @@ import { COLOR } from "../../CONSTANT";
 import ProviderRegisterContainer from "../../containers/ProviderRegisterContainer";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { AiOutlineCheck } from "react-icons/ai";
-
-const CustomerRegister = () => {
+interface Current {
+  currentPage: any;
+}
+const ProviderRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
+  const [userInput, setUserInput] = useState({
+    Name: "",
+    Surname: "",
+    Email: "",
+    CitizenID: "",
+    Username: "",
+    Password: "",
+    ConformPassword: "",
+    Biography: "",
+  });
+  const [service, setService] = useState([]);
+  const [availableTime, setAvailableTime] = useState([
+    { day: "Sunday", timeList: [] },
+    { day: "Monday", timeList: [] },
+    { day: "Tuesday", timeList: [] },
+    { day: "Wednesday", timeList: [] },
+    { day: "Thursday", timeList: [] },
+    { day: "Friday", timeList: [] },
+    { day: "Saturday", timeList: [] },
+  ]);
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
+  console.log(service);
+  console.log(availableTime);
+
   return (
     <Layout>
       <Header>
@@ -21,6 +47,12 @@ const CustomerRegister = () => {
       </Header>
       <Form>
         <ProviderRegisterContainer
+          userData={userInput}
+          changeUserData={setUserInput}
+          service={service}
+          setService={setService}
+          availableTime={availableTime}
+          setAvailableTime={setAvailableTime}
           current={current}
           checked={clicked}
           callBack={clickToggle}
@@ -39,8 +71,15 @@ const CustomerRegister = () => {
           Back
         </PrevButton>
         <Button
+          currentPage={current}
+          disabled={!clicked}
           style={{
-            // backgroundColor: clicked ?  {COLOR["violet/400"]} : {COLOR["grey/400"]},
+            backgroundColor:
+              current == 4
+                ? COLOR["green/400"]
+                : clicked
+                ? COLOR["violet/400"]
+                : COLOR["gray/400"],
 
             pointerEvents: clicked ? "unset" : "none",
           }}
@@ -68,9 +107,12 @@ const Layout = styled.div`
   width: 535px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  left: 131px;
-  top: 164px;
+  @media screen and (max-width: 1300px) {
+    margin-top: 50px;
+  }
+  @media screen and (max-width: 540px) {
+    width: 350px;
+  } ;
 `;
 
 const Header = styled.div`
@@ -78,6 +120,8 @@ const Header = styled.div`
   height: 95px;
   border-radius: 20px 20px 0px 0px;
   background-color: ${COLOR["violet/400"]};
+  display: flex;
+  justify-content: center;
 `;
 
 const Circle = styled.div`
@@ -85,9 +129,10 @@ const Circle = styled.div`
   height: 70px;
   background-color: ${COLOR["violet/400"]};
   border-radius: 10000px;
-  position: relative;
-  left: 232.5px;
-  top: -30px;
+  margin-top: -35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const InnerCircle = styled.div`
@@ -95,9 +140,6 @@ const InnerCircle = styled.div`
   height: 24px;
   background-color: ${COLOR["magenta/100"]};
   border-radius: 10000px;
-  position: relative;
-  left: 23px;
-  top: 23px;
 `;
 
 const Form = styled.div`
@@ -122,20 +164,19 @@ const PrevButton = styled.button`
   color: ${COLOR["violet/400"]};
   border-radius: 10000px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
 
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-  &:hover{
+  &:hover {
     border: ${COLOR["violet/500"]} solid 1px;
     color: ${COLOR["violet/500"]};
-
   }
 `;
-const Button = styled.button`
+const Button = styled("button")<Current>`
   cursor: pointer;
   border: none;
   width: 86px;
@@ -145,14 +186,17 @@ const Button = styled.button`
   color: white;
   border-radius: 10000px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-  &:hover{
-    background-color: ${COLOR["violet/500"]};
+  :hover {
+    background-color: ${(prop) =>
+      prop.currentPage == 4
+        ? COLOR["green/500"]
+        : COLOR["violet/500"]} !important ;
   }
 `;
-export default CustomerRegister;
+export default ProviderRegister;

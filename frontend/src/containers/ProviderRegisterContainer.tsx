@@ -11,14 +11,30 @@ interface SliderProp {
 }
 
 interface ProviderRegisterContainer {}
-const ProviderRegisterContainer = ({ current, checked, callBack }: any) => {
+const ProviderRegisterContainer = ({
+  userData,
+  changeUserData,
+  service,
+  setService,
+  availableTime,
+  setAvailableTime,
+  current,
+  checked,
+  callBack,
+}: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <ProviderTermAndCondition checked={checked} callBack={callBack} />
-        <ProviderRegisterForm />
-        <ProviderServieType />
-        <ProviderAvailableTime />
+        <ProviderRegisterForm
+          userData={userData}
+          changeUserData={changeUserData}
+        />
+        <ProviderServieType service={service} setService={setService} />
+        <ProviderAvailableTime
+          availableTime={availableTime}
+          setAvailableTime={setAvailableTime}
+        />
         <ProviderProfileUpload />
       </Slider>
     </Layout>
@@ -35,6 +51,12 @@ const Slider = styled("div")<SliderProp>`
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;
+  height: 584px;
+  overflow-y: visible;
+  justify-content: center;
+  @media screen and (max-width: 540px) {
+    transform: ${(props) => `translateX(-${350 * props.idx}px)`};
+  } ;
 `;
 
 export default ProviderRegisterContainer;

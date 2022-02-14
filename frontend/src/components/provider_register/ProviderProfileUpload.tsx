@@ -13,7 +13,6 @@ const ProviderProfileUpload = () => {
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
-      console.log(selectedImage);
     }
   };
 
@@ -87,6 +86,7 @@ const ProfilePicture = styled.div`
 
 const Button = styled.button`
   width: 97px;
+
   padding: 5px;
   border: none;
   color: white;
@@ -99,9 +99,8 @@ const Button = styled.button`
   align-items: center;
   column-gap: 5px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: ${COLOR["violet/500"]};
-
   }
 `;
 

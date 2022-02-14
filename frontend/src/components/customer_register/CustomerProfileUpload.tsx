@@ -12,7 +12,6 @@ const CustomerProfileUpload = () => {
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
-      console.log(selectedImage);
     }
   };
 
@@ -98,6 +97,9 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   column-gap: 5px;
+  &:hover {
+    background-color: ${COLOR["violet/500"]};
+  }
 `;
 
 export default CustomerProfileUpload;

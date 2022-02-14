@@ -1,25 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { COLOR } from "../../CONSTANT";
+import { AiOutlineMenu } from "react-icons/ai";
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
-  last?: boolean;
+  ending?: boolean | null;
 }
 const LandingNav = () => {
   return (
     <Layout>
       <img src={logo} alt="logo" />
-      <StyledLink to="/home">
-        <h1>Home</h1>
+
+      <StyledLink to="/">
+        <motion.h1 whileHover={{ scale: 1.3, originX: 0 }}>Home</motion.h1>
       </StyledLink>
 
       <StyledLink to="/search">
-        <h1>Find provider</h1>
+        <motion.h1 whileHover={{ scale: 1.3, originX: 0 }}>
+          Find provider
+        </motion.h1>
       </StyledLink>
-      <StyledLink to="/login" last>
-        <p>login/register</p>
+      <StyledLink to="/login" ending={true}>
+        <motion.p whileHover={{ scale: 1.3, originX: "100%" }}>
+          login/register
+        </motion.p>
       </StyledLink>
+
+      <Menu size={32} style={{ margin: "0 22px 0 auto" }} />
     </Layout>
   );
 };
@@ -31,7 +41,7 @@ const Layout = styled.div`
   padding-left: 32px;
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  /* background-color: red; */
+  background-color: ${COLOR["violet/100"]};
   img {
     height: 50px;
     width: 131px;
@@ -61,14 +71,20 @@ const StyledLink = styled(Link)<StyledLinkPropType>`
   font-weight: bold;
   cursor: pointer;
   color: black;
-  margin-left: ${(props) => (props.last ? "auto" : "64px")};
-  margin-right: ${(props) => (props.last ? "32px" : "0px")};
+  margin-left: ${(props) => (props.ending == true ? "auto" : "60px")};
+  margin-right: ${(props) => (props.ending == true ? "32px" : "0px")};
 
   @media screen and (max-width: 800px) {
     font-size: 16px;
   }
-  @media screen and (max-width: 500px) {
-    font-size: 16px;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const Menu = styled(AiOutlineMenu)`
+  @media screen and (min-width: 601px) {
+    display: none;
   }
 `;
 

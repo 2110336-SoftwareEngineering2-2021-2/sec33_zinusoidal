@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-
+import React, { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
+import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
+const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
+  const [seePassword, setSeePassword] = useState(false);
+  const [seeCPassword, setSeeCPassword] = useState(false);
 
-const ProviderRegistrationForm = () => {
   return (
     <Layout>
       <Padding>
@@ -16,47 +19,156 @@ const ProviderRegistrationForm = () => {
             <InputDiv>
               <FormLabel>Name</FormLabel>
               <Star>*</Star>
-              <Forminput type="text" id="fname" name="fname" />
+              <Forminput
+                type="text"
+                onChange={(event) => {
+                  changeUserData({ ...userData, Name: event.target.value });
+                }}
+              />
             </InputDiv>
             <InputDiv>
               <FormLabel>Surname</FormLabel>
               <Star>*</Star>
-              <Forminput type="text" id="fname" name="fname" />
+              <Forminput
+                type="text"
+                onChange={(event) => {
+                  changeUserData({ ...userData, Surname: event.target.value });
+                }}
+              />
             </InputDiv>
           </DoubleInput>
           <InputDiv>
             <FormLabel>Email</FormLabel>
             <Star>*</Star>
-            <Forminput type="text" id="fname" name="fname" />
+            <Forminput
+              type="text"
+              onChange={(event) => {
+                changeUserData({ ...userData, Email: event.target.value });
+              }}
+            />
           </InputDiv>
           <InputDiv>
             <FormLabel>CitizenID</FormLabel>
             <Star>*</Star>
-            <Forminput type="text" id="fname" name="fname" />
+            <Forminput
+              type="text"
+              onChange={(event) => {
+                changeUserData({ ...userData, CitizenID: event.target.value });
+              }}
+            />
           </InputDiv>
           <InputDiv>
             <FormLabel>Username</FormLabel>
             <Star>*</Star>
-            <Forminput type="text" id="fname" name="fname" />
+            <Forminput
+              type="text"
+              onChange={(event) => {
+                changeUserData({ ...userData, Username: event.target.value });
+              }}
+            />
           </InputDiv>
           <DoubleInput>
             <InputDiv>
               <FormLabel>Password</FormLabel>
               <Star>*</Star>
-              <Forminput type="password" id="fname" name="fname" />
+              {seePassword ? (
+                <PasswordDiv>
+                  <Forminput
+                    type="text"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        Password: event.target.value,
+                      });
+                    }}
+                  />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeePassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput
+                    type="password"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        Password: event.target.value,
+                      });
+                    }}
+                  />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeePassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}
             </InputDiv>
             <InputDiv>
               <FormLabel>Confirm Password</FormLabel>
               <Star>*</Star>
-              <Forminput type="password" id="fname" name="fname" />
+              {seeCPassword ? (
+                <PasswordDiv>
+                  <Forminput
+                    type="text"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        ConfirmPassword: event.target.value,
+                      });
+                    }}
+                  />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeeCPassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput
+                    type="password"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        ConfirmPassword: event.target.value,
+                      });
+                    }}
+                  />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeeCPassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}
             </InputDiv>
           </DoubleInput>
           <BioDiv>
             <div>
-              <FormLabel>BioGraphy</FormLabel>
+              <FormLabel>Biography</FormLabel>
               <Star>*</Star>
             </div>
-            <Biotext id="fname" name="fname" style={{ height: 140 }} />
+            <Biotext
+              onChange={(event) => {
+                changeUserData({
+                  ...userData,
+                  Biography: event.target.value,
+                });
+              }}
+              style={{ height: 140 }}
+            />
           </BioDiv>
         </Flex>
       </Padding>
@@ -68,6 +180,10 @@ const Layout = styled.div`
   width: 100%;
   font-weight: bold;
   background-color: white;
+  overflow-y: scroll;
+  p {
+    margin-left: initial;
+  }
 `;
 const Padding = styled.div`
   width: 100%;
@@ -96,13 +212,15 @@ const Star = styled.p`
 `;
 
 const InputDiv = styled.div`
-  margin: 0px;
   width: 100%;
 `;
 
 const DoubleInput = styled.div`
   display: flex;
   column-gap: 15px;
+  @media screen and (max-width: 1300px) {
+    flex-direction: column;
+  }
 `;
 
 const FormLabel = styled.p`
@@ -120,8 +238,8 @@ const Forminput = styled.input`
   border: solid #808080 1px;
 
   &:focus {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
   }
 `;
 
@@ -129,6 +247,9 @@ const BioDiv = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+  @media screen and (max-width: 1300px) {
+    height: 134px;
+  }
 `;
 
 const Biotext = styled.textarea`
@@ -137,9 +258,26 @@ const Biotext = styled.textarea`
   font-weight: bold;
   border-radius: 8px;
   &:focus {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
   }
 `;
 
+const PasswordDiv = styled.div`
+  display: flex;
+  align-items: center;
+  border: solid #808080 1px;
+  border-radius: 8px;
+  :focus-within {
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
+  }
+  input {
+    border: none;
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+`;
 export default ProviderRegistrationForm;

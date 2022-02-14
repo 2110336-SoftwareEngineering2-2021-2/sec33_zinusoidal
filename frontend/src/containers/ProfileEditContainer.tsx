@@ -1,25 +1,35 @@
 import React, { ReactElement, ReactPropTypes, useState } from "react";
 import styled from "styled-components";
-import EditForm from "../components/EditForm";
+import EditForm from "../components/edit_profile/EditForm";
+import EditServiceType from "../components/edit_profile/EditServiceType";
+import ProviderAvailableTime from "../components/provider_register/ProviderAvailableTime";
+import EditAvailableTime from "../components/edit_profile/EditAvailableTime";
+
 import { COLOR } from "../CONSTANT";
-import ProfileServiceType from "./ProfileServiceType";
-import ProfileAvaTime from "./ProfileAvaTime";
 interface SliderProp {
   idx: number;
 }
 
 interface ProfileEditContainer {}
-const ProfileEditContainer = ({ children, current }: any) => {
+const ProfileEditContainer = ({
+  userData,
+  changeUserData,
+  current,
+  service,
+  setService,
+  availableTime,
+  setAvailableTime,
+}: any) => {
   return (
     <Layout>
       <Slider idx={current}>
-        <EditForm />
-        <ProfileServiceType />
-        <ProfileAvaTime />
+        <EditForm userData={userData} changeUserData={changeUserData} />
+        <EditServiceType service={service} setService={setService} />
+        <EditAvailableTime
+          availableTime={availableTime}
+          setAvailableTime={setAvailableTime}
+        />
       </Slider>
-      <Button>
-        <button>Save</button>
-      </Button>
     </Layout>
   );
 };
@@ -36,7 +46,7 @@ const Layout = styled.div`
 const Slider = styled("div")<SliderProp>`
   width: 300%;
   /* background-color: green; */
-  transform: ${(props) => `translateX(-${536 * props.idx}px)`};
+  transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;
   /* transition: transform none 0.3s; */

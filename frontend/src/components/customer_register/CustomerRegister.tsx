@@ -4,13 +4,26 @@ import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import CustomerRegisterContainer from "../../containers/CustomerRegisterContainer";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
-
+import { AiOutlineCheck } from "react-icons/ai";
+interface Current {
+  currentPage: any;
+}
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
+  const [userInput, setUserInput] = useState({
+    Name: "",
+    Surname: "",
+    Email: "",
+    CitizenID: "",
+    Username: "",
+    Password: "",
+    ConfirmPassword: "",
+  });
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
   return (
     <Layout>
       <Header>
@@ -20,6 +33,8 @@ const CustomerRegister = () => {
       </Header>
       <Form>
         <CustomerRegisterContainer
+          userData={userInput}
+          changeUserData={setUserInput}
           current={current}
           checked={clicked}
           callBack={clickToggle}
@@ -28,7 +43,7 @@ const CustomerRegister = () => {
       <ButtonDiv
         style={{ justifyContent: current == 0 ? "center" : "space-between" }}
       >
-        <Button
+        <PrevButton
           onClick={() => {
             setCurrent(Math.max(0, current - 1));
           }}
@@ -36,9 +51,16 @@ const CustomerRegister = () => {
         >
           <MdOutlineNavigateBefore />
           Back
-        </Button>
+        </PrevButton>
         <Button
+          currentPage={current}
           style={{
+            backgroundColor:
+              current == 2
+                ? COLOR["green/400"]
+                : clicked
+                ? COLOR["violet/400"]
+                : COLOR["gray/400"],
             pointerEvents: clicked ? "unset" : "none",
           }}
           onClick={() => {
@@ -48,7 +70,7 @@ const CustomerRegister = () => {
           {current == 2 ? (
             <>
               Done
-              <MdOutlineNavigateNext />{" "}
+              <AiOutlineCheck />{" "}
             </>
           ) : (
             <>
@@ -63,11 +85,14 @@ const CustomerRegister = () => {
 };
 const Layout = styled.div`
   width: 535px;
-  position: absolute;
-  left: 131px;
-  top: 164px;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 1300px) {
+    margin-top: 50px;
+  }
+  @media screen and (max-width: 540px) {
+    width: 350px;
+  } ;
 `;
 
 const Header = styled.div`
@@ -75,6 +100,9 @@ const Header = styled.div`
   height: 95px;
   background-color: ${COLOR["violet/400"]};
   border-radius: 20px 20px 0px 0px;
+
+  display: flex;
+  justify-content: center;
 `;
 
 const Circle = styled.div`
@@ -82,9 +110,10 @@ const Circle = styled.div`
   height: 70px;
   background-color: ${COLOR["violet/400"]};
   border-radius: 10000px;
-  position: relative;
-  left: 232.5px;
-  top: -30px;
+  margin-top: -35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const InnerCircle = styled.div`
@@ -92,9 +121,6 @@ const InnerCircle = styled.div`
   height: 24px;
   background-color: ${COLOR["blue/100"]};
   border-radius: 10000px;
-  position: relative;
-  left: 23px;
-  top: 23px;
 `;
 
 const Form = styled.div`
@@ -109,20 +135,49 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-const Button = styled.button`
+const PrevButton = styled.button`
   cursor: pointer;
+  border: ${COLOR["violet/400"]} solid 1px;
   width: 86px;
   height: 40px;
+  background-color: white;
+  text-decoration: none;
+  color: ${COLOR["violet/400"]};
+  border-radius: 10000px;
+  font-size: 16px;
+  font-weight: bold;
+
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  &:hover {
+    border: ${COLOR["violet/500"]} solid 1px;
+    color: ${COLOR["violet/500"]};
+  }
+`;
+const Button = styled("button")<Current>`
+  cursor: pointer;
   border: none;
+  width: 86px;
+  height: 40px;
   background-color: ${COLOR["violet/400"]};
   text-decoration: none;
   color: white;
   border-radius: 10000px;
   font-size: 16px;
+  font-weight: bold;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  column-gap: 5px;
+  :hover {
+    background-color: ${(prop) =>
+      prop.currentPage == 2
+        ? COLOR["green/500"]
+        : COLOR["violet/500"]} !important ;
+  }
 `;
 export default CustomerRegister;

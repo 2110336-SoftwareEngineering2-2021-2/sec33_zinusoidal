@@ -20,3 +20,39 @@ img {
   -o-user-drag: none;
   user-drag: none;
 }
+
+.ratings {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  color: #b1b1b1;
+  overflow: hidden;
+  line-height: 100%;
+}
+.full-stars {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #a44cd7;
+}
+.empty-stars:before,
+.full-stars:before {
+  content: "\2605\   \2605\  \2605\  \2605\  \2605";
+  font-size: 16px;
+}
+.empty-stars:before {
+  -webkit-text-stroke: 1px transparent;
+}
+.full-stars:before {
+  -webkit-text-stroke: 1px transparent;
+}
+/* Webkit-text-stroke is not supported on firefox or IE */
+
+/* Firefox */
+@-moz-document url-prefix() {
+  .full-stars {
+    color: #ecbe24;
+  }
+}

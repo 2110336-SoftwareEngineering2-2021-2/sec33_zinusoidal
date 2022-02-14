@@ -40,6 +40,7 @@ const Layout = styled.div`
   background-color: white;
   border-radius: 4px;
   padding: 4px 0;
+  z-index: 1;
 `;
 
 const Item = styled.div`

@@ -1,8 +1,11 @@
-import React from "react";
-import { COLOR } from "../CONSTANT";
+import React, { useState } from "react";
+import { COLOR } from "../../CONSTANT";
 import styled from "styled-components";
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <LoginFormLayout>
       <LoginFormHeader1>Fortune 168</LoginFormHeader1>
@@ -10,16 +13,26 @@ const LoginForm: React.FC = () => {
       <InputDiv>
         <ErrorText>Invalid Username or Password</ErrorText>
         <FormLabel>Username</FormLabel>
-        <Forminput type="text" id="fname" name="fname" />
+        <Forminput
+          type="text"
+          onChange={(event) => {
+            setUsername(event.target.value);
+          }}
+        />
       </InputDiv>
       <InputDiv>
         <FormLabel>Password</FormLabel>
-        <Forminput type="password" id="fname" name="fname" />
+        <Forminput
+          type="password"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
       </InputDiv>
 
       <RememberAndForgetDiv>
         <RememberDiv>
-          <CheckboxStyle type="checkbox" id="" name="" value="" />
+          <CheckboxStyle type="checkbox" />
           <p>Remember me</p>
         </RememberDiv>
         <Forget href="">Forget password?</Forget>
@@ -36,13 +49,18 @@ const LoginFormLayout = styled.div`
   width: 490px;
   background: #ffffff;
   padding: 50px;
+  height: fit-content;
   row-gap: 30px;
   border-radius: 20px;
-  position: absolute;
-  left: 202px;
-  top: 210px;
-  font-family: Baloo 2;
   font-weight: bold;
+  @media screen and (max-width: 750px) {
+    margin-top: 200px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 280px;
+    margin-top: 300px;
+    padding: 12px;
+  } ;
 `;
 
 const ErrorText = styled.div`
@@ -59,6 +77,9 @@ const LoginFormHeader1 = styled.p`
   margin: 0px;
   font-size: 64px;
   color: ${COLOR["violet/800"]};
+  @media screen and (max-width: 400px) {
+    text-align: center;
+  } ;
 `;
 const LoginFormHeader2 = styled.p`
   margin: 0px;
@@ -71,18 +92,17 @@ const FormLabel = styled.p`
   font-size: 16px;
 `;
 const Forminput = styled.input`
-  padding-left:5px;
+  padding-left: 5px;
   font-size: 16px;
-  font-family: Baloo 2;
   font-weight: bold;
   width: 100%;
   height: 32px;
   border-radius: 8px;
-  border:solid #808080 1px;
+  border: solid #808080 1px;
 
   &:focus {
-    outline:solid ${COLOR["violet/400"]} 1px;
-    border:solid ${COLOR["violet/400"]} 1px;
+    outline: none;
+    border: solid ${COLOR["violet/400"]} 2px;
   }
 `;
 
@@ -93,6 +113,11 @@ const RememberAndForgetDiv = styled.div`
   column-gap: 8px;
   justify-content: space-between;
   align-items: center;
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  } ;
 `;
 const RememberDiv = styled.div`
   display: flex;
@@ -109,9 +134,13 @@ const CheckboxStyle = styled.input`
 const Forget = styled.a`
   text-decoration: none;
   color: ${COLOR["magenta/300"]};
+  @media screen and (max-width: 400px) {
+    margin-top: 8px;
+  } ;
 `;
 
 const LoginButton = styled.button`
+  cursor: pointer;
   border: none;
   width: 100%;
   padding: 13.5px 0px 13.5px 0px;
@@ -119,9 +148,11 @@ const LoginButton = styled.button`
   text-decoration: none;
   color: #ffffff;
   border-radius: 10000px;
-  font-family: Baloo 2;
   font-weight: bold;
   font-size: 24px;
+  &:hover {
+    background-color: ${COLOR["violet/500"]};
+  }
 `;
 
 export default LoginForm;

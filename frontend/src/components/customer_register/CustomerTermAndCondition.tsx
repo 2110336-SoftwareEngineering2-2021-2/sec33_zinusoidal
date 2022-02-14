@@ -7,8 +7,8 @@ const TermAndCondition = ({ checked, callBack }: any) => {
     <Layout>
       <Term>
         <TextDetail>
-          <Header style={{ fontSize: "1.5vw" }}>Terms and Conditions</Header>
-          <p style={{ fontSize: "0.9vw" }}>{TERMS}</p>
+          <Header>Terms and Conditions</Header>
+          <p>{TERMS}</p>
         </TextDetail>
         <TermFooter>
           <AgreeDiv>
@@ -38,6 +38,9 @@ const Term = styled.div`
   scrollbar-width: none; /* Firefox */
   ::-webkit-scrollbar {
     display: none;
+  }
+  @media screen and (max-width: 540px) {
+    height: 450px;
   }
 `;
 

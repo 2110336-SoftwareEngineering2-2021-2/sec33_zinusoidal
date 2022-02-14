@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import RangeDropDown from "./RangeDropDown";
@@ -9,38 +9,78 @@ interface PriceRangeType {
 }
 const RangeAndRating = () => {
   const [rangeOpen, setRangeOpen] = useState(false);
-  const [ratingOpen, setRatingOpen] = useState(true);
+  const [ratingOpen, setRatingOpen] = useState(false);
   const [range, setRange] = useState(null);
-  const [rating, setRating] = useState([0, 5]);
+  const [rating, setRating] = useState(null);
+
+  const ratingWrapperRef = useRef(null);
+
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setRangeOpen(false);
+          setRatingOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(ratingWrapperRef);
+
   return (
-    <Layout>
-      <PriceRange range={range}>
+    <Layout ref={ratingWrapperRef}>
+      <PriceRange style={{ marginRight: 16 }} range={range}>
         <button onClick={() => setRangeOpen(!rangeOpen)}>
           {range == null ? `Price range (per 30 min)` : `${range}`}
         </button>
         {rangeOpen && <RangeDropDown range={range} setRange={setRange} />}
       </PriceRange>
-      <PriceRange style={{ marginLeft: 16 }} range={rating}>
+      <PriceRange range={rating}>
         <button onClick={() => setRatingOpen(!ratingOpen)}>
           {rating == null
             ? `Provider's Rating`
             : `${rating[0]} - ${rating[1]} stars`}
         </button>
-        {ratingOpen && <RatingDropDowm rating={rating} setRating={setRating} />}
+        {ratingOpen && (
+          <RatingDropDowm
+            rating={rating ? rating : [0, 5]}
+            setRating={setRating}
+          />
+        )}
       </PriceRange>
     </Layout>
   );
 };
 
+const Layout = styled.div`
+  display: flex;
+  align-self: flex-start;
+  width: 100%;
+  max-width: 1150px;
+  align-self: center;
+  margin-top: 16px;
+  @media screen and (max-width: 768px) {
+    margin-top: 11px;
+  }
+  @media screen and (max-width: 550px) {
+    flex-direction: column;
+  }
+`;
 const PriceRange = styled("div")<PriceRangeType>`
-  min-width: 174px;
+  /* min-width: 174px; */
   position: relative;
   /* display: inline-block; */
 
   button {
     background-color: ${(props) =>
       props.range == null ? COLOR["magenta/700"] : "transparent"};
-    min-width: 174px;
+    width: 174px;
     height: 38px;
     font-size: 14px;
     line-height: 22px;
@@ -48,13 +88,17 @@ const PriceRange = styled("div")<PriceRangeType>`
     border-radius: 8px;
     /* border: none; */
     border: 2px solid ${COLOR["magenta/700"]};
+    cursor: pointer;
+
+    @media screen and (max-width: 768px) {
+      width: 154px;
+      height: 35px;
+    }
+
+    @media screen and (max-width: 550px) {
+      margin-top: 5px;
+    }
   }
 `;
 
-const Layout = styled.div`
-  display: flex;
-  /* background-color: red; */
-  align-self: flex-start;
-  margin: 0 10rem;
-`;
 export default RangeAndRating;
