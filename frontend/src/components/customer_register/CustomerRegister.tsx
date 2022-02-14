@@ -23,6 +23,7 @@ const CustomerRegister = () => {
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
   return (
     <Layout>
       <Header>

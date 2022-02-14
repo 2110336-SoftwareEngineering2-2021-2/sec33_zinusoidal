@@ -4,7 +4,6 @@ import DaySlot from "../components/provider_register/DaySlot";
 
 //prettier-ignore
 const ProviderRegisterTimeTable = ({availableTime,setAvailableTime }: any) => {
-  // console.log(userData.AvailableTime);
   return (
     <Layout>
       {/* {userData.AvailableTime.map((day: any, index: any) => (

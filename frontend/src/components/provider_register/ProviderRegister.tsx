@@ -34,6 +34,10 @@ const ProviderRegister = () => {
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
+  console.log(service);
+  console.log(availableTime);
+
   return (
     <Layout>
       <Header>
