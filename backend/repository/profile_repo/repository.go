@@ -126,13 +126,10 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 		}
 	}
 
-	findQuery := `SELECT *
-    FROM fortune_user U 
-    RIGHT JOIN provider P ON U.id = P.id
-    RIGHT JOIN provider_service S ON P.id = S.provider_id
-    WHERE U.id = ?;`
+	var findErr error
 
-	findErr := db.database.Raw(findQuery, userID).Scan(&providerProfile).Error
+	providerProfile, findErr = db.GetProviderByID(userID)
+
 	if findErr != nil {
 		return providerProfile, findErr
 	}
@@ -162,12 +159,13 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		AND S.price <= ?
 	);`
 
-	var fortuneList string = "("
+	var fortuneList string = "\"("
 	for _, element := range searchRequest.FortuneType {
 		fortuneList = fortuneList + "'" + element + "',"
 	}
-	fortuneList = fortuneList[:len(fortuneList)-1] + ")"
-	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, searchRequest.FortuneType, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
+	fortuneList = fortuneList[:len(fortuneList)-1] + ")\""
+	fmt.Println(fortuneList)
+	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, fortuneList, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
 
 	return searchResults, err
 }
