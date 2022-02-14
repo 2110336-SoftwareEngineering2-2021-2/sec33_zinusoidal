@@ -14,7 +14,6 @@ const EditForm = ({ userData, changeUserData }: any) => {
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
-      console.log(selectedImage);
     }
   };
 
@@ -47,7 +46,6 @@ const EditForm = ({ userData, changeUserData }: any) => {
               type="text"
               onChange={(event) => {
                 changeUserData({ ...userData, Name: event.target.value });
-                console.log(userData);
               }}
             />
           </InputDiv>
@@ -134,7 +132,6 @@ const EditForm = ({ userData, changeUserData }: any) => {
                 ...userData,
                 Biography: event.target.value,
               });
-              console.log(userData);
             }}
           />
         </BioDiv>

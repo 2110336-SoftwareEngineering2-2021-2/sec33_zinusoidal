@@ -16,21 +16,16 @@ const TimeSlot = ({
   setAvailableTime,
 }: TimeSlotType) => {
   const deleteTime = (day: any, time: any) => {
-    console.log(day, time);
     const remainTimeList = availableTime.filter(
       (dateSlot: any) => dateSlot.day != day
     );
-    console.log(remainTimeList);
 
     const deleteTimeList = availableTime.filter(
       (dateSlot: any) => dateSlot.day == day
     )[0].timeList;
-    console.log(deleteTimeList);
     const remainingTime = deleteTimeList.filter((x: any) => x != time);
-    console.log(remainingTime);
 
     const newData = [...remainTimeList, { day: day, timeList: remainingTime }];
-    console.log(newData);
 
     setAvailableTime(newData);
   };

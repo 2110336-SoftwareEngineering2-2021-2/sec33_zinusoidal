@@ -31,6 +31,9 @@ const EditProfile = () => {
     { day: "Friday", timeList: [] },
     { day: "Saturday", timeList: [] },
   ]);
+  console.log(userInput);
+  console.log(service);
+  console.log(availableTime);
 
   return (
     <Layout>

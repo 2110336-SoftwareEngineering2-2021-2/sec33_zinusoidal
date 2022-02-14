@@ -13,7 +13,6 @@ const ProviderProfileUpload = () => {
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
-      console.log(selectedImage);
     }
   };
 

@@ -23,7 +23,6 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
                 type="text"
                 onChange={(event) => {
                   changeUserData({ ...userData, Name: event.target.value });
-                  console.log(userData);
                 }}
               />
             </InputDiv>
@@ -167,7 +166,6 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
                   ...userData,
                   Biography: event.target.value,
                 });
-                console.log(userData);
               }}
               style={{ height: 140 }}
             />

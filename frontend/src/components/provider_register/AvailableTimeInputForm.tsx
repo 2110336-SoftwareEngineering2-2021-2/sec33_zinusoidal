@@ -24,14 +24,10 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
   const wrapperRef1 = useRef(null);
   const wrapperRef2 = useRef(null);
 
-  // console.log(day, startTime, stopTime);
-
   const handleInputForm = () => {
-    // console.log(userData);
     const remainTime = availableTime.filter(
       (dateSlot: any) => dateSlot.day != day
     );
-    // console.log(remainTime);
     const oldTimeList = availableTime.filter(
       (dateSlot: any) => dateSlot.day == day
     )[0].timeList;
@@ -56,7 +52,6 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
     newnewList.push([start, stop]);
     let list = [...newnewList];
     const newData = [...remainTime, { day: day, timeList: list }];
-    // console.log("New DATA", newData);
     setAvailableTime(newData);
   };
 
