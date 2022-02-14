@@ -41,7 +41,14 @@ const SearchPage = () => {
           }}
         />
         <RangeAndRating />
-        <Button onClick={() => {}}>Search</Button>
+        <Button
+          onClick={() => {
+            setShowResult(!showResult);
+            if (!pressed) setPressed(true);
+          }}
+        >
+          Search
+        </Button>
       </SearchPane>
 
       {showResult && (
@@ -68,7 +75,7 @@ const SearchPage = () => {
 
 const Layout = styled.div`
   width: 100%;
-  min-height: 120vh;
+  min-height: 1000px;
   display: flex;
   flex-direction: column;
   background-size: 100% 100%;
