@@ -121,16 +121,14 @@ const Layout = styled.div`
 `;
 
 const Content = styled(motion.div)`
-  margin: 1rem 3rem 0rem;
+  margin: 0rem 3rem 0rem;
   /* margin: 5rem 129px 3rem; */
   /* width: auto; */
   background-image: url(${img1});
-
   background-repeat: no-repeat;
   background-size: 100% 100%;
   padding-top: 50%;
   position: relative;
-
   @media screen and (min-width: 1440px) {
     width: 1164px;
     padding-top: 582px;
@@ -145,6 +143,7 @@ const Content = styled(motion.div)`
     padding-top: 0%;
     align-self: stretch;
     align-items: center;
+    margin-top: 53px;
   }
 `;
 
@@ -161,17 +160,18 @@ const HeaderDetail = styled.div`
   @media screen and (max-width: 900px) {
     position: relative;
     width: auto;
-    height: 330px;
-    padding-top: 5rem;
+    /* height: 330px; */
+    /* padding-top: 5rem; */
   }
   @media screen and (max-width: 550px) {
-    height: 250px;
+    /* height: 250px; */
     align-items: center;
     text-align: center;
   }
 
   h1 {
     font-size: 64px;
+
     line-height: 101px;
     font-weight: bold;
     color: ${COLOR["violet/500"]};

@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { COLOR } from "../../CONSTANT";
 import { AiOutlineMenu } from "react-icons/ai";
+import { UserContext } from "../../context/UserContext";
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
   ending?: boolean | null;
 }
+
+interface ParagraphPropType {
+  isUser: boolean;
+}
 const LandingNav = () => {
+  const msg = useContext(UserContext);
+
+  console.log(msg);
   return (
     <Layout>
       <img src={logo} alt="logo" />
@@ -24,9 +32,9 @@ const LandingNav = () => {
         </motion.h1>
       </StyledLink>
       <StyledLink to="/login" ending={true}>
-        <motion.p whileHover={{ scale: 1.3, originX: "100%" }}>
-          login/register
-        </motion.p>
+        <P whileHover={{ scale: 1.3, originX: "100%" }} isUser={msg != null}>
+          {msg == null ? "Login/Register" : `Hello, ${msg}`}
+        </P>
       </StyledLink>
 
       <Menu size={32} style={{ margin: "0 22px 0 auto" }} />
@@ -86,6 +94,10 @@ const Menu = styled(AiOutlineMenu)`
   @media screen and (min-width: 601px) {
     display: none;
   }
+`;
+
+const P = styled(motion.p)<ParagraphPropType>`
+  color: ${(props) => (props.isUser ? COLOR["aqua/700"] : "black")};
 `;
 
 export default LandingNav;

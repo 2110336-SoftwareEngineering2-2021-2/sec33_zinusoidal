@@ -14,7 +14,7 @@ import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
 const App = () => {
   return (
-    <UserContext.Provider value="test thing up">
+    <UserContext.Provider value={null}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
