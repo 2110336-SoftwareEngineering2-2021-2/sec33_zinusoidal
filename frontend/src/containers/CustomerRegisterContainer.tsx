@@ -43,7 +43,10 @@ const Slider = styled("div")<SliderProp>`
   display: flex;
   flex-direction: row;
   @media screen and (max-width: 540px) {
-    transform: ${(props) => `translateX(-${350 * props.idx}px)`};
+    transform: ${(props) => `translateX(-${450 * props.idx}px)`};
+  }
+  @media screen and (max-width: 320px) {
+    transform: ${(props) => `translateX(-${280 * props.idx}px)`};
   } ;
 `;
 
