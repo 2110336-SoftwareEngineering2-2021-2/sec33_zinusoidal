@@ -4,6 +4,12 @@ on:
   push:
     branches: [ dev ]
 
+env:
+  AWS_HOST: ${{ secrets.AWS_INSTANCE_DNS }}
+  DB_NAME: ${{ secrets.MYSQL_DATABASE }}
+  DB_USER: ${{ secrets.MYSQL_USERNAME }}
+  DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
+
 jobs:
   docker-backend:
     name: "Build and push backend image to Dockerhub"
@@ -14,9 +20,23 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2
       -
-        name: Get in to backend folder
+        name: setup config.yml for container
         run: |-
-          cd backend
+
+          echo 'app:' > ./backend/configs/config.yaml
+          echo "  port: 1323" >> ./backend/configs/config.yaml
+
+          echo 'mysql:' >> ./backend/configs/config.yaml
+          echo "  host: $AWS_HOST" >> ./backend/configs/config.yaml
+          echo '  port: 3306' >> ./backend/configs/config.yaml
+          echo "  username: \"$DB_USER\"" >> ./backend/configs/config.yaml
+          echo "  password: \"$DB_PASS\"" >> ./backend/configs/config.yaml
+          echo "  db_name: \"$DB_NAME\"" >> ./backend/configs/config.yaml
+          echo "  net: tcp" >> ./backend/configs/config.yaml
+          
+          echo 'smtp:' >> ./backend/configs/config.yaml
+          echo '  ip: 192.168.0.1' >> ./backend/configs/config.yaml
+          echo '  port: 1150' >> ./backend/configs/config.yaml
       -
         name: Login to DockerHub
         uses: docker/login-action@v1 
@@ -69,6 +89,25 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ format('{0}/zinusoidal-frontend:latest', secrets.DOCKER_USERNAME ) }}
+  migration-db:
+    name: "Migrate database in VM"
+    runs-on: ubuntu-latest
+
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v2
+      -
+        name: Install golang-migrate
+        run: |-
+          curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | sudo bash
+          sudo apt-get update
+          sudo apt-get install -y migrate
+      -
+        name: Migrate database
+        run: |-
+          migrate -path ./database/migrations -database "mysql://$DB_USER:$DB_PASS@tcp($AWS_HOST:3306)/$DB_NAME" up
+      
   push-to-vm:
     name: "Push and deploy to VM"
     needs: 
@@ -97,5 +136,6 @@ jobs:
             echo "      - \"1323:1323\"" >> docker-compose.yml
 
             sudo docker-compose down
+            sudo docker container prune --force
             sudo docker image prune -a --force
             sudo docker-compose up -d

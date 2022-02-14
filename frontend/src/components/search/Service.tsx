@@ -13,7 +13,7 @@ const Service = ({ service, selected, callback }: ServiceType) => {
       {selected ? (
         <MdCheckBox
           size={24}
-          style={{ marginRight: 8 }}
+          style={{ marginRight: 8, cursor: "pointer" }}
           onClick={() => {
             callback(service, 0);
           }}
@@ -21,7 +21,7 @@ const Service = ({ service, selected, callback }: ServiceType) => {
       ) : (
         <MdCheckBoxOutlineBlank
           size={24}
-          style={{ marginRight: 8 }}
+          style={{ marginRight: 8, cursor: "pointer" }}
           color="#808080"
           onClick={() => {
             callback(service, 1);

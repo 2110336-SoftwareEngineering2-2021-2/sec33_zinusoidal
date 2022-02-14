@@ -8,12 +8,21 @@ interface SliderProp {
 }
 
 interface CustomerRegisterContainer {}
-const CustomerRegisterContainer = ({ current, checked, callBack }: any) => {
+const CustomerRegisterContainer = ({
+  userData,
+  changeUserData,
+  current,
+  checked,
+  callBack,
+}: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <CustomerTermAndCondition checked={checked} callBack={callBack} />
-        <CustomerRegisterForm />
+        <CustomerRegisterForm
+          userData={userData}
+          changeUserData={changeUserData}
+        />
         <CustomerProfileUpload />
       </Slider>
     </Layout>
@@ -34,7 +43,10 @@ const Slider = styled("div")<SliderProp>`
   display: flex;
   flex-direction: row;
   @media screen and (max-width: 540px) {
-    transform: ${(props) => `translateX(-${350 * props.idx}px)`};
+    transform: ${(props) => `translateX(-${450 * props.idx}px)`};
+  }
+  @media screen and (max-width: 450px) {
+    transform: ${(props) => `translateX(-${300 * props.idx}px)`};
   } ;
 `;
 

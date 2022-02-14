@@ -39,6 +39,9 @@ const Term = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  @media screen and (max-width: 450px) {
+    padding: 0;
+  }
 `;
 
 const TermFooter = styled.div`
@@ -56,6 +59,10 @@ const AgreeDiv = styled.div`
   column-gap: 8px;
   align-items: center;
   text-align: center;
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+    column-gap: 0px;
+  } ;
 `;
 const AgreeText = styled.div`
   font-size: 16px;
@@ -67,6 +74,9 @@ const TextDetail = styled.div`
   background-color: white;
   padding: 15px;
   margin: 0px;
+  @media screen and (max-width: 450px) {
+    padding: 4px;
+  } ;
 `;
 const Header = styled.h1`
   text-align: center;

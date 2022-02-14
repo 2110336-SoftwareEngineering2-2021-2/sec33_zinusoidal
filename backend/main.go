@@ -48,7 +48,7 @@ func main() {
 		v1fortune.POST("/activate/:key", auth_handler.ActivateEmail)
 	}
 
-	search_handler := search.NewHandler(*search.NewService(*auth_repo.New(db)))
+	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
 	}
@@ -65,23 +65,19 @@ func main() {
 
 func NewSQLConn() *gorm.DB {
 
-	/**
-	* Dummy
-	* TODO:  Add these config to config.yaml and call via viper
-	 */
 	conf := mysql.Config{
-		DBName: viper.GetString("dbname"),
-		User:   "fortune_user",
-		Passwd: "123456",
-		Net:    "tcp",
-		Addr:   "127.0.0.1:3306",
+		DBName: viper.GetString("mysql.db_name"),
+		User:   viper.GetString("mysql.username"),
+		Passwd: viper.GetString("mysql.password"),
+		Net:    viper.GetString("mysql.net"),
+		Addr:   viper.GetString("mysql.host") + ":" + viper.GetString("mysql.port"),
 		Loc:    time.Local,
 	}
 
 	conn, err := gorm.Open("mysql", conf.FormatDSN())
 
 	if err != nil {
-		log.Fatalln("connection error")
+		log.Fatalln(err)
 	}
 
 	return conn

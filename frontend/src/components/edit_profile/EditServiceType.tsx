@@ -9,11 +9,12 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 
-const ProviderProfileUpload = ({ service, setService }: any) => {
+const EditServiceType = ({ service, setService }: any) => {
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
+  console.log(service);
   const addButtonHandler = () => {
     if (serviceName == "" || servicePrice == 0) {
       setEnableAdd(false);
@@ -50,10 +51,6 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
     <Layout>
       <FirstLayout>
         <Padding>
-          <ProviderRegistration>
-            <MdRemoveRedEye color={COLOR["violet/400"]} />
-            Provider Registration
-          </ProviderRegistration>
           <ServiceType>Type of Service you provide</ServiceType>
           {choice ? (
             <InputLayout>
@@ -166,7 +163,7 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                   backgroundColor: enableAdd
                     ? COLOR["violet/400"]
                     : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "none" : "unset",
+                  pointerEvents: enableAdd ? "unset" : "none",
                 }}
               >
                 Add +
@@ -177,24 +174,26 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
-        {service.map((service: any) => (
-          <MyServiceDiv>
-            <p>{service.serviceName}</p>
-            <PriceAndMinusDiv>
-              <p>฿ {service.servicePrice} /30min</p>
-              <AiFillMinusCircle
-                color={COLOR["magenta/400"]}
-                size={24}
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  deleteServiceFromList(service);
-                }}
-              />
-            </PriceAndMinusDiv>
-          </MyServiceDiv>
-        ))}
+        <Services>
+          {service.map((service: any) => (
+            <MyServiceDiv>
+              <p>{service.serviceName}</p>
+              <PriceAndMinusDiv>
+                <p>฿ {service.servicePrice} /30min</p>
+                <AiFillMinusCircle
+                  color={COLOR["magenta/400"]}
+                  size={24}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    deleteServiceFromList(service);
+                  }}
+                />
+              </PriceAndMinusDiv>
+            </MyServiceDiv>
+          ))}
+        </Services>
       </SecondLayout>
     </Layout>
   );
@@ -205,17 +204,18 @@ const Layout = styled.div`
 `;
 const FirstLayout = styled.div`
   width: 100%;
+  height: 264px;
   background-color: white;
-  height: fit-content;
   border-radius: 0px 0px 8px 8px;
+  margin-bottom: 6px;
 `;
 const SecondLayout = styled.div`
-  margin-top: 8px;
   width: 100%;
-  height: 100%;
+  height: 330px;
+  border-radius: 20px 20px 20px 20px;
   background-color: white;
-  border-radius: 20px 20px 0px 0px;
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 `;
 const Padding = styled.div`
   width: 100%;
@@ -225,15 +225,10 @@ const Padding = styled.div`
   flex-direction: column;
   row-gap: 16px;
 `;
-
-const ProviderRegistration = styled.div`
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  column-gap: 5px;
-  font-weight: bold;
+const Services = styled.div`
+  flex: 1;
+  overflow-y: scroll;
 `;
-
 const ServiceType = styled.div`
   font-size: 18px;
   width: 100%;
@@ -242,8 +237,9 @@ const ServiceType = styled.div`
 
 const InputLayout = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
-  row-gap: 16px;
+  justify-content: space-evenly;
 `;
 const ChoiceDiv = styled.div`
   display: flex;
@@ -379,4 +375,4 @@ const PriceAndMinusDiv = styled.div`
   column-gap: 8px;
 `;
 
-export default ProviderProfileUpload;
+export default EditServiceType;

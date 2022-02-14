@@ -5,7 +5,7 @@ import { COLOR } from "../../CONSTANT";
 import { BsPeopleFill } from "react-icons/bs";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 
-const CustomerRegistrationForm = () => {
+const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
   const [seePassword, setSeePassword] = useState(false);
   const [seeCPassword, setSeeCPassword] = useState(false);
 
@@ -21,28 +21,53 @@ const CustomerRegistrationForm = () => {
             <InputDiv>
               <FormLabel>Name</FormLabel>
               <Star>*</Star>
-              <Forminput type="text" id="fname" name="fname" />
+              <Forminput
+                type="text"
+                onChange={(event) => {
+                  changeUserData({ ...userData, Name: event.target.value });
+                }}
+              />
             </InputDiv>
             <InputDiv>
               <FormLabel>Surname</FormLabel>
               <Star>*</Star>
-              <Forminput type="text" id="fname" name="fname" />
+              <Forminput
+                type="text"
+                onChange={(event) => {
+                  changeUserData({ ...userData, Surname: event.target.value });
+                }}
+              />
             </InputDiv>
           </DoubleInput>
           <InputDiv>
             <FormLabel>Email</FormLabel>
             <Star>*</Star>
-            <Forminput type="text" id="fname" name="fname" />
+            <Forminput
+              type="text"
+              onChange={(event) => {
+                changeUserData({ ...userData, Email: event.target.value });
+              }}
+            />
           </InputDiv>
           <InputDiv>
             <FormLabel>CitizenID</FormLabel>
             <Star>*</Star>
-            <Forminput type="text" id="fname" name="fname" />
+            <Forminput
+              type="text"
+              onChange={(event) => {
+                changeUserData({ ...userData, CitizenID: event.target.value });
+              }}
+            />
           </InputDiv>
           <InputDiv>
             <FormLabel>Username</FormLabel>
             <Star>*</Star>
-            <Forminput type="text" id="fname" name="fname" />
+            <Forminput
+              type="text"
+              onChange={(event) => {
+                changeUserData({ ...userData, Username: event.target.value });
+              }}
+            />
           </InputDiv>
           <DoubleInput>
             <InputDiv>
@@ -50,7 +75,15 @@ const CustomerRegistrationForm = () => {
               <Star>*</Star>
               {seePassword ? (
                 <PasswordDiv>
-                  <Forminput type="text" id="fname" name="fname" />
+                  <Forminput
+                    type="text"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        Password: event.target.value,
+                      });
+                    }}
+                  />
                   <RiEyeFill
                     size={16}
                     style={{ marginRight: 4 }}
@@ -61,7 +94,15 @@ const CustomerRegistrationForm = () => {
                 </PasswordDiv>
               ) : (
                 <PasswordDiv>
-                  <Forminput type="password" id="fname" name="fname" />
+                  <Forminput
+                    type="password"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        Password: event.target.value,
+                      });
+                    }}
+                  />
                   <RiEyeCloseLine
                     size={16}
                     style={{ marginRight: 4 }}
@@ -77,7 +118,15 @@ const CustomerRegistrationForm = () => {
               <Star>*</Star>
               {seeCPassword ? (
                 <PasswordDiv>
-                  <Forminput type="text" id="fname" name="fname" />
+                  <Forminput
+                    type="text"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        ConfirmPassword: event.target.value,
+                      });
+                    }}
+                  />
                   <RiEyeFill
                     size={16}
                     style={{ marginRight: 4 }}
@@ -88,7 +137,15 @@ const CustomerRegistrationForm = () => {
                 </PasswordDiv>
               ) : (
                 <PasswordDiv>
-                  <Forminput type="password" id="fname" name="fname" />
+                  <Forminput
+                    type="password"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        ConfirmPassword: event.target.value,
+                      });
+                    }}
+                  />
                   <RiEyeCloseLine
                     size={16}
                     style={{ marginRight: 4 }}
@@ -162,7 +219,7 @@ const Forminput = styled.input`
   border-radius: 8px;
   border: solid #808080 1px;
   &:focus {
-    outline: solid ${COLOR["blue/300"]} 1px;
+    outline: none;
     border: solid ${COLOR["blue/300"]} 1px;
   }
 `;
@@ -172,8 +229,8 @@ const PasswordDiv = styled.div`
   border: solid #808080 1px;
   border-radius: 8px;
   :focus-within {
-    outline: solid ${COLOR["blue/100"]} 1px;
-    border: solid ${COLOR["blue/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["blue/300"]} 1px;
   }
   input {
     border: none;

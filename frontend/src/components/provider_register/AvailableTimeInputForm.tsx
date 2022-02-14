@@ -24,14 +24,10 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
   const wrapperRef1 = useRef(null);
   const wrapperRef2 = useRef(null);
 
-  // console.log(day, startTime, stopTime);
-
   const handleInputForm = () => {
-    // console.log(userData);
     const remainTime = availableTime.filter(
       (dateSlot: any) => dateSlot.day != day
     );
-    // console.log(remainTime);
     const oldTimeList = availableTime.filter(
       (dateSlot: any) => dateSlot.day == day
     )[0].timeList;
@@ -56,7 +52,6 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
     newnewList.push([start, stop]);
     let list = [...newnewList];
     const newData = [...remainTime, { day: day, timeList: list }];
-    // console.log("New DATA", newData);
     setAvailableTime(newData);
   };
 
@@ -222,7 +217,7 @@ const InputLayout = styled("div")`
 const DayDiv = styled.div`
   cursor: pointer;
   height: 40px;
-  width: 200px;
+  width: 180px;
   border: 1px solid ${COLOR["gray/500"]};
   padding-right: 12px;
   border-radius: 8px;
@@ -260,6 +255,9 @@ const Time = styled.div`
   width: 100%;
   @media screen and (max-width: 540px) {
     justify-content: center;
+  }
+  @media screen and (max-width: 450px) {
+    width: 190px;
   } ;
 `;
 

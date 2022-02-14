@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { MdOutlineStar } from "react-icons/md";
 
-interface PersonType {
+export interface PersonType {
   name: string;
   username: string;
   rating: number;
@@ -12,19 +12,23 @@ interface PersonType {
 interface SearchResultPropType {
   person: PersonType;
   onClick?: Function;
-  selected: boolean;
+  selected?: boolean;
 }
 
 interface LayoutPropType {
   selected: boolean;
 }
-const SearchResult = ({ person, onClick, selected }: SearchResultPropType) => {
+const SearchResult = ({
+  person,
+  onClick,
+  selected = false,
+}: SearchResultPropType) => {
   const { name, username, rating, priceRange } = person;
   return (
     <Layout
       onClick={() => {
         if (!onClick) return;
-        onClick(username);
+        onClick(person);
       }}
       selected={selected}
     >
@@ -55,7 +59,8 @@ const SearchResult = ({ person, onClick, selected }: SearchResultPropType) => {
         </Block>
         <Block>
           <p>
-            <strong>Price rate: </strong> {priceRange}
+            <strong>Price rate: </strong>
+            {priceRange}
           </p>
         </Block>
       </Detail>
@@ -64,20 +69,21 @@ const SearchResult = ({ person, onClick, selected }: SearchResultPropType) => {
 };
 
 const Layout = styled("div")<LayoutPropType>`
-  height: 121px;
+  min-height: 121px;
   display: flex;
   align-items: center;
   padding: 16px;
   background-color: ${(props) =>
     props.selected ? COLOR["violet/200"] : "transparent"};
   border-radius: 8px;
-  /* min-width: 450px; */
+
+  flex: 1;
 `;
 
 const Image = styled.div`
+  min-width: 64px;
   width: 64px;
   height: 64px;
-  background-color: red;
   border-radius: 100%;
 
   img {
@@ -95,6 +101,7 @@ const Detail = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* min-height: 89px; */
 
   p {
     font-size: 20px;
@@ -112,7 +119,7 @@ const Detail = styled.div`
 `;
 
 const Block = styled.div`
-  height: 25px;
+  min-height: 25px;
   display: flex;
   align-items: center;
 

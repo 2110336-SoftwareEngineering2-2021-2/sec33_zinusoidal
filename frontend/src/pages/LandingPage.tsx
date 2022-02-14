@@ -103,6 +103,21 @@ const Layout = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient(
+    to left top,
+    #d898fd,
+    #dca5fc,
+    #e0b2fb,
+    #e3bffa,
+    #e7cbf8,
+    #e7cbf8,
+    #e7cbf8,
+    #e7cbf8,
+    #e3bffa,
+    #e0b2fb,
+    #dca5fc,
+    #d898fd
+  ); ;
 `;
 
 const Content = styled(motion.div)`

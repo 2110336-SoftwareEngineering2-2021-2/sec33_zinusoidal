@@ -8,7 +8,7 @@ import { AiOutlineCheck } from "react-icons/ai";
 interface Current {
   currentPage: any;
 }
-const CustomerRegister = () => {
+const ProviderRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -34,6 +34,10 @@ const CustomerRegister = () => {
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
+  console.log(service);
+  console.log(availableTime);
+
   return (
     <Layout>
       <Header>
@@ -107,7 +111,10 @@ const Layout = styled.div`
     margin-top: 50px;
   }
   @media screen and (max-width: 540px) {
-    width: 350px;
+    width: 450px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
   } ;
 `;
 
@@ -195,4 +202,4 @@ const Button = styled("button")<Current>`
         : COLOR["violet/500"]} !important ;
   }
 `;
-export default CustomerRegister;
+export default ProviderRegister;

@@ -11,9 +11,19 @@ interface Current {
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
+  const [userInput, setUserInput] = useState({
+    Name: "",
+    Surname: "",
+    Email: "",
+    CitizenID: "",
+    Username: "",
+    Password: "",
+    ConfirmPassword: "",
+  });
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
   return (
     <Layout>
       <Header>
@@ -23,6 +33,8 @@ const CustomerRegister = () => {
       </Header>
       <Form>
         <CustomerRegisterContainer
+          userData={userInput}
+          changeUserData={setUserInput}
           current={current}
           checked={clicked}
           callBack={clickToggle}
@@ -79,8 +91,11 @@ const Layout = styled.div`
     margin-top: 50px;
   }
   @media screen and (max-width: 540px) {
-    width: 350px;
-  } ;
+    width: 450px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 
 const Header = styled.div`
