@@ -104,3 +104,9 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 		"log": "email confirmed",
 	})
 }
+
+func (h *Handler) TestHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"log": "connected succesfully",
+	})
+}

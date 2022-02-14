@@ -46,8 +46,8 @@ func main() {
 		v1fortune.POST("/provider_register", auth_handler.ProviderRegisterHandler)
 		v1fortune.POST("/login", auth_handler.LoginHandler)
 		v1fortune.POST("/confirm_email/:key", auth_handler.ActivateEmailHandler)
-
 	}
+	v1fortune.POST("/test", auth_handler.TestHandler)
 
 	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
 	{
@@ -78,7 +78,8 @@ func NewSQLConn() *gorm.DB {
 	conn, err := gorm.Open("mysql", conf.FormatDSN())
 
 	if err != nil {
-		log.Fatalln("connection error")
+		log.Println("connection error")
+		log.Fatalln(err.Error())
 	}
 
 	return conn
