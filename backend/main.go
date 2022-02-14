@@ -77,7 +77,7 @@ func NewSQLConn() *gorm.DB {
 	conn, err := gorm.Open("mysql", conf.FormatDSN())
 
 	if err != nil {
-		log.Fatalln("connection error")
+		log.Fatalln(err)
 	}
 
 	return conn
