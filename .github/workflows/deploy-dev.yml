@@ -19,34 +19,30 @@ jobs:
       -
         name: Checkout code
         uses: actions/checkout@v2
-      
       -
         name: setup config.yml for container
         run: |-
-          if [ -e backend/configs/config.yaml ]; then
-              rm backend/configs/config.yaml
-          fi
-          if [ ! -e backend/configs ]; then
-              mkdir backend/configs
-          fi
-          echo 'app:' > backend/configs/config.yaml
-          echo "  port: 1323" >> backend/configs/config.yaml
-
-          echo 'mysql:' >> backend/configs/config.yaml
-          echo "  username: \"$DB_USER\"" >> backend/configs/config.yaml
-          echo "  password: \"$DB_PASS\"" >> backend/configs/config.yaml
-          echo "  db_name: \"$DB_NAME\"" >> backend/configs/config.yaml
-          echo "  host: \"$AWS_HOST\"" >> backend/configs/config.yaml
-          echo '  port: "3306"' >> backend/configs/config.yaml
-          echo '  net: "tcp"' >> backend/configs/config.yaml
-
-          echo 'smtp:' >> backend/configs/config.yaml
-          echo '  ip: 192.168.0.1' >> backend/configs/config.yaml
-          echo '  port: 1150' >> backend/configs/config.yaml
-      -
-        name: Get in to backend folder
-        run: |-
           cd backend
+          if [ -e configs/config.yaml ]; then
+              rm configs/config.yaml
+          fi
+          if [ ! -e configs ]; then
+              mkdir configs
+          fi
+          echo 'app:' > configs/config.yaml
+          echo "  port: 1323" >> configs/config.yaml
+
+          echo 'mysql:' >> configs/config.yaml
+          echo "  host: $AWS_HOST >> configs/config.yaml
+          echo '  port: 3306' >> configs/config.yaml
+          echo "  username: \"$DB_USER\"" >> configs/config.yaml
+          echo "  password: \"$DB_PASS\"" >> configs/config.yaml
+          echo "  db_name: \"$DB_NAME\"" >> configs/config.yaml
+          echo "  net: \"tcp\"" >> configs/config.yaml
+          
+          echo 'smtp:' >> configs/config.yaml
+          echo '  ip: 192.168.0.1' >> configs/config.yaml
+          echo '  port: 1150' >> configs/config.yaml
       -
         name: Login to DockerHub
         uses: docker/login-action@v1 
