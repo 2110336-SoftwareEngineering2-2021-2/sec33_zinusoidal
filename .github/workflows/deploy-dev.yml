@@ -136,5 +136,6 @@ jobs:
             echo "      - \"1323:1323\"" >> docker-compose.yml
 
             sudo docker-compose down
+            sudo docker container prune --force
             sudo docker image prune -a --force
             sudo docker-compose up -d
