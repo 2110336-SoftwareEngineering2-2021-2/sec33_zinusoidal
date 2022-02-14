@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import AvailableTimeInputForm from "./AvailableTimeInputForm";
+import AvailableTimeInputForm from "../provider_register/AvailableTimeInputForm";
 import ProviderRegisterTimeTable from "../../containers/ProviderRegisterTimeTable";
 import { MdRemoveRedEye } from "react-icons/md";
 
-const ProviderAvailableTime = ({ availableTime, setAvailableTime }: any) => {
+const EditAvailableTime = ({ availableTime, setAvailableTime }: any) => {
   return (
     <Layout>
       <HeaderSection>
@@ -60,7 +60,7 @@ const WorkingTimeSection = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 20px 20px 0 0;
+  border-radius: 20px 20px 20px 20px;
   background-color: white;
 
   h1 {
@@ -74,4 +74,4 @@ const WorkingTimeSection = styled.div`
   }
 `;
 
-export default ProviderAvailableTime;
+export default EditAvailableTime;

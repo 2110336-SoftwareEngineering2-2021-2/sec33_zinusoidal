@@ -11,6 +11,15 @@ interface Current {
 const CustomerRegister = () => {
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
+  const [userInput, setUserInput] = useState({
+    Name: "",
+    Surname: "",
+    Email: "",
+    CitizenID: "",
+    Username: "",
+    Password: "",
+    ConfirmPassword: "",
+  });
   const clickToggle = () => {
     setClicked(!clicked);
   };
@@ -23,6 +32,8 @@ const CustomerRegister = () => {
       </Header>
       <Form>
         <CustomerRegisterContainer
+          userData={userInput}
+          changeUserData={setUserInput}
           current={current}
           checked={clicked}
           callBack={clickToggle}
