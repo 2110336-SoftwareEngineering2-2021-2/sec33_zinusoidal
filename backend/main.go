@@ -48,7 +48,7 @@ func main() {
 		v1fortune.POST("/activate/:key", auth_handler.ActivateEmail)
 	}
 
-	search_handler := search.NewHandler(*search.NewService(*auth_repo.New(db)))
+	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
 	}
