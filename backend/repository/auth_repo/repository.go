@@ -38,9 +38,7 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
     VALUES (?, ? , ? , ? ,?, ? ,NOW());`
 	err := db.database.Exec(insert_user, provider.UserId, provider.Username,
 		provider.CitizenId, provider.Email, provider.Password, true).Error
-	/**
-	* user type = 1, for provider
-	 */
+
 	if err != nil {
 		return err
 	}

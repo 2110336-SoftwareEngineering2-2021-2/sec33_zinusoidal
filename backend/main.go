@@ -45,9 +45,8 @@ func main() {
 		v1fortune.POST("/customer_register", auth_handler.CustomerRegisterHandler)
 		v1fortune.POST("/provider_register", auth_handler.ProviderRegisterHandler)
 		v1fortune.POST("/login", auth_handler.LoginHandler)
-		v1fortune.POST("/activate/:key", auth_handler.ActivateEmailHandler)
+		v1fortune.POST("/confirm_email/:key", auth_handler.ActivateEmailHandler)
 
-		v1fortune.POST("/test_token", auth_handler.TestHandler)
 	}
 
 	search_handler := search.NewHandler(*search.NewService(*auth_repo.New(db)))
