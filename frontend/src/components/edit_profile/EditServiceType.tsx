@@ -9,7 +9,7 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 
-const ProviderProfileUpload = ({ service, setService }: any) => {
+const EditServiceType = ({ service, setService }: any) => {
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
@@ -50,10 +50,6 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
     <Layout>
       <FirstLayout>
         <Padding>
-          <ProviderRegistration>
-            <MdRemoveRedEye color={COLOR["violet/400"]} />
-            Provider Registration
-          </ProviderRegistration>
           <ServiceType>Type of Service you provide</ServiceType>
           {choice ? (
             <InputLayout>
@@ -166,7 +162,7 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                   backgroundColor: enableAdd
                     ? COLOR["violet/400"]
                     : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "none" : "unset",
+                  pointerEvents: enableAdd ? "unset" : "none",
                 }}
               >
                 Add +
@@ -205,17 +201,17 @@ const Layout = styled.div`
 `;
 const FirstLayout = styled.div`
   width: 100%;
+  height: 264px;
   background-color: white;
-  height: fit-content;
   border-radius: 0px 0px 8px 8px;
+  margin-bottom: 6px;
 `;
 const SecondLayout = styled.div`
-  margin-top: 8px;
   width: 100%;
-  height: 100%;
+  height: 330px;
+  border-radius: 20px 20px 20px 20px;
   background-color: white;
-  border-radius: 20px 20px 0px 0px;
-  overflow-y: scroll;
+  overflow: scroll;
 `;
 const Padding = styled.div`
   width: 100%;
@@ -226,14 +222,6 @@ const Padding = styled.div`
   row-gap: 16px;
 `;
 
-const ProviderRegistration = styled.div`
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  column-gap: 5px;
-  font-weight: bold;
-`;
-
 const ServiceType = styled.div`
   font-size: 18px;
   width: 100%;
@@ -242,8 +230,9 @@ const ServiceType = styled.div`
 
 const InputLayout = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
-  row-gap: 16px;
+  justify-content: space-evenly;
 `;
 const ChoiceDiv = styled.div`
   display: flex;
@@ -379,4 +368,4 @@ const PriceAndMinusDiv = styled.div`
   column-gap: 8px;
 `;
 
-export default ProviderProfileUpload;
+export default EditServiceType;

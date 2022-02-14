@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { COLOR } from "../../CONSTANT";
 import styled from "styled-components";
 
 const LoginForm = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <LoginFormLayout>
       <LoginFormHeader1>Fortune 168</LoginFormHeader1>
@@ -10,16 +13,26 @@ const LoginForm = () => {
       <InputDiv>
         <ErrorText>Invalid Username or Password</ErrorText>
         <FormLabel>Username</FormLabel>
-        <Forminput type="text" id="fname" name="fname" />
+        <Forminput
+          type="text"
+          onChange={(event) => {
+            setUsername(event.target.value);
+          }}
+        />
       </InputDiv>
       <InputDiv>
         <FormLabel>Password</FormLabel>
-        <Forminput type="password" id="fname" name="fname" />
+        <Forminput
+          type="password"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
       </InputDiv>
 
       <RememberAndForgetDiv>
         <RememberDiv>
-          <CheckboxStyle type="checkbox" id="" name="" value="" />
+          <CheckboxStyle type="checkbox" />
           <p>Remember me</p>
         </RememberDiv>
         <Forget href="">Forget password?</Forget>
@@ -88,8 +101,8 @@ const Forminput = styled.input`
   border: solid #808080 1px;
 
   &:focus {
-    outline: solid ${COLOR["violet/400"]} 1px;
-    border: solid ${COLOR["violet/400"]} 1px;
+    outline: none;
+    border: solid ${COLOR["violet/400"]} 2px;
   }
 `;
 

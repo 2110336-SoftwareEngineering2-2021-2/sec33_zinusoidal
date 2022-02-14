@@ -158,7 +158,7 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
           </DoubleInput>
           <BioDiv>
             <div>
-              <FormLabel>BioGraphy</FormLabel>
+              <FormLabel>Biography</FormLabel>
               <Star>*</Star>
             </div>
             <Biotext
@@ -240,8 +240,8 @@ const Forminput = styled.input`
   border: solid #808080 1px;
 
   &:focus {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
   }
 `;
 
@@ -260,8 +260,8 @@ const Biotext = styled.textarea`
   font-weight: bold;
   border-radius: 8px;
   &:focus {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
   }
 `;
 
@@ -271,8 +271,8 @@ const PasswordDiv = styled.div`
   border: solid #808080 1px;
   border-radius: 8px;
   :focus-within {
-    outline: solid ${COLOR["magenta/100"]} 1px;
-    border: solid ${COLOR["magenta/100"]} 1px;
+    outline: none;
+    border: solid ${COLOR["magenta/200"]} 1px;
   }
   input {
     border: none;
