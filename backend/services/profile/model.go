@@ -33,3 +33,16 @@ type ProviderProfile struct {
 	WorkSchedule  string          `json:"workSchedule"`
 	Rating        float64         `json:"rating"`
 }
+
+type ProviderDB struct {
+	Username      string `json:"username"`
+	FirstName     string `json:"firstName"`
+	LastName      string `json:"lastName"`
+	ProfilePicUrl string `json:"profilePicUrl"`
+	Email         string `json:"email"`
+	FortuneType   string
+	Price         int
+	Biography     string  `json:"biography"`
+	WorkSchedule  string  `json:"workSchedule"`
+	Rating        float64 `json:"rating"`
+}

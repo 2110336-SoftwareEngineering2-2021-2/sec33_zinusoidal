@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/jinzhu/gorm"
@@ -19,7 +20,8 @@ func New(db *gorm.DB) *GromDB {
 
 func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error) {
 
-	var providerProfile profile.ProviderProfile
+	var providerProfiles []profile.ProviderDB
+	var returnProfile profile.ProviderProfile
 
 	query := `SELECT U.username,
     P.first_name,
@@ -37,14 +39,32 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
     RIGHT JOIN provider_service S ON P.id = S.provider_id
     WHERE U.id = ?;`
 
-	err := db.database.Raw(query, userID).Scan(&providerProfile).Error
+	err := db.database.Raw(query, userID).Scan(&providerProfiles).Error
+
+	fmt.Println("test", providerProfiles)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err := fmt.Errorf("Provider not found")
-		return providerProfile, err
+		return returnProfile, err
 	}
 
-	return providerProfile, err
+	returnProfile.Biography = providerProfiles[0].Biography
+	returnProfile.Email = providerProfiles[0].Email
+	returnProfile.FirstName = providerProfiles[0].FirstName
+	returnProfile.LastName = providerProfiles[0].LastName
+	returnProfile.ProfilePicUrl = providerProfiles[0].ProfilePicUrl
+	returnProfile.Rating = providerProfiles[0].Rating
+	returnProfile.Username = providerProfiles[0].Username
+	returnProfile.WorkSchedule = providerProfiles[0].WorkSchedule
+
+	var fortune model.Fortune
+	for _, profile := range providerProfiles {
+		fortune.FortuneType = profile.FortuneType
+		fortune.Price = profile.Price
+		returnProfile.Fortune = append(returnProfile.Fortune, fortune)
+	}
+
+	return returnProfile, err
 
 }
 
@@ -123,17 +143,23 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.ProviderProfile, error) {
 
 	var searchResults []profile.ProviderProfile
-	query := `SELECT P.id
-	FROM provider P
-	WHERE P.rating >= ? AND
-		P.rating <= ? AND
-		EXISTS (
-			SELECT *
-			FROM provider_service S
-			WHERE S.provider_id = P.id AND
-				S.fortune_type IN ? AND
-				S.price >= ? AND
-				S.price <= ?
+	query := `SELECT
+	P.id
+  FROM
+	provider P
+  WHERE
+	P.rating >= ?
+	AND P.rating <= ?
+	AND EXISTS (
+	  SELECT
+		*
+	  FROM
+		provider_service S
+	  WHERE
+		S.provider_id = P.id
+		AND S.fortune_type IN ?
+		AND S.price >= ?
+		AND S.price <= ?
 	);`
 
 	var fortuneList string = "("
@@ -141,7 +167,7 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		fortuneList = fortuneList + "'" + element + "',"
 	}
 	fortuneList = fortuneList[:len(fortuneList)-1] + ")"
-	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, fortuneList, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
+	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, searchRequest.FortuneType, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
 
 	return searchResults, err
 }
