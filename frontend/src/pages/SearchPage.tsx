@@ -107,7 +107,6 @@ const SearchPane = styled("div")<SearchPanePropType>`
 `;
 
 const Padding = styled.div`
-  background-color: blue;
   padding: 0 32px;
   display: flex;
   flex-direction: column;
@@ -116,14 +115,12 @@ const Padding = styled.div`
 const SearchContent = styled.div`
   display: flex;
   margin: 8px 0px 17px;
-  background-color: red;
-
   max-width: 1150px;
   flex: 1;
   width: 100%;
 
   @media screen and (max-width: 900px) {
-    flex-direction: column;
+    /* flex-direction: column; */
   }
 `;
 
@@ -132,7 +129,7 @@ const SearchResultList = styled.div`
   align-self: flex-start;
   border-radius: 8px;
   width: 450px;
-  /* background-color: red;*/
+  /* align-self: stretch; */
 
   @media screen and (max-width: 900px) {
     width: 400px;

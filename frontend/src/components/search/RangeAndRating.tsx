@@ -11,7 +11,8 @@ const RangeAndRating = () => {
   const [rangeOpen, setRangeOpen] = useState(false);
   const [ratingOpen, setRatingOpen] = useState(false);
   const [range, setRange] = useState(null);
-  const [rating, setRating] = useState([0, 5]);
+  const [rating, setRating] = useState(null);
+
   const ratingWrapperRef = useRef(null);
 
   function useOutsideAlerter(ref: any) {
@@ -46,7 +47,12 @@ const RangeAndRating = () => {
             ? `Provider's Rating`
             : `${rating[0]} - ${rating[1]} stars`}
         </button>
-        {ratingOpen && <RatingDropDowm rating={rating} setRating={setRating} />}
+        {ratingOpen && (
+          <RatingDropDowm
+            rating={rating ? rating : [0, 5]}
+            setRating={setRating}
+          />
+        )}
       </PriceRange>
     </Layout>
   );
