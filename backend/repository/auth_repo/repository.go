@@ -15,7 +15,7 @@ func New(db *gorm.DB) *GromDB {
 }
 
 func (db *GromDB) RegisterCustomer(customer model.Customer) error {
-	insert_user := `INSERT INTO fortune_user(id,username,citizen_id,email,password,user_type, create_datetime)
+	insert_user := `INSERT INTO fortune_user(id, username, citizen_id, email, password, user_type, create_datetime)
     VALUES (?, ? , ? , ? ,?, ? ,NOW());`
 
 	err := db.database.Exec(insert_user, customer.UserId, customer.Username,
@@ -23,7 +23,7 @@ func (db *GromDB) RegisterCustomer(customer model.Customer) error {
 	if err != nil {
 		return err
 	}
-	insert_customer := `INSERT INTO customer(id,first_name,last_name,profile_image)
+	insert_customer := `INSERT INTO customer(id, first_name, last_name, profile_image)
     VALUES (?, ?, ?, ?);`
 	err = db.database.Exec(insert_customer, customer.UserId,
 		customer.FirstName, customer.LastName, customer.ProfilePicUrl).Error
@@ -32,7 +32,7 @@ func (db *GromDB) RegisterCustomer(customer model.Customer) error {
 
 func (db *GromDB) RegisterProvider(provider model.Provider) error {
 
-	insert_user := `INSERT INTO fortune_user(id,username,citizen_id,email,password,user_type,create_datetime)
+	insert_user := `INSERT INTO fortune_user(id, username, citizen_id, email, password, user_type, create_datetime)
     VALUES (?, ? , ? , ? ,?, ? ,NOW());`
 	err := db.database.Exec(insert_user, provider.UserId, provider.Username,
 		provider.CitizenId, provider.Email, provider.Password, true).Error
@@ -40,7 +40,7 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 	if err != nil {
 		return err
 	}
-	insert_provider := `INSERT INTO provider(id,first_name,last_name,profile_image,biography,work_schedule)
+	insert_provider := `INSERT INTO provider(id, first_name, last_name, profile_image, biography, work_schedule)
 	VALUES (? , ?, ?, ?, ?, ?)`
 	err = db.database.Exec(insert_provider, provider.UserId, provider.FirstName, provider.LastName, provider.ProfilePicUrl,
 		provider.Biography, provider.Schedule).Error
