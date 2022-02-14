@@ -107,8 +107,19 @@ const SearchPane = styled("div")<SearchPanePropType>`
     font-size: 36px;
     line-height: 57px;
     font-weight: bold;
-    margin-left: 10rem;
+    /* margin-left: 10rem; */
     margin-bottom: 32px;
+
+    width: 100%;
+    max-width: 1150px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    padding: ${(props) => (props.pressed ? "32px" : "32px 16px")};
   }
 `;
 
