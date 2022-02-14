@@ -58,6 +58,7 @@ const Layout = styled.div`
   padding: 4px 16px;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 `;
 
 const Header = styled.div`
