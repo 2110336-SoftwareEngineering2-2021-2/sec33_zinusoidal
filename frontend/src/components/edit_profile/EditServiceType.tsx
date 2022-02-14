@@ -14,6 +14,7 @@ const EditServiceType = ({ service, setService }: any) => {
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
+  console.log(service);
   const addButtonHandler = () => {
     if (serviceName == "" || servicePrice == 0) {
       setEnableAdd(false);
@@ -173,24 +174,26 @@ const EditServiceType = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
-        {service.map((service: any) => (
-          <MyServiceDiv>
-            <p>{service.serviceName}</p>
-            <PriceAndMinusDiv>
-              <p>฿ {service.servicePrice} /30min</p>
-              <AiFillMinusCircle
-                color={COLOR["magenta/400"]}
-                size={24}
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  deleteServiceFromList(service);
-                }}
-              />
-            </PriceAndMinusDiv>
-          </MyServiceDiv>
-        ))}
+        <Services>
+          {service.map((service: any) => (
+            <MyServiceDiv>
+              <p>{service.serviceName}</p>
+              <PriceAndMinusDiv>
+                <p>฿ {service.servicePrice} /30min</p>
+                <AiFillMinusCircle
+                  color={COLOR["magenta/400"]}
+                  size={24}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    deleteServiceFromList(service);
+                  }}
+                />
+              </PriceAndMinusDiv>
+            </MyServiceDiv>
+          ))}
+        </Services>
       </SecondLayout>
     </Layout>
   );
@@ -211,7 +214,8 @@ const SecondLayout = styled.div`
   height: 330px;
   border-radius: 20px 20px 20px 20px;
   background-color: white;
-  overflow: scroll;
+  display: flex;
+  flex-direction: column;
 `;
 const Padding = styled.div`
   width: 100%;
@@ -221,7 +225,10 @@ const Padding = styled.div`
   flex-direction: column;
   row-gap: 16px;
 `;
-
+const Services = styled.div`
+  flex: 1;
+  overflow-y: scroll;
+`;
 const ServiceType = styled.div`
   font-size: 18px;
   width: 100%;

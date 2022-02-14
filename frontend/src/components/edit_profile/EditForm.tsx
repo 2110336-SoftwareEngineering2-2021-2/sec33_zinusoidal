@@ -140,12 +140,13 @@ const EditForm = ({ userData, changeUserData }: any) => {
   );
 };
 const Layout = styled.div`
-  height: 600px;
+  min-height: 600px;
   font-weight: bold;
   width: 100%;
   background-color: white;
   box-shadow: 0px 0px rgba(0, 0, 0, 0.25);
   border-radius: 0 0 20px 20px;
+  overflow-y: scroll;
 `;
 const Padding = styled.div`
   height: 100%;
@@ -226,9 +227,6 @@ const BioDiv = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  @media screen and (max-width: 1300px) {
-    height: 134px;
-  }
 `;
 const Biotext = styled.textarea`
   padding: 5px;

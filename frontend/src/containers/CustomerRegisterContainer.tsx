@@ -45,8 +45,8 @@ const Slider = styled("div")<SliderProp>`
   @media screen and (max-width: 540px) {
     transform: ${(props) => `translateX(-${450 * props.idx}px)`};
   }
-  @media screen and (max-width: 320px) {
-    transform: ${(props) => `translateX(-${280 * props.idx}px)`};
+  @media screen and (max-width: 450px) {
+    transform: ${(props) => `translateX(-${300 * props.idx}px)`};
   } ;
 `;
 
