@@ -38,7 +38,7 @@ jobs:
           echo "  username: \"$DB_USER\"" >> configs/config.yaml
           echo "  password: \"$DB_PASS\"" >> configs/config.yaml
           echo "  db_name: \"$DB_NAME\"" >> configs/config.yaml
-          echo "  net: \"tcp\"" >> configs/config.yaml
+          echo "  net: tcp" >> configs/config.yaml
           
           echo 'smtp:' >> configs/config.yaml
           echo '  ip: 192.168.0.1' >> configs/config.yaml
