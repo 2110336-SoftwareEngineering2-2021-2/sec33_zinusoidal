@@ -101,5 +101,5 @@ func (db *GromDB) ConfirmEmail(key string) error {
         WHERE fortune_user.id = activation_key.id AND activation_key.activation_key = ?
     );`
 
-	return db.database.Raw(confirmEmailCommand, key).Error
+	return db.database.Exec(confirmEmailCommand, key).Error
 }

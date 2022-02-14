@@ -86,7 +86,7 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 }
 
 func (h *Handler) ActivateEmailHandler(c *gin.Context) {
-	key := c.GetString("key")
+	key := c.Param("key")
 	if key == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": "invalid key",

@@ -119,6 +119,7 @@ func sendEmailConfirmationLink(email, key string) error {
 	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
 	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+	log.Println("Sending email....")
 	err := d.DialAndSend(mail)
 	return err
 
