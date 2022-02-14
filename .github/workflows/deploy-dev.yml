@@ -22,10 +22,6 @@ jobs:
       
       -
         name: setup config.yml for container
-        env:
-          DB_USER: ${{ secrets.MYSQL_USERNAME }}
-          DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
-          DB_NAME: ${{ secrets.MYSQL_DATABASE }}
         run: |-
           if [ -e backend/configs/config.yaml ]; then
               rm backend/configs/config.yaml
@@ -34,13 +30,13 @@ jobs:
               mkdir backend/configs
           fi
           echo 'app:' > backend/configs/config.yaml
-          echo '  port: 1323' >> backend/configs/config.yaml
+          echo "  port: 1323" >> backend/configs/config.yaml
 
           echo 'mysql:' >> backend/configs/config.yaml
           echo "  username: \"$DB_USER\"" >> backend/configs/config.yaml
           echo "  password: \"$DB_PASS\"" >> backend/configs/config.yaml
           echo "  db_name: \"$DB_NAME\"" >> backend/configs/config.yaml
-          echo '  host: "127.0.0.1"' >> backend/configs/config.yaml
+          echo "  host: \"$AWS_HOST\"" >> backend/configs/config.yaml
           echo '  port: "3306"' >> backend/configs/config.yaml
           echo '  net: "tcp"' >> backend/configs/config.yaml
 
