@@ -23,6 +23,7 @@ jobs:
         name: setup config.yml for container
         run: |-
           cd backend
+
           if [ -e configs/config.yaml ]; then
               rm configs/config.yaml
           fi
@@ -33,7 +34,7 @@ jobs:
           echo "  port: 1323" >> configs/config.yaml
 
           echo 'mysql:' >> configs/config.yaml
-          echo "  host: $AWS_HOST >> configs/config.yaml
+          echo "  host: $AWS_HOST" >> configs/config.yaml
           echo '  port: 3306' >> configs/config.yaml
           echo "  username: \"$DB_USER\"" >> configs/config.yaml
           echo "  password: \"$DB_PASS\"" >> configs/config.yaml
