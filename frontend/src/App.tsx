@@ -10,9 +10,10 @@ import SearchPage from "./pages/SearchPage";
 import Teach from "./components/login/test";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
+import { UserContext } from "./context/UserContext";
 const App = () => {
   return (
-    <>
+    <UserContext.Provider value="test thing up">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -25,7 +26,7 @@ const App = () => {
           <Route path="/test" element={<Teach />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </UserContext.Provider>
   );
 };
 

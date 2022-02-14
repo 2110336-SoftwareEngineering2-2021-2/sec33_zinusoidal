@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { MdOutlineStar } from "react-icons/md";
 
-interface PersonType {
+export interface PersonType {
   name: string;
   username: string;
   rating: number;
