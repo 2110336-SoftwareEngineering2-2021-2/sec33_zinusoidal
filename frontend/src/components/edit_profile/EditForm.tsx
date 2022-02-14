@@ -160,18 +160,18 @@ const ImageZone = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  row-gap: 8px;
 `;
 
 const Image = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 100%;
   /* margin-top: 10px; */
   img {
     width: 100%;
     height: 100%;
-    border-radius: inherit;
-    object-fit: cover;
+    border-radius: 100%;
   }
 `;
 const FormLabel = styled.p`

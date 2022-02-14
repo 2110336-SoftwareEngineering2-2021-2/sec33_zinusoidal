@@ -91,7 +91,10 @@ const Layout = styled.div`
     margin-top: 50px;
   }
   @media screen and (max-width: 540px) {
-    width: 350px;
+    width: 450px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 280px;
   } ;
 `;
 
