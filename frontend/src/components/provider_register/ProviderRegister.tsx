@@ -113,8 +113,8 @@ const Layout = styled.div`
   @media screen and (max-width: 540px) {
     width: 450px;
   }
-  @media screen and (max-width: 320px) {
-    width: 280px;
+  @media screen and (max-width: 450px) {
+    width: 300px;
   } ;
 `;
 

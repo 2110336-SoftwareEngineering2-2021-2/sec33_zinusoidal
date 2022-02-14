@@ -123,8 +123,8 @@ const InputSection = styled.div`
   @media screen and (max-width: 540px) {
     width: 450px;
   }
-  @media screen and (max-width: 320px) {
-    width: 280px;
+  @media screen and (max-width: 450px) {
+    width: 300px;
   } ;
 `;
 const Header = styled.div`
@@ -158,7 +158,7 @@ const InnerCircle = styled.div`
   border-radius: 10000px;
 `;
 const ArrowDiv = styled.div`
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 750px) {
     display: none;
   }
 `;
@@ -173,7 +173,7 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 const SmallNavigate = styled.div`
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 750px) {
     display: none;
   }
 `;

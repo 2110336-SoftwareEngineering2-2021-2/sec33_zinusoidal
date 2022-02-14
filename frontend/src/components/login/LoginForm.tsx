@@ -56,9 +56,10 @@ const LoginFormLayout = styled.div`
   @media screen and (max-width: 750px) {
     margin-top: 200px;
   }
-  @media screen and (max-width: 320px) {
+
+  @media screen and (max-width: 400px) {
     width: 280px;
-    margin-top: 300px;
+    margin-top: 50px;
     padding: 12px;
   } ;
 `;
