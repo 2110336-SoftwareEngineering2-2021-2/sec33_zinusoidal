@@ -5,13 +5,12 @@ mysql:
   port: 3306
   username: ""
   password: ""
-  db_name: "fortune_db"
+  db_name: ""
   net: "tcp"
-
 smtp:
   host: "smtp.gmail.com"
   ip: 192.168.1.10
-  port: 335
+  port: 587
 email:
-  email: "xxx@gmail.com"
-  password: "xxx"
+  email: ""
+  password: ""
