@@ -18,8 +18,8 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   padding-left: 16px;
-  z-index: 0;
-
+  z-index: 1;
+  position: relative;
   h1 {
     font-size: 20px;
     line-height: 31px;

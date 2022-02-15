@@ -68,7 +68,7 @@ const Layout = styled.div`
   @media screen and (max-width: 768px) {
     margin-top: 11px;
   }
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 500px) {
     flex-direction: column;
   }
 `;
@@ -91,7 +91,7 @@ const PriceRange = styled("div")<PriceRangeType>`
     cursor: pointer;
 
     @media screen and (max-width: 768px) {
-      width: 154px;
+      min-width: 154px;
       height: 35px;
     }
 

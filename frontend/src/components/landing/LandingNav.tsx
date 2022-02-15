@@ -18,11 +18,11 @@ interface ParagraphPropType {
   isUser: boolean;
 }
 const LandingNav = ({ onClickMenu, show }: any) => {
-  const msg = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [showDropDown, setShowDropDown] = useState(true);
 
   const location = useLocation();
-
+  console.log(user);
   useEffect(() => {
     setShowDropDown(false);
   }, [location]);
@@ -53,8 +53,8 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           </motion.h1>
         </StyledLink>
         <StyledLink to="/login" ending={true}>
-          <P whileHover={{ scale: 1.3, originX: "100%" }} isUser={msg != null}>
-            {msg == null ? "Login/Register" : `Hello, ${msg}`}
+          <P whileHover={{ scale: 1.3, originX: "100%" }} isUser={user != null}>
+            {user == null ? "Login/Register" : `Hello, ${user}`}
           </P>
         </StyledLink>
 
@@ -68,20 +68,15 @@ const LandingNav = ({ onClickMenu, show }: any) => {
         {showDropDown && (
           <LandingDropDownDiv
             onClick={() => setShowDropDown(!showDropDown)}
-            // initial={{ y: -189, opacity: 0 }}
-            // animate={{ y: 0, opacity: 1 }}
-            // transition={{ duration: 1 }}
-            // exit={{ opacity: 0, y: -189 }}
+            initial={{ y: -189, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, y: -189 }}
           >
-            <LandingDropDown text="Home" where="/"></LandingDropDown>
-            <LandingDropDown
-              text="Find provider"
-              where="/search"
-            ></LandingDropDown>
-            <LandingDropDown
-              text="Login/Register"
-              where="/login"
-            ></LandingDropDown>
+            <LandingDropDown text="Home" where="/" />
+            <LandingDropDown text="Find provider" where="/search" />
+            <LandingDropDown text="Edit your profiles" where="/editProfile" />
+            <LandingDropDown text="Login/Register" where="/login" />
           </LandingDropDownDiv>
         )}
       </AnimatePresence>
@@ -91,6 +86,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
 
 const Frame = styled.div`
   position: relative;
+  width: 100%;
 `;
 const Layout = styled.div`
   width: 100%;
@@ -101,6 +97,7 @@ const Layout = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: ${COLOR["violet/100"]};
   z-index: 5;
+  position: relative;
   img {
     height: 50px;
     width: 131px;

@@ -107,6 +107,7 @@ const Detail = styled.div`
     font-size: 20px;
     line-height: 31px;
     font-weight: bold;
+    display: inline;
 
     span {
       font-size: 12px;
