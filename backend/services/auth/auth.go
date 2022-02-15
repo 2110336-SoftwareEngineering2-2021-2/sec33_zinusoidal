@@ -69,12 +69,12 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	}
 
 	key := randomStringKey(20)
-	/*
-		err = sendEmailConfirmationLink(req.Email, key)
-		if err != nil {
-			return err
-		}
-	*/
+
+	err = sendEmailConfirmationLink(req.Email, key)
+	if err != nil {
+		return err
+	}
+
 	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
@@ -114,12 +114,12 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	if err != nil {
 		return err
 	}
-	/*
-		err = sendEmailConfirmationLink(req.Email, key)
-		if err != nil {
-			return err
-		}
-	*/
+
+	err = sendEmailConfirmationLink(req.Email, key)
+	if err != nil {
+		return err
+	}
+
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }
@@ -142,7 +142,7 @@ func sendEmailConfirmationLink(email, key string) error {
 	mail.SetHeader("From", sender)
 	mail.SetHeader("Subject", "Email activation")
 	mail.SetHeader("To", email)
-	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
+	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://:"+viper.GetString("app.port")+"/confirm_email/"+key)
 	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 	log.Println("Sending email....")
