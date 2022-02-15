@@ -7,13 +7,13 @@ import (
 )
 
 type ProviderEditRequest struct {
-	FirstName     string                `json:"firstName"`
-	LastName      string                `json:"lastName"`
+	FirstName     string                `json:"firstName" form:"firstName"`
+	LastName      string                `json:"lastName" form:"lastName"`
 	Fortune       []model.Fortune       `json:"fortuneList"`
-	Biography     string                `json:"biography"`
-	Schedule      string                `json:"schedule"`
+	Biography     string                `json:"biography" form:"biography"`
+	Schedule      string                `json:"schedule" form:"schedule"`
 	WorkSchedule  []model.WorkSchedule  `json:"workSchedule"`
-	Email         string                `json:"email"`
+	Email         string                `json:"email" form:"email"`
 	ProfilePicUrl string                `json:"profilePicUrl"`
 	ProfilePic    *multipart.FileHeader `form:"profilePic"`
 }
