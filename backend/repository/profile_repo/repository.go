@@ -167,7 +167,7 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 	}
 
 	var fortuneList string = `(`
-	if searchRequest.FortuneType != nil {
+	if len(searchRequest.FortuneType) > 0 {
 		for _, element := range searchRequest.FortuneType {
 			fortuneList = fortuneList + `'` + element + `',`
 		}

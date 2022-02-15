@@ -23,7 +23,7 @@ type Service struct {
 type Databaser interface {
 	RegisterCustomer(customer model.Customer) error
 	RegisterProvider(provider model.Provider) error
-	Login(username, password string) (string, error)
+	Login(username, password string) (model.LoginQuery, error)
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
 }
@@ -105,9 +105,9 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	return err
 }
 
-func (s *Service) Login(req LoginRequest) (string, error) {
-	userId, err := s.database.Login(req.Username, req.Password)
-	return userId, err
+func (s *Service) Login(req LoginRequest) (model.LoginQuery, error) {
+	res, err := s.database.Login(req.Username, req.Password)
+	return res, err
 }
 
 func (s *Service) ConfirmEmail(key string) error {

@@ -4,6 +4,9 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +30,10 @@ const LoginForm = () => {
       .then(function (response) {
         console.log("login success");
         console.log(response.data);
-        setUser(response.data.token);
+        cookies.set("user", JSON.stringify(response.data), {
+          path: "/",
+        });
+        setUser(response.data);
         navigate(`/`);
         setDisable(false);
       })
