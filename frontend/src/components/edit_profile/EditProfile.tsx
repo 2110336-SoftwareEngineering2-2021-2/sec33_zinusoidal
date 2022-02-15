@@ -42,9 +42,11 @@ const EditProfile = () => {
   });
   // const UpdateProfile = () => {
   //   axios({
-  //     method: "get",
-  //     url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
-  //     data: {},
+  //     method: "patch",
+  //     url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_edit`,
+  //     data: {
+
+  //     },
   //   })
   //     .then(function (response) {
   //       setUserInput({ ...userInput, Username: response.data.username });
