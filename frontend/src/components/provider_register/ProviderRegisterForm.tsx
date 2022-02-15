@@ -3,6 +3,7 @@ import { COLOR } from "../../CONSTANT";
 import React, { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
+import zIndex from "@mui/material/styles/zIndex";
 const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
   const [seePassword, setSeePassword] = useState(false);
   const [seeCPassword, setSeeCPassword] = useState(false);
@@ -84,7 +85,7 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
                   />
                   <RiEyeFill
                     size={16}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, zIndex: 500 }}
                     onMouseUpCapture={() => {
                       setSeePassword(false);
                     }}
@@ -103,7 +104,7 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
                   />
                   <RiEyeCloseLine
                     size={16}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, zIndex: 500 }}
                     onMouseDownCapture={() => {
                       setSeePassword(true);
                     }}
@@ -127,7 +128,7 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
                   />
                   <RiEyeFill
                     size={16}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, zIndex: 500 }}
                     onMouseUpCapture={() => {
                       setSeeCPassword(false);
                     }}
@@ -146,7 +147,7 @@ const ProviderRegistrationForm = ({ userData, changeUserData }: any) => {
                   />
                   <RiEyeCloseLine
                     size={16}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, zIndex: 500 }}
                     onMouseDownCapture={() => {
                       setSeeCPassword(true);
                     }}

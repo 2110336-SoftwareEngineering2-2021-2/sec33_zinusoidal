@@ -1,17 +1,42 @@
 import React, { useState } from "react";
 import { COLOR } from "../../CONSTANT";
 import styled from "styled-components";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [disable, setDisable] = useState(false);
+  let navigate = useNavigate();
 
+  const login = () => {
+    setError(false);
+    setDisable(true);
+    axios({
+      method: "post",
+      url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/login",
+      data: {
+        username: username,
+        password: password,
+      },
+    })
+      .then(function (response) {
+        console.log("login success");
+        navigate(`/`);
+        setDisable(false);
+      })
+      .catch(function (error) {
+        setError(true);
+        setDisable(false);
+      });
+  };
   return (
     <LoginFormLayout>
       <LoginFormHeader1>Fortune 168</LoginFormHeader1>
       <LoginFormHeader2>Login</LoginFormHeader2>
       <InputDiv>
-        <ErrorText>Invalid Username or Password</ErrorText>
+        {error ? <ErrorText>Invalid Username or Password</ErrorText> : null}
         <FormLabel>Username</FormLabel>
         <Forminput
           type="text"
@@ -38,7 +63,14 @@ const LoginForm = () => {
         <Forget href="">Forget password?</Forget>
       </RememberAndForgetDiv>
 
-      <LoginButton>Login</LoginButton>
+      <LoginButton
+        disabled={disable}
+        onClick={() => {
+          login();
+        }}
+      >
+        Login
+      </LoginButton>
     </LoginFormLayout>
   );
 };
@@ -66,7 +98,6 @@ const LoginFormLayout = styled.div`
 
 const ErrorText = styled.div`
   color: ${COLOR["magenta/500"]};
-  display: none;
 `;
 
 const InputDiv = styled.div`

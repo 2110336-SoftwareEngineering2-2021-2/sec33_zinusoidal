@@ -41,7 +41,7 @@ const DropDown = styled.div`
   width: 100px;
   position: absolute;
   background-color: white;
-  height: 150px;
+  max-height: 150px !important;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 4px 4px;
   overflow-y: scroll;
