@@ -23,7 +23,6 @@ type SearchResultListPropType = {
 };
 
 const SearchPage = () => {
-  const msg = useContext(UserContext);
   const [showResult, setShowResult] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(
     null as PersonType | null
@@ -85,7 +84,7 @@ const Layout = styled.div`
   width: 100%;
   position: relative;
   flex: 1 1 auto;
-  min-height: 1000px;
+  min-height: max(100vh, 1000px);
   display: flex;
   flex-direction: column;
   background-size: 100% 100%;
