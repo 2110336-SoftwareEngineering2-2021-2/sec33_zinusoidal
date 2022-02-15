@@ -56,7 +56,7 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	}
 	customer.Password = string(hash_password)
 
-	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, customer.UserId+"-profile")
+	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, customer.UserId+"-profile-"+req.ProfilePic.Filename)
 	if err != nil {
 		return err
 	}
@@ -103,7 +103,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	provider.Password = string(hash_password)
 	key := randomStringKey(20)
 
-	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, provider.UserId+"-profile")
+	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, provider.UserId+"-profile-"+req.ProfilePic.Filename)
 	if err != nil {
 		return err
 	}
