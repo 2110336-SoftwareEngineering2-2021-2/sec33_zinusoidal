@@ -67,9 +67,13 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 }
 
 func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
-	provider := model.Provider{}
-	smapping.FillStruct(&provider, smapping.MapFields(&req))
 	var err error
+	provider := model.Provider{}
+	req.Schedule, err = model.ParseSchedule(req.WorkSchedule)
+	if err != nil {
+		return err
+	}
+	smapping.FillStruct(&provider, smapping.MapFields(&req))
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
