@@ -20,7 +20,7 @@ func NewService(sess *session.Session) *Service {
 	}
 }
 
-func (s *Service) UploadFile(file multipart.FileHeader) (string, error) {
+func (s *Service) UploadFile(file multipart.FileHeader, fileName string) (string, error) {
 	uploader := s3manager.NewUploader(s.awsSession)
 	blobFile, err := file.Open()
 	bucketName := viper.GetString("bucket.name")
@@ -33,14 +33,14 @@ func (s *Service) UploadFile(file multipart.FileHeader) (string, error) {
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucketName),
 		ACL:    aws.String("public-read"),
-		Key:    aws.String(file.Filename),
+		Key:    aws.String(fileName),
 		Body:   blobFile,
 	})
 	if err != nil {
 		return "", fmt.Errorf("Upload error")
 	}
 
-	filepath := "https://" + bucketName + "." + "s3-" + bucketZone + ".amazonaws.com/" + file.Filename
+	filepath := "https://" + bucketName + "." + "s3-" + bucketZone + ".amazonaws.com/" + fileName
 
 	return filepath, nil
 }
