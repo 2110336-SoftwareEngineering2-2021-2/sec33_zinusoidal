@@ -21,8 +21,7 @@ const EditProfile = () => {
   console.log(url);
 
   if (typeof user == "undefined") {
-    console.log("Im the best");
-    navigate(`/`);
+    navigate(`/search`);
   }
   // const getProfile = () => {
   //   axios({

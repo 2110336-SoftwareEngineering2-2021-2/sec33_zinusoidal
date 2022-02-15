@@ -28,7 +28,8 @@ const LandingNav = ({ onClickMenu, show }: any) => {
   const [showWideDropDown, setShowWideDropDown] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(user);
+  // console.log(user);
+
   useEffect(() => {
     setShowDropDown(false);
   }, [location]);

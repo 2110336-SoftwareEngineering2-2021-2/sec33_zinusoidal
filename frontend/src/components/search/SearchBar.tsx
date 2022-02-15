@@ -5,6 +5,7 @@ import { FiSearch } from "react-icons/fi";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
 import SearchDropdown from "./SearchDropdown";
+import axios from "axios";
 
 type SearchBarPropType = {
   setShowResult: Function;
@@ -14,6 +15,27 @@ const SearchBar = ({ setShowResult }: SearchBarPropType) => {
   const [serviceList, setServiceList] = useState(["All"] as string[]);
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const wrapperRef = useRef(null);
+
+  const sendSearchRequest = () => {
+    axios({
+      method: "post",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/search`,
+      data: {
+        fortuneType:
+          serviceList.length == 1 && serviceList[0] == "All" ? [] : serviceList,
+        minPrice: 50,
+        maxPrice: 500,
+        minRating: 2,
+        maxRating: 4,
+      },
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const handleDropdown = (e: any) => {
     setDropDownOpen(!dropDownOpen);
@@ -103,6 +125,7 @@ const Layout = styled.div`
   align-items: center;
   max-width: 1150px;
   width: 100%;
+  background-color: red;
   @media screen and (max-width: 768px) {
     flex-direction: column;
   }

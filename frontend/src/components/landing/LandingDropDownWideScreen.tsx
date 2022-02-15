@@ -13,7 +13,7 @@ const LandingDropDownWideScreen = () => {
 
   const logoutHandle = () => {
     cookies.remove("user");
-    window.location.reload();
+    navigate("/");
   };
   return (
     <Layout
