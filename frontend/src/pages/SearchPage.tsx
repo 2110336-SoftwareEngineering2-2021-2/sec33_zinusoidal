@@ -44,6 +44,7 @@ const SearchPage = () => {
   console.log("SEARCHRESULT", SEARCHRESULT);
 
   const searchRequestHandler = async () => {
+    setSelectedPerson(null);
     let data = {};
     if (serviceList.length == 1 && serviceList[0] == "All") {
       data = { ...data, fortuneType: [] };
@@ -84,6 +85,7 @@ const SearchPage = () => {
     })
       .then(function (response) {
         if (!pressed) setPressed(true);
+
         setSEARCHRESULT(response.data);
       })
       .catch(function (error) {

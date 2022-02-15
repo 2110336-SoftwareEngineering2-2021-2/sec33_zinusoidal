@@ -48,6 +48,7 @@ const EditProfile = () => {
   useEffect(() => {
     if (typeof user == "undefined") {
       navigate(`/`);
+      alert("You must be logged in");
     }
   }, []);
 
