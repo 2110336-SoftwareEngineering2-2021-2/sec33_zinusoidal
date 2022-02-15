@@ -9,6 +9,9 @@ import { AnimatePresence } from "framer-motion";
 import LandingDropDown from "./LandingDropDown";
 import { useLocation } from "react-router-dom";
 import LandingDropDownWideScreen from "./LandingDropDownWideScreen";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+const cookies = new Cookies();
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
@@ -19,15 +22,16 @@ interface ParagraphPropType {
   isUser: boolean;
 }
 const LandingNav = ({ onClickMenu, show }: any) => {
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+  const user = cookies.get("user");
   const [showDropDown, setShowDropDown] = useState(true);
   const [showWideDropDown, setShowWideDropDown] = useState(false);
   const location = useLocation();
-  // console.log(user);
+  const navigate = useNavigate();
+  console.log(user);
   useEffect(() => {
     setShowDropDown(false);
   }, [location]);
-
   useEffect(() => {
     const windowWidthDetect = () => {
       if (window.innerWidth > 600 && showDropDown) {
@@ -57,20 +61,23 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           </motion.h1>
         </StyledLink>
         <NameDiv>
-          {user == null ? (
+          {typeof user == "undefined" ? (
             <P
               whileHover={{ scale: 1.3, originX: "100%" }}
-              isUser={user != null}
+              isUser={typeof user != "undefined"}
+              onClick={() => {
+                navigate("/login");
+              }}
             >
               Login/Register
             </P>
           ) : (
             <P
               whileHover={{ scale: 1.3, originX: "100%" }}
-              isUser={user != null}
+              isUser={typeof user != "undefined"}
               onClick={() => setShowWideDropDown(!showWideDropDown)}
             >
-              Hello, {user}
+              Hello, {user?.username}
             </P>
           )}
 
@@ -94,8 +101,21 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           >
             <LandingDropDown text="Home" where="/" />
             <LandingDropDown text="Find provider" where="/search" />
-            <LandingDropDown text="Edit your profiles" where="/editProfile" />
-            <LandingDropDown text="Login/Register" where="/login" />
+            {typeof user != "undefined" && user.user_id.slice(0, 1) == "P" && (
+              <LandingDropDown text="Edit your profiles" where="/editProfile" />
+            )}
+            {typeof user == "undefined" && (
+              <LandingDropDown text="Login/Register" where="/login" />
+            )}
+            {typeof user != "undefined" && (
+              <LogoutButton
+                onClick={() => {
+                  cookies.remove("user");
+                }}
+              >
+                <h1>Logout</h1>
+              </LogoutButton>
+            )}
           </LandingDropDownDiv>
         )}
       </AnimatePresence>
@@ -198,4 +218,21 @@ const NameDiv = styled.div`
     display: none;
   }
 `;
+
+const LogoutButton = styled.div`
+  height: 63px;
+  background-color: ${COLOR["violet/100"]};
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  z-index: 1;
+  position: relative;
+  cursor: pointer;
+  h1 {
+    font-size: 20px;
+    line-height: 31px;
+    font-weight: bold;
+  }
+`;
+
 export default LandingNav;

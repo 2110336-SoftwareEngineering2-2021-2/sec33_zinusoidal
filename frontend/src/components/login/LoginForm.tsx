@@ -30,9 +30,7 @@ const LoginForm = () => {
       .then(function (response) {
         console.log("login success");
         console.log(response.data);
-        cookies.set("user", JSON.stringify(response.data), {
-          path: "/",
-        });
+        cookies.set("user", JSON.stringify(response.data), {});
         // setUser(response.data);
         // console.log("why", user);
         navigate(`/`);

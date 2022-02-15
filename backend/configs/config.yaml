@@ -13,3 +13,8 @@ smtp:
 email:
   email: ""
   password: ""
+bucket:
+  zone: ""
+  access: ""
+  secret: ""
+  name: ""

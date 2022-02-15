@@ -9,6 +9,7 @@ import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 const cookies = new Cookies();
 
 const EditProfile = () => {
@@ -41,6 +42,7 @@ const EditProfile = () => {
         console.log(error.response.data.message);
       });
   };
+
   const [current, setCurrent] = useState(0);
   const [userInput, setUserInput] = useState({
     Name: "",
