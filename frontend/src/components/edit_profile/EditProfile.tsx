@@ -14,6 +14,7 @@ const cookies = new Cookies();
 
 const EditProfile = () => {
   const user = cookies.get("user");
+  let navigate = useNavigate();
   let responseInput = {
     Name: "",
     Surname: "",
@@ -25,7 +26,7 @@ const EditProfile = () => {
   const getProfile = () => {
     axios({
       method: "get",
-      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user?.user_id}`,
       data: {},
     })
       .then(function (response) {
@@ -42,7 +43,6 @@ const EditProfile = () => {
         console.log(error.response.data.message);
       });
   };
-
 
   useEffect(() => {
     if (typeof user == "undefined") {
