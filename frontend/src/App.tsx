@@ -13,7 +13,6 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
 import Cookies from "universal-cookie";
-import { setEnvironmentData } from "worker_threads";
 const cookies = new Cookies();
 
 const App = () => {
