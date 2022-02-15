@@ -14,7 +14,7 @@ const CustomerRegisterPage = () => {
 
 const Layout = styled.div`
   background-color: ${COLOR["blue/100"]};
-  height: 100vh;
+  min-height: max(100vh,1024px);
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

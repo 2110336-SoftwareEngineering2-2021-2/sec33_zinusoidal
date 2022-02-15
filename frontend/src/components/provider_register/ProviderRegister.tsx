@@ -34,6 +34,10 @@ const ProviderRegister = () => {
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  console.log(userInput);
+  console.log(service);
+  console.log(availableTime);
+
   return (
     <Layout>
       <Header>
@@ -107,7 +111,10 @@ const Layout = styled.div`
     margin-top: 50px;
   }
   @media screen and (max-width: 540px) {
-    width: 350px;
+    width: 450px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
   } ;
 `;
 

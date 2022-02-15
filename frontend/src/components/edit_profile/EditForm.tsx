@@ -14,7 +14,6 @@ const EditForm = ({ userData, changeUserData }: any) => {
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(URL.createObjectURL(e.target.files[0]));
-      console.log(selectedImage);
     }
   };
 
@@ -47,7 +46,6 @@ const EditForm = ({ userData, changeUserData }: any) => {
               type="text"
               onChange={(event) => {
                 changeUserData({ ...userData, Name: event.target.value });
-                console.log(userData);
               }}
             />
           </InputDiv>
@@ -134,7 +132,6 @@ const EditForm = ({ userData, changeUserData }: any) => {
                 ...userData,
                 Biography: event.target.value,
               });
-              console.log(userData);
             }}
           />
         </BioDiv>
@@ -143,15 +140,15 @@ const EditForm = ({ userData, changeUserData }: any) => {
   );
 };
 const Layout = styled.div`
-  height: 600px;
-  font-weight: bold;
   width: 100%;
+  min-height: 600px;
+  font-weight: bold;
   background-color: white;
-  box-shadow: 0px 0px rgba(0, 0, 0, 0.25);
   border-radius: 0 0 20px 20px;
+  overflow-y: scroll;
 `;
 const Padding = styled.div`
-  height: 100%;
+  width: 100%;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -163,18 +160,18 @@ const ImageZone = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  row-gap: 8px;
 `;
 
 const Image = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 100%;
   /* margin-top: 10px; */
   img {
     width: 100%;
     height: 100%;
-    border-radius: inherit;
-    object-fit: cover;
+    border-radius: 100%;
   }
 `;
 const FormLabel = styled.p`
@@ -229,9 +226,6 @@ const BioDiv = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  @media screen and (max-width: 1300px) {
-    height: 134px;
-  }
 `;
 const Biotext = styled.textarea`
   padding: 5px;

@@ -24,10 +24,9 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
   const addServiceToList = (newService: any) => {
     for (var s of service) {
       if (
-        s.serviceName == "" ||
-        s.servicePrice == 0 ||
-        (s.serviceName == newService.serviceName &&
-          s.servicePrice == newService.servicePrice)
+        s.fortuneType == "" ||
+        s.price == 0 ||
+        (s.fortuneType == newService.fortuneType && s.price == newService.price)
       ) {
         return;
       }
@@ -116,8 +115,8 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                 }}
                 onClick={() => {
                   addServiceToList({
-                    serviceName: serviceName,
-                    servicePrice: servicePrice,
+                    fortuneType: serviceName,
+                    price: servicePrice,
                   });
                 }}
               >

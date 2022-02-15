@@ -19,7 +19,7 @@ const LoginPage = () => {
 
 const Layout = styled.div`
   background-color: ${COLOR["violet/100"]};
-  height: 100vh;
+  min-height: max(100vh, 1024px);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
