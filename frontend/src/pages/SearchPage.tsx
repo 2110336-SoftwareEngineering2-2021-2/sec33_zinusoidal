@@ -7,13 +7,18 @@ import SearchResult, { PersonType } from "../components/search/SearchResult";
 import SearchDetail from "../components/search/SearchDetail";
 import { COLOR } from "../CONSTANT";
 import { UserContext } from "../context/UserContext";
-//prettier-ignore
-const SEARCHRESULT = [
-{name : 'Chawin Gowanit' , username : 'yongming_ym' , rating : 3.67 , priceRange : '100-2,000 baht (per 30 min)' },
-{name : 'Chayut Treenarin' , username : 'clown_computing' , rating : 4.85 , priceRange : '500-700 baht (per 30 min)' },
-{name : 'Nathapong Sriwathanasak' , username : 'ryu_io' , rating : 4.02 , priceRange : '1,500-30,000 baht (per 30 min)' },
+import { ImBlocked } from "react-icons/im";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
-]
+//prettier-ignore
+const SEARCHRESULT : any = null
+// [
+// {name : 'Chawin Gowanit' , username : 'yongming_ym' , rating : 3.67 , priceRange : '100-2,000 baht (per 30 min)' },
+// {name : 'Chayut Treenarin' , username : 'clown_computing' , rating : 4.85 , priceRange : '500-700 baht (per 30 min)' },
+// {name : 'Nathapong Sriwathanasak' , username : 'ryu_io' , rating : 4.02 , priceRange : '1,500-30,000 baht (per 30 min)' },
+
+// ]
 
 type SearchPanePropType = {
   pressed: boolean;
@@ -23,19 +28,17 @@ type SearchResultListPropType = {
 };
 
 const SearchPage = () => {
-  const msg = useContext(UserContext);
   const [showResult, setShowResult] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(
     null as PersonType | null
   );
   const [pressed, setPressed] = useState(false);
+
+  console.log(cookies.get("token")); // Pacman
   return (
     <Layout>
       <LandingNav />
-      <SearchPane
-        pressed={pressed}
-        style={{ marginTop: pressed ? 0 : "248px" }}
-      >
+      <SearchPane pressed={pressed} style={{ marginTop: pressed ? 0 : "15%" }}>
         {!pressed && <h1>Find provider that match to you!</h1>}
         <SearchBar
           setShowResult={() => {
@@ -58,14 +61,21 @@ const SearchPage = () => {
         <Padding>
           <SearchContent>
             <SearchResultList selected={selectedPerson == null ? false : true}>
-              {SEARCHRESULT.map((item, index) => (
-                <SearchResult
-                  key={index}
-                  person={item}
-                  onClick={setSelectedPerson}
-                  selected={selectedPerson?.username == item.username}
-                />
-              ))}
+              {SEARCHRESULT != null ? (
+                SEARCHRESULT.map((item: any, index: number) => (
+                  <SearchResult
+                    key={index}
+                    person={item}
+                    onClick={setSelectedPerson}
+                    selected={selectedPerson?.username == item.username}
+                  />
+                ))
+              ) : (
+                <SearchNotFound>
+                  <ImBlocked size={80} />
+                  <h1>Search not found</h1>
+                </SearchNotFound>
+              )}
             </SearchResultList>
             {selectedPerson ? (
               <SearchDetail
@@ -85,7 +95,7 @@ const Layout = styled.div`
   width: 100%;
   position: relative;
   flex: 1 1 auto;
-  min-height: 1000px;
+  min-height: max(100vh, 1000px);
   display: flex;
   flex-direction: column;
   background-size: 100% 100%;
@@ -180,4 +190,19 @@ const SearchResultList = styled("div")<SearchResultListPropType>`
   }
 `;
 
+const SearchNotFound = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 175px;
+  flex-direction: column;
+
+  h1 {
+    font-size: 20px;
+    line-height: 31px;
+    font-weight: bold;
+    margin-top: 16px;
+  }
+`;
 export default SearchPage;

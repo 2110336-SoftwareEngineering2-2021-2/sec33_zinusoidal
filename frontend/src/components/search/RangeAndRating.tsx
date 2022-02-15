@@ -36,13 +36,23 @@ const RangeAndRating = () => {
   return (
     <Layout ref={ratingWrapperRef}>
       <PriceRange style={{ marginRight: 16 }} range={range}>
-        <button onClick={() => setRangeOpen(!rangeOpen)}>
+        <button
+          onClick={() => {
+            setRangeOpen(!rangeOpen);
+            setRatingOpen(false);
+          }}
+        >
           {range == null ? `Price range (per 30 min)` : `${range}`}
         </button>
         {rangeOpen && <RangeDropDown range={range} setRange={setRange} />}
       </PriceRange>
       <PriceRange range={rating}>
-        <button onClick={() => setRatingOpen(!ratingOpen)}>
+        <button
+          onClick={() => {
+            setRatingOpen(!ratingOpen);
+            setRangeOpen(false);
+          }}
+        >
           {rating == null
             ? `Provider's Rating`
             : `${rating[0]} - ${rating[1]} stars`}
