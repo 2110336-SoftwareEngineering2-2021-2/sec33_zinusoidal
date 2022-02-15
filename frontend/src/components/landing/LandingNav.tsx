@@ -125,6 +125,7 @@ const LandingDropDownDiv = styled(motion.div)`
   z-index: 1;
   position: relative;
   width: 100%;
+  background-color: ${COLOR["violet/100"]};
   @media screen and (min-width: 601px) {
     display: none;
   }

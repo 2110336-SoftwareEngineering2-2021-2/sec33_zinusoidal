@@ -85,7 +85,7 @@ const Layout = styled.div`
   width: 100%;
   position: relative;
   flex: 1 1 auto;
-  /* min-height: 1000px; */
+  min-height: 1000px;
   display: flex;
   flex-direction: column;
   background-size: 100% 100%;
