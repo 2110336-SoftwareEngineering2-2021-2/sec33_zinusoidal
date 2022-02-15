@@ -13,13 +13,13 @@ import axios from "axios";
 const cookies = new Cookies();
 
 //prettier-ignore
-const SEARCHRESULT : any = null
-// [
-// {name : 'Chawin Gowanit' , username : 'yongming_ym' , rating : 3.67 , priceRange : '100-2,000 baht (per 30 min)' },
-// {name : 'Chayut Treenarin' , username : 'clown_computing' , rating : 4.85 , priceRange : '500-700 baht (per 30 min)' },
-// {name : 'Nathapong Sriwathanasak' , username : 'ryu_io' , rating : 4.02 , priceRange : '1,500-30,000 baht (per 30 min)' },
+// const SEARCHRESULT : any = null
+// // [
+// // {name : 'Chawin Gowanit' , username : 'yongming_ym' , rating : 3.67 , priceRange : '100-2,000 baht (per 30 min)' },
+// // {name : 'Chayut Treenarin' , username : 'clown_computing' , rating : 4.85 , priceRange : '500-700 baht (per 30 min)' },
+// // {name : 'Nathapong Sriwathanasak' , username : 'ryu_io' , rating : 4.02 , priceRange : '1,500-30,000 baht (per 30 min)' },
 
-// ]
+// // ]
 
 type SearchPanePropType = {
   pressed: boolean;
@@ -35,6 +35,62 @@ const SearchPage = () => {
   );
   const [pressed, setPressed] = useState(false);
 
+  const [SEARCHRESULT, setSEARCHRESULT] = useState(null as any);
+  const [searchWord, setSearchWord] = useState("");
+  const [serviceList, setServiceList] = useState(["All"] as string[]);
+  const [range, setRange] = useState(null);
+  const [rating, setRating] = useState(null);
+
+  console.log("SEARCHRESULT", SEARCHRESULT);
+
+  const searchRequestHandler = async () => {
+    let data = {};
+    if (serviceList.length == 1 && serviceList[0] == "All") {
+      data = { ...data, fortuneType: [] };
+    } else {
+      data = { ...data, fortuneType: serviceList };
+    }
+    if (rating != null) {
+      data = { ...data, minRating: rating[0], maxRating: rating[1] };
+    }
+    if (range == "All") {
+      data = { ...data, minPrice: 0, maxPrice: 1000000 };
+    }
+    if (range == "Below 50 baht (per 30 min)") {
+      data = { ...data, minPrice: 0, maxPrice: 50 };
+    }
+    if (range == "50-100 baht (per 30 min)") {
+      data = { ...data, minPrice: 50, maxPrice: 100 };
+    }
+    if (range == "100-200 baht (per 30 min)") {
+      data = { ...data, minPrice: 100, maxPrice: 200 };
+    }
+    if (range == "200-500 baht (per 30 min)") {
+      data = { ...data, minPrice: 200, maxPrice: 500 };
+    }
+    if (range == "500-1000 baht (per 30 min)") {
+      data = { ...data, minPrice: 500, maxPrice: 1000 };
+    }
+    if (range == "Above 1000 baht (per 30 min)") {
+      data = { ...data, minPrice: 1000, maxPrice: 1000000 };
+    }
+
+    console.log("data", data);
+
+    await axios({
+      method: "post",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/search`,
+      data: data,
+    })
+      .then(function (response) {
+        if (!pressed) setPressed(true);
+        setSEARCHRESULT(response.data);
+      })
+      .catch(function (error) {
+        console.log("error");
+      });
+  };
+
   return (
     <Layout>
       <LandingNav />
@@ -45,19 +101,28 @@ const SearchPage = () => {
             setShowResult(!showResult);
             if (!pressed) setPressed(true);
           }}
+          searchWord={searchWord}
+          setSearchWord={setSearchWord}
+          serviceList={serviceList}
+          setServiceList={setServiceList}
+          searchRequestHandler={searchRequestHandler}
         />
-        <RangeAndRating />
+        <RangeAndRating
+          range={range}
+          setRange={setRange}
+          rating={rating}
+          setRating={setRating}
+        />
         <Button
           onClick={() => {
-            setShowResult(!showResult);
-            if (!pressed) setPressed(true);
+            searchRequestHandler();
           }}
         >
           Search
         </Button>
       </SearchPane>
 
-      {showResult && (
+      {pressed && (
         <Padding>
           <SearchContent>
             <SearchResultList selected={selectedPerson == null ? false : true}>

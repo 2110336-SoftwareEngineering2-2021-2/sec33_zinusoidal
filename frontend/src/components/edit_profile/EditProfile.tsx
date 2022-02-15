@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 const cookies = new Cookies();
 
 const EditProfile = () => {
+
   const user = cookies.get("user");
   let navigate = useNavigate();
   let responseInput = {
@@ -59,6 +60,7 @@ const EditProfile = () => {
     Password: "",
     Biography: "",
   });
+
   const updateProfile = () => {
     console.log("TOKEN", user.token);
     axios({
@@ -90,6 +92,7 @@ const EditProfile = () => {
         console.log(error.response.data);
       });
   };
+
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
