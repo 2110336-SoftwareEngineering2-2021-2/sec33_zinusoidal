@@ -31,12 +31,11 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
     P.work_schedule,
     P.rating,
     S.fortune_type,
-    S.price,
-	U.email
+    S.price
 
-    FROM fortune_user U 
-    RIGHT JOIN provider P ON U.id = P.id
-    RIGHT JOIN provider_service S ON P.id = S.provider_id
+    FROM provider P
+    LEFT JOIN fortune_user U ON U.id = P.id
+    LEFT JOIN provider_service S ON P.id = S.provider_id
     WHERE U.id = ?;`
 
 	err := db.database.Raw(query, userID).Scan(&providerProfiles).Error
@@ -75,6 +74,7 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
     C.last_name,
     C.profile_image,
 	U.email
+	
 	FROM fortune_user U RIGHT JOIN customer C ON U.id = C.id
 	WHERE U.id = ?;`
 
