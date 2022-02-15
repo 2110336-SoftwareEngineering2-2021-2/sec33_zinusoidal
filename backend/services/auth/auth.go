@@ -55,13 +55,14 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	if err != nil {
 		return err
 	}
+
 	key := randomStringKey(20)
-
-	err = sendEmailConfirmationLink(req.Email, key)
-	if err != nil {
-		return err
-	}
-
+	/*
+		err = sendEmailConfirmationLink(req.Email, key)
+		if err != nil {
+			return err
+		}
+	*/
 	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
@@ -74,6 +75,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 		return err
 	}
 	smapping.FillStruct(&provider, smapping.MapFields(&req))
+	provider.FortuneList = req.Fortune
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
@@ -93,12 +95,12 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	if err != nil {
 		return err
 	}
-
-	err = sendEmailConfirmationLink(req.Email, key)
-	if err != nil {
-		return err
-	}
-
+	/*
+		err = sendEmailConfirmationLink(req.Email, key)
+		if err != nil {
+			return err
+		}
+	*/
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }

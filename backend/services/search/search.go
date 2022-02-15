@@ -8,6 +8,7 @@ type Service struct {
 
 type Databaser interface {
 	SearchProvider(SearchRequest) ([]profile.ProviderProfile, error)
+	GetAllService() ([]string, error)
 }
 
 type Servicer interface {
@@ -21,4 +22,8 @@ func NewService(database Databaser) *Service {
 func (s *Service) SearchProvider(req SearchRequest) ([]profile.ProviderProfile, error) {
 	results, err := s.database.SearchProvider(req)
 	return results, err
+}
+
+func (s *Service) GetAllResult() ([]string, error) {
+	return s.database.GetAllService()
 }
