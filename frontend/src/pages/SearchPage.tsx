@@ -8,6 +8,9 @@ import SearchDetail from "../components/search/SearchDetail";
 import { COLOR } from "../CONSTANT";
 import { UserContext } from "../context/UserContext";
 import { ImBlocked } from "react-icons/im";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 //prettier-ignore
 const SEARCHRESULT : any = null
 // [
@@ -30,13 +33,12 @@ const SearchPage = () => {
     null as PersonType | null
   );
   const [pressed, setPressed] = useState(false);
+
+  console.log(cookies.get("token")); // Pacman
   return (
     <Layout>
       <LandingNav />
-      <SearchPane
-        pressed={pressed}
-        style={{ marginTop: pressed ? 0 : "248px" }}
-      >
+      <SearchPane pressed={pressed} style={{ marginTop: pressed ? 0 : "15%" }}>
         {!pressed && <h1>Find provider that match to you!</h1>}
         <SearchBar
           setShowResult={() => {
