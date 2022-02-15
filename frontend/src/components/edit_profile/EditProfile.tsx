@@ -43,6 +43,13 @@ const EditProfile = () => {
       });
   };
 
+
+  useEffect(() => {
+    if (typeof user == "undefined") {
+      navigate(`/`);
+    }
+  }, []);
+
   const [current, setCurrent] = useState(0);
   const [userInput, setUserInput] = useState({
     Name: "",

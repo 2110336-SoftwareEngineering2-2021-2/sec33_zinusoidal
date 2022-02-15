@@ -37,7 +37,7 @@ func (s *Service) UploadFile(file multipart.FileHeader, fileName string) (string
 		Body:   blobFile,
 	})
 	if err != nil {
-		return "", fmt.Errorf("Upload error")
+		return "", err
 	}
 
 	filepath := "https://" + bucketName + "." + "s3-" + bucketZone + ".amazonaws.com/" + fileName
