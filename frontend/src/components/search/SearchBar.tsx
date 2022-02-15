@@ -111,7 +111,6 @@ const Layout = styled.div`
   align-items: center;
   max-width: 1150px;
   width: 100%;
-  background-color: red;
   @media screen and (max-width: 768px) {
     flex-direction: column;
   }

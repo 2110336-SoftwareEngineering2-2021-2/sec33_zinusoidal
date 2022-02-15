@@ -32,15 +32,13 @@ const ColorSelector = (index: number) => {
       return COLOR["gray/100"];
   }
 };
-const SearchDetailServiceSlider = ({
-  serviceList,
-}: SearchDetailServiceSliderPropType) => {
+const SearchDetailServiceSlider = ({ serviceList }: any) => {
   return (
     <Layout>
-      {serviceList.map((service, index) => (
+      {serviceList.map((service: any, index: number) => (
         <SliderItem
-          serviceName={service.serviceName}
-          servicePrice={service.servicePrice}
+          serviceName={service.fortuneType}
+          servicePrice={service.price}
           key={index}
           idx={index}
         />
@@ -63,7 +61,7 @@ const Layout = styled.div`
   margin-top: 27px;
   display: flex;
   max-width: 100%;
-  overflow: scroll;
+  overflow-x: scroll;
   @media screen and (max-width: 1050px) {
     margin-top: 20px;
   }

@@ -35,24 +35,15 @@ const SearchPage = () => {
   );
   const [pressed, setPressed] = useState(false);
 
-  const [SEARCHRESULT, setSEARCHRESULT] = useState([]);
+  const [SEARCHRESULT, setSEARCHRESULT] = useState(null as any);
   const [searchWord, setSearchWord] = useState("");
   const [serviceList, setServiceList] = useState(["All"] as string[]);
   const [range, setRange] = useState(null);
   const [rating, setRating] = useState(null);
 
-  console.log(
-    "searchWord :",
-    searchWord,
-    "serviceList",
-    serviceList,
-    "range",
-    range,
-    "rating",
-    rating
-  );
+  console.log("SEARCHRESULT", SEARCHRESULT);
 
-  const searchRequestHandler = () => {
+  const searchRequestHandler = async () => {
     let data = {};
     if (serviceList.length == 1 && serviceList[0] == "All") {
       data = { ...data, fortuneType: [] };
@@ -84,20 +75,22 @@ const SearchPage = () => {
       data = { ...data, minPrice: 1000, maxPrice: 1000000 };
     }
 
-    console.log(data);
+    console.log("data", data);
 
-    axios({
+    await axios({
       method: "post",
       url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/search`,
       data: data,
     })
       .then(function (response) {
-        console.log("success");
+        if (!pressed) setPressed(true);
+        setSEARCHRESULT(response.data);
       })
       .catch(function (error) {
         console.log("error");
       });
   };
+
   return (
     <Layout>
       <LandingNav />
@@ -123,15 +116,13 @@ const SearchPage = () => {
         <Button
           onClick={() => {
             searchRequestHandler();
-
-            if (!pressed) setPressed(true);
           }}
         >
           Search
         </Button>
       </SearchPane>
 
-      {showResult && (
+      {pressed && (
         <Padding>
           <SearchContent>
             <SearchResultList selected={selectedPerson == null ? false : true}>
