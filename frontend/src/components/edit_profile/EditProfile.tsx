@@ -1,26 +1,64 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import ProfileEditContainer from "../../containers/ProfileEditContainer";
+import axios from "axios";
 
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
-interface Current {
-  currentPage: any;
-}
+import { UserContext } from "../../context/UserContext";
+
 const EditProfile = () => {
+  const { user } = useContext(UserContext);
+  console.log("USER", user);
+  const getProfile = () => {
+    axios({
+      method: "get",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
+      data: {},
+    })
+      .then(function (response) {
+        setUserInput({ ...userInput, Username: response.data.username });
+        setUserInput({ ...userInput, Name: response.data.firstName });
+        setUserInput({ ...userInput, Surname: response.data.lastName });
+        setUserInput({ ...userInput, Email: response.data.email });
+        setUserInput({ ...userInput, Biography: response.data.biography });
+        setAvailableTime(response.data.workSchedule);
+        setService(response.data.fortuneList);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+      });
+  };
   const [current, setCurrent] = useState(0);
   const [userInput, setUserInput] = useState({
     Name: "",
     Surname: "",
     Email: "",
-    CitizenID: "",
     Username: "",
     Password: "",
-    ConformPassword: "",
     Biography: "",
   });
+  // const UpdateProfile = () => {
+  //   axios({
+  //     method: "get",
+  //     url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
+  //     data: {},
+  //   })
+  //     .then(function (response) {
+  //       setUserInput({ ...userInput, Username: response.data.username });
+  //       setUserInput({ ...userInput, Name: response.data.firstName });
+  //       setUserInput({ ...userInput, Surname: response.data.lastName });
+  //       setUserInput({ ...userInput, Email: response.data.email });
+  //       setUserInput({ ...userInput, Biography: response.data.biography });
+  //       setAvailableTime(response.data.workSchedule);
+  //       setService(response.data.fortuneList);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error.response.data.message);
+  //     });
+  // };
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
@@ -34,6 +72,10 @@ const EditProfile = () => {
   console.log(userInput);
   console.log(service);
   console.log(availableTime);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     <Layout>
@@ -80,29 +122,33 @@ const EditProfile = () => {
         </ArrowDiv>
       </Flex>
       <ButtonDiv>
-        <MdOutlineNavigateBefore
-          style={{ cursor: "pointer" }}
-          visibility={current == 0 ? "hidden" : "visible"}
-          color={COLOR["violet/400"]}
-          size={50}
-          onClick={() => {
-            setCurrent(Math.max(0, current - 1));
-          }}
-        />
+        <SmallNavigate>
+          <MdOutlineNavigateBefore
+            style={{ cursor: "pointer" }}
+            visibility={current == 0 ? "hidden" : "visible"}
+            color={COLOR["violet/400"]}
+            size={50}
+            onClick={() => {
+              setCurrent(Math.max(0, current - 1));
+            }}
+          />
+        </SmallNavigate>
         <Button>
           {" "}
           Save
           <BsSave2 size={16} style={{ marginLeft: 4 }} />
         </Button>
-        <MdOutlineNavigateNext
-          style={{ cursor: "pointer" }}
-          visibility={current == 2 ? "hidden" : "visible"}
-          color={COLOR["violet/400"]}
-          size={50}
-          onClick={() => {
-            setCurrent(Math.min(2, current + 1));
-          }}
-        />
+        <SmallNavigate>
+          <MdOutlineNavigateNext
+            style={{ cursor: "pointer" }}
+            visibility={current == 2 ? "hidden" : "visible"}
+            color={COLOR["violet/400"]}
+            size={50}
+            onClick={() => {
+              setCurrent(Math.min(2, current + 1));
+            }}
+          />
+        </SmallNavigate>
       </ButtonDiv>
     </Layout>
   );
@@ -155,6 +201,11 @@ const InnerCircle = styled.div`
 `;
 const ArrowDiv = styled.div`
   @media screen and (max-width: 750px) {
+    display: none;
+  }
+`;
+const SmallNavigate = styled.div`
+  @media screen and (min-width: 751px) {
     display: none;
   }
 `;

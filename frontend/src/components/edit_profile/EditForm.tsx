@@ -7,6 +7,7 @@ import { AiOutlineUpload } from "react-icons/ai";
 const selectedImg = require("../../assets/zinusoidal.png");
 
 const EditForm = ({ userData, changeUserData }: any) => {
+  console.log(userData.Name);
   const [selectedImage, setSelectedImage] = useState(selectedImg);
   const [seePassword, setSeePassword] = useState(false);
 
@@ -44,6 +45,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
             <FormLabel>Name</FormLabel>
             <Forminput
               type="text"
+              value={userData.Name}
               onChange={(event) => {
                 changeUserData({ ...userData, Name: event.target.value });
               }}
@@ -53,6 +55,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
             <FormLabel>Surname</FormLabel>
             <Forminput
               type="text"
+              value={userData.Surname}
               onChange={(event) => {
                 changeUserData({ ...userData, Surname: event.target.value });
               }}
@@ -63,6 +66,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
           <FormLabel>Email</FormLabel>
           <Forminput
             type="text"
+            value={userData.Email}
             onChange={(event) => {
               changeUserData({ ...userData, Email: event.target.value });
             }}
@@ -73,6 +77,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
             <FormLabel>Username</FormLabel>
             <Forminput
               type="text"
+              value={userData.Username}
               onChange={(event) => {
                 changeUserData({ ...userData, Username: event.target.value });
               }}
@@ -83,6 +88,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
             {seePassword ? (
               <PasswordDiv>
                 <Forminput
+                  disabled={true}
                   type="text"
                   onChange={(event) => {
                     changeUserData({
@@ -126,6 +132,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
             <FormLabel>Biography</FormLabel>
           </div>
           <Biotext
+            value={userData.Biography}
             style={{ height: 140 }}
             onChange={(event) => {
               changeUserData({

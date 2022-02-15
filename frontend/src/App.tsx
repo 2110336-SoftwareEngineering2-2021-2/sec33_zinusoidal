@@ -21,7 +21,8 @@ const App = () => {
 
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   useEffect(() => {
-    const data = cookies.get("token");
+    const data = cookies.get("user");
+    console.log("DATA", typeof data);
     if (typeof data == "undefined") {
       setUser(null);
     } else {
