@@ -1,0 +1,1 @@
+SELECT COUNT(DISTINCT(fortune_type)) AS total_fortune_service FROM provider_service;
