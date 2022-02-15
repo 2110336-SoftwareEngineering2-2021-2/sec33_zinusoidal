@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
@@ -6,10 +6,14 @@ import ProfileEditContainer from "../../containers/ProfileEditContainer";
 
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
+import { UserContext } from "../../context/UserContext";
 interface Current {
   currentPage: any;
 }
 const EditProfile = () => {
+  const { user } = useContext(UserContext);
+
+  console.log("FUCK yi", user);
   const [current, setCurrent] = useState(0);
   const [userInput, setUserInput] = useState({
     Name: "",

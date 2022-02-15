@@ -25,12 +25,10 @@ const App = () => {
     if (typeof data == "undefined") {
       setUser(null);
     } else {
-      setUser(data);
+      setUser("kk" as any);
     }
   }, []);
 
-  cookies.set("myCat", "Pacman", { path: "/" });
-  console.log(cookies.get("myCat")); // Pacman
   return (
     <UserContext.Provider value={value}>
       <BrowserRouter>
