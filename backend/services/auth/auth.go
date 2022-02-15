@@ -2,6 +2,7 @@ package auth
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"errors"
 	"log"
 	"math/rand"
@@ -63,7 +64,7 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 		}
 		customer.ProfilePicUrl = profilePicUrl
 	} else {
-		customer.ProfilePicUrl = ""
+		customer.ProfilePicUrl = "https://drive.google.com/file/d/1-2ipaLuCes8lVZRsv3ACn9J-hf99Cg-w/view?usp=sharing"
 	}
 
 	err = s.database.RegisterCustomer(customer)
@@ -85,12 +86,22 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	var err error
 	provider := model.Provider{}
-	req.Schedule, err = model.ParseSchedule(req.WorkSchedule)
+	var ws []model.WorkSchedule
+	err = json.Unmarshal([]byte(req.WorkSchedule), &ws)
+	if err != nil {
+		return err
+	}
+	req.Schedule, err = model.ParseSchedule(ws)
 	if err != nil {
 		return err
 	}
 	smapping.FillStruct(&provider, smapping.MapFields(&req))
-	provider.FortuneList = req.Fortune
+	var fortune []model.Fortune
+	err = json.Unmarshal([]byte(req.Fortune), &fortune)
+	if err != nil {
+		return err
+	}
+	provider.FortuneList = fortune
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
@@ -113,7 +124,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 		}
 		provider.ProfilePicUrl = profilePicUrl
 	} else {
-		provider.ProfilePicUrl = ""
+		provider.ProfilePicUrl = "https://drive.google.com/file/d/1-2ipaLuCes8lVZRsv3ACn9J-hf99Cg-w/view?usp=sharing"
 	}
 
 	err = s.database.RegisterProvider(provider)
