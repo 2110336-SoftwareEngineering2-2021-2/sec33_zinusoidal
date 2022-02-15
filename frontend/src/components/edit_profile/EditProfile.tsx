@@ -12,30 +12,35 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 const EditProfile = () => {
-  // const { user } = useContext(UserContext);
-  // console.log("USER", user);
   const user = cookies.get("user");
-  const url = `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`;
-  console.log(url);
-  // const getProfile = () => {
-  //   axios({
-  //     method: "get",
-  //     url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
-  //     data: {},
-  //   })
-  //     .then(function (response) {
-  //       setUserInput({ ...userInput, Username: response.data.username });
-  //       setUserInput({ ...userInput, Name: response.data.firstName });
-  //       setUserInput({ ...userInput, Surname: response.data.lastName });
-  //       setUserInput({ ...userInput, Email: response.data.email });
-  //       setUserInput({ ...userInput, Biography: response.data.biography });
-  //       setAvailableTime(response.data.workSchedule);
-  //       setService(response.data.fortuneList);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error.response.data.message);
-  //     });
-  // };
+  const responseInput = {
+    Name: "",
+    Surname: "",
+    Email: "",
+    Username: "",
+    Password: "",
+    Biography: "",
+  };
+  const getProfile = () => {
+    axios({
+      method: "get",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
+      data: {},
+    })
+      .then(function (response) {
+        responseInput.Name = response.data.firstName;
+        responseInput.Surname = response.data.lastName;
+        responseInput.Email = response.data.email;
+        responseInput.Username = response.data.username;
+        responseInput.Biography = response.data.biography;
+        setUserInput(responseInput);
+        setAvailableTime(response.data.workSchedule);
+        setService(response.data.fortuneList);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+      });
+  };
   const [current, setCurrent] = useState(0);
   const [userInput, setUserInput] = useState({
     Name: "",
@@ -45,27 +50,37 @@ const EditProfile = () => {
     Password: "",
     Biography: "",
   });
-  // const UpdateProfile = () => {
-  //   axios({
-  //     method: "patch",
-  //     url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_edit`,
-  //     data: {
-
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       setUserInput({ ...userInput, Username: response.data.username });
-  //       setUserInput({ ...userInput, Name: response.data.firstName });
-  //       setUserInput({ ...userInput, Surname: response.data.lastName });
-  //       setUserInput({ ...userInput, Email: response.data.email });
-  //       setUserInput({ ...userInput, Biography: response.data.biography });
-  //       setAvailableTime(response.data.workSchedule);
-  //       setService(response.data.fortuneList);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error.response.data.message);
-  //     });
-  // };
+  const updateProfile = () => {
+    console.log("TOKEN", user.token);
+    axios({
+      method: "patch",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_edit`,
+      data: {
+        firstname: userInput.Name,
+        lastName: userInput.Surname,
+        email: userInput.Email,
+        biography: userInput.Biography,
+        username: userInput.Username,
+        fortuneList: service,
+        workSchedule: availableTime,
+        token: user.token,
+      },
+      headers: { Authorization: `Bearer ${user.token}` },
+    })
+      .then(function (response) {
+        responseInput.Name = response.data.firstName;
+        responseInput.Surname = response.data.lastName;
+        responseInput.Email = response.data.email;
+        responseInput.Username = response.data.username;
+        responseInput.Biography = response.data.biography;
+        setUserInput(responseInput);
+        setAvailableTime(response.data.workSchedule);
+        setService(response.data.fortuneList);
+      })
+      .catch(function (error) {
+        console.log(error.response.data);
+      });
+  };
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
@@ -81,7 +96,7 @@ const EditProfile = () => {
   console.log(availableTime);
 
   useEffect(() => {
-    // getProfile();
+    getProfile();
   }, []);
 
   return (
@@ -140,7 +155,11 @@ const EditProfile = () => {
             }}
           />
         </SmallNavigate>
-        <Button>
+        <Button
+          onClick={() => {
+            updateProfile();
+          }}
+        >
           {" "}
           Save
           <BsSave2 size={16} style={{ marginLeft: 4 }} />
