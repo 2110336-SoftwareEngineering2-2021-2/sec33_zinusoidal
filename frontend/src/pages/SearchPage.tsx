@@ -9,6 +9,7 @@ import { COLOR } from "../CONSTANT";
 import { UserContext } from "../context/UserContext";
 import { ImBlocked } from "react-icons/im";
 import Cookies from "universal-cookie";
+import axios from "axios";
 const cookies = new Cookies();
 
 //prettier-ignore
@@ -34,7 +35,6 @@ const SearchPage = () => {
   );
   const [pressed, setPressed] = useState(false);
 
-  console.log(cookies.get("token")); // Pacman
   return (
     <Layout>
       <LandingNav />
