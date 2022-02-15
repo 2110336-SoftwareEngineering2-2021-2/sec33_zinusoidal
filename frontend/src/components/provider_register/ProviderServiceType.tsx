@@ -9,7 +9,7 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 
-const ProviderProfileUpload = ({ service, setService }: any) => {
+const ProviderServiceType = ({ service, setService }: any) => {
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
@@ -21,7 +21,9 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
       setEnableAdd(true);
     }
   };
+
   const addServiceToList = (newService: any) => {
+    console.log(newService);
     for (var s of service) {
       if (
         s.fortuneType == "" ||
@@ -40,11 +42,12 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
     setService(
       service.filter(
         (service: any) =>
-          service.serviceName != deleteService.serviceName ||
-          service.servicePrice != deleteService.servicePrice
+          service.fortuneType != deleteService.fortuneType ||
+          service.price != deleteService.price
       )
     );
   };
+
   return (
     <Layout>
       <FirstLayout>
@@ -176,11 +179,11 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
-        {service.map((service: any) => (
+        {service.map((s: any) => (
           <MyServiceDiv>
-            <p>{service.serviceName}</p>
+            <p>{s.fortuneType}</p>
             <PriceAndMinusDiv>
-              <p>฿ {service.servicePrice} /30min</p>
+              <p>฿ {s.price} /30min</p>
               <AiFillMinusCircle
                 color={COLOR["magenta/400"]}
                 size={24}
@@ -188,7 +191,7 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  deleteServiceFromList(service);
+                  deleteServiceFromList(s);
                 }}
               />
             </PriceAndMinusDiv>
@@ -378,4 +381,4 @@ const PriceAndMinusDiv = styled.div`
   column-gap: 8px;
 `;
 
-export default ProviderProfileUpload;
+export default ProviderServiceType;
