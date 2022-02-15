@@ -12,7 +12,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [disable, setDisable] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -33,7 +33,8 @@ const LoginForm = () => {
         cookies.set("user", JSON.stringify(response.data), {
           path: "/",
         });
-        setUser(response.data);
+        // setUser(response.data);
+        // console.log("why", user);
         navigate(`/`);
         setDisable(false);
       })

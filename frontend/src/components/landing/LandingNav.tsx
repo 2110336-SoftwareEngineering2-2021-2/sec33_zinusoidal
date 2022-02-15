@@ -8,6 +8,7 @@ import { UserContext } from "../../context/UserContext";
 import { AnimatePresence } from "framer-motion";
 import LandingDropDown from "./LandingDropDown";
 import { useLocation } from "react-router-dom";
+import LandingDropDownWideScreen from "./LandingDropDownWideScreen";
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
@@ -20,9 +21,9 @@ interface ParagraphPropType {
 const LandingNav = ({ onClickMenu, show }: any) => {
   const { user, setUser } = useContext(UserContext);
   const [showDropDown, setShowDropDown] = useState(true);
-
+  const [showWideDropDown, setShowWideDropDown] = useState(false);
   const location = useLocation();
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     setShowDropDown(false);
   }, [location]);
@@ -31,6 +32,9 @@ const LandingNav = ({ onClickMenu, show }: any) => {
     const windowWidthDetect = () => {
       if (window.innerWidth > 600 && showDropDown) {
         setShowDropDown(false);
+      }
+      if (window.innerWidth <= 600 && showWideDropDown) {
+        setShowWideDropDown(false);
       }
     };
     window.addEventListener("resize", windowWidthDetect);
@@ -52,11 +56,26 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             Find provider
           </motion.h1>
         </StyledLink>
-        <StyledLink to="/login" ending={true}>
-          <P whileHover={{ scale: 1.3, originX: "100%" }} isUser={user != null}>
-            {user == null ? "Login/Register" : `Hello, ${user}`}
-          </P>
-        </StyledLink>
+        <NameDiv>
+          {user == null ? (
+            <P
+              whileHover={{ scale: 1.3, originX: "100%" }}
+              isUser={user != null}
+            >
+              Login/Register
+            </P>
+          ) : (
+            <P
+              whileHover={{ scale: 1.3, originX: "100%" }}
+              isUser={user != null}
+              onClick={() => setShowWideDropDown(!showWideDropDown)}
+            >
+              Hello, {user}
+            </P>
+          )}
+
+          {showWideDropDown && <LandingDropDownWideScreen />}
+        </NameDiv>
 
         <Menu
           size={32}
@@ -138,8 +157,8 @@ const StyledLink = styled(Link)<StyledLinkPropType>`
   font-weight: bold;
   cursor: pointer;
   color: black;
-  margin-left: ${(props) => (props.ending == true ? "auto" : "60px")};
-  margin-right: ${(props) => (props.ending == true ? "32px" : "0px")};
+  margin-left: 60px;
+  margin-right: 0px;
 
   @media screen and (max-width: 800px) {
     font-size: 16px;
@@ -158,6 +177,25 @@ const Menu = styled(AiOutlineMenu)`
 
 const P = styled(motion.p)<ParagraphPropType>`
   color: ${(props) => (props.isUser ? COLOR["aqua/700"] : "black")};
+  font-size: 20px;
+  line-height: 31px;
+  font-weight: bold;
+  cursor: pointer;
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
+const NameDiv = styled.div`
+  position: relative;
+  margin-right: 32px;
+  margin-left: auto;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
 export default LandingNav;
