@@ -227,3 +227,25 @@ func (db *GromDB) GetAllService() ([]string, error) {
 	}
 	return fortune_results, nil
 }
+
+func (db *GromDB) GetLandingPageInfo() (*model.LandingPageInfo, error) {
+	customer_count_query := `SELECT COUNT(*) AS total_customer FROM customer;`
+	provider_count_query := `SELECT COUNT(*) AS total_provider FROM provider;`
+	fortune_count_query := `SELECT COUNT(DISTINCT(fortune_type)) AS total_fortune_service FROM provider_service;`
+
+	info := model.LandingPageInfo{}
+
+	err := db.database.Raw(customer_count_query).Scan(&info).Error
+	if err != nil {
+		return nil, err
+	}
+	err = db.database.Raw(provider_count_query).Scan(&info).Error
+	if err != nil {
+		return nil, err
+	}
+	err = db.database.Raw(fortune_count_query).Scan(&info).Error
+	if err != nil {
+		return nil, err
+	}
+	return &info, nil
+}
