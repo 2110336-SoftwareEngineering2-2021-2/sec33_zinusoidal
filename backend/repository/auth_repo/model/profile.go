@@ -34,3 +34,9 @@ type Provider struct {
 	CreateAt      string    `gorm:"column:create_datetime"`
 	DeleteAt      string    `gorm:"column:delete_datetime"`
 }
+
+type LandingPageInfo struct {
+	Customer_cnt int `gorm:"column:total_customer" json:"totalCustomer"`
+	Provider_cnt int `gorm:"column:total_provider" json:"totalProvider"`
+	Fortune_cnt  int `gorm:"column:total_fortune_service" json:"totalFortuneService"`
+}
