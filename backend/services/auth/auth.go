@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"crypto/tls"
 	"errors"
 	"log"
 	"math/rand"
@@ -10,7 +11,9 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/mashingan/smapping"
 	uuid "github.com/nu7hatch/gouuid"
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
+	"gopkg.in/gomail.v2"
 )
 
 type Service struct {
@@ -23,12 +26,6 @@ type Databaser interface {
 	Login(username, password string) (string, error)
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
-}
-
-type Servicer interface {
-	CustomerRegister(req CustomerRegisterRequest) error
-	ProviderRegister(req ProviderRegisterRequest) error
-	Login(req LoginRequest) error
 }
 
 func NewService(database Databaser) *Service {
@@ -59,18 +56,24 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 		return err
 	}
 	key := randomStringKey(20)
+
 	err = sendEmailConfirmationLink(req.Email, key)
 	if err != nil {
 		return err
 	}
+
 	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
 
 func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
-	provider := model.Provider{}
-	smapping.FillStruct(&provider, smapping.MapFields(&req))
 	var err error
+	provider := model.Provider{}
+	req.Schedule, err = model.ParseSchedule(req.WorkSchedule)
+	if err != nil {
+		return err
+	}
+	smapping.FillStruct(&provider, smapping.MapFields(&req))
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
@@ -78,10 +81,6 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	}
 	provider.UserId = "P" + userId.String()
 	provider.CreateAt = time.Now().String()
-	err = s.database.RegisterProvider(provider)
-	if err != nil {
-		return err
-	}
 
 	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -89,10 +88,17 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	}
 	provider.Password = string(hash_password)
 	key := randomStringKey(20)
+
+	err = s.database.RegisterProvider(provider)
+	if err != nil {
+		return err
+	}
+
 	err = sendEmailConfirmationLink(req.Email, key)
 	if err != nil {
 		return err
 	}
+
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }
@@ -108,20 +114,20 @@ func (s *Service) ConfirmEmail(key string) error {
 }
 
 func sendEmailConfirmationLink(email, key string) error {
-	/*
-		sender := viper.GetString("email.senderEmail")
-		password := viper.GetString("email.password")
-		mail := gomail.NewMessage()
-		mail.SetHeader("From", sender)
-		mail.SetHeader("Subject", "Email activation")
-		mail.SetHeader("To", email)
-		mail.SetBody("text/plain", "http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
-		d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
-		d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
-		err := d.DialAndSend(mail)
-		return err
-	*/
-	return nil
+
+	sender := viper.GetString("email.email")
+	password := viper.GetString("email.password")
+	mail := gomail.NewMessage()
+	mail.SetHeader("From", sender)
+	mail.SetHeader("Subject", "Email activation")
+	mail.SetHeader("To", email)
+	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
+	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
+	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+	log.Println("Sending email....")
+	err := d.DialAndSend(mail)
+	return err
+
 }
 
 func randomStringKey(numberOfDigits int) string {
