@@ -14,7 +14,7 @@ env:
   SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
   SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
   AWS_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET }}
-  AWS_BUCKET_ZONE: ${{ secrets_AWS_S3_ZONE }}
+  AWS_BUCKET_ZONE: ${{ secrets.AWS_S3_ZONE }}
   AWS_BUCKET_ACCESS: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_BUCKET_SECRET: ${{ secrets.AWS_SECRET_KEY }}
 
