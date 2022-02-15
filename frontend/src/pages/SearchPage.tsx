@@ -7,13 +7,15 @@ import SearchResult, { PersonType } from "../components/search/SearchResult";
 import SearchDetail from "../components/search/SearchDetail";
 import { COLOR } from "../CONSTANT";
 import { UserContext } from "../context/UserContext";
+import { ImBlocked } from "react-icons/im";
 //prettier-ignore
-const SEARCHRESULT = [
-{name : 'Chawin Gowanit' , username : 'yongming_ym' , rating : 3.67 , priceRange : '100-2,000 baht (per 30 min)' },
-{name : 'Chayut Treenarin' , username : 'clown_computing' , rating : 4.85 , priceRange : '500-700 baht (per 30 min)' },
-{name : 'Nathapong Sriwathanasak' , username : 'ryu_io' , rating : 4.02 , priceRange : '1,500-30,000 baht (per 30 min)' },
+const SEARCHRESULT : any = null
+// [
+// {name : 'Chawin Gowanit' , username : 'yongming_ym' , rating : 3.67 , priceRange : '100-2,000 baht (per 30 min)' },
+// {name : 'Chayut Treenarin' , username : 'clown_computing' , rating : 4.85 , priceRange : '500-700 baht (per 30 min)' },
+// {name : 'Nathapong Sriwathanasak' , username : 'ryu_io' , rating : 4.02 , priceRange : '1,500-30,000 baht (per 30 min)' },
 
-]
+// ]
 
 type SearchPanePropType = {
   pressed: boolean;
@@ -57,14 +59,21 @@ const SearchPage = () => {
         <Padding>
           <SearchContent>
             <SearchResultList selected={selectedPerson == null ? false : true}>
-              {SEARCHRESULT.map((item, index) => (
-                <SearchResult
-                  key={index}
-                  person={item}
-                  onClick={setSelectedPerson}
-                  selected={selectedPerson?.username == item.username}
-                />
-              ))}
+              {SEARCHRESULT != null ? (
+                SEARCHRESULT.map((item: any, index: number) => (
+                  <SearchResult
+                    key={index}
+                    person={item}
+                    onClick={setSelectedPerson}
+                    selected={selectedPerson?.username == item.username}
+                  />
+                ))
+              ) : (
+                <SearchNotFound>
+                  <ImBlocked size={80} />
+                  <h1>Search not found</h1>
+                </SearchNotFound>
+              )}
             </SearchResultList>
             {selectedPerson ? (
               <SearchDetail
@@ -179,4 +188,19 @@ const SearchResultList = styled("div")<SearchResultListPropType>`
   }
 `;
 
+const SearchNotFound = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 175px;
+  flex-direction: column;
+
+  h1 {
+    font-size: 20px;
+    line-height: 31px;
+    font-weight: bold;
+    margin-top: 16px;
+  }
+`;
 export default SearchPage;
