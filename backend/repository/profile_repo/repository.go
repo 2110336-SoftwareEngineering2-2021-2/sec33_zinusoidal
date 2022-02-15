@@ -41,8 +41,6 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 
 	err := db.database.Raw(query, userID).Scan(&providerProfiles).Error
 
-	fmt.Println("test", providerProfiles)
-
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err := fmt.Errorf("Provider not found")
 		return returnProfile, err
@@ -139,33 +137,75 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 
 func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.ProviderProfile, error) {
 
-	var searchResults []profile.ProviderProfile
-	query := `SELECT
-	P.id
-  FROM
-	provider P
-  WHERE
-	P.rating >= ?
-	AND P.rating <= ?
-	AND EXISTS (
-	  SELECT
-		*
-	  FROM
-		provider_service S
-	  WHERE
-		S.provider_id = P.id
-		AND S.fortune_type IN ?
-		AND S.price >= ?
-		AND S.price <= ?
-	);`
+	var returnResults []profile.ProviderProfile
 
-	var fortuneList string = "\"("
-	for _, element := range searchRequest.FortuneType {
-		fortuneList = fortuneList + "'" + element + "',"
+	var searchResults []search.SearchDB
+
+	var MinPrice float64 = 0
+	var MaxPrice float64 = 100000
+	var MinRating float64 = 0.0
+	var MaxRating float64 = 5.0
+
+	if searchRequest.MinPrice > 0 && searchRequest.MinPrice > MinPrice {
+		MinPrice = searchRequest.MinPrice
 	}
-	fortuneList = fortuneList[:len(fortuneList)-1] + ")\""
-	fmt.Println(fortuneList)
-	err := db.database.Raw(query, searchRequest.MinRating, searchRequest.MaxRating, fortuneList, searchRequest.MinPrice, searchRequest.MaxPrice).Scan(&searchResults).Error
 
-	return searchResults, err
+	if searchRequest.MaxPrice > 0 && searchRequest.MaxPrice < MaxPrice {
+		MaxPrice = searchRequest.MaxPrice
+	}
+
+	if searchRequest.MinRating > 0 && searchRequest.MinRating > MinRating {
+		MinRating = searchRequest.MinRating
+	}
+
+	if searchRequest.MaxRating > 0 && searchRequest.MaxRating < MaxRating {
+		MaxRating = searchRequest.MaxRating
+	}
+
+	var fortuneList string = `(`
+	if searchRequest.FortuneType != nil {
+		for _, element := range searchRequest.FortuneType {
+			fortuneList = fortuneList + `'` + element + `',`
+		}
+		fortuneList = fortuneList[:len(fortuneList)-1] + `)`
+	} else {
+		fortuneList = `('')`
+	}
+
+	fmt.Println(MinRating, MaxRating, MinPrice, MaxPrice)
+
+	query := `SELECT
+		P.id
+	  FROM
+		provider P
+	  WHERE
+		P.rating >= ?
+		AND P.rating <= ?
+		AND EXISTS (
+		  SELECT
+			*
+		  FROM
+			provider_service S
+		  WHERE
+			S.provider_id = P.id
+			AND S.fortune_type IN ` + fortuneList + ` AND S.price >= ?
+			AND S.price <= ?);`
+
+	err := db.database.Raw(query, MinRating, MaxRating, MinPrice, MaxPrice).Scan(&searchResults).Error
+
+	fmt.Println("SEARCH", searchResults)
+
+	var profile profile.ProviderProfile
+	var getErr error
+	if len(searchResults) > 0 {
+		for _, id := range searchResults {
+			profile, getErr = db.GetProviderByID(id.Id)
+			if getErr != nil {
+				return returnResults, fmt.Errorf("Error getting profile")
+			}
+			returnResults = append(returnResults, profile)
+		}
+	}
+
+	return returnResults, err
 }
