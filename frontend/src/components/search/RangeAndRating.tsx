@@ -7,11 +7,9 @@ import RatingDropDowm from "./RatingDropDowm";
 interface PriceRangeType {
   range?: string | null | Array<number>;
 }
-const RangeAndRating = () => {
+const RangeAndRating = ({ range, setRange, rating, setRating }: any) => {
   const [rangeOpen, setRangeOpen] = useState(false);
   const [ratingOpen, setRatingOpen] = useState(false);
-  const [range, setRange] = useState(null);
-  const [rating, setRating] = useState(null);
 
   const ratingWrapperRef = useRef(null);
 
