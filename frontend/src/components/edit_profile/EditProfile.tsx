@@ -14,7 +14,7 @@ const cookies = new Cookies();
 
 const EditProfile = () => {
   const user = cookies.get("user");
-  const responseInput = {
+  let responseInput = {
     Name: "",
     Surname: "",
     Email: "",
