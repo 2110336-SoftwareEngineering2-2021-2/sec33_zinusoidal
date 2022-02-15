@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
@@ -8,7 +9,37 @@ import { AiOutlineCheck } from "react-icons/ai";
 interface Current {
   currentPage: any;
 }
+
 const ProviderRegister = () => {
+  const register = () => {
+    console.log("WAIT FOR FCKING API");
+    // axios({
+    //   method: "post",
+    //   url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_register",
+    //   data: {
+    //     username: userInput.Username,
+    //     password: userInput.Password,
+    //     email: userInput.Email,
+    //     firstname: userInput.Name,
+    //     lastname: userInput.Surname,
+    //     profilePicUrl: profilePicUrl,
+    //     citizenID: userInput.CitizenID,
+    //   },
+    // })
+    //   .then(function (response) {
+    //     console.log("register success");
+    //     setCurrent(3);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error.response.data.message);
+    //     if (error.response.data.message.includes("email")) {
+    //       setCurrent(1);
+    //     }
+    //     if (error.response.data.message.includes("username")) {
+    //       setCurrent(1);
+    //     }
+    //   });
+  };
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -18,9 +49,12 @@ const ProviderRegister = () => {
     CitizenID: "",
     Username: "",
     Password: "",
-    ConformPassword: "",
+    ConfirmPassword: "",
     Biography: "",
   });
+  const [profilePicUrl, setProfilePicUrl] = useState(
+    "../../assets/zinusoidal.png"
+  );
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
@@ -34,10 +68,41 @@ const ProviderRegister = () => {
   const clickToggle = () => {
     setClicked(!clicked);
   };
+  const NextHandler = () => {
+    setCurrent(Math.min(2, current + 1));
+    setOpenPasswordError(false);
+  };
   console.log(userInput);
   console.log(service);
   console.log(availableTime);
 
+  const conditionZeroPass = current == 0 && clicked;
+  const conditionOnePass =
+    current == 1 &&
+    userInput.Name != "" &&
+    userInput.Surname != "" &&
+    userInput.CitizenID != "" &&
+    userInput.Email != "" &&
+    userInput.Username != "" &&
+    userInput.Password != "" &&
+    userInput.ConfirmPassword != "" &&
+    userInput.Biography != "";
+  const conditionTwoPass = current == 2 && service.length != 0;
+  const conditionThreePass =
+    (current == 3 && availableTime[0].timeList.length != 0) ||
+    availableTime[1].timeList.length != 0 ||
+    availableTime[2].timeList.length != 0 ||
+    availableTime[3].timeList.length != 0 ||
+    availableTime[4].timeList.length != 0 ||
+    availableTime[5].timeList.length != 0 ||
+    availableTime[6].timeList.length != 0;
+
+  const [samePassword, setSamePassword] = useState(
+    userInput.Password == userInput.ConfirmPassword
+  );
+  const [openPasswordError, setOpenPasswordError] = useState(false);
+
+  console.log(current);
   return (
     <Layout>
       <Header>
@@ -47,12 +112,18 @@ const ProviderRegister = () => {
       </Header>
       <Form>
         <ProviderRegisterContainer
+          samePassword={samePassword}
+          setSamePassword={setSamePassword}
+          openPasswordError={openPasswordError}
+          setOpenPasswordError={setOpenPasswordError}
           userData={userInput}
           changeUserData={setUserInput}
           service={service}
           setService={setService}
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}
+          profilePicUrl={profilePicUrl}
+          setProfilePicUrl={setProfilePicUrl}
           current={current}
           checked={clicked}
           callBack={clickToggle}
@@ -74,17 +145,35 @@ const ProviderRegister = () => {
           currentPage={current}
           disabled={!clicked}
           style={{
+            visibility: current == 5 ? "hidden" : "visible",
+
             backgroundColor:
               current == 4
                 ? COLOR["green/400"]
-                : clicked
+                : conditionZeroPass ||
+                  conditionOnePass ||
+                  conditionTwoPass ||
+                  conditionThreePass
                 ? COLOR["violet/400"]
                 : COLOR["gray/400"],
 
-            pointerEvents: clicked ? "unset" : "none",
+            pointerEvents:
+              conditionZeroPass ||
+              conditionOnePass ||
+              conditionTwoPass ||
+              conditionThreePass ||
+              current == 4
+                ? "unset"
+                : "none",
           }}
           onClick={() => {
-            setCurrent(Math.min(4, current + 1));
+            current == 0 || current == 2 || current == 3
+              ? setCurrent(Math.min(4, current + 1))
+              : current == 4
+              ? register()
+              : current == 1 && samePassword
+              ? NextHandler()
+              : setOpenPasswordError(true);
           }}
         >
           {current == 4 ? (

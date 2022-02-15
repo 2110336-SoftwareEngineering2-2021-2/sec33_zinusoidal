@@ -5,7 +5,11 @@ import { COLOR } from "../../CONSTANT";
 const DayDropDown = ({ selectDay, setDayDropDownOpen }: any) => {
   return (
     //prettier-ignore
-    <DropDown>
+    <DropDown>      
+      <Item onClick={() => {selectDay("Everyday");setDayDropDownOpen(false);}}>Everyday</Item>
+      <Item onClick={() => {selectDay("Weekday");setDayDropDownOpen(false);}}>Weekday (Mon-Fri)</Item>
+      <Item onClick={() => {selectDay("Weekend");setDayDropDownOpen(false);}}>Weekend (Sat-Sun)</Item>
+
       <Item onClick={() => {selectDay("Sunday");setDayDropDownOpen(false);}}>Sunday</Item>
       <Item onClick={() => {selectDay("Monday");setDayDropDownOpen(false);}}>Monday</Item>
       <Item onClick={() => {selectDay("Tuesday");setDayDropDownOpen(false);}}>Tuesday</Item>

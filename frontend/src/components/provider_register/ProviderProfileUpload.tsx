@@ -7,12 +7,11 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { AiOutlineUpload } from "react-icons/ai";
 const selectedImg = require("../../assets/zinusoidal.png");
 
-const ProviderProfileUpload = () => {
+const ProviderProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
   const imageInput = useRef();
-  const [selectedImage, setSelectedImage] = useState(selectedImg);
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(URL.createObjectURL(e.target.files[0]));
+      setProfilePicUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
 
@@ -25,7 +24,14 @@ const ProviderProfileUpload = () => {
         </ProviderRegistration>
         <ProfilePicture>Profile Picture</ProfilePicture>
         <Flex>
-          <img src={selectedImage} alt="yay" />
+          <img
+            src={
+              profilePicUrl == "../../assets/zinusoidal.png"
+                ? selectedImg
+                : profilePicUrl
+            }
+            alt="yay"
+          />
           <input
             type="file"
             onChange={imageChange}

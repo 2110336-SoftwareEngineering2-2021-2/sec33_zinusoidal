@@ -24,7 +24,11 @@ const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
         <ProfilePicture>Profile Picture</ProfilePicture>
         <Flex>
           <img
-            src={profilePicUrl == "" ? selectedImg : profilePicUrl}
+            src={
+              profilePicUrl == "../../assets/zinusoidal.png"
+                ? selectedImg
+                : profilePicUrl
+            }
             alt="yay"
           />
           <input
