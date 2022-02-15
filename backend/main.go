@@ -82,6 +82,8 @@ func NewSQLConn() *gorm.DB {
 		log.Fatalln(err.Error())
 	}
 
+	log.Println("db connected!! 🎉")
+
 	return conn
 
 }
