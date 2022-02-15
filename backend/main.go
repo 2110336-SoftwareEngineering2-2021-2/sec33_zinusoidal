@@ -44,7 +44,9 @@ func main() {
 	db := NewSQLConn() /// connect database
 	jwt.Init()         /// init jwt
 
-	auth_handler := auth.NewHandler(*auth.NewService(auth_repo.New(db), *services.NewService(ConnectAws())))
+	sess := ConnectAws()
+
+	auth_handler := auth.NewHandler(*auth.NewService(auth_repo.New(db), *services.NewService(sess)))
 	v1fortune := router.Group("api/fortune168/v1")
 	{
 		v1fortune.POST("/customer_register", auth_handler.CustomerRegisterHandler)
@@ -61,7 +63,7 @@ func main() {
 		v1fortune.GET("/landing_page_info", search_handler.GetLandingPageInfoHandler)
 	}
 
-	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db)))
+	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess)))
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)

@@ -1,16 +1,20 @@
 package profile
 
-import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+import (
+	"mime/multipart"
+
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+)
 
 type ProviderEditRequest struct {
-	FirstName     string               `json:"firstName"`
-	LastName      string               `json:"lastName"`
-	Fortune       []model.Fortune      `json:"fortuneList"`
-	Biography     string               `json:"biography"`
-	Schedule      string               `json:"schedule"`
-	WorkSchedule  []model.WorkSchedule `json:"workSchedule"`
-	Email         string               `json:"email"`
-	ProfilePicUrl string               `json:"profilePicUrl"`
+	FirstName    string                `form:"firstName" json:"firstName"`
+	LastName     string                `form:"lastName" json:"lastName"`
+	Fortune      string                `form:"fortuneList" json:"fortuneList"`
+	Biography    string                `form:"biography" json:"biography"`
+	Schedule     string                `form:"schedule" json:"schedule"`
+	WorkSchedule string                `form:"workSchedule" json:"workSchedule"`
+	Email        string                `form:"email" json:"email"`
+	ProfilePic   *multipart.FileHeader `form:"profilePic"`
 }
 
 type Logger struct {
