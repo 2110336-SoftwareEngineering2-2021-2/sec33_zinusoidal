@@ -1,6 +1,7 @@
 package profile_repo
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -92,24 +93,45 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
 
 }
 
-func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRequest) (profile.ProviderProfile, error) {
+func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRequest, profilePicUrl string) (profile.ProviderProfile, error) {
 
 	var providerProfile profile.ProviderProfile
 
-	query := `UPDATE provider P
+	var query string
+
+	if profilePicUrl == "" {
+		query = `UPDATE provider P
     SET P.first_name = ?,
         P.last_name = ?,
 		P.biography = ?,
         P.work_schedule = ?,
-		P.profile_image = ?,
         P.last_update_datetime = NOW()
     WHERE P.id = ?;`
+	} else {
+		query = `UPDATE provider P
+		SET P.first_name = ?,
+			P.last_name = ?,
+			P.biography = ?,
+			P.work_schedule = ?,
+			P.profile_image = ?,
+			P.last_update_datetime = NOW()
+		WHERE P.id = ?;`
+	}
 
 	var err error
+	var ws []model.WorkSchedule
+	err = json.Unmarshal([]byte(editRequest.WorkSchedule), &ws)
+	if err != nil {
+		return profile.ProviderProfile{}, err
+	}
+	editRequest.Schedule, err = model.ParseSchedule(ws)
+	var editErr error
+	if profilePicUrl == "" {
+		editErr = db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.Schedule, userID).Error
+	} else {
+		editErr = db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.Schedule, profilePicUrl, userID).Error
+	}
 
-	editRequest.Schedule, err = model.ParseSchedule(editRequest.WorkSchedule)
-
-	editErr := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.Schedule, editRequest.ProfilePicUrl, userID).Error
 	if editErr != nil {
 		return providerProfile, editErr
 	}
@@ -132,9 +154,15 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 	}
 
 	insert_fortune := `INSERT INTO provider_service(provider_id,fortune_type,price)
-    VALUES (?, ?, ?);`
+	VALUES (?, ?, ?);`
 
-	for _, fortune := range editRequest.Fortune {
+	var fortunes []model.Fortune
+	err = json.Unmarshal([]byte(editRequest.Fortune), &fortunes)
+	if err != nil {
+		return profile.ProviderProfile{}, nil
+	}
+
+	for _, fortune := range fortunes {
 		err = db.database.Exec(insert_fortune, userID, fortune.FortuneType, fortune.Price).Error
 		if err != nil {
 			return providerProfile, err
