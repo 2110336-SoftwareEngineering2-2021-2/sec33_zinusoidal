@@ -9,6 +9,10 @@ env:
   DB_NAME: ${{ secrets.MYSQL_DATABASE }}
   DB_USER: ${{ secrets.MYSQL_USERNAME }}
   DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
+  SMTP_HOST: ${{ secrets.SMTP_HOST }}
+  SMTP_PORT: ${{ secrets.SMTP_PORT }}
+  SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
 
 jobs:
   docker-backend:
@@ -34,9 +38,13 @@ jobs:
           echo "  db_name: \"$DB_NAME\"" >> ./backend/configs/config.yaml
           echo "  net: tcp" >> ./backend/configs/config.yaml
           
-          echo 'smtp:' >> ./backend/configs/config.yaml
-          echo '  ip: 192.168.0.1' >> ./backend/configs/config.yaml
-          echo '  port: 1150' >> ./backend/configs/config.yaml
+          echo "smtp:" >> ./backend/configs/config.yaml
+          echo "  host: $SMTP_HOST" >> ./backend/configs/config.yaml
+          echo "  port: $SMTP_PORT" >> ./backend/configs/config.yaml
+
+          echo "email:" >> ./backend/configs/config.yaml
+          echo "  host: $SMTP_EMAIL" >> ./backend/configs/config.yaml
+          echo "  port: $SMTP_PASSWORD" >> ./backend/configs/config.yaml
       -
         name: Login to DockerHub
         uses: docker/login-action@v1 
