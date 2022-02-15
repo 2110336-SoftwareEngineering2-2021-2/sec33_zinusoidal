@@ -13,6 +13,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
 import Cookies from "universal-cookie";
+import { setEnvironmentData } from "worker_threads";
 const cookies = new Cookies();
 
 const App = () => {
@@ -21,7 +22,11 @@ const App = () => {
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   useEffect(() => {
     const data = cookies.get("token");
-    setUser(data);
+    if (typeof data == "undefined") {
+      setUser(null);
+    } else {
+      setUser(data);
+    }
   }, []);
 
   cookies.set("myCat", "Pacman", { path: "/" });
