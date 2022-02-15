@@ -33,6 +33,7 @@ const EditServiceType = ({ service, setService }: any) => {
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
   console.log(service);
+  const [serviceError, setServiceError] = useState(false);
 
   const addServiceToList = (newService: any) => {
     console.log(newService);
@@ -128,6 +129,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
+                  setServiceError(false);
                 }}
               >
                 Add +
@@ -211,6 +213,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
+                  setServiceError(false);
                 }}
               >
                 Add +
@@ -221,6 +224,9 @@ const EditServiceType = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
+        {serviceError ? (
+          <Error>You need to have at least one service type</Error>
+        ) : null}
         <Services>
           {service.map((s: any) => (
             <MyServiceDiv>
@@ -234,7 +240,11 @@ const EditServiceType = ({ service, setService }: any) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    deleteServiceFromList(s);
+                    if (service.length == 1) {
+                      setServiceError(true);
+                    } else {
+                      deleteServiceFromList(s);
+                    }
                   }}
                 />
               </PriceAndMinusDiv>
@@ -263,6 +273,13 @@ const SecondLayout = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
+`;
+
+const Error = styled.p`
+  font-size: 16px;
+  margin-left: 16px;
+  font-weight: bold;
+  color: ${COLOR["magenta/400"]};
 `;
 const Padding = styled.div`
   width: 100%;

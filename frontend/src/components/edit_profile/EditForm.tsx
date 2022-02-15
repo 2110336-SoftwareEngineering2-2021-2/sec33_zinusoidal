@@ -6,7 +6,14 @@ import { AiOutlineUpload } from "react-icons/ai";
 
 const selectedImg = require("../../assets/zinusoidal.png");
 
-const EditForm = ({ userData, changeUserData }: any) => {
+const EditForm = ({
+  userData,
+  changeUserData,
+  setGetProfilePicUrl,
+  getProfilePicUrl,
+  profilePicUrl,
+  setProfilePicUrl,
+}: any) => {
   console.log(userData.Name);
   const [selectedImage, setSelectedImage] = useState(selectedImg);
   const [seePassword, setSeePassword] = useState(false);
@@ -14,7 +21,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
   const imageInput = useRef();
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(URL.createObjectURL(e.target.files[0]));
+      setProfilePicUrl(e.target.files[0]);
     }
   };
 
@@ -23,7 +30,11 @@ const EditForm = ({ userData, changeUserData }: any) => {
       <Padding>
         <ImageZone>
           <Image>
-            <img src={selectedImage} alt="yay" />
+            {profilePicUrl == null ? (
+              <img src={getProfilePicUrl} />
+            ) : (
+              <img src={URL.createObjectURL(profilePicUrl)} />
+            )}
           </Image>
           <input
             type="file"
@@ -62,7 +73,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
             />
           </InputDiv>
         </DoubleInput>
-        <InputDiv>
+        {/* <InputDiv>
           <FormLabel>Email</FormLabel>
           <Forminput
             type="text"
@@ -71,7 +82,7 @@ const EditForm = ({ userData, changeUserData }: any) => {
               changeUserData({ ...userData, Email: event.target.value });
             }}
           />
-        </InputDiv>
+        </InputDiv> */}
         <DoubleInput>
           <InputDiv>
             <FormLabel>Username</FormLabel>

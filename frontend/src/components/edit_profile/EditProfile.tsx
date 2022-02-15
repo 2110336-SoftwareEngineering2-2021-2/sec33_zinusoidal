@@ -11,9 +11,19 @@ import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 const cookies = new Cookies();
-
+//prettier-ignore
+const workTime = (availableTime: any) => {
+  let workTime = [];
+  workTime.push({day:"Sunday",timeList:availableTime.filter((date:any)=>date.day=="Sunday")[0].timeList});
+  workTime.push({day:"Monday",timeList:availableTime.filter((date:any)=>date.day=="Monday")[0].timeList});
+  workTime.push({day:"Tuesday",timeList:availableTime.filter((date:any)=>date.day=="Tuesday")[0].timeList});
+  workTime.push({day:"Wednesday",timeList:availableTime.filter((date:any)=>date.day=="Wednesday")[0].timeList});
+  workTime.push({day:"Thursday",timeList:availableTime.filter((date:any)=>date.day=="Thursday")[0].timeList});
+  workTime.push({day:"Friday",timeList:availableTime.filter((date:any)=>date.day=="Friday")[0].timeList});
+  workTime.push({day:"Saturday",timeList:availableTime.filter((date:any)=>date.day=="Saturday")[0].timeList});
+  return workTime;
+};
 const EditProfile = () => {
-
   const user = cookies.get("user");
   let navigate = useNavigate();
   let responseInput = {
@@ -31,6 +41,7 @@ const EditProfile = () => {
       data: {},
     })
       .then(function (response) {
+        console.log("DATA", response.data);
         responseInput.Name = response.data.firstName;
         responseInput.Surname = response.data.lastName;
         responseInput.Email = response.data.email;
@@ -39,6 +50,7 @@ const EditProfile = () => {
         setUserInput(responseInput);
         setAvailableTime(response.data.workSchedule);
         setService(response.data.fortuneList);
+        setGetProfilePicUrl(response.data.profilePicUrl);
       })
       .catch(function (error) {
         console.log(error.response.data.message);
@@ -62,30 +74,41 @@ const EditProfile = () => {
     Biography: "",
   });
 
+  const [getProfilePicUrl, setGetProfilePicUrl] = useState(null as any);
+  const [profilePicUrl, setProfilePicUrl] = useState(null as any);
+
   const updateProfile = () => {
-    console.log("TOKEN", user.token);
+    var providerInput = new FormData();
+    if (profilePicUrl != null) {
+      providerInput.append("profilePic", profilePicUrl);
+    }
+    providerInput.append("username", userInput.Username);
+    providerInput.append("firstName", userInput.Name);
+    providerInput.append("lastName", userInput.Surname);
+    providerInput.append("biography", userInput.Biography);
+    providerInput.append("fortuneList", JSON.stringify(service));
+    providerInput.append(
+      "workSchedule",
+      JSON.stringify(workTime(availableTime))
+    );
+    providerInput.append("schedule", JSON.stringify(workTime(availableTime)));
     axios({
       method: "patch",
       url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_edit`,
-      data: {
-        firstname: userInput.Name,
-        lastName: userInput.Surname,
-        email: userInput.Email,
-        biography: userInput.Biography,
-        username: userInput.Username,
-        fortuneList: service,
-        workSchedule: availableTime,
-        token: user.token,
+      data: providerInput,
+      headers: {
+        "Content-type": "multipart/form-data",
+        Authorization: `Bearer ${user.token}`,
       },
-      headers: { Authorization: `Bearer ${user.token}` },
     })
       .then(function (response) {
         responseInput.Name = response.data.firstName;
         responseInput.Surname = response.data.lastName;
-        responseInput.Email = response.data.email;
         responseInput.Username = response.data.username;
         responseInput.Biography = response.data.biography;
         setUserInput(responseInput);
+        setGetProfilePicUrl(response.data.profilePic);
+        setProfilePicUrl(null);
         setAvailableTime(response.data.workSchedule);
         setService(response.data.fortuneList);
       })
@@ -134,6 +157,10 @@ const EditProfile = () => {
           </Header>
           <Form>
             <ProfileEditContainer
+              profilePicUrl={profilePicUrl}
+              setProfilePicUrl={setProfilePicUrl}
+              getProfilePicUrl={getProfilePicUrl}
+              setGetProfilePicUrl={setGetProfilePicUrl}
               userData={userInput}
               changeUserData={setUserInput}
               current={current}
