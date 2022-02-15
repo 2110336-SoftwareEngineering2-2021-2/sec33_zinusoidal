@@ -11,6 +11,10 @@ const ProviderRegistrationForm = ({
   setSamePassword,
   openPasswordError,
   setOpenPasswordError,
+  usernameError,
+  setUsernameError,
+  emailError,
+  setEmailError,
 }: any) => {
   const [seePassword, setSeePassword] = useState(false);
   const [seeCPassword, setSeeCPassword] = useState(false);
@@ -48,10 +52,16 @@ const ProviderRegistrationForm = ({
           <InputDiv>
             <FormLabel>Email</FormLabel>
             <Star>*</Star>
+            {emailError ? (
+              <Error style={{ display: "inline", marginLeft: 8 }}>
+                email has already been taken
+              </Error>
+            ) : null}
             <Forminput
               type="text"
               onChange={(event) => {
                 changeUserData({ ...userData, Email: event.target.value });
+                setEmailError(false);
               }}
             />
           </InputDiv>
@@ -68,10 +78,16 @@ const ProviderRegistrationForm = ({
           <InputDiv>
             <FormLabel>Username</FormLabel>
             <Star>*</Star>
+            {usernameError ? (
+              <Error style={{ display: "inline", marginLeft: 8 }}>
+                username has already been taken
+              </Error>
+            ) : null}
             <Forminput
               type="text"
               onChange={(event) => {
                 changeUserData({ ...userData, Username: event.target.value });
+                setUsernameError(false);
               }}
             />
           </InputDiv>
