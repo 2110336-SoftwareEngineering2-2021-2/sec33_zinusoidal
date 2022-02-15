@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LandingNav from "../components/landing/LandingNav";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import CountUp from "react-countup";
 import LandingDetail from "../components/landing/LandingDetail";
 import LandingFooter from "../components/landing/LandingFooter";
@@ -27,7 +27,8 @@ const variants = {
 const LandingPage = () => {
   return (
     <Layout>
-      <LandingNav></LandingNav>
+      <LandingNav />
+
       <Content
         initial="hidden"
         whileInView="visible"
