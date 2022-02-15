@@ -17,17 +17,18 @@ import { setEnvironmentData } from "worker_threads";
 const cookies = new Cookies();
 
 const App = () => {
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState(cookies.get("user"));
+  // const data = cookies.get("user");
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
-  useEffect(() => {
-    const data = cookies.get("token");
-    if (typeof data == "undefined") {
-      setUser(null);
-    } else {
-      setUser("kk" as any);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const data = cookies.get("user");
+  //   console.log("DATA", typeof data);
+  //   if (typeof data == "undefined") {
+  //     setUser({});
+  //   } else {
+  //     setUser(data);
+  //   }
+  // }, []);
 
   return (
     <UserContext.Provider value={value}>

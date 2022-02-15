@@ -23,7 +23,7 @@ type Service struct {
 type Databaser interface {
 	RegisterCustomer(customer model.Customer) error
 	RegisterProvider(provider model.Provider) error
-	Login(username, password string) (string, error)
+	Login(username, password string) (model.LoginQuery, error)
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
 }
@@ -55,13 +55,14 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	if err != nil {
 		return err
 	}
+
 	key := randomStringKey(20)
-
-	err = sendEmailConfirmationLink(req.Email, key)
-	if err != nil {
-		return err
-	}
-
+	/*
+		err = sendEmailConfirmationLink(req.Email, key)
+		if err != nil {
+			return err
+		}
+	*/
 	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
@@ -74,6 +75,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 		return err
 	}
 	smapping.FillStruct(&provider, smapping.MapFields(&req))
+	provider.FortuneList = req.Fortune
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
@@ -93,19 +95,19 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	if err != nil {
 		return err
 	}
-
-	err = sendEmailConfirmationLink(req.Email, key)
-	if err != nil {
-		return err
-	}
-
+	/*
+		err = sendEmailConfirmationLink(req.Email, key)
+		if err != nil {
+			return err
+		}
+	*/
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }
 
-func (s *Service) Login(req LoginRequest) (string, error) {
-	userId, err := s.database.Login(req.Username, req.Password)
-	return userId, err
+func (s *Service) Login(req LoginRequest) (model.LoginQuery, error) {
+	res, err := s.database.Login(req.Username, req.Password)
+	return res, err
 }
 
 func (s *Service) ConfirmEmail(key string) error {

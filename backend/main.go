@@ -52,13 +52,14 @@ func main() {
 	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
+		v1fortune.GET("/all_services", search_handler.GetAllServicesHandler)
 	}
 
 	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db)))
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
-		v1fortune.PATCH("/provider", profile_handler.EditProviderHandler)
+		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))

@@ -23,7 +23,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
   const [showDropDown, setShowDropDown] = useState(true);
   const [showWideDropDown, setShowWideDropDown] = useState(false);
   const location = useLocation();
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     setShowDropDown(false);
   }, [location]);
@@ -32,6 +32,9 @@ const LandingNav = ({ onClickMenu, show }: any) => {
     const windowWidthDetect = () => {
       if (window.innerWidth > 600 && showDropDown) {
         setShowDropDown(false);
+      }
+      if (window.innerWidth <= 600 && showWideDropDown) {
+        setShowWideDropDown(false);
       }
     };
     window.addEventListener("resize", windowWidthDetect);
@@ -178,11 +181,21 @@ const P = styled(motion.p)<ParagraphPropType>`
   line-height: 31px;
   font-weight: bold;
   cursor: pointer;
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const NameDiv = styled.div`
   position: relative;
   margin-right: 32px;
   margin-left: auto;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 export default LandingNav;

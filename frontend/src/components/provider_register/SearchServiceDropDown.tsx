@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-
+import axios from "axios";
 const ServiceDropDown = ({
   serviceName,
   setServiceName,
   setServiceDropDownOpen,
 }: any) => {
-  const ServiceList = ["cat", "dog", "yay"];
+  const getAllService = () => {
+    axios({
+      method: "get",
+      url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/all_services",
+      data: {},
+    })
+      .then(function (response) {
+        setServiceList(response.data.services);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+      });
+  };
+  useEffect(() => {
+    getAllService();
+  }, []);
+  const [serviceList, setServiceList] = useState([""]);
   return (
     <DropDown>
-      {ServiceList.map(
+      {serviceList.map(
         (s, index) =>
           s.toLowerCase().includes(serviceName.toLowerCase()) && (
             <Item

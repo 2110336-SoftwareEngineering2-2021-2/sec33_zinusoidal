@@ -19,6 +19,15 @@ type Fortune struct {
 	Price       int    `json:"price"`
 }
 
+type LoginQuery struct {
+	UserId       string `gorm:"column:id"`
+	Username     string `gorm:"column:username"`
+	Password     string `gorm:"column:password"`
+	FirstName    string `gorm:"column:first_name"`
+	LastName     string `gorm:"column:last_name"`
+	ProfileImage string `gorm:"column:profile_image"`
+}
+
 type Provider struct {
 	UserId        string    `gorm:"column:id" `
 	Username      string    `gorm:"column:username" json:"username"`
