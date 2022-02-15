@@ -6,6 +6,8 @@ import DayDropDown from "./DayDropDown";
 import StartTimeDropDown from "./StartTimeDropDown";
 import StopTimeDropDown from "./StopTimeDropDown";
 import { isConstructorDeclaration } from "typescript";
+import { IoCompassOutline } from "react-icons/io5";
+import { resourceLimits } from "worker_threads";
 
 type InputPropType = {
   time?: boolean;
@@ -14,7 +16,6 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
   const [dayDropDownOpen, setDayDropDownOpen] = useState(false);
   const [startTimeDropDownOpen, setStartTimeDropDownOpen] = useState(false);
   const [stopTimeDropDownOpen, setStopTimeDropDownOpen] = useState(false);
-  const [timeConflict, setTimeConflict] = useState(false);
 
   const [day, setDay] = useState("");
   const [startTime, setStartTime] = useState("-1.0");
@@ -23,8 +24,7 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
   const wrapperRef = useRef(null);
   const wrapperRef1 = useRef(null);
   const wrapperRef2 = useRef(null);
-
-  const handleInputForm = () => {
+  const addTime = (day: any) => {
     const remainTime = availableTime.filter(
       (dateSlot: any) => dateSlot.day != day
     );
@@ -53,6 +53,178 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
     let list = [...newnewList];
     const newData = [...remainTime, { day: day, timeList: list }];
     setAvailableTime(newData);
+  };
+  const addEveryDay = () => {
+    const dayList = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    var result: any = [];
+    dayList.forEach((e) => {
+      const oldTimeList = availableTime.filter(
+        (dateSlot: any) => dateSlot.day == e
+      )[0].timeList;
+
+      let newTimeList = [...oldTimeList, [startTime, stopTime]].sort();
+      let newnewList = [];
+      let start = newTimeList[0][0];
+      let stop = newTimeList[0][1];
+      let idx = 1;
+      while (idx < newTimeList.length) {
+        if (newTimeList[idx][0] > stop) {
+          newnewList.push([start, stop]);
+          start = newTimeList[idx][0];
+          stop = newTimeList[idx][1];
+        } else {
+          if (newTimeList[idx][1] > stop) {
+            stop = newTimeList[idx][1];
+          }
+        }
+        idx++;
+      }
+      newnewList.push([start, stop]);
+      let list = [...newnewList];
+      const newData = { day: e, timeList: list };
+      result.push(newData);
+    });
+    setAvailableTime(result);
+  };
+  const addWeekDay = () => {
+    const dayList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    var result: any = [];
+    const sunTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Sunday"
+    )[0].timeList;
+    const satTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Saturday"
+    )[0].timeList;
+    result.push({ day: "Sunday", timeList: sunTimeList });
+    result.push({ day: "Saturday", timeList: sunTimeList });
+
+    dayList.forEach((e) => {
+      const oldTimeList = availableTime.filter(
+        (dateSlot: any) => dateSlot.day == e
+      )[0].timeList;
+
+      let newTimeList = [...oldTimeList, [startTime, stopTime]].sort();
+      let newnewList = [];
+      let start = newTimeList[0][0];
+      let stop = newTimeList[0][1];
+      let idx = 1;
+      while (idx < newTimeList.length) {
+        if (newTimeList[idx][0] > stop) {
+          newnewList.push([start, stop]);
+          start = newTimeList[idx][0];
+          stop = newTimeList[idx][1];
+        } else {
+          if (newTimeList[idx][1] > stop) {
+            stop = newTimeList[idx][1];
+          }
+        }
+        idx++;
+      }
+      newnewList.push([start, stop]);
+      let list = [...newnewList];
+      const newData = { day: e, timeList: list };
+      result.push(newData);
+    });
+    setAvailableTime(result);
+  };
+  const addWeekend = () => {
+    const dayList = ["Sunday", "Saturday"];
+    var result: any = [];
+    const monTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Monday"
+    )[0].timeList;
+    const tueTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Tuesday"
+    )[0].timeList;
+    const wedTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Wednesday"
+    )[0].timeList;
+    const thuTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Thursday"
+    )[0].timeList;
+    const friTimeList = availableTime.filter(
+      (dateSlot: any) => dateSlot.day == "Friday"
+    )[0].timeList;
+    result.push({ day: "Monday", timeList: monTimeList });
+    result.push({ day: "Tuesday", timeList: tueTimeList });
+    result.push({ day: "Wednesday", timeList: wedTimeList });
+    result.push({ day: "Thursday", timeList: thuTimeList });
+    result.push({ day: "Friday", timeList: friTimeList });
+
+    dayList.forEach((e) => {
+      const oldTimeList = availableTime.filter(
+        (dateSlot: any) => dateSlot.day == e
+      )[0].timeList;
+
+      let newTimeList = [...oldTimeList, [startTime, stopTime]].sort();
+      let newnewList = [];
+      let start = newTimeList[0][0];
+      let stop = newTimeList[0][1];
+      let idx = 1;
+      while (idx < newTimeList.length) {
+        if (newTimeList[idx][0] > stop) {
+          newnewList.push([start, stop]);
+          start = newTimeList[idx][0];
+          stop = newTimeList[idx][1];
+        } else {
+          if (newTimeList[idx][1] > stop) {
+            stop = newTimeList[idx][1];
+          }
+        }
+        idx++;
+      }
+      newnewList.push([start, stop]);
+      let list = [...newnewList];
+      const newData = { day: e, timeList: list };
+      result.push(newData);
+    });
+    setAvailableTime(result);
+  };
+  const handleInputForm = () => {
+    if (day == "Everyday") {
+      addEveryDay();
+    } else if (day == "Weekday") {
+      addWeekDay();
+    } else if (day == "Weekend") {
+      addWeekend();
+    } else {
+      const remainTime = availableTime.filter(
+        (dateSlot: any) => dateSlot.day != day
+      );
+      const oldTimeList = availableTime.filter(
+        (dateSlot: any) => dateSlot.day == day
+      )[0].timeList;
+
+      let newTimeList = [...oldTimeList, [startTime, stopTime]].sort();
+      let newnewList = [];
+      let start = newTimeList[0][0];
+      let stop = newTimeList[0][1];
+      let idx = 1;
+      while (idx < newTimeList.length) {
+        if (newTimeList[idx][0] > stop) {
+          newnewList.push([start, stop]);
+          start = newTimeList[idx][0];
+          stop = newTimeList[idx][1];
+        } else {
+          if (newTimeList[idx][1] > stop) {
+            stop = newTimeList[idx][1];
+          }
+        }
+        idx++;
+      }
+      newnewList.push([start, stop]);
+      let list = [...newnewList];
+      const newData = [...remainTime, { day: day, timeList: list }];
+      setAvailableTime(newData);
+    }
   };
 
   function useOutsideAlerter(ref: any) {
@@ -171,7 +343,6 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
           <Button
             disabled={day == "" || startTime == "-1.0" || stopTime == "24.0"}
             onClick={() => {
-              setTimeConflict(false);
               setDay("");
               setStartTime("-1.0");
               setStopTime("24.0");
@@ -192,7 +363,6 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
           </Button>
         </TimeAndButton>
       </InputLayout>
-      {timeConflict ? <Error>Can't select overlapped time period</Error> : null}
     </Layout>
   );
 };
