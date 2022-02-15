@@ -41,7 +41,7 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 
 	err := db.database.Raw(query, userID).Scan(&providerProfiles).Error
 
-	if errors.Is(err, gorm.ErrRecordNotFound) {
+	if len(providerProfiles) < 1 {
 		err := fmt.Errorf("Provider not found")
 		return returnProfile, err
 	}
@@ -53,7 +53,7 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 	returnProfile.ProfilePicUrl = providerProfiles[0].ProfilePicUrl
 	returnProfile.Rating = providerProfiles[0].Rating
 	returnProfile.Username = providerProfiles[0].Username
-	returnProfile.WorkSchedule = providerProfiles[0].WorkSchedule
+	returnProfile.WorkSchedule, err = model.ParseStringBackToSchedule(providerProfiles[0].WorkSchedule)
 
 	var fortune model.Fortune
 	for _, profile := range providerProfiles {
@@ -101,9 +101,13 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
         P.last_update_datetime = NOW()
     WHERE P.id = ?;`
 
-	err := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.WorkSchedule, userID).Error
-	if err != nil {
-		return providerProfile, err
+	var err error
+
+	editRequest.Schedule, err = model.ParseSchedule(editRequest.WorkSchedule)
+
+	editErr := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.Schedule, userID).Error
+	if editErr != nil {
+		return providerProfile, editErr
 	}
 
 	deleteQuery := `DELETE FROM provider_service S
@@ -172,8 +176,6 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		fortuneList = `('')`
 	}
 
-	fmt.Println(MinRating, MaxRating, MinPrice, MaxPrice)
-
 	query := `SELECT
 		P.id
 	  FROM
@@ -192,8 +194,6 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 			AND S.price <= ?);`
 
 	err := db.database.Raw(query, MinRating, MaxRating, MinPrice, MaxPrice).Scan(&searchResults).Error
-
-	fmt.Println("SEARCH", searchResults)
 
 	var profile profile.ProviderProfile
 	var getErr error
