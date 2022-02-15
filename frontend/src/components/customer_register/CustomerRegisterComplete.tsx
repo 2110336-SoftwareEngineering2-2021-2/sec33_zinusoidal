@@ -1,18 +1,15 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { BsPeopleFill } from "react-icons/bs";
-import { AiOutlineUpload } from "react-icons/ai";
+import { FiCheckCircle } from "react-icons/fi";
+import { AiOutlineLogin } from "react-icons/ai";
 const selectedImg = require("../../assets/zinusoidal.png");
 
-const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
-  const imageInput = useRef();
-  const imageChange = (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setProfilePicUrl(URL.createObjectURL(e.target.files[0]));
-    }
-  };
+const CustomerRegisterComplete = () => {
+  let navigate = useNavigate();
 
   return (
     <Layout>
@@ -21,30 +18,16 @@ const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
           <BsPeopleFill color={COLOR["violet/400"]} />
           Customer Registration
         </CustomerRegistration>
-        <ProfilePicture>Profile Picture</ProfilePicture>
         <Flex>
-          <img
-            src={
-              profilePicUrl == "../../assets/zinusoidal.png"
-                ? selectedImg
-                : profilePicUrl
-            }
-            alt="yay"
-          />
-          <input
-            type="file"
-            onChange={imageChange}
-            style={{ display: "none" }}
-            ref={imageInput as any}
-          />
-          <Button
+          <FiCheckCircle size={100} />
+          <Text>Registration Complete!</Text>
+          <GreenButton
             onClick={() => {
-              (imageInput as any).current.click();
+              navigate("/login");
             }}
           >
-            Upload
-            <AiOutlineUpload />
-          </Button>
+            Login <AiOutlineLogin />
+          </GreenButton>
         </Flex>
       </Padding>
     </Layout>
@@ -63,11 +46,12 @@ const Padding = styled.div`
   flex-direction: column;
 `;
 const Flex = styled.div`
+  margin-top: 60px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   row-gap: 25px;
   img {
@@ -89,13 +73,13 @@ const ProfilePicture = styled.div`
   font-size: 18px;
 `;
 
-const Button = styled.button`
+const GreenButton = styled.button`
   cursor: pointer;
   width: 97px;
   text-decoration: none;
   border: none;
   color: white;
-  background-color: ${COLOR["violet/400"]};
+  background-color: ${COLOR["green/400"]};
   padding: 5px;
   border-radius: 10000px;
   font-size: 16px;
@@ -104,8 +88,10 @@ const Button = styled.button`
   align-items: center;
   column-gap: 5px;
   &:hover {
-    background-color: ${COLOR["violet/500"]};
+    background-color: ${COLOR["green/500"]};
   }
 `;
-
-export default CustomerProfileUpload;
+const Text = styled.p`
+  font-size: 20px;
+`;
+export default CustomerRegisterComplete;

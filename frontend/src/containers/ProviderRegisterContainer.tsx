@@ -14,10 +14,16 @@ interface ProviderRegisterContainer {}
 const ProviderRegisterContainer = ({
   userData,
   changeUserData,
+  openPasswordError,
+  setOpenPasswordError,
+  samePassword,
+  setSamePassword,
   service,
   setService,
   availableTime,
   setAvailableTime,
+  profilePicUrl,
+  setProfilePicUrl,
   current,
   checked,
   callBack,
@@ -29,13 +35,20 @@ const ProviderRegisterContainer = ({
         <ProviderRegisterForm
           userData={userData}
           changeUserData={changeUserData}
+          samePassword={samePassword}
+          setSamePassword={setSamePassword}
+          openPasswordError={openPasswordError}
+          setOpenPasswordError={setOpenPasswordError}
         />
         <ProviderServieType service={service} setService={setService} />
         <ProviderAvailableTime
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}
         />
-        <ProviderProfileUpload />
+        <ProviderProfileUpload
+          profilePicUrl={profilePicUrl}
+          setProfilePicUrl={setProfilePicUrl}
+        />
       </Slider>
     </Layout>
   );
