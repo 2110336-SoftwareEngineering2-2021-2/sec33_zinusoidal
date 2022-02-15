@@ -55,3 +55,13 @@ func (h *Handler) GetAllServicesHandler(c *gin.Context) {
 		"services": fortunes,
 	})
 }
+
+func (h *Handler) GetLandingPageInfoHandler(c *gin.Context) {
+	info, err := h.service.GetLandingPageInfo()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, info)
+}

@@ -17,23 +17,21 @@ import { setEnvironmentData } from "worker_threads";
 const cookies = new Cookies();
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(cookies.get("user"));
+  // const data = cookies.get("user");
+  // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  // useEffect(() => {
+  //   const data = cookies.get("user");
+  //   console.log("DATA", typeof data);
+  //   if (typeof data == "undefined") {
+  //     setUser({});
+  //   } else {
+  //     setUser(data);
+  //   }
+  // }, []);
 
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
-  useEffect(() => {
-    const data = cookies.get("user");
-    console.log("DATA", typeof data);
-    if (typeof data == "undefined") {
-      setUser(null);
-    } else {
-      setUser(data);
-    }
-  }, []);
-
-  cookies.set("myCat", "Pacman", { path: "/" });
-  console.log(cookies.get("myCat")); // Pacman
   return (
-    <UserContext.Provider value={value}>
+    <UserContext.Provider value="value">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />

@@ -53,6 +53,7 @@ func main() {
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
 		v1fortune.GET("/all_services", search_handler.GetAllServicesHandler)
+		v1fortune.GET("/landing_page_info", search_handler.GetLandingPageInfoHandler)
 	}
 
 	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db)))
