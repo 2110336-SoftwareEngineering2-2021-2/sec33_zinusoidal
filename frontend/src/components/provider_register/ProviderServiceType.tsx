@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MdRemoveRedEye,
   MdRadioButtonUnchecked,
@@ -8,10 +8,30 @@ import {
 } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
+import SearchServiceDropDown from "./SearchServiceDropDown";
 
 const ProviderServiceType = ({ service, setService }: any) => {
+  const wrapperRef = useRef(null);
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setServiceDropDownOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(wrapperRef);
+  const [serviceDropDownOpen, setServiceDropDownOpen] = useState(false);
+  console.log(serviceDropDownOpen);
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
+  console.log(serviceName);
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
   const addButtonHandler = () => {
@@ -150,25 +170,60 @@ const ProviderServiceType = ({ service, setService }: any) => {
                   Select an <b>existing</b> type of service
                 </p>
               </ChoiceDiv>
-              <SearchServiceDiv>
-                <FiSearch style={{ marginLeft: 16 }} size={16} />
-                <ServiceInput type="text" placeholder="search"></ServiceInput>
-              </SearchServiceDiv>
+              <div
+                style={{
+                  position: "relative",
+                }}
+                ref={wrapperRef}
+              >
+                <SearchServiceDiv>
+                  <FiSearch style={{ marginLeft: 16 }} size={16} />
+                  <ServiceInput
+                    value={serviceName}
+                    type="text"
+                    placeholder="search"
+                    onClick={() => setServiceDropDownOpen(true)}
+                    onChange={(e) => setServiceName(e.target.value)}
+                  ></ServiceInput>
+                </SearchServiceDiv>
+                {serviceDropDownOpen ? (
+                  <SearchServiceDropDown
+                    serviceName={serviceName}
+                    setServiceName={setServiceName}
+                    setServiceDropDownOpen={setServiceDropDownOpen}
+                  />
+                ) : null}
+              </div>
               <SecondInputDiv>
                 <p>
                   <b>Price</b>
                 </p>
-                <input type="number" />
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={servicePrice == 0 ? "" : servicePrice}
+                  onChange={(e) => {
+                    setServicePrice(Number(e.target.value));
+                  }}
+                />
                 <p>
                   <b>/30 min</b>
                 </p>
               </SecondInputDiv>
               <AddButton
                 style={{
-                  backgroundColor: enableAdd
-                    ? COLOR["violet/400"]
-                    : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "none" : "unset",
+                  backgroundColor:
+                    serviceName == "" || servicePrice == 0
+                      ? COLOR["gray/400"]
+                      : COLOR["violet/400"],
+                  pointerEvents:
+                    serviceName == "" || servicePrice == 0 ? "none" : "unset",
+                }}
+                onClick={() => {
+                  addServiceToList({
+                    fortuneType: serviceName,
+                    price: servicePrice,
+                  });
                 }}
               >
                 Add +

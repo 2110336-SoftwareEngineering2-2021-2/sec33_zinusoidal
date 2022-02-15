@@ -9,6 +9,18 @@ import { AiOutlineCheck } from "react-icons/ai";
 interface Current {
   currentPage: any;
 }
+//prettier-ignore
+const workTime = (availableTime: any) => {
+  let workTime = [];
+  workTime.push({day:"Sunday",timeList:availableTime.filter((date:any)=>date.day=="Sunday")[0].timeList});
+  workTime.push({day:"Monday",timeList:availableTime.filter((date:any)=>date.day=="Monday")[0].timeList});
+  workTime.push({day:"Tuesday",timeList:availableTime.filter((date:any)=>date.day=="Tuesday")[0].timeList});
+  workTime.push({day:"Wednesday",timeList:availableTime.filter((date:any)=>date.day=="Wednesday")[0].timeList});
+  workTime.push({day:"Thursday",timeList:availableTime.filter((date:any)=>date.day=="Thursday")[0].timeList});
+  workTime.push({day:"Friday",timeList:availableTime.filter((date:any)=>date.day=="Friday")[0].timeList});
+  workTime.push({day:"Saturday",timeList:availableTime.filter((date:any)=>date.day=="Saturday")[0].timeList});
+  return workTime;
+};
 
 const ProviderRegister = () => {
   const register = () => {
@@ -20,7 +32,7 @@ const ProviderRegister = () => {
         password: userInput.Password,
         email: userInput.Email,
         firstname: userInput.Name,
-        workSchedule: availableTime,
+        workSchedule: workTime(availableTime),
         lastname: userInput.Surname,
         fortuneList: service,
         profilePicUrl: profilePicUrl,
