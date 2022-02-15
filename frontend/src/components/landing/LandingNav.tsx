@@ -82,7 +82,9 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             </P>
           )}
 
-          {showWideDropDown && <LandingDropDownWideScreen />}
+          {showWideDropDown && (
+            <LandingDropDownWideScreen setDropDown={setShowWideDropDown} />
+          )}
         </NameDiv>
 
         <Menu
