@@ -13,7 +13,9 @@ import { useNavigate } from "react-router-dom";
 const cookies = new Cookies();
 
 const EditProfile = () => {
+
   const user = cookies.get("user");
+  let navigate = useNavigate();
   let responseInput = {
     Name: "",
     Surname: "",
@@ -25,7 +27,7 @@ const EditProfile = () => {
   const getProfile = () => {
     axios({
       method: "get",
-      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`,
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user?.user_id}`,
       data: {},
     })
       .then(function (response) {
@@ -43,10 +45,10 @@ const EditProfile = () => {
       });
   };
 
-
   useEffect(() => {
     if (typeof user == "undefined") {
       navigate(`/`);
+      alert("You must be logged in");
     }
   }, []);
 
@@ -59,6 +61,7 @@ const EditProfile = () => {
     Password: "",
     Biography: "",
   });
+
   const updateProfile = () => {
     console.log("TOKEN", user.token);
     axios({
@@ -90,6 +93,7 @@ const EditProfile = () => {
         console.log(error.response.data);
       });
   };
+
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },

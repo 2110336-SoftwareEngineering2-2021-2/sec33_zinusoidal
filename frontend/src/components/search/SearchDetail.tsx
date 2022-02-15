@@ -22,7 +22,7 @@ const SERVICELIST = [
   { serviceName: "Dog", servicePrice: 200 },
   { serviceName: "Fish", servicePrice: 200 },
 ];
-const SearchDetail = ({ person, onClickBack }: SearchDetailPropType) => {
+const SearchDetail = ({ person, onClickBack }: any) => {
   return (
     <Layout>
       <ReturnBackButton onClick={() => onClickBack(null)}>
@@ -38,18 +38,11 @@ const SearchDetail = ({ person, onClickBack }: SearchDetailPropType) => {
       </SearchDetailHeader>
       <ContentContainer>
         <h1>Biography</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-          cursus suscipit scelerisque. Donec molestie non felis id facilisis.
-          Maecenas aliquam, nulla luctus posuere commodo, nisl massa viverra
-          lacus, sed pulvinar magna felis ac eros. Quisque viverra facilisis
-          dui. orem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-          cursus suscipit scelerisque. Donec molestie non felis id facilisis.{" "}
-        </p>
+        <p>{person.biography}</p>
       </ContentContainer>
       <ContentContainer>
         <h1>Available Services</h1>
-        <SearchDetailServiceSlider serviceList={SERVICELIST} />
+        <SearchDetailServiceSlider serviceList={person.fortuneList} />
       </ContentContainer>
       <ContentContainer>
         <h1>Reviews</h1>

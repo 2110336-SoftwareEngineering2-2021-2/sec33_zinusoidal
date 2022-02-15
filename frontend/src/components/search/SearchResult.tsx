@@ -18,12 +18,9 @@ interface SearchResultPropType {
 interface LayoutPropType {
   selected: boolean;
 }
-const SearchResult = ({
-  person,
-  onClick,
-  selected = false,
-}: SearchResultPropType) => {
+const SearchResult = ({ person, onClick, selected = false }: any) => {
   const { name, username, rating, priceRange } = person;
+  console.log("PERSONal", person);
   return (
     <Layout
       onClick={() => {
@@ -41,15 +38,15 @@ const SearchResult = ({
 
       <Detail>
         <p>
-          {name}
-          <span>@{username}</span>
+          {person.firstName} {person.lastName}
+          <span>@{person.username}</span>
         </p>
         <Block>
           <div className="ratings">
             <div className="empty-stars"></div>
             <div
               className="full-stars"
-              style={{ width: `${(rating * 100) / 5}%` }}
+              style={{ width: `${(person.rating * 100) / 5}%` }}
             ></div>
           </div>
 
