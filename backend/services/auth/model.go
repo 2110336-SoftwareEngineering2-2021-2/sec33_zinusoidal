@@ -7,27 +7,27 @@ import (
 )
 
 type CustomerRegisterRequest struct {
-	Username   string                `form:"username" binding:"required"`
-	Password   string                `form:"password" binding:"required"`
-	Email      string                `form:"email" binding:"required"`
-	FirstName  string                `form:"firstName" binding:"required"`
-	LastName   string                `form:"lastName" binding:"required"`
+	Username   string                `json:"username" form:"username" binding:"required"`
+	Password   string                `json:"password" form:"password" binding:"required"`
+	Email      string                `json:"email" form:"email" binding:"required"`
+	FirstName  string                `json:"firstName" form:"firstName" binding:"required"`
+	LastName   string                `json:"lastName" form:"lastName" binding:"required"`
 	ProfilePic *multipart.FileHeader `form:"profilePic"`
-	CitizenId  string                `form:"citizenId"`
+	CitizenId  string                `json:"citizenId" form:"citizenId"`
 }
 
 type ProviderRegisterRequest struct {
-	Username     string                `form:"username" binding:"required"`
-	Password     string                `form:"password" binding:"required"`
-	Email        string                `form:"email" binding:"required"`
-	FirstName    string                `form:"firstName" binding:"required"`
-	LastName     string                `form:"lastName" binding:"required"`
-	Schedule     string                `form:"schedule"`
+	Username     string                `json:"username" form:"username" binding:"required"`
+	Password     string                `json:"password" form:"password" binding:"required"`
+	Email        string                `json:"email" form:"email" binding:"required"`
+	FirstName    string                `json:"firstName" form:"firstName" binding:"required"`
+	LastName     string                `json:"lastName" form:"lastName" binding:"required"`
+	Schedule     string                `json:"schedule" form:"schedule"`
 	WorkSchedule []model.WorkSchedule  `json:"workSchedule"`
 	Fortune      []model.Fortune       `json:"fortuneList"`
-	ProfilePic   *multipart.FileHeader `form:"profilePic"`
-	Biography    string                `form:"biography"`
-	CitizenId    string                `form:"citizenId"`
+	ProfilePic   *multipart.FileHeader `json:"profilePic" form:"profilePic"`
+	Biography    string                `json:"biography" form:"biography"`
+	CitizenId    string                `json:"citizenId" form:"citizenId"`
 }
 
 type ProviderRegisterTestRequest struct {
