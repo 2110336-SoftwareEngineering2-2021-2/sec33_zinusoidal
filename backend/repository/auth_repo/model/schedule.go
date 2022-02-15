@@ -69,7 +69,7 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 	for i := 0; i < 336; i += 1 {
 		result_buffer += "_"
 	}
-	result := []rune(result_buffer)
+	result := []byte(result_buffer)
 
 	var lst int = 0
 
@@ -89,7 +89,7 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 			if err != nil {
 				return "", err
 			}
-			var add rune = '0'
+			var add byte = '0'
 			if lst == 1 {
 				add = '1'
 			}
@@ -112,15 +112,15 @@ func ParseStringBackToSchedule(schdule string) ([]WorkSchedule, error) {
 		result[i].Day = days[i]
 		result[i].TimeList = make([][]string, 0)
 	}
-	rune_schedule := []rune(schdule)
+	byte_schedule := []byte(schdule)
 	for j, day_cnt := 0, 0; j < 336; j += 48 {
 		for i := j; i < j+48; {
-			if rune_schedule[i] == '_' {
+			if byte_schedule[i] == '_' {
 				i += 1
 				continue
 			}
 			k := i + 1
-			for k < j+48 && rune_schedule[k] == rune_schedule[i] {
+			for k < j+48 && byte_schedule[k] == byte_schedule[i] {
 				k += 1
 			}
 			time_ranges := make([]string, 2)
