@@ -12,33 +12,38 @@ interface Current {
 
 const ProviderRegister = () => {
   const register = () => {
-    console.log("WAIT FOR FCKING API");
-    // axios({
-    //   method: "post",
-    //   url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_register",
-    //   data: {
-    //     username: userInput.Username,
-    //     password: userInput.Password,
-    //     email: userInput.Email,
-    //     firstname: userInput.Name,
-    //     lastname: userInput.Surname,
-    //     profilePicUrl: profilePicUrl,
-    //     citizenID: userInput.CitizenID,
-    //   },
-    // })
-    //   .then(function (response) {
-    //     console.log("register success");
-    //     setCurrent(3);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error.response.data.message);
-    //     if (error.response.data.message.includes("email")) {
-    //       setCurrent(1);
-    //     }
-    //     if (error.response.data.message.includes("username")) {
-    //       setCurrent(1);
-    //     }
-    //   });
+    axios({
+      method: "post",
+      url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_register",
+      data: {
+        username: userInput.Username,
+        password: userInput.Password,
+        email: userInput.Email,
+        firstname: userInput.Name,
+        workSchedule: availableTime,
+        lastname: userInput.Surname,
+        fortuneList: service,
+        profilePicUrl: profilePicUrl,
+        citizenID: userInput.CitizenID,
+        biography: userInput.Biography,
+      },
+    })
+      .then(function (response) {
+        console.log("register success");
+        setCurrent(5);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+        console.log(error.response.data.log);
+        if (error.response.data.log.includes("email")) {
+          setCurrent(1);
+          setEmailError(true);
+        }
+        if (error.response.data.log.includes("username")) {
+          setCurrent(1);
+          setUsernameError(true);
+        }
+      });
   };
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
@@ -72,6 +77,8 @@ const ProviderRegister = () => {
     setCurrent(Math.min(2, current + 1));
     setOpenPasswordError(false);
   };
+  const [usernameError, setUsernameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   console.log(userInput);
   console.log(service);
   console.log(availableTime);
@@ -112,6 +119,10 @@ const ProviderRegister = () => {
       </Header>
       <Form>
         <ProviderRegisterContainer
+          usernameError={usernameError}
+          setUsernameError={setUsernameError}
+          emailError={emailError}
+          setEmailError={setEmailError}
           samePassword={samePassword}
           setSamePassword={setSamePassword}
           openPasswordError={openPasswordError}
@@ -136,7 +147,10 @@ const ProviderRegister = () => {
           onClick={() => {
             setCurrent(Math.max(0, current - 1));
           }}
-          style={{ display: current == 0 ? "none" : "flex" }}
+          style={{
+            display: current == 0 ? "none" : "flex",
+            visibility: current == 5 ? "hidden" : "visible",
+          }}
         >
           <MdOutlineNavigateBefore />
           Back

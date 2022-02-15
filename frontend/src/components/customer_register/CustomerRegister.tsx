@@ -37,7 +37,6 @@ const CustomerRegister = () => {
         if (error.response.data.message.includes("username")) {
           setCurrent(1);
           setUsernameError(true);
-          console.log(usernameError);
         }
       });
   };

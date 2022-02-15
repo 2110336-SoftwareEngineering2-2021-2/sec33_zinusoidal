@@ -81,10 +81,6 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	}
 	provider.UserId = "P" + userId.String()
 	provider.CreateAt = time.Now().String()
-	err = s.database.RegisterProvider(provider)
-	if err != nil {
-		return err
-	}
 
 	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -92,6 +88,11 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	}
 	provider.Password = string(hash_password)
 	key := randomStringKey(20)
+
+	err = s.database.RegisterProvider(provider)
+	if err != nil {
+		return err
+	}
 
 	err = sendEmailConfirmationLink(req.Email, key)
 	if err != nil {
