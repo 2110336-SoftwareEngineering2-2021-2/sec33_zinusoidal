@@ -97,6 +97,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	if err != nil {
 		return err
 	}
+
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }

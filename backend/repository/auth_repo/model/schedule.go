@@ -30,6 +30,12 @@ func ParseToPosition(tim string, days int) (int, error) {
 	if len(tim) != 5 {
 		return -1, errors.New("bads format")
 	}
+
+	if tim == "23:59" {
+		pos, err := ParseToPosition("00:00", days)
+		return pos + 48, err
+	}
+
 	hours, mins, err := GetTimes(tim)
 	if err != nil {
 		return -1, err
@@ -61,9 +67,11 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 
 	result_buffer := ""
 	for i := 0; i < 336; i += 1 {
-		result_buffer += "0"
+		result_buffer += "_"
 	}
 	result := []rune(result_buffer)
+
+	var lst int = 0
 
 	for id, schedule := range works {
 		if schedule.Day != days[id] {
@@ -81,9 +89,14 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 			if err != nil {
 				return "", err
 			}
-			for i := start; i < end; i += 1 {
-				result[i] = '1'
+			var add rune = '0'
+			if lst == 1 {
+				add = '1'
 			}
+			for i := start; i < end; i += 1 {
+				result[i] = add
+			}
+			lst ^= 1
 		}
 	}
 
@@ -97,22 +110,28 @@ func ParseStringBackToSchedule(schdule string) ([]WorkSchedule, error) {
 	result := make([]WorkSchedule, 7)
 	for i := 0; i < 7; i += 1 {
 		result[i].Day = days[i]
+		result[i].TimeList = make([][]string, 0)
 	}
 	rune_schedule := []rune(schdule)
 	for j, day_cnt := 0, 0; j < 336; j += 48 {
 		for i := j; i < j+48; {
-			if rune_schedule[i] == '0' {
+			if rune_schedule[i] == '_' {
 				i += 1
 				continue
 			}
 			k := i + 1
-			for k < j+48 && rune_schedule[k] == '1' {
+			for k < j+48 && rune_schedule[k] == rune_schedule[i] {
 				k += 1
 			}
 			time_ranges := make([]string, 2)
 			time_ranges[0] = ParsePositionToString(i)
-			time_ranges[1] = ParsePositionToString(k % 48)
+			if k%48 == 0 {
+				time_ranges[1] = "23:59"
+			} else {
+				time_ranges[1] = ParsePositionToString(k % 48)
+			}
 			result[day_cnt].TimeList = append(result[day_cnt].TimeList, time_ranges)
+			i = k
 		}
 		day_cnt += 1
 	}

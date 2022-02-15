@@ -26,6 +26,10 @@ type ProviderRegisterRequest struct {
 	CitizenId     string               `json:"citizenId"`
 }
 
+type ProviderRegisterTestRequest struct {
+	WorkSchedule []model.WorkSchedule `json:"workSchedule"`
+}
+
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
