@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/mashingan/smapping"
 	uuid "github.com/nu7hatch/gouuid"
 	"github.com/spf13/viper"
@@ -17,7 +18,8 @@ import (
 )
 
 type Service struct {
-	database Databaser
+	database       Databaser
+	centralService services.Service
 }
 
 type Databaser interface {
@@ -28,8 +30,11 @@ type Databaser interface {
 	ConfirmEmail(key string) error
 }
 
-func NewService(database Databaser) *Service {
-	return &Service{database: database}
+func NewService(database Databaser, centralService services.Service) *Service {
+	return &Service{
+		database:       database,
+		centralService: centralService,
+	}
 }
 
 func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
@@ -50,6 +55,13 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 		return errors.New("hashed failed")
 	}
 	customer.Password = string(hash_password)
+
+	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, customer.UserId+"-profile-"+req.ProfilePic.Filename)
+	if err != nil {
+		return err
+	}
+
+	customer.ProfilePicUrl = profilePicUrl
 
 	err = s.database.RegisterCustomer(customer)
 	if err != nil {
@@ -90,6 +102,13 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	}
 	provider.Password = string(hash_password)
 	key := randomStringKey(20)
+
+	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, provider.UserId+"-profile-"+req.ProfilePic.Filename)
+	if err != nil {
+		return err
+	}
+
+	provider.ProfilePicUrl = profilePicUrl
 
 	err = s.database.RegisterProvider(provider)
 	if err != nil {
