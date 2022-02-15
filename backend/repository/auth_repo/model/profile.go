@@ -36,7 +36,7 @@ type Provider struct {
 }
 
 type LandingPageInfo struct {
-	Customer_cnt int `gorm:"column:total_customer" json:"totalCustomer"`
-	Provider_cnt int `gorm:"column:total_provider" json:"totalProvider"`
-	Fortune_cnt  int `gorm:"column:total_fortune_service" json:"totalFortuneService"`
+	CustomerCnt int `gorm:"column:total_customer" json:"totalCustomer"`
+	ProviderCnt int `gorm:"column:total_provider" json:"totalProvider"`
+	FortuneCnt  int `gorm:"column:total_fortune_service" json:"totalFortuneService"`
 }
