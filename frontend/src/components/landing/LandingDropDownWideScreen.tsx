@@ -8,12 +8,13 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-const LandingDropDownWideScreen = () => {
+const LandingDropDownWideScreen = ({ setDropDown }: any) => {
   const navigate = useNavigate();
 
   const logoutHandle = () => {
+    setDropDown(false);
     cookies.remove("user");
-    window.location.reload();
+    navigate("/");
   };
   return (
     <Layout
