@@ -25,7 +25,7 @@ type ProviderRegisterRequest struct {
 	Schedule     string                `json:"schedule" form:"schedule"`
 	WorkSchedule []model.WorkSchedule  `json:"workSchedule"`
 	Fortune      []model.Fortune       `json:"fortuneList"`
-	ProfilePic   *multipart.FileHeader `json:"profilePic" form:"profilePic"`
+	ProfilePic   *multipart.FileHeader `form:"profilePic"`
 	Biography    string                `json:"biography" form:"biography"`
 	CitizenId    string                `json:"citizenId" form:"citizenId"`
 }
