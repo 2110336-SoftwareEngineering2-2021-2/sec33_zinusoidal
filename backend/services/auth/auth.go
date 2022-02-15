@@ -159,7 +159,7 @@ func sendEmailConfirmationLink(email, key string) error {
 	mail.SetHeader("From", sender)
 	mail.SetHeader("Subject", "Email activation")
 	mail.SetHeader("To", email)
-	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://:"+viper.GetString("app.port")+"/confirm_email/"+key)
+	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:"+viper.GetString("app.port")+"/confirm_email/"+key)
 	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 	log.Println("Sending email....")
