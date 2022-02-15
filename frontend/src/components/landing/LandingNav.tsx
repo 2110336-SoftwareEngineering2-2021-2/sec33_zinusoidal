@@ -8,6 +8,10 @@ import { UserContext } from "../../context/UserContext";
 import { AnimatePresence } from "framer-motion";
 import LandingDropDown from "./LandingDropDown";
 import { useLocation } from "react-router-dom";
+import LandingDropDownWideScreen from "./LandingDropDownWideScreen";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+const cookies = new Cookies();
 const logo = require("../../assets/logo.png");
 
 interface StyledLinkPropType {
@@ -18,19 +22,23 @@ interface ParagraphPropType {
   isUser: boolean;
 }
 const LandingNav = ({ onClickMenu, show }: any) => {
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+  const user = cookies.get("user");
   const [showDropDown, setShowDropDown] = useState(true);
-
+  const [showWideDropDown, setShowWideDropDown] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   console.log(user);
   useEffect(() => {
     setShowDropDown(false);
   }, [location]);
-
   useEffect(() => {
     const windowWidthDetect = () => {
       if (window.innerWidth > 600 && showDropDown) {
         setShowDropDown(false);
+      }
+      if (window.innerWidth <= 600 && showWideDropDown) {
+        setShowWideDropDown(false);
       }
     };
     window.addEventListener("resize", windowWidthDetect);
@@ -52,11 +60,29 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             Find provider
           </motion.h1>
         </StyledLink>
-        <StyledLink to="/login" ending={true}>
-          <P whileHover={{ scale: 1.3, originX: "100%" }} isUser={user != null}>
-            {user == null ? "Login/Register" : `Hello, ${user}`}
-          </P>
-        </StyledLink>
+        <NameDiv>
+          {typeof user == "undefined" ? (
+            <P
+              whileHover={{ scale: 1.3, originX: "100%" }}
+              isUser={typeof user != "undefined"}
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login/Register
+            </P>
+          ) : (
+            <P
+              whileHover={{ scale: 1.3, originX: "100%" }}
+              isUser={typeof user != "undefined"}
+              onClick={() => setShowWideDropDown(!showWideDropDown)}
+            >
+              Hello, {user?.username}
+            </P>
+          )}
+
+          {showWideDropDown && <LandingDropDownWideScreen />}
+        </NameDiv>
 
         <Menu
           size={32}
@@ -75,8 +101,21 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           >
             <LandingDropDown text="Home" where="/" />
             <LandingDropDown text="Find provider" where="/search" />
-            <LandingDropDown text="Edit your profiles" where="/editProfile" />
-            <LandingDropDown text="Login/Register" where="/login" />
+            {typeof user != "undefined" && user.user_id.slice(0, 1) == "P" && (
+              <LandingDropDown text="Edit your profiles" where="/editProfile" />
+            )}
+            {typeof user == "undefined" && (
+              <LandingDropDown text="Login/Register" where="/login" />
+            )}
+            {typeof user != "undefined" && (
+              <LogoutButton
+                onClick={() => {
+                  cookies.remove("user");
+                }}
+              >
+                <h1>Logout</h1>
+              </LogoutButton>
+            )}
           </LandingDropDownDiv>
         )}
       </AnimatePresence>
@@ -138,8 +177,8 @@ const StyledLink = styled(Link)<StyledLinkPropType>`
   font-weight: bold;
   cursor: pointer;
   color: black;
-  margin-left: ${(props) => (props.ending == true ? "auto" : "60px")};
-  margin-right: ${(props) => (props.ending == true ? "32px" : "0px")};
+  margin-left: 60px;
+  margin-right: 0px;
 
   @media screen and (max-width: 800px) {
     font-size: 16px;
@@ -158,6 +197,42 @@ const Menu = styled(AiOutlineMenu)`
 
 const P = styled(motion.p)<ParagraphPropType>`
   color: ${(props) => (props.isUser ? COLOR["aqua/700"] : "black")};
+  font-size: 20px;
+  line-height: 31px;
+  font-weight: bold;
+  cursor: pointer;
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const NameDiv = styled.div`
+  position: relative;
+  margin-right: 32px;
+  margin-left: auto;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const LogoutButton = styled.div`
+  height: 63px;
+  background-color: ${COLOR["violet/100"]};
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  z-index: 1;
+  position: relative;
+  cursor: pointer;
+  h1 {
+    font-size: 20px;
+    line-height: 31px;
+    font-weight: bold;
+  }
 `;
 
 export default LandingNav;

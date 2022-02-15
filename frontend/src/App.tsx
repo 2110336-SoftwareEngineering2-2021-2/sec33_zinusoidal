@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import "./App.css";
 import LandingPage from "./pages/LandingPage";
 import CustomerRegister from "./pages/CustomerRegisterPage";
@@ -12,12 +12,25 @@ import EditProfilePage from "./pages/EditProfilePage";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
-const App = () => {
-  const [user, setUser] = useState(null);
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+const App = () => {
+  // const [user, setUser] = useState(cookies.get("user"));
+  // const data = cookies.get("user");
+  // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  // useEffect(() => {
+  //   const data = cookies.get("user");
+  //   console.log("DATA", typeof data);
+  //   if (typeof data == "undefined") {
+  //     setUser({});
+  //   } else {
+  //     setUser(data);
+  //   }
+  // }, []);
+
   return (
-    <UserContext.Provider value={value}>
+    <UserContext.Provider value="value">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />

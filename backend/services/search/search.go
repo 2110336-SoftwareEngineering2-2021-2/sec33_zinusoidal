@@ -1,6 +1,9 @@
 package search
 
-import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
+import (
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
+)
 
 type Service struct {
 	database Databaser
@@ -8,6 +11,8 @@ type Service struct {
 
 type Databaser interface {
 	SearchProvider(SearchRequest) ([]profile.ProviderProfile, error)
+	GetAllService() ([]string, error)
+	GetLandingPageInfo() (*model.LandingPageInfo, error)
 }
 
 type Servicer interface {
@@ -21,4 +26,13 @@ func NewService(database Databaser) *Service {
 func (s *Service) SearchProvider(req SearchRequest) ([]profile.ProviderProfile, error) {
 	results, err := s.database.SearchProvider(req)
 	return results, err
+}
+
+func (s *Service) GetAllResult() ([]string, error) {
+	return s.database.GetAllService()
+}
+
+func (s *Service) GetLandingPageInfo() (*model.LandingPageInfo, error) {
+	info, err := s.database.GetLandingPageInfo()
+	return info, err
 }

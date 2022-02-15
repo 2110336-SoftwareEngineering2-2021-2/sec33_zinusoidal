@@ -9,8 +9,12 @@ mysql:
   net: "tcp"
 smtp:
   host: "smtp.gmail.com"
-  ip: 192.168.1.10
   port: 587
 email:
   email: ""
   password: ""
+bucket:
+  zone: ""
+  access: ""
+  secret: ""
+  name: ""

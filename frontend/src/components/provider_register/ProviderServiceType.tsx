@@ -28,19 +28,10 @@ const ProviderServiceType = ({ service, setService }: any) => {
   }
   useOutsideAlerter(wrapperRef);
   const [serviceDropDownOpen, setServiceDropDownOpen] = useState(false);
-  console.log(serviceDropDownOpen);
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
-  console.log(serviceName);
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
-  const addButtonHandler = () => {
-    if (serviceName == "" || servicePrice == 0) {
-      setEnableAdd(false);
-    } else {
-      setEnableAdd(true);
-    }
-  };
 
   const addServiceToList = (newService: any) => {
     console.log(newService);

@@ -52,6 +52,7 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 	VALUES (?, ?, ?);`
 
 	for _, fortune := range provider.FortuneList {
+
 		err = db.database.Exec(insert_fortune, provider.UserId, fortune.FortuneType, fortune.Price).Error
 		if err != nil {
 			return err
@@ -61,26 +62,28 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 	return nil
 }
 
-func (db *GromDB) Login(username, password string) (string, error) {
+func (db *GromDB) Login(username, password string) (model.LoginQuery, error) {
 
-	login_command := `SELECT U.id, U.password
-	FROM fortune_user U
-	WHERE U.username = ?`
-	var result struct {
-		UserId   string `gorm:"column:id"`
-		Password string `gorm:"column:password"`
-	}
-	err := db.database.Raw(login_command, username).Scan(&result).Error
+	login_command := `SELECT U.id, U.username, U.password, C.first_name, C.last_name, C.profile_image 
+    FROM fortune_user U RIGHT JOIN customer C ON U.id = C.id
+    WHERE U.username = ?
+UNION
+SELECT U.id, U.username, U.password, P.first_name, P.last_name, P.profile_image 
+    FROM fortune_user U RIGHT JOIN provider P ON U.id = P.id
+    WHERE U.username = ?;`
+	var result model.LoginQuery
+
+	err := db.database.Raw(login_command, username, username).Scan(&result).Error
 	if err != nil {
-		return "", err
+		return model.LoginQuery{}, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(password))
 	if err != nil {
-		return "", err
+		return model.LoginQuery{}, err
 	}
 
-	return result.UserId, err
+	return result, err
 }
 
 func (db *GromDB) InsertConfirmationKey(userId, key string) error {

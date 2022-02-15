@@ -67,14 +67,14 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		})
 		return
 	}
-	userId, err := h.service.Login(req)
+	resp, err := h.service.Login(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": err.Error(),
 		})
 		return
 	}
-	token, err := jwt.CreateToken(userId)
+	token, err := jwt.CreateToken(resp.UserId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": err.Error(),
@@ -82,7 +82,12 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"token":         token,
+		"user_id":       resp.UserId,
+		"username":      resp.Username,
+		"first_name":    resp.FirstName,
+		"last_name":     resp.LastName,
+		"profile_image": resp.ProfileImage,
 	})
 }
 

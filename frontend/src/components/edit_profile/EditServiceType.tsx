@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   MdRemoveRedEye,
   MdRadioButtonUnchecked,
@@ -8,27 +8,39 @@ import {
 } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
+import SearchServiceDropDown from "../provider_register/SearchServiceDropDown";
 
 const EditServiceType = ({ service, setService }: any) => {
+  const wrapperRef = useRef(null);
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setServiceDropDownOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(wrapperRef);
+  const [serviceDropDownOpen, setServiceDropDownOpen] = useState(false);
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
   console.log(service);
-  const addButtonHandler = () => {
-    if (serviceName == "" || servicePrice == 0) {
-      setEnableAdd(false);
-    } else {
-      setEnableAdd(true);
-    }
-  };
+
   const addServiceToList = (newService: any) => {
+    console.log(newService);
     for (var s of service) {
       if (
-        s.serviceName == "" ||
-        s.servicePrice == 0 ||
-        (s.serviceName == newService.serviceName &&
-          s.servicePrice == newService.servicePrice)
+        s.fortuneType == "" ||
+        s.price == 0 ||
+        (s.fortuneType == newService.fortuneType && s.price == newService.price)
       ) {
         return;
       }
@@ -42,8 +54,8 @@ const EditServiceType = ({ service, setService }: any) => {
     setService(
       service.filter(
         (service: any) =>
-          service.serviceName != deleteService.serviceName ||
-          service.servicePrice != deleteService.servicePrice
+          service.fortuneType != deleteService.fortuneType ||
+          service.price != deleteService.price
       )
     );
   };
@@ -83,7 +95,6 @@ const EditServiceType = ({ service, setService }: any) => {
                   value={serviceName}
                   onChange={(e) => {
                     setServiceName(e.target.value);
-                    addButtonHandler();
                   }}
                 />
                 <InputDiv>
@@ -96,7 +107,6 @@ const EditServiceType = ({ service, setService }: any) => {
                     value={servicePrice == 0 ? "" : servicePrice}
                     onChange={(e) => {
                       setServicePrice(Number(e.target.value));
-                      addButtonHandler();
                     }}
                   />
                   <p>
@@ -106,15 +116,17 @@ const EditServiceType = ({ service, setService }: any) => {
               </ServiceAndPriceDiv>
               <AddButton
                 style={{
-                  backgroundColor: enableAdd
-                    ? COLOR["violet/400"]
-                    : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "unset" : "none",
+                  backgroundColor:
+                    serviceName == "" || servicePrice == 0
+                      ? COLOR["gray/400"]
+                      : COLOR["violet/400"],
+                  pointerEvents:
+                    serviceName == "" || servicePrice == 0 ? "none" : "unset",
                 }}
                 onClick={() => {
                   addServiceToList({
-                    serviceName: serviceName,
-                    servicePrice: servicePrice,
+                    fortuneType: serviceName,
+                    price: servicePrice,
                   });
                 }}
               >
@@ -145,25 +157,60 @@ const EditServiceType = ({ service, setService }: any) => {
                   Select an <b>existing</b> type of service
                 </p>
               </ChoiceDiv>
-              <SearchServiceDiv>
-                <FiSearch style={{ marginLeft: 16 }} size={16} />
-                <ServiceInput type="text" placeholder="search"></ServiceInput>
-              </SearchServiceDiv>
+              <div
+                style={{
+                  position: "relative",
+                }}
+                ref={wrapperRef}
+              >
+                <SearchServiceDiv>
+                  <FiSearch style={{ marginLeft: 16 }} size={16} />
+                  <ServiceInput
+                    value={serviceName}
+                    type="text"
+                    placeholder="search"
+                    onClick={() => setServiceDropDownOpen(true)}
+                    onChange={(e) => setServiceName(e.target.value)}
+                  ></ServiceInput>
+                </SearchServiceDiv>
+                {serviceDropDownOpen ? (
+                  <SearchServiceDropDown
+                    serviceName={serviceName}
+                    setServiceName={setServiceName}
+                    setServiceDropDownOpen={setServiceDropDownOpen}
+                  />
+                ) : null}
+              </div>
               <SecondInputDiv>
                 <p>
                   <b>Price</b>
                 </p>
-                <input type="number" />
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={servicePrice == 0 ? "" : servicePrice}
+                  onChange={(e) => {
+                    setServicePrice(Number(e.target.value));
+                  }}
+                />
                 <p>
                   <b>/30 min</b>
                 </p>
               </SecondInputDiv>
               <AddButton
                 style={{
-                  backgroundColor: enableAdd
-                    ? COLOR["violet/400"]
-                    : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "unset" : "none",
+                  backgroundColor:
+                    serviceName == "" || servicePrice == 0
+                      ? COLOR["gray/400"]
+                      : COLOR["violet/400"],
+                  pointerEvents:
+                    serviceName == "" || servicePrice == 0 ? "none" : "unset",
+                }}
+                onClick={() => {
+                  addServiceToList({
+                    fortuneType: serviceName,
+                    price: servicePrice,
+                  });
                 }}
               >
                 Add +
@@ -175,11 +222,11 @@ const EditServiceType = ({ service, setService }: any) => {
       <SecondLayout>
         <Myservice>My service</Myservice>
         <Services>
-          {service.map((service: any) => (
+          {service.map((s: any) => (
             <MyServiceDiv>
-              <p>{service.serviceName}</p>
+              <p>{s.fortuneType}</p>
               <PriceAndMinusDiv>
-                <p>฿ {service.servicePrice} /30min</p>
+                <p>฿ {s.price} /30min</p>
                 <AiFillMinusCircle
                   color={COLOR["magenta/400"]}
                   size={24}
@@ -187,7 +234,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    deleteServiceFromList(service);
+                    deleteServiceFromList(s);
                   }}
                 />
               </PriceAndMinusDiv>

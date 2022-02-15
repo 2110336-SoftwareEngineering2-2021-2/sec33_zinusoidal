@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/mashingan/smapping"
 	uuid "github.com/nu7hatch/gouuid"
 	"github.com/spf13/viper"
@@ -17,19 +18,23 @@ import (
 )
 
 type Service struct {
-	database Databaser
+	database       Databaser
+	centralService services.Service
 }
 
 type Databaser interface {
 	RegisterCustomer(customer model.Customer) error
 	RegisterProvider(provider model.Provider) error
-	Login(username, password string) (string, error)
+	Login(username, password string) (model.LoginQuery, error)
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
 }
 
-func NewService(database Databaser) *Service {
-	return &Service{database: database}
+func NewService(database Databaser, centralService services.Service) *Service {
+	return &Service{
+		database:       database,
+		centralService: centralService,
+	}
 }
 
 func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
@@ -51,17 +56,25 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	}
 	customer.Password = string(hash_password)
 
+	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, customer.UserId+"-profile")
+	if err != nil {
+		return err
+	}
+
+	customer.ProfilePicUrl = profilePicUrl
+
 	err = s.database.RegisterCustomer(customer)
 	if err != nil {
 		return err
 	}
+
 	key := randomStringKey(20)
-
-	err = sendEmailConfirmationLink(req.Email, key)
-	if err != nil {
-		return err
-	}
-
+	/*
+		err = sendEmailConfirmationLink(req.Email, key)
+		if err != nil {
+			return err
+		}
+	*/
 	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
@@ -74,6 +87,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 		return err
 	}
 	smapping.FillStruct(&provider, smapping.MapFields(&req))
+	provider.FortuneList = req.Fortune
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
@@ -89,23 +103,30 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	provider.Password = string(hash_password)
 	key := randomStringKey(20)
 
+	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, provider.UserId+"-profile")
+	if err != nil {
+		return err
+	}
+
+	provider.ProfilePicUrl = profilePicUrl
+
 	err = s.database.RegisterProvider(provider)
 	if err != nil {
 		return err
 	}
-
-	err = sendEmailConfirmationLink(req.Email, key)
-	if err != nil {
-		return err
-	}
-
+	/*
+		err = sendEmailConfirmationLink(req.Email, key)
+		if err != nil {
+			return err
+		}
+	*/
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }
 
-func (s *Service) Login(req LoginRequest) (string, error) {
-	userId, err := s.database.Login(req.Username, req.Password)
-	return userId, err
+func (s *Service) Login(req LoginRequest) (model.LoginQuery, error) {
+	res, err := s.database.Login(req.Username, req.Password)
+	return res, err
 }
 
 func (s *Service) ConfirmEmail(key string) error {

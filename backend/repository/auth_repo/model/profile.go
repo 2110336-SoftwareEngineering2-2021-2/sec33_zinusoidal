@@ -19,6 +19,15 @@ type Fortune struct {
 	Price       int    `json:"price"`
 }
 
+type LoginQuery struct {
+	UserId       string `gorm:"column:id"`
+	Username     string `gorm:"column:username"`
+	Password     string `gorm:"column:password"`
+	FirstName    string `gorm:"column:first_name"`
+	LastName     string `gorm:"column:last_name"`
+	ProfileImage string `gorm:"column:profile_image"`
+}
+
 type Provider struct {
 	UserId        string    `gorm:"column:id" `
 	Username      string    `gorm:"column:username" json:"username"`
@@ -33,4 +42,10 @@ type Provider struct {
 	Schedule      string    `gorm:"column:schedule" json:"schedule"`
 	CreateAt      string    `gorm:"column:create_datetime"`
 	DeleteAt      string    `gorm:"column:delete_datetime"`
+}
+
+type LandingPageInfo struct {
+	CustomerCnt int `gorm:"column:total_customer" json:"totalCustomer"`
+	ProviderCnt int `gorm:"column:total_provider" json:"totalProvider"`
+	FortuneCnt  int `gorm:"column:total_fortune_service" json:"totalFortuneService"`
 }

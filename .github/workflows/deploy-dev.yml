@@ -13,6 +13,10 @@ env:
   SMTP_PORT: ${{ secrets.SMTP_PORT }}
   SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
   SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+  AWS_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET }}
+  AWS_BUCKET_ZONE: ${{ secrets.AWS_S3_ZONE }}
+  AWS_BUCKET_ACCESS: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_BUCKET_SECRET: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
   docker-backend:
@@ -45,6 +49,12 @@ jobs:
           echo "email:" >> ./backend/configs/config.yaml
           echo "  email: $SMTP_EMAIL" >> ./backend/configs/config.yaml
           echo "  password: $SMTP_PASSWORD" >> ./backend/configs/config.yaml
+
+          echo "bucket:" >> ./backend/configs/config.yaml
+          echo "  name: $AWS_BUCKET_NAME" >> ./backend/configs/config.yaml
+          echo "  zone: $AWS_BUCKET_ZONE" >> ./backend/configs/config.yaml
+          echo "  access: $AWS_BUCKET_ACCESS" >> ./backend/configs/config.yaml
+          echo "  secret: $AWS_BUCKET_SECRET" >> ./backend/configs/config.yaml
       -
         name: Login to DockerHub
         uses: docker/login-action@v1 

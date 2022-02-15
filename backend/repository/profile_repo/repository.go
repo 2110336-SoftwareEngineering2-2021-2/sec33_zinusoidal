@@ -225,3 +225,43 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 
 	return returnResults, err
 }
+
+func (db *GromDB) GetAllService() ([]string, error) {
+	query := `SELECT DISTINCT fortune_type from provider_service;`
+	type Result struct {
+		FortuneType string `gorm:"column:fortune_type" `
+	}
+	var results []Result
+
+	err := db.database.Raw(query).Scan(&results).Error
+	fortune_results := make([]string, 0)
+	if err != nil {
+		return fortune_results, err
+	}
+	for _, fortune := range results {
+		fortune_results = append(fortune_results, fortune.FortuneType)
+	}
+	return fortune_results, nil
+}
+
+func (db *GromDB) GetLandingPageInfo() (*model.LandingPageInfo, error) {
+	customer_count_query := `SELECT COUNT(*) AS total_customer FROM customer;`
+	provider_count_query := `SELECT COUNT(*) AS total_provider FROM provider;`
+	fortune_count_query := `SELECT COUNT(DISTINCT(fortune_type)) AS total_fortune_service FROM provider_service;`
+
+	info := model.LandingPageInfo{}
+
+	err := db.database.Raw(customer_count_query).Scan(&info).Error
+	if err != nil {
+		return nil, err
+	}
+	err = db.database.Raw(provider_count_query).Scan(&info).Error
+	if err != nil {
+		return nil, err
+	}
+	err = db.database.Raw(fortune_count_query).Scan(&info).Error
+	if err != nil {
+		return nil, err
+	}
+	return &info, nil
+}

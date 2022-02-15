@@ -42,3 +42,26 @@ func (h *Handler) SearchHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 
 }
+
+func (h *Handler) GetAllServicesHandler(c *gin.Context) {
+	fortunes, err := h.service.GetAllResult()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"services": fortunes,
+	})
+}
+
+func (h *Handler) GetLandingPageInfoHandler(c *gin.Context) {
+	info, err := h.service.GetLandingPageInfo()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, info)
+}

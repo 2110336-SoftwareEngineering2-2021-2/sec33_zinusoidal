@@ -4,12 +4,15 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [disable, setDisable] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -27,7 +30,9 @@ const LoginForm = () => {
       .then(function (response) {
         console.log("login success");
         console.log(response.data);
-        setUser(response.data.token);
+        cookies.set("user", JSON.stringify(response.data), {});
+        // setUser(response.data);
+        // console.log("why", user);
         navigate(`/`);
         setDisable(false);
       })
