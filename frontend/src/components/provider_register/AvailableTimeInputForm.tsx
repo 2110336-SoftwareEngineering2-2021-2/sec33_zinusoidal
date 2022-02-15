@@ -255,6 +255,9 @@ const Time = styled.div`
   width: 100%;
   @media screen and (max-width: 540px) {
     justify-content: center;
+  }
+  @media screen and (max-width: 450px) {
+    width: 190px;
   } ;
 `;
 

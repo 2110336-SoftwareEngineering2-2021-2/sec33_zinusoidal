@@ -45,11 +45,15 @@ const Layout = styled.div`
 
 const Slider = styled("div")<SliderProp>`
   width: 300%;
-  /* background-color: green; */
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;
-  /* transition: transform none 0.3s; */
+  @media screen and (max-width: 540px) {
+    transform: ${(props) => `translateX(-${450 * props.idx}px)`};
+  }
+  @media screen and (max-width: 450px) {
+    transform: ${(props) => `translateX(-${300 * props.idx}px)`};
+  }
 `;
 const Button = styled.div`
   width: 100%;

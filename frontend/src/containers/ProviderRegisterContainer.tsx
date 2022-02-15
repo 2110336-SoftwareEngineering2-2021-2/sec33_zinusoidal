@@ -55,7 +55,10 @@ const Slider = styled("div")<SliderProp>`
   overflow-y: visible;
   justify-content: center;
   @media screen and (max-width: 540px) {
-    transform: ${(props) => `translateX(-${350 * props.idx}px)`};
+    transform: ${(props) => `translateX(-${450 * props.idx}px)`};
+  }
+  @media screen and (max-width: 450px) {
+    transform: ${(props) => `translateX(-${300 * props.idx}px)`};
   } ;
 `;
 

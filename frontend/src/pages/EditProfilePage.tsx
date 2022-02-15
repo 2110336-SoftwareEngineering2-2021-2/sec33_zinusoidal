@@ -17,8 +17,7 @@ const EditProfilePage = () => {
 };
 
 const Layout = styled.div`
-  width: 100%;
-  min-height: 100vh;
+  min-height: max(100vh, 1024px);
   display: flex;
   flex-direction: column;
   align-items: center;

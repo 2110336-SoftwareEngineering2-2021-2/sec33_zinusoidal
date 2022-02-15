@@ -140,15 +140,15 @@ const EditForm = ({ userData, changeUserData }: any) => {
   );
 };
 const Layout = styled.div`
-  height: 600px;
-  font-weight: bold;
   width: 100%;
+  min-height: 600px;
+  font-weight: bold;
   background-color: white;
-  box-shadow: 0px 0px rgba(0, 0, 0, 0.25);
   border-radius: 0 0 20px 20px;
+  overflow-y: scroll;
 `;
 const Padding = styled.div`
-  height: 100%;
+  width: 100%;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -160,18 +160,18 @@ const ImageZone = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  row-gap: 8px;
 `;
 
 const Image = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 100%;
   /* margin-top: 10px; */
   img {
     width: 100%;
     height: 100%;
-    border-radius: inherit;
-    object-fit: cover;
+    border-radius: 100%;
   }
 `;
 const FormLabel = styled.p`
@@ -226,9 +226,6 @@ const BioDiv = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  @media screen and (max-width: 1300px) {
-    height: 134px;
-  }
 `;
 const Biotext = styled.textarea`
   padding: 5px;
