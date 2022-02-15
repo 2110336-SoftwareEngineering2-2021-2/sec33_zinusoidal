@@ -21,7 +21,7 @@ func NewHandler(s Service) *Handler {
 func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	var req CustomerRegisterRequest
 	var err error
-	if err = c.ShouldBindJSON(&req); err != nil {
+	if err = c.ShouldBind(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": "invalid request",
 		})
@@ -41,7 +41,7 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	var req ProviderRegisterRequest
 	var err error
-	if err = c.ShouldBindJSON(&req); err != nil {
+	if err = c.ShouldBind(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": "invalid request",
 		})

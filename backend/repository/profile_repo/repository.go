@@ -31,12 +31,11 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
     P.work_schedule,
     P.rating,
     S.fortune_type,
-    S.price,
-	U.email
+    S.price
 
-    FROM fortune_user U 
-    RIGHT JOIN provider P ON U.id = P.id
-    RIGHT JOIN provider_service S ON P.id = S.provider_id
+    FROM provider P
+    LEFT JOIN fortune_user U ON U.id = P.id
+    LEFT JOIN provider_service S ON P.id = S.provider_id
     WHERE U.id = ?;`
 
 	err := db.database.Raw(query, userID).Scan(&providerProfiles).Error
@@ -75,6 +74,7 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
     C.last_name,
     C.profile_image,
 	U.email
+	
 	FROM fortune_user U RIGHT JOIN customer C ON U.id = C.id
 	WHERE U.id = ?;`
 
@@ -166,32 +166,48 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		MaxRating = searchRequest.MaxRating
 	}
 
+	var query string
 	var fortuneList string = `(`
 	if len(searchRequest.FortuneType) > 0 {
 		for _, element := range searchRequest.FortuneType {
 			fortuneList = fortuneList + `'` + element + `',`
 		}
 		fortuneList = fortuneList[:len(fortuneList)-1] + `)`
-	} else {
-		fortuneList = `('')`
-	}
-
-	query := `SELECT
-		P.id
+		query = `SELECT
+	P.id
+  FROM
+	provider P
+  WHERE
+	P.rating >= ?
+	AND P.rating <= ?
+	AND EXISTS (
+	  SELECT
+		*
 	  FROM
-		provider P
+		provider_service S
 	  WHERE
-		P.rating >= ?
-		AND P.rating <= ?
-		AND EXISTS (
-		  SELECT
-			*
-		  FROM
-			provider_service S
-		  WHERE
-			S.provider_id = P.id
-			AND S.fortune_type IN ` + fortuneList + ` AND S.price >= ?
-			AND S.price <= ?);`
+		S.provider_id = P.id
+		AND S.fortune_type IN ` + fortuneList + ` AND S.price >= ?
+		AND S.price <= ?);`
+
+	} else {
+		query = `SELECT
+	P.id
+  FROM
+	provider P
+  WHERE
+	P.rating >= ?
+	AND P.rating <= ?
+	AND EXISTS (
+	  SELECT
+		*
+	  FROM
+		provider_service S
+	  WHERE
+		S.provider_id = P.id
+		AND S.price >= ?
+		AND S.price <= ?);`
+	}
 
 	err := db.database.Raw(query, MinRating, MaxRating, MinPrice, MaxPrice).Scan(&searchResults).Error
 
