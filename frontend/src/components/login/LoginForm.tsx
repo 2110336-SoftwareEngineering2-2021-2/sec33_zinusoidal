@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { COLOR } from "../../CONSTANT";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [disable, setDisable] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+
   let navigate = useNavigate();
 
   const login = () => {
@@ -23,6 +26,8 @@ const LoginForm = () => {
     })
       .then(function (response) {
         console.log("login success");
+        console.log(response.data);
+        setUser(response.data.token);
         navigate(`/`);
         setDisable(false);
       })

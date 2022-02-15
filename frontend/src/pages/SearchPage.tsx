@@ -18,6 +18,9 @@ const SEARCHRESULT = [
 type SearchPanePropType = {
   pressed: boolean;
 };
+type SearchResultListPropType = {
+  selected: boolean;
+};
 
 const SearchPage = () => {
   const msg = useContext(UserContext);
@@ -54,7 +57,7 @@ const SearchPage = () => {
       {showResult && (
         <Padding>
           <SearchContent>
-            <SearchResultList>
+            <SearchResultList selected={selectedPerson == null ? false : true}>
               {SEARCHRESULT.map((item, index) => (
                 <SearchResult
                   key={index}
@@ -64,7 +67,12 @@ const SearchPage = () => {
                 />
               ))}
             </SearchResultList>
-            {selectedPerson ? <SearchDetail person={selectedPerson} /> : null}
+            {selectedPerson ? (
+              <SearchDetail
+                person={selectedPerson}
+                onClickBack={setSelectedPerson}
+              />
+            ) : null}
           </SearchContent>
         </Padding>
       )}
@@ -75,6 +83,8 @@ const SearchPage = () => {
 
 const Layout = styled.div`
   width: 100%;
+  position: relative;
+  flex: 1 1 auto;
   min-height: 1000px;
   display: flex;
   flex-direction: column;
@@ -110,6 +120,7 @@ const SearchPane = styled("div")<SearchPanePropType>`
   flex-direction: column;
   padding: ${(props) => (props.pressed ? "32px" : "64px")};
   align-items: center;
+  position: relative;
   h1 {
     font-size: 36px;
     line-height: 57px;
@@ -125,8 +136,9 @@ const SearchPane = styled("div")<SearchPanePropType>`
       line-height: 28px;
     }
   }
+
   @media screen and (max-width: 768px) {
-    padding: ${(props) => (props.pressed ? "32px" : "32px 16px")};
+    padding: ${(props) => (props.pressed ? "16px" : "32px 16px")};
   }
 `;
 
@@ -135,6 +147,10 @@ const Padding = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 16px;
+  }
 `;
 const SearchContent = styled.div`
   display: flex;
@@ -142,24 +158,25 @@ const SearchContent = styled.div`
   max-width: 1150px;
   flex: 1;
   width: 100%;
-
+  position: relative;
   @media screen and (max-width: 900px) {
     /* flex-direction: column; */
   }
 `;
 
-const SearchResultList = styled.div`
+const SearchResultList = styled("div")<SearchResultListPropType>`
   background-color: ${COLOR["violet/50"]};
   align-self: flex-start;
   border-radius: 8px;
   width: 450px;
   /* align-self: stretch; */
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 930px) {
     width: 400px;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
+    display: ${(props) => (props.selected == true ? "none" : "initial")};
   }
 `;
 
