@@ -43,8 +43,8 @@ jobs:
           echo "  port: $SMTP_PORT" >> ./backend/configs/config.yaml
 
           echo "email:" >> ./backend/configs/config.yaml
-          echo "  host: $SMTP_EMAIL" >> ./backend/configs/config.yaml
-          echo "  port: $SMTP_PASSWORD" >> ./backend/configs/config.yaml
+          echo "  email: $SMTP_EMAIL" >> ./backend/configs/config.yaml
+          echo "  password: $SMTP_PASSWORD" >> ./backend/configs/config.yaml
       -
         name: Login to DockerHub
         uses: docker/login-action@v1 
