@@ -42,7 +42,7 @@ const EditProfile = () => {
           <MdOutlineNavigateBefore
             style={{ cursor: "pointer" }}
             visibility={current == 0 ? "hidden" : "visible"}
-            color="white"
+            color={COLOR["violet/400"]}
             size={100}
             onClick={() => {
               setCurrent(Math.max(0, current - 1));
@@ -71,7 +71,7 @@ const EditProfile = () => {
           <MdOutlineNavigateNext
             style={{ cursor: "pointer" }}
             visibility={current == 2 ? "hidden" : "visible"}
-            color="white"
+            color={COLOR["violet/400"]}
             size={100}
             onClick={() => {
               setCurrent(Math.min(2, current + 1));
@@ -80,33 +80,29 @@ const EditProfile = () => {
         </ArrowDiv>
       </Flex>
       <ButtonDiv>
-        <SmallNavigate>
-          <MdOutlineNavigateBefore
-            style={{ cursor: "pointer" }}
-            visibility={current == 0 ? "hidden" : "visible"}
-            color="white"
-            size={50}
-            onClick={() => {
-              setCurrent(Math.max(0, current - 1));
-            }}
-          />
-        </SmallNavigate>
+        <MdOutlineNavigateBefore
+          style={{ cursor: "pointer" }}
+          visibility={current == 0 ? "hidden" : "visible"}
+          color={COLOR["violet/400"]}
+          size={50}
+          onClick={() => {
+            setCurrent(Math.max(0, current - 1));
+          }}
+        />
         <Button>
           {" "}
           Save
           <BsSave2 size={16} style={{ marginLeft: 4 }} />
         </Button>
-        <SmallNavigate>
-          <MdOutlineNavigateNext
-            style={{ cursor: "pointer" }}
-            visibility={current == 2 ? "hidden" : "visible"}
-            color="white"
-            size={50}
-            onClick={() => {
-              setCurrent(Math.min(2, current + 1));
-            }}
-          />
-        </SmallNavigate>
+        <MdOutlineNavigateNext
+          style={{ cursor: "pointer" }}
+          visibility={current == 2 ? "hidden" : "visible"}
+          color={COLOR["violet/400"]}
+          size={50}
+          onClick={() => {
+            setCurrent(Math.min(2, current + 1));
+          }}
+        />
       </ButtonDiv>
     </Layout>
   );
@@ -171,11 +167,6 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const SmallNavigate = styled.div`
-  @media screen and (min-width: 750px) {
-    display: none;
-  }
 `;
 const Button = styled.button`
   cursor: pointer;

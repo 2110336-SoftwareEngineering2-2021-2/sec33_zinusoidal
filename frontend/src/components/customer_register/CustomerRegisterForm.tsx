@@ -4,11 +4,23 @@ import React, { useState } from "react";
 import { COLOR } from "../../CONSTANT";
 import { BsPeopleFill } from "react-icons/bs";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
+import zIndex from "@mui/material/styles/zIndex";
 
-const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
+const CustomerRegistrationForm = ({
+  userData,
+  changeUserData,
+  samePassword,
+  setSamePassword,
+  openPasswordError,
+  setOpenPasswordError,
+  usernameError,
+  setUsernameError,
+  emailError,
+  setEmailError,
+}: any) => {
   const [seePassword, setSeePassword] = useState(false);
   const [seeCPassword, setSeeCPassword] = useState(false);
-
+  console.log("child", openPasswordError);
   return (
     <Layout>
       <Padding>
@@ -42,10 +54,16 @@ const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
           <InputDiv>
             <FormLabel>Email</FormLabel>
             <Star>*</Star>
+            {emailError ? (
+              <Error style={{ display: "inline", marginLeft: 8 }}>
+                email has already been taken
+              </Error>
+            ) : null}
             <Forminput
               type="text"
               onChange={(event) => {
                 changeUserData({ ...userData, Email: event.target.value });
+                setEmailError(false);
               }}
             />
           </InputDiv>
@@ -62,10 +80,16 @@ const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
           <InputDiv>
             <FormLabel>Username</FormLabel>
             <Star>*</Star>
+            {usernameError ? (
+              <Error style={{ display: "inline", marginLeft: 8 }}>
+                username has already been taken
+              </Error>
+            ) : null}
             <Forminput
               type="text"
               onChange={(event) => {
                 changeUserData({ ...userData, Username: event.target.value });
+                setUsernameError(false);
               }}
             />
           </InputDiv>
@@ -82,11 +106,14 @@ const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
                         ...userData,
                         Password: event.target.value,
                       });
+                      setSamePassword(
+                        event.target.value == userData.ConfirmPassword
+                      );
                     }}
                   />
                   <RiEyeFill
                     size={16}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, zIndex: 500 }}
                     onMouseUpCapture={() => {
                       setSeePassword(false);
                     }}
@@ -101,11 +128,14 @@ const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
                         ...userData,
                         Password: event.target.value,
                       });
+                      setSamePassword(
+                        event.target.value == userData.ConfirmPassword
+                      );
                     }}
                   />
                   <RiEyeCloseLine
                     size={16}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, zIndex: 500 }}
                     onMouseDownCapture={() => {
                       setSeePassword(true);
                     }}
@@ -117,44 +147,60 @@ const CustomerRegistrationForm = ({ userData, changeUserData }: any) => {
               <FormLabel>Confirm Password</FormLabel>
               <Star>*</Star>
               {seeCPassword ? (
-                <PasswordDiv>
-                  <Forminput
-                    type="text"
-                    onChange={(event) => {
-                      changeUserData({
-                        ...userData,
-                        ConfirmPassword: event.target.value,
-                      });
-                    }}
-                  />
-                  <RiEyeFill
-                    size={16}
-                    style={{ marginRight: 4 }}
-                    onMouseUpCapture={() => {
-                      setSeeCPassword(false);
-                    }}
-                  />
-                </PasswordDiv>
+                <div>
+                  <PasswordDiv>
+                    <Forminput
+                      type="text"
+                      onChange={(event) => {
+                        changeUserData({
+                          ...userData,
+                          ConfirmPassword: event.target.value,
+                        });
+                        setSamePassword(
+                          event.target.value == userData.Password
+                        );
+                      }}
+                    />
+                    <RiEyeFill
+                      size={16}
+                      style={{ marginRight: 4, zIndex: 500 }}
+                      onMouseUpCapture={() => {
+                        setSeeCPassword(false);
+                      }}
+                    />
+                  </PasswordDiv>
+                  {openPasswordError ? (
+                    <Error>password does not match</Error>
+                  ) : null}
+                </div>
               ) : (
-                <PasswordDiv>
-                  <Forminput
-                    type="password"
-                    onChange={(event) => {
-                      changeUserData({
-                        ...userData,
-                        ConfirmPassword: event.target.value,
-                      });
-                    }}
-                  />
-                  <RiEyeCloseLine
-                    size={16}
-                    style={{ marginRight: 4 }}
-                    onMouseDownCapture={() => {
-                      setSeeCPassword(true);
-                    }}
-                  />
-                </PasswordDiv>
-              )}{" "}
+                <div>
+                  <PasswordDiv>
+                    <Forminput
+                      type="password"
+                      onChange={(event) => {
+                        changeUserData({
+                          ...userData,
+                          ConfirmPassword: event.target.value,
+                        });
+                        setSamePassword(
+                          event.target.value == userData.Password
+                        );
+                      }}
+                    />
+                    <RiEyeCloseLine
+                      size={16}
+                      style={{ marginRight: 4, zIndex: 500 }}
+                      onMouseDownCapture={() => {
+                        setSeeCPassword(true);
+                      }}
+                    />
+                  </PasswordDiv>
+                  {openPasswordError ? (
+                    <Error>password does not match</Error>
+                  ) : null}
+                </div>
+              )}
             </InputDiv>
           </DoubleInput>
         </Flex>
@@ -191,6 +237,11 @@ const CustomerRegistration = styled.div`
 
 const Star = styled.p`
   display: inline;
+  color: ${COLOR["magenta/400"]};
+`;
+const Error = styled.p`
+  align-self: flex-end;
+  font-size: 16px;
   color: ${COLOR["magenta/400"]};
 `;
 
