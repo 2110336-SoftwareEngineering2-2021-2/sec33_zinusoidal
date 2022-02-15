@@ -19,15 +19,8 @@ func NewHandler(s Service) *Handler {
 }
 
 func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
-	var err error
-	token, err := jwt.VerifyToken(c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, &Logger{
-			Log: "invalid jwt token",
-		})
-		return
-	}
-	user_id := token.UserID
+
+	user_id := c.Param("id")
 	response, err := h.service.getProviderProfile(user_id)
 
 	if err != nil {
@@ -48,15 +41,8 @@ func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
 }
 
 func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
-	var err error
-	token, err := jwt.VerifyToken(c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, &Logger{
-			Log: "invalid jwt token",
-		})
-		return
-	}
-	user_id := token.UserID
+
+	user_id := c.Param("id")
 	response, err := h.service.getCustomerProfile(user_id)
 
 	if err != nil {
