@@ -5,6 +5,7 @@ import { COLOR } from "../../CONSTANT";
 import SearchDetailHeader from "./SearchDetailHeader";
 import SearchResult from "./SearchResult";
 import SearchDetailServiceSlider from "./SearchDetailServiceSlider";
+import { FiArrowLeft } from "react-icons/fi";
 interface SearchDetailPropType {
   person: {
     name: string;
@@ -12,6 +13,7 @@ interface SearchDetailPropType {
     rating: number;
     priceRange: string;
   };
+  onClickBack: Function;
 }
 
 const SERVICELIST = [
@@ -20,9 +22,13 @@ const SERVICELIST = [
   { serviceName: "Dog", servicePrice: 200 },
   { serviceName: "Fish", servicePrice: 200 },
 ];
-const SearchDetail = ({ person }: SearchDetailPropType) => {
+const SearchDetail = ({ person, onClickBack }: SearchDetailPropType) => {
   return (
     <Layout>
+      <ReturnBackButton onClick={() => onClickBack(null)}>
+        <FiArrowLeft size={25} />
+        <p>search result</p>
+      </ReturnBackButton>
       <SearchDetailHeader>
         <SearchResult person={person} />
         <ButtonDiv>
@@ -62,7 +68,9 @@ const Layout = styled.div`
   flex-direction: column;
   overflow-x: hidden;
   @media screen and (max-width: 768px) {
-    display: none;
+    position: relative;
+    margin-left: 0px;
+    width: 100%;
   }
 `;
 
@@ -117,6 +125,22 @@ const ContentContainer = styled.div`
 
   @media screen and (max-width: 1050px) {
     margin-top: 31px;
+  }
+`;
+
+const ReturnBackButton = styled.div`
+  color: #f66257;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  p {
+    font-size: 20px;
+    line-height: 31px;
+    margin-left: 8px;
+  }
+
+  @media screen and (min-width: 769px) {
+    display: none;
   }
 `;
 
