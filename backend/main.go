@@ -59,7 +59,7 @@ func main() {
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
-		v1fortune.PATCH("/provider", profile_handler.EditProviderHandler)
+		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
