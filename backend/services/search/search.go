@@ -21,7 +21,6 @@ type Servicer interface {
 
 func NewService(database Databaser) *Service {
 	return &Service{database: database}
-
 }
 
 func (s *Service) SearchProvider(req SearchRequest) ([]profile.ProviderProfile, error) {
