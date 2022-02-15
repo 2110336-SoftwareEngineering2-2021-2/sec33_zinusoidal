@@ -18,11 +18,11 @@ type Logger struct {
 }
 
 type CustomerProfile struct {
-	Username      string `json:"username"`
-	FirstName     string `json:"firstName"`
-	LastName      string `json:"lastName"`
-	ProfilePicUrl string `json:"profilePicUrl"`
-	Email         string `json:"email"`
+	Username      string `gorm:"column:username" json:"username"`
+	FirstName     string `gorm:"column:first_name" json:"firstName"`
+	LastName      string `gorm:"column:last_name" json:"lastName"`
+	ProfilePicUrl string `gorm:"column:profile_image" json:"profilePicUrl"`
+	Email         string `gorm:"column:email" json:"email"`
 }
 
 type ProviderProfile struct {
@@ -38,14 +38,14 @@ type ProviderProfile struct {
 }
 
 type ProviderDB struct {
-	Username      string `json:"username"`
-	FirstName     string `json:"firstName"`
-	LastName      string `json:"lastName"`
-	ProfilePicUrl string `json:"profilePicUrl"`
-	Email         string `json:"email"`
-	FortuneType   string
-	Price         int
-	Biography     string  `json:"biography"`
-	WorkSchedule  string  `json:"schedule"`
-	Rating        float64 `json:"rating"`
+	Username      string  `gorm:"column:username" json:"username"`
+	FirstName     string  `gorm:"column:first_name" json:"firstName"`
+	LastName      string  `gorm:"column:last_name" json:"lastName"`
+	ProfilePicUrl string  `gorm:"column:profile_image" json:"profilePicUrl"`
+	Email         string  `gorm:"column:email" json:"email"`
+	FortuneType   string  `gorm:"column:fortune_type"`
+	Price         int     `gorm:"column:price"`
+	Biography     string  `gorm:"column:biography" json:"biography"`
+	WorkSchedule  string  `gorm:"column:schedule" json:"schedule"`
+	Rating        float64 `gorm:"column:rating" json:"rating"`
 }
