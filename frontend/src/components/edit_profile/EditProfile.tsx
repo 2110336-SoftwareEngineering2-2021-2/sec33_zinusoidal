@@ -9,14 +9,21 @@ import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 const cookies = new Cookies();
 
 const EditProfile = () => {
   // const { user } = useContext(UserContext);
   // console.log("USER", user);
+  let navigate = useNavigate();
   const user = cookies.get("user");
-  const url = `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user.user_id}`;
+  const url = `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user?.user_id}`;
   console.log(url);
+
+  if (typeof user == "undefined") {
+    console.log("Im the best");
+    navigate(`/`);
+  }
   // const getProfile = () => {
   //   axios({
   //     method: "get",
