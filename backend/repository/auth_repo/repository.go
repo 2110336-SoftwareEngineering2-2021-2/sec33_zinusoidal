@@ -52,6 +52,7 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 	VALUES (?, ?, ?);`
 
 	for _, fortune := range provider.FortuneList {
+
 		err = db.database.Exec(insert_fortune, provider.UserId, fortune.FortuneType, fortune.Price).Error
 		if err != nil {
 			return err
@@ -63,7 +64,7 @@ func (db *GromDB) RegisterProvider(provider model.Provider) error {
 
 func (db *GromDB) Login(username, password string) (string, error) {
 
-	login_command := `SELECT U.id, U.password
+	login_command := `SELECT U.id, U.username, U.password
 	FROM fortune_user U
 	WHERE U.username = ?`
 	var result struct {

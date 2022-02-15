@@ -209,3 +209,21 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 
 	return returnResults, err
 }
+
+func (db *GromDB) GetAllService() ([]string, error) {
+	query := `SELECT DISTINCT fortune_type from provider_service;`
+	type Result struct {
+		FortuneType string `gorm:"column:fortune_type" `
+	}
+	var results []Result
+
+	err := db.database.Raw(query).Scan(&results).Error
+	fortune_results := make([]string, 0)
+	if err != nil {
+		return fortune_results, err
+	}
+	for _, fortune := range results {
+		fortune_results = append(fortune_results, fortune.FortuneType)
+	}
+	return fortune_results, nil
+}
