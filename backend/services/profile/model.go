@@ -46,6 +46,6 @@ type ProviderDB struct {
 	FortuneType   string  `gorm:"column:fortune_type"`
 	Price         int     `gorm:"column:price"`
 	Biography     string  `gorm:"column:biography" json:"biography"`
-	WorkSchedule  string  `gorm:"column:schedule" json:"schedule"`
+	WorkSchedule  string  `gorm:"column:work_schedule" json:"schedule"`
 	Rating        float64 `gorm:"column:rating" json:"rating"`
 }
