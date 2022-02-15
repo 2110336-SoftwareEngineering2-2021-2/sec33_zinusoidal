@@ -3,12 +3,14 @@ package profile
 import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 
 type ProviderEditRequest struct {
-	FirstName    string               `json:"firstName"`
-	LastName     string               `json:"lastName"`
-	Fortune      []model.Fortune      `json:"fortuneList"`
-	Biography    string               `json:"biography"`
-	Schedule     string               `json:"schedule"`
-	WorkSchedule []model.WorkSchedule `json:"workSchedule"`
+	FirstName     string               `json:"firstName"`
+	LastName      string               `json:"lastName"`
+	Fortune       []model.Fortune      `json:"fortuneList"`
+	Biography     string               `json:"biography"`
+	Schedule      string               `json:"schedule"`
+	WorkSchedule  []model.WorkSchedule `json:"workSchedule"`
+	Email         string               `json:"email"`
+	ProfilePicUrl string               `json:"profilePicUrl"`
 }
 
 type Logger struct {

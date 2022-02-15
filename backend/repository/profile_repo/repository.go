@@ -53,12 +53,15 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 	returnProfile.Rating = providerProfiles[0].Rating
 	returnProfile.Username = providerProfiles[0].Username
 	returnProfile.WorkSchedule, err = model.ParseStringBackToSchedule(providerProfiles[0].WorkSchedule)
-
-	var fortune model.Fortune
-	for _, profile := range providerProfiles {
-		fortune.FortuneType = profile.FortuneType
-		fortune.Price = profile.Price
-		returnProfile.Fortune = append(returnProfile.Fortune, fortune)
+	if providerProfiles[0].FortuneType != "" && providerProfiles[0].Price != 0 {
+		var fortune model.Fortune
+		for _, profile := range providerProfiles {
+			fortune.FortuneType = profile.FortuneType
+			fortune.Price = profile.Price
+			returnProfile.Fortune = append(returnProfile.Fortune, fortune)
+		}
+	} else {
+		returnProfile.Fortune = make([]model.Fortune, 0)
 	}
 
 	return returnProfile, err
@@ -96,8 +99,9 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 	query := `UPDATE provider P
     SET P.first_name = ?,
         P.last_name = ?,
-        P.biography = ?,
+		P.biography = ?,
         P.work_schedule = ?,
+		P.profile_image = ?,
         P.last_update_datetime = NOW()
     WHERE P.id = ?;`
 
@@ -105,9 +109,18 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 
 	editRequest.Schedule, err = model.ParseSchedule(editRequest.WorkSchedule)
 
-	editErr := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.Schedule, userID).Error
+	editErr := db.database.Exec(query, editRequest.FirstName, editRequest.LastName, editRequest.Biography, editRequest.Schedule, editRequest.ProfilePicUrl, userID).Error
 	if editErr != nil {
 		return providerProfile, editErr
+	}
+
+	addMail := `UPDATE fortune_user U
+		SET U.email = ?
+		WHERE U.id = ?;`
+
+	mailErr := db.database.Exec(addMail, userID).Error
+	if mailErr != nil {
+		return providerProfile, mailErr
 	}
 
 	deleteQuery := `DELETE FROM provider_service S
