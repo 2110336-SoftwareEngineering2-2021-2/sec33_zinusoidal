@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MdRemoveRedEye,
   MdRadioButtonUnchecked,
@@ -8,10 +8,30 @@ import {
 } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
+import SearchServiceDropDown from "./SearchServiceDropDown";
 
-const ProviderProfileUpload = ({ service, setService }: any) => {
+const ProviderServiceType = ({ service, setService }: any) => {
+  const wrapperRef = useRef(null);
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setServiceDropDownOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(wrapperRef);
+  const [serviceDropDownOpen, setServiceDropDownOpen] = useState(false);
+  console.log(serviceDropDownOpen);
   const [choice, setChoice] = useState(true);
   const [serviceName, setServiceName] = useState("");
+  console.log(serviceName);
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
   const addButtonHandler = () => {
@@ -21,7 +41,9 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
       setEnableAdd(true);
     }
   };
+
   const addServiceToList = (newService: any) => {
+    console.log(newService);
     for (var s of service) {
       if (
         s.fortuneType == "" ||
@@ -40,11 +62,12 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
     setService(
       service.filter(
         (service: any) =>
-          service.serviceName != deleteService.serviceName ||
-          service.servicePrice != deleteService.servicePrice
+          service.fortuneType != deleteService.fortuneType ||
+          service.price != deleteService.price
       )
     );
   };
+
   return (
     <Layout>
       <FirstLayout>
@@ -85,7 +108,6 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                   value={serviceName}
                   onChange={(e) => {
                     setServiceName(e.target.value);
-                    addButtonHandler();
                   }}
                 />
                 <InputDiv>
@@ -98,7 +120,6 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                     value={servicePrice == 0 ? "" : servicePrice}
                     onChange={(e) => {
                       setServicePrice(Number(e.target.value));
-                      addButtonHandler();
                     }}
                   />
                   <p>
@@ -108,10 +129,12 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
               </ServiceAndPriceDiv>
               <AddButton
                 style={{
-                  backgroundColor: enableAdd
-                    ? COLOR["violet/400"]
-                    : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "unset" : "none",
+                  backgroundColor:
+                    serviceName == "" || servicePrice == 0
+                      ? COLOR["gray/400"]
+                      : COLOR["violet/400"],
+                  pointerEvents:
+                    serviceName == "" || servicePrice == 0 ? "none" : "unset",
                 }}
                 onClick={() => {
                   addServiceToList({
@@ -147,25 +170,60 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
                   Select an <b>existing</b> type of service
                 </p>
               </ChoiceDiv>
-              <SearchServiceDiv>
-                <FiSearch style={{ marginLeft: 16 }} size={16} />
-                <ServiceInput type="text" placeholder="search"></ServiceInput>
-              </SearchServiceDiv>
+              <div
+                style={{
+                  position: "relative",
+                }}
+                ref={wrapperRef}
+              >
+                <SearchServiceDiv>
+                  <FiSearch style={{ marginLeft: 16 }} size={16} />
+                  <ServiceInput
+                    value={serviceName}
+                    type="text"
+                    placeholder="search"
+                    onClick={() => setServiceDropDownOpen(true)}
+                    onChange={(e) => setServiceName(e.target.value)}
+                  ></ServiceInput>
+                </SearchServiceDiv>
+                {serviceDropDownOpen ? (
+                  <SearchServiceDropDown
+                    serviceName={serviceName}
+                    setServiceName={setServiceName}
+                    setServiceDropDownOpen={setServiceDropDownOpen}
+                  />
+                ) : null}
+              </div>
               <SecondInputDiv>
                 <p>
                   <b>Price</b>
                 </p>
-                <input type="number" />
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={servicePrice == 0 ? "" : servicePrice}
+                  onChange={(e) => {
+                    setServicePrice(Number(e.target.value));
+                  }}
+                />
                 <p>
                   <b>/30 min</b>
                 </p>
               </SecondInputDiv>
               <AddButton
                 style={{
-                  backgroundColor: enableAdd
-                    ? COLOR["violet/400"]
-                    : COLOR["gray/400"],
-                  pointerEvents: enableAdd ? "none" : "unset",
+                  backgroundColor:
+                    serviceName == "" || servicePrice == 0
+                      ? COLOR["gray/400"]
+                      : COLOR["violet/400"],
+                  pointerEvents:
+                    serviceName == "" || servicePrice == 0 ? "none" : "unset",
+                }}
+                onClick={() => {
+                  addServiceToList({
+                    fortuneType: serviceName,
+                    price: servicePrice,
+                  });
                 }}
               >
                 Add +
@@ -176,24 +234,26 @@ const ProviderProfileUpload = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
-        {service.map((service: any) => (
-          <MyServiceDiv>
-            <p>{service.serviceName}</p>
-            <PriceAndMinusDiv>
-              <p>฿ {service.servicePrice} /30min</p>
-              <AiFillMinusCircle
-                color={COLOR["magenta/400"]}
-                size={24}
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  deleteServiceFromList(service);
-                }}
-              />
-            </PriceAndMinusDiv>
-          </MyServiceDiv>
-        ))}
+        <Services>
+          {service.map((s: any) => (
+            <MyServiceDiv>
+              <p>{s.fortuneType}</p>
+              <PriceAndMinusDiv>
+                <p>฿ {s.price} /30min</p>
+                <AiFillMinusCircle
+                  color={COLOR["magenta/400"]}
+                  size={24}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    deleteServiceFromList(s);
+                  }}
+                />
+              </PriceAndMinusDiv>
+            </MyServiceDiv>
+          ))}
+        </Services>
       </SecondLayout>
     </Layout>
   );
@@ -204,17 +264,18 @@ const Layout = styled.div`
 `;
 const FirstLayout = styled.div`
   width: 100%;
+  height: 294px;
   background-color: white;
-  height: fit-content;
   border-radius: 0px 0px 8px 8px;
+  margin-bottom: 6px;
 `;
 const SecondLayout = styled.div`
-  margin-top: 8px;
   width: 100%;
-  height: 100%;
-  background-color: white;
+  height: 300px;
   border-radius: 20px 20px 0px 0px;
-  overflow-y: scroll;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
 `;
 const Padding = styled.div`
   width: 100%;
@@ -223,6 +284,10 @@ const Padding = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+`;
+const Services = styled.div`
+  flex: 1;
+  overflow-y: scroll;
 `;
 
 const ProviderRegistration = styled.div`
@@ -241,8 +306,9 @@ const ServiceType = styled.div`
 
 const InputLayout = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
-  row-gap: 16px;
+  justify-content: space-evenly;
 `;
 const ChoiceDiv = styled.div`
   display: flex;
@@ -283,7 +349,6 @@ const InputDiv = styled.div`
     margin-top: 8px;
   }
 `;
-
 const Myservice = styled.p`
   font-size: 20px;
   font-weight: bold;
@@ -378,4 +443,4 @@ const PriceAndMinusDiv = styled.div`
   column-gap: 8px;
 `;
 
-export default ProviderProfileUpload;
+export default ProviderServiceType;

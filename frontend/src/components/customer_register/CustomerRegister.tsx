@@ -11,9 +11,6 @@ interface Current {
 }
 const CustomerRegister = () => {
   const register = () => {
-    if (profilePicUrl == "") {
-      setProfilePicUrl("../../assets/zinusoidal.png");
-    }
     axios({
       method: "post",
       url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/customer_register",
@@ -40,13 +37,14 @@ const CustomerRegister = () => {
         if (error.response.data.message.includes("username")) {
           setCurrent(1);
           setUsernameError(true);
-          console.log(usernameError);
         }
       });
   };
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
-  const [profilePicUrl, setProfilePicUrl] = useState("");
+  const [profilePicUrl, setProfilePicUrl] = useState(
+    "../../assets/zinusoidal.png"
+  );
   const [userInput, setUserInput] = useState({
     Name: "",
     Surname: "",

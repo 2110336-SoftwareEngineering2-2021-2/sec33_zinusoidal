@@ -5,7 +5,7 @@ import ProviderServieType from "../components/provider_register/ProviderServiceT
 import ProviderAvailableTime from "../components/provider_register/ProviderAvailableTime";
 
 import ProviderProfileUpload from "../components/provider_register/ProviderProfileUpload";
-
+import ProviderRegisterComplete from "../components/customer_register/CustomerRegisterComplete";
 interface SliderProp {
   idx: number;
 }
@@ -14,10 +14,20 @@ interface ProviderRegisterContainer {}
 const ProviderRegisterContainer = ({
   userData,
   changeUserData,
+  openPasswordError,
+  setOpenPasswordError,
+  samePassword,
+  setSamePassword,
+  emailError,
+  setEmailError,
+  usernameError,
+  setUsernameError,
   service,
   setService,
   availableTime,
   setAvailableTime,
+  profilePicUrl,
+  setProfilePicUrl,
   current,
   checked,
   callBack,
@@ -27,15 +37,27 @@ const ProviderRegisterContainer = ({
       <Slider idx={current}>
         <ProviderTermAndCondition checked={checked} callBack={callBack} />
         <ProviderRegisterForm
+          emailError={emailError}
+          setEmailError={setEmailError}
+          usernameError={usernameError}
+          setUsernameError={setUsernameError}
           userData={userData}
           changeUserData={changeUserData}
+          samePassword={samePassword}
+          setSamePassword={setSamePassword}
+          openPasswordError={openPasswordError}
+          setOpenPasswordError={setOpenPasswordError}
         />
         <ProviderServieType service={service} setService={setService} />
         <ProviderAvailableTime
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}
         />
-        <ProviderProfileUpload />
+        <ProviderProfileUpload
+          profilePicUrl={profilePicUrl}
+          setProfilePicUrl={setProfilePicUrl}
+        />
+        <ProviderRegisterComplete />
       </Slider>
     </Layout>
   );
@@ -47,7 +69,7 @@ const Layout = styled.div`
 `;
 
 const Slider = styled("div")<SliderProp>`
-  width: 500%;
+  width: 600%;
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;

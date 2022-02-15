@@ -45,8 +45,9 @@ func main() {
 		v1fortune.POST("/customer_register", auth_handler.CustomerRegisterHandler)
 		v1fortune.POST("/provider_register", auth_handler.ProviderRegisterHandler)
 		v1fortune.POST("/login", auth_handler.LoginHandler)
-		v1fortune.POST("/activate/:key", auth_handler.ActivateEmail)
+		v1fortune.POST("/confirm_email/:key", auth_handler.ActivateEmailHandler)
 	}
+	v1fortune.POST("/test", auth_handler.TestHandler)
 
 	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
 	{
@@ -57,7 +58,7 @@ func main() {
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
-		v1fortune.PATCH("/provider/:id", profile_handler.EditProviderHandler)
+		v1fortune.PATCH("/provider", profile_handler.EditProviderHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
@@ -77,8 +78,11 @@ func NewSQLConn() *gorm.DB {
 	conn, err := gorm.Open("mysql", conf.FormatDSN())
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println("connection error")
+		log.Fatalln(err.Error())
 	}
+
+	log.Println("db connected!! 🎉")
 
 	return conn
 
