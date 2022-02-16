@@ -64,7 +64,7 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 		}
 		customer.ProfilePicUrl = profilePicUrl
 	} else {
-		customer.ProfilePicUrl = "https://drive.google.com/file/d/1-2ipaLuCes8lVZRsv3ACn9J-hf99Cg-w/view?usp=sharing"
+		customer.ProfilePicUrl = "https://zinusoidal-fortune168.s3.ap-southeast-1.amazonaws.com/Illustration10.png"
 	}
 
 	err = s.database.RegisterCustomer(customer)
@@ -124,7 +124,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 		}
 		provider.ProfilePicUrl = profilePicUrl
 	} else {
-		provider.ProfilePicUrl = "https://drive.google.com/file/d/1-2ipaLuCes8lVZRsv3ACn9J-hf99Cg-w/view?usp=sharing"
+		provider.ProfilePicUrl = "https://zinusoidal-fortune168.s3.ap-southeast-1.amazonaws.com/Illustration10.png"
 	}
 
 	err = s.database.RegisterProvider(provider)
