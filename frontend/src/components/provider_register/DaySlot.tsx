@@ -9,12 +9,14 @@ type DaySlotPropType = {
   };
   availableTime: any;
   setAvailableTime: any;
+  setError: any;
 };
 
 const DaySlot = ({
   item,
   availableTime,
   setAvailableTime,
+  setError,
 }: DaySlotPropType) => {
   return (
     <Layout>
@@ -28,6 +30,7 @@ const DaySlot = ({
         ) : (
           item.timeList.map((time, index) => (
             <TimeSlot
+              setError={setError}
               availableTime={availableTime}
               setAvailableTime={setAvailableTime}
               day={item.day}

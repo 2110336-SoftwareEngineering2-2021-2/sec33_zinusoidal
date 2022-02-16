@@ -3,8 +3,13 @@ UPDATE provider P
         P.last_name = @last_name,
         P.biography = @biography,
         P.work_schedule = @work_schedule,
+        P.profile_image = @profile_image,
         P.last_update_datetime = NOW()
     WHERE P.id = @id;
+
+UPDATE fortune_user U
+    SET U.email = @email
+    WHERE U.id = @id;
 
 DELETE FROM provider_service S
     WHERE S.provider_id = @id;

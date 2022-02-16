@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import AvailableTimeInputForm from "../provider_register/AvailableTimeInputForm";
@@ -6,6 +6,7 @@ import ProviderRegisterTimeTable from "../../containers/ProviderRegisterTimeTabl
 import { MdRemoveRedEye } from "react-icons/md";
 
 const EditAvailableTime = ({ availableTime, setAvailableTime }: any) => {
+  const [error, setError] = useState(false);
   return (
     <Layout>
       <HeaderSection>
@@ -18,12 +19,17 @@ const EditAvailableTime = ({ availableTime, setAvailableTime }: any) => {
           <AvailableTimeInputForm
             availableTime={availableTime}
             setAvailableTime={setAvailableTime}
+            setError={setError}
           />
         </AvailableTime>
       </HeaderSection>
       <WorkingTimeSection>
         <h1>My Working Time</h1>
+        {error ? (
+          <Error>You need to have at least one working time</Error>
+        ) : null}
         <ProviderRegisterTimeTable
+          setError={setError}
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}
         />
@@ -37,7 +43,12 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
+const Error = styled.p`
+  font-size: 16px;
+  margin-left: 16px;
+  font-weight: bold;
+  color: ${COLOR["magenta/400"]};
+`;
 const HeaderSection = styled.div`
   min-height: 185px;
   padding: 15px 15px 0 15px;

@@ -11,12 +11,51 @@ import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 const cookies = new Cookies();
-
+//prettier-ignore
+const workTime = (availableTime: any) => {
+  let workTime = [];
+  workTime.push({day:"Sunday",timeList:availableTime.filter((date:any)=>date.day=="Sunday")[0].timeList});
+  workTime.push({day:"Monday",timeList:availableTime.filter((date:any)=>date.day=="Monday")[0].timeList});
+  workTime.push({day:"Tuesday",timeList:availableTime.filter((date:any)=>date.day=="Tuesday")[0].timeList});
+  workTime.push({day:"Wednesday",timeList:availableTime.filter((date:any)=>date.day=="Wednesday")[0].timeList});
+  workTime.push({day:"Thursday",timeList:availableTime.filter((date:any)=>date.day=="Thursday")[0].timeList});
+  workTime.push({day:"Friday",timeList:availableTime.filter((date:any)=>date.day=="Friday")[0].timeList});
+  workTime.push({day:"Saturday",timeList:availableTime.filter((date:any)=>date.day=="Saturday")[0].timeList});
+  return workTime;
+};
 const EditProfile = () => {
-  let navigate = useNavigate();
   const user = cookies.get("user");
-  const url = `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user?.user_id}`;
-  console.log(url);
+  let navigate = useNavigate();
+  let responseInput = {
+    Name: "",
+    Surname: "",
+    Email: "",
+    Username: "",
+    Password: "",
+    Biography: "",
+  };
+  const getProfile = () => {
+    axios({
+      method: "get",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user?.user_id}`,
+      data: {},
+    })
+      .then(function (response) {
+        console.log("DATA", response.data);
+        responseInput.Name = response.data.firstName;
+        responseInput.Surname = response.data.lastName;
+        responseInput.Email = response.data.email;
+        responseInput.Username = response.data.username;
+        responseInput.Biography = response.data.biography;
+        setUserInput(responseInput);
+        setAvailableTime(response.data.workSchedule);
+        setService(response.data.fortuneList);
+        setGetProfilePicUrl(response.data.profilePicUrl);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+      });
+  };
 
   useEffect(() => {
     if (typeof user == "undefined") {
@@ -35,6 +74,50 @@ const EditProfile = () => {
     Biography: "",
   });
 
+  const [getProfilePicUrl, setGetProfilePicUrl] = useState(null as any);
+  const [profilePicUrl, setProfilePicUrl] = useState(null as any);
+
+  const updateProfile = () => {
+    var providerInput = new FormData();
+    if (profilePicUrl != null) {
+      providerInput.append("profilePic", profilePicUrl);
+    }
+    providerInput.append("username", userInput.Username);
+    providerInput.append("firstName", userInput.Name);
+    providerInput.append("lastName", userInput.Surname);
+    providerInput.append("biography", userInput.Biography);
+    providerInput.append("fortuneList", JSON.stringify(service));
+    providerInput.append(
+      "workSchedule",
+      JSON.stringify(workTime(availableTime))
+    );
+    providerInput.append("schedule", JSON.stringify(workTime(availableTime)));
+    axios({
+      method: "patch",
+      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_edit`,
+      data: providerInput,
+      headers: {
+        "Content-type": "multipart/form-data",
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(function (response) {
+        responseInput.Name = response.data.firstName;
+        responseInput.Surname = response.data.lastName;
+        responseInput.Username = response.data.username;
+        responseInput.Biography = response.data.biography;
+
+        setUserInput(responseInput);
+        setGetProfilePicUrl(response.data.profilePicUrl);
+        setProfilePicUrl(null);
+        setAvailableTime(response.data.workSchedule);
+        setService(response.data.fortuneList);
+      })
+      .catch(function (error) {
+        console.log(error.response.data);
+      });
+  };
+
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
@@ -50,7 +133,7 @@ const EditProfile = () => {
   console.log(availableTime);
 
   useEffect(() => {
-    // getProfile();
+    getProfile();
   }, []);
 
   return (
@@ -75,6 +158,10 @@ const EditProfile = () => {
           </Header>
           <Form>
             <ProfileEditContainer
+              profilePicUrl={profilePicUrl}
+              setProfilePicUrl={setProfilePicUrl}
+              getProfilePicUrl={getProfilePicUrl}
+              setGetProfilePicUrl={setGetProfilePicUrl}
               userData={userInput}
               changeUserData={setUserInput}
               current={current}
@@ -109,7 +196,11 @@ const EditProfile = () => {
             }}
           />
         </SmallNavigate>
-        <Button>
+        <Button
+          onClick={() => {
+            updateProfile();
+          }}
+        >
           {" "}
           Save
           <BsSave2 size={16} style={{ marginLeft: 4 }} />

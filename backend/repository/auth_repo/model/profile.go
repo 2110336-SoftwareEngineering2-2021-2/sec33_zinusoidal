@@ -39,7 +39,13 @@ type Provider struct {
 	ProfilePicUrl string    `gorm:"column:profile_image" json:"profilePicUrl"`
 	CitizenId     string    `gorm:"column:citizen_id" json:"citizenId"`
 	Biography     string    `gorm:"biography" json:"biography"`
-	Schedule      string    `gorm:"column:schedule" json:"schedule"`
+	Schedule      string    `gorm:"column:work_schedule" json:"schedule"`
 	CreateAt      string    `gorm:"column:create_datetime"`
 	DeleteAt      string    `gorm:"column:delete_datetime"`
+}
+
+type LandingPageInfo struct {
+	CustomerCnt int `gorm:"column:total_customer" json:"totalCustomer"`
+	ProviderCnt int `gorm:"column:total_provider" json:"totalProvider"`
+	FortuneCnt  int `gorm:"column:total_fortune_service" json:"totalFortuneService"`
 }

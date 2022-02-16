@@ -24,21 +24,28 @@ const workTime = (availableTime: any) => {
 
 const ProviderRegister = () => {
   const register = () => {
+    var providerInput = new FormData();
+    if (profilePicUrl != null) {
+      providerInput.append("profilePic", profilePicUrl);
+    }
+    providerInput.append("username", userInput.Username);
+    providerInput.append("password", userInput.Password);
+    providerInput.append("email", userInput.Email);
+    providerInput.append("firstName", userInput.Name);
+    providerInput.append("lastName", userInput.Surname);
+    providerInput.append("citizenId", userInput.CitizenID);
+    providerInput.append("biography", userInput.Biography);
+    providerInput.append("fortuneList", JSON.stringify(service));
+    providerInput.append(
+      "workSchedule",
+      JSON.stringify(workTime(availableTime))
+    );
+
     axios({
       method: "post",
       url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_register",
-      data: {
-        username: userInput.Username,
-        password: userInput.Password,
-        email: userInput.Email,
-        firstname: userInput.Name,
-        workSchedule: workTime(availableTime),
-        lastname: userInput.Surname,
-        fortuneList: service,
-        profilePicUrl: profilePicUrl,
-        citizenID: userInput.CitizenID,
-        biography: userInput.Biography,
-      },
+      data: providerInput,
+      headers: { "Content-type": "multipart/form-data" },
     })
       .then(function (response) {
         console.log("register success");
@@ -69,9 +76,8 @@ const ProviderRegister = () => {
     ConfirmPassword: "",
     Biography: "",
   });
-  const [profilePicUrl, setProfilePicUrl] = useState(
-    "../../assets/zinusoidal.png"
-  );
+  const [profilePicUrl, setProfilePicUrl] = useState(null as any);
+
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },

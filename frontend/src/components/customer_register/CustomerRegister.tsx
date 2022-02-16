@@ -11,25 +11,30 @@ interface Current {
 }
 const CustomerRegister = () => {
   const register = () => {
+    var customerInput = new FormData();
+
+    if (profilePicUrl != null) {
+      customerInput.append("profilePic", profilePicUrl);
+    }
+    customerInput.append("username", userInput.Username);
+    customerInput.append("password", userInput.Password);
+    customerInput.append("email", userInput.Email);
+    customerInput.append("firstName", userInput.Name);
+    customerInput.append("lastName", userInput.Surname);
+    customerInput.append("citizenId", userInput.CitizenID);
+
     axios({
       method: "post",
       url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/customer_register",
-      data: {
-        username: userInput.Username,
-        password: userInput.Password,
-        email: userInput.Email,
-        firstname: userInput.Name,
-        lastname: userInput.Surname,
-        profilePicUrl: profilePicUrl,
-        citizenID: userInput.CitizenID,
-      },
+      data: customerInput,
+      headers: { "Content-type": "multipart/form-data" },
     })
       .then(function (response) {
         console.log("register success");
         setCurrent(3);
       })
       .catch(function (error) {
-        console.log(error.response.data.message);
+        console.log(error.response);
         if (error.response.data.message.includes("email")) {
           setCurrent(1);
           setEmailError(true);
@@ -42,9 +47,8 @@ const CustomerRegister = () => {
   };
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
-  const [profilePicUrl, setProfilePicUrl] = useState(
-    "../../assets/zinusoidal.png"
-  );
+  const [profilePicUrl, setProfilePicUrl] = useState(null as any);
+  console.log(profilePicUrl);
   const [userInput, setUserInput] = useState({
     Name: "",
     Surname: "",

@@ -12,6 +12,10 @@ interface SliderProp {
 
 interface ProfileEditContainer {}
 const ProfileEditContainer = ({
+  profilePicUrl,
+  setProfilePicUrl,
+  setGetProfilePicUrl,
+  getProfilePicUrl,
   userData,
   changeUserData,
   current,
@@ -23,7 +27,14 @@ const ProfileEditContainer = ({
   return (
     <Layout>
       <Slider idx={current}>
-        <EditForm userData={userData} changeUserData={changeUserData} />
+        <EditForm
+          profilePicUrl={profilePicUrl}
+          setProfilePicUrl={setProfilePicUrl}
+          userData={userData}
+          changeUserData={changeUserData}
+          getProfilePicUrl={getProfilePicUrl}
+          setGetProfilePicUrl={setGetProfilePicUrl}
+        />
         <EditServiceType service={service} setService={setService} />
         <EditAvailableTime
           availableTime={availableTime}
