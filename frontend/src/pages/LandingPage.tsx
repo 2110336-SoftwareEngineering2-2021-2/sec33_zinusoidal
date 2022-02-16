@@ -18,7 +18,6 @@ const img1_small = require("../assets/landing1_small.png");
 const bubble = require("../assets/bubble.png");
 
 const cookies = new Cookies();
-
 const variants = {
   visible: {
     y: 0,
@@ -39,6 +38,8 @@ const variants = {
 const LandingPage = () => {
   let navigate = useNavigate();
   const user = cookies.get("user");
+  window.scrollTo(0, 0);
+
   return (
     <Layout>
       <LandingNav />
@@ -130,6 +131,7 @@ transaction transparantly"
 const Layout = styled.div`
   width: 100%;
   height: 100%;
+  /* margin-bottom: 200px; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
