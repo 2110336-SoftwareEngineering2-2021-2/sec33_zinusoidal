@@ -1,5 +1,6 @@
 :root {
   --backgroundColor: #040c18;
+  --scrollColor: #a44cd7;
 }
 * {
   box-sizing: border-box;
@@ -11,8 +12,9 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-::-webkit-scrollbar {
+::-webkit-scrollbar-thumb {
   /* display: none; */
+  background-color: var(--scrollColor);
 }
 
 /* ::-webkit-scrollbar {
@@ -23,9 +25,13 @@ html,
 body {
   /* background-color: var(--backgroundColor); */
   width: 100%;
-  
   min-height: 100%; 
   /* from #D898FD #ECDBF6 #D898FD */
   /* background-image: linear-gradient(to left top, #d898fd, #dca5fc, #e0b2fb, #e3bffa, #e7cbf8, #e7cbf8, #e7cbf8, #e7cbf8, #e3bffa, #e0b2fb, #dca5fc, #d898fd);   */
   /* background : var(--backgroundColor) */
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  background-color: white;
 }

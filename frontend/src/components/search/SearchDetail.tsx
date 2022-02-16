@@ -38,12 +38,7 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       </SearchDetailHeader>
       <ContentContainer>
         <h1>Biography</h1>
-        <p>
-          {person.biography} Lorem ipsum, dolor sit amet consectetur adipisicing
-          elit. Adipisci unde accusamus quos aspernatur, doloribus excepturi
-          laboriosam facere fugit quo ut repellendus suscipit cupiditate,
-          necessitatibus reiciendis, provident ipsum rem nobis odit.
-        </p>
+        <p>{person.biography}</p>
       </ContentContainer>
       <ContentContainer>
         <h1>Available Services</h1>
@@ -83,6 +78,7 @@ const Button = styled.button`
   margin-top: 9px;
   border-radius: 10000px;
   border: none;
+  cursor: pointer;
   @media screen and (max-width: 1050px) {
     margin-left: 9px;
   }
