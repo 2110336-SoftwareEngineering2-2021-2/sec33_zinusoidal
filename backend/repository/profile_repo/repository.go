@@ -216,37 +216,22 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 			fortuneList = fortuneList + `'` + element + `',`
 		}
 		fortuneList = fortuneList[:len(fortuneList)-1] + `)`
-		query = `SELECT P.id
-		FROM provider P LEFT JOIN fortune_user U ON P.id = U.id
-		WHERE P.rating >= ? AND
-			P.rating <= ? 
-			AND
-			(  
-				P.first_name LIKE ? OR
-				P.last_name LIKE ? OR
-				P.biography LIKE ? OR
-				U.username LIKE ?
-			) AND
-			EXISTS (
-				SELECT *
-				FROM provider_service S
-				WHERE S.provider_id = P.id AND
-					S.fortune_type IN ` + fortuneList + ` AND
-					S.price >= ? AND
-					S.price <= ? 
-		);`
+		query = `SELECT P.id FROM provider P LEFT JOIN fortune_user U ON P.id = U.id WHERE P.rating >= ? AND P.rating <= ? AND (  
+				P.first_name LIKE ` + Keyword + ` OR
+				P.last_name LIKE ` + Keyword + ` OR
+				P.biography LIKE ` + Keyword + ` OR
+				U.username LIKE ` + Keyword + `
+			) AND EXISTS (
+				SELECT * FROM provider_service S WHERE S.provider_id = P.id AND S.fortune_type IN ` + fortuneList + ` AND S.price >= ? AND S.price <= ? 
+);`
 
 	} else {
-		query = `SELECT P.id
-		FROM provider P LEFT JOIN fortune_user U ON P.id = U.id
-		WHERE P.rating >= ? AND
-			P.rating <= ?
-			AND
+		query = `SELECT P.id FROM provider P LEFT JOIN fortune_user U ON P.id = U.id WHERE P.rating >= ? AND P.rating <= ? AND
 			(  
-				P.first_name LIKE ? OR
-				P.last_name LIKE ? OR
-				P.biography LIKE ? OR
-				U.username LIKE ?
+				P.first_name LIKE ` + Keyword + ` OR
+				P.last_name LIKE ` + Keyword + ` OR
+				P.biography LIKE ` + Keyword + ` ORß
+				U.username LIKE ` + Keyword + `
 			) AND
 			EXISTS (
 				SELECT *
@@ -257,21 +242,15 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		);`
 	}
 
-	err := db.database.Raw(query, MinRating, MaxRating, Keyword, Keyword, Keyword, Keyword, MinPrice, MaxPrice).Scan(&searchResults).Error
-
+	err := db.database.Raw(query, MinRating, MaxRating, MinPrice, MaxPrice).Scan(&searchResults).Error
 	var profile profile.ProviderProfile
 
-	var getErr error
 	if len(searchResults) > 0 {
 		for _, id := range searchResults {
-			profile, getErr = db.GetProviderByID(id.Id)
-			if getErr != nil {
-				return returnResults, fmt.Errorf("Error getting profile")
-			}
+			profile, _ = db.GetProviderByID(id.Id)
 			returnResults = append(returnResults, profile)
 		}
 	}
-
 	return returnResults, err
 }
 
