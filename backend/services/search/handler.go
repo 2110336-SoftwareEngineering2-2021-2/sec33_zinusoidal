@@ -32,13 +32,6 @@ func (h *Handler) SearchHandler(c *gin.Context) {
 
 	results, err = h.service.SearchProvider(req)
 
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "response failed",
-		})
-		return
-	}
-
 	c.JSON(http.StatusOK, results)
 
 }
