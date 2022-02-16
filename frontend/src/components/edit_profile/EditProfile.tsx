@@ -10,6 +10,10 @@ import { BsSave2 } from "react-icons/bs";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+const bgImg = require("../../assets/edit.png");
+const bgImg2 = require("../../assets/edit2.png");
+const bgImg3 = require("../../assets/edit3.png");
+
 const cookies = new Cookies();
 //prettier-ignore
 const workTime = (availableTime: any) => {
@@ -217,6 +221,10 @@ const EditProfile = () => {
           />
         </SmallNavigate>
       </ButtonDiv>
+      <BGImg
+        src={current == 0 ? bgImg : current == 1 ? bgImg2 : bgImg3}
+        alt="yay"
+      />
     </Layout>
   );
 };
@@ -304,6 +312,17 @@ const Button = styled.button`
   column-gap: 5px;
   :hover {
     background-color: ${COLOR["violet/500"]} !important ;
+  }
+`;
+const BGImg = styled.img`
+  width: 293px;
+  height: 283px;
+  align-self: flex-end;
+  position: absolute;
+  top: 72%;
+  left: 70%;
+  @media screen and (max-width: 1300px) {
+    display: none;
   }
 `;
 export default EditProfile;
