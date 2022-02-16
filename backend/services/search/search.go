@@ -25,9 +25,35 @@ func NewService(database Databaser) *Service {
 
 func (s *Service) SearchProvider(req SearchRequest) ([]profile.ProviderProfile, error) {
 	results, err := s.database.SearchProvider(req)
-	return results, err
-}
 
+	var returnResults []profile.ProviderProfile
+
+	for _, provider := range results {
+
+		var minPrice int = 10000
+		var maxPrice int
+		for _, fortune := range provider.Fortune {
+
+			if fortune.Price < minPrice {
+
+				minPrice = fortune.Price
+			}
+
+			if fortune.Price > maxPrice {
+				maxPrice = fortune.Price
+			}
+
+		}
+
+		provider.MaxPrice = maxPrice
+		provider.MinPrice = minPrice
+
+		returnResults = append(returnResults, provider)
+
+	}
+
+	return returnResults, err
+}
 func (s *Service) GetAllResult() ([]string, error) {
 	return s.database.GetAllService()
 }

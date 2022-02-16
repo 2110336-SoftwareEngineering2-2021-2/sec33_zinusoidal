@@ -142,12 +142,15 @@ jobs:
           username: ${{ secrets.AWS_INSTANCE_USERNAME }}
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
-            echo "version: \"2\"" > docker-compose.yml
+            echo "version: \"3\"" > docker-compose.yml
             echo "services:" >> docker-compose.yml
             echo "  web:" >> docker-compose.yml
             echo "    image: kirkpig/zinusoidal-frontend:latest" >> docker-compose.yml
             echo "    ports:" >> docker-compose.yml
-            echo "      - \"80:80\"" >> docker-compose.yml
+            echo "      - 80:80" >> docker-compose.yml
+            echo "      - 443:443" >> docker-compose.yml
+            echo "    volumes:" >> docker-compose.yml
+            echo "      - /home/ubuntu/ssl:/etc/nginx/certs" >> docker-compose.yml
             echo "  logic:" >> docker-compose.yml
             echo "    image: kirkpig/zinusoidal-backend:latest" >> docker-compose.yml
             echo "    ports:" >> docker-compose.yml
