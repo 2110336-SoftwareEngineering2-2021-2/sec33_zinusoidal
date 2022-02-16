@@ -140,7 +140,7 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 		SET U.email = ?
 		WHERE U.id = ?;`
 
-	mailErr := db.database.Exec(addMail, userID).Error
+	mailErr := db.database.Exec(addMail, editRequest.Email, userID).Error
 	if mailErr != nil {
 		return providerProfile, mailErr
 	}
