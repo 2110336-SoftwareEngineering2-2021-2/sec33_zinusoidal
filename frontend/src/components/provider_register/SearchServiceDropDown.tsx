@@ -10,7 +10,7 @@ const ServiceDropDown = ({
   const getAllService = () => {
     axios({
       method: "get",
-      url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/all_services",
+      url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/all_services",
       data: {},
     })
       .then(function (response) {

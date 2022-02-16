@@ -51,29 +51,30 @@ const EditForm = ({
             <AiOutlineUpload />
           </Button>
         </ImageZone>
-        <DoubleInput>
-          <InputDiv>
-            <FormLabel>Name</FormLabel>
-            <Forminput
-              type="text"
-              value={userData.Name}
-              onChange={(event) => {
-                changeUserData({ ...userData, Name: event.target.value });
-              }}
-            />
-          </InputDiv>
-          <InputDiv>
-            <FormLabel>Surname</FormLabel>
-            <Forminput
-              type="text"
-              value={userData.Surname}
-              onChange={(event) => {
-                changeUserData({ ...userData, Surname: event.target.value });
-              }}
-            />
-          </InputDiv>
-        </DoubleInput>
-        {/* <InputDiv>
+        <Form>
+          <DoubleInput>
+            <InputDiv>
+              <FormLabel>Name</FormLabel>
+              <Forminput
+                type="text"
+                value={userData.Name}
+                onChange={(event) => {
+                  changeUserData({ ...userData, Name: event.target.value });
+                }}
+              />
+            </InputDiv>
+            <InputDiv>
+              <FormLabel>Surname</FormLabel>
+              <Forminput
+                type="text"
+                value={userData.Surname}
+                onChange={(event) => {
+                  changeUserData({ ...userData, Surname: event.target.value });
+                }}
+              />
+            </InputDiv>
+          </DoubleInput>
+          {/* <InputDiv>
           <FormLabel>Email</FormLabel>
           <Forminput
             type="text"
@@ -83,76 +84,77 @@ const EditForm = ({
             }}
           />
         </InputDiv> */}
-        <DoubleInput>
-          <InputDiv>
-            <FormLabel>Username</FormLabel>
-            <Forminput
-              type="text"
-              value={userData.Username}
+          <DoubleInput>
+            <InputDiv>
+              <FormLabel>Username</FormLabel>
+              <Forminput
+                type="text"
+                value={userData.Username}
+                onChange={(event) => {
+                  changeUserData({ ...userData, Username: event.target.value });
+                }}
+              />
+            </InputDiv>
+            <InputDiv>
+              <FormLabel>Password</FormLabel>
+              {seePassword ? (
+                <PasswordDiv>
+                  <Forminput
+                    disabled={true}
+                    type="text"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        Password: event.target.value,
+                      });
+                    }}
+                  />
+                  <RiEyeFill
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseUpCapture={() => {
+                      setSeePassword(false);
+                    }}
+                  />
+                </PasswordDiv>
+              ) : (
+                <PasswordDiv>
+                  <Forminput
+                    type="password"
+                    onChange={(event) => {
+                      changeUserData({
+                        ...userData,
+                        Password: event.target.value,
+                      });
+                    }}
+                  />
+                  <RiEyeCloseLine
+                    size={16}
+                    style={{ marginRight: 4 }}
+                    onMouseDownCapture={() => {
+                      setSeePassword(true);
+                    }}
+                  />
+                </PasswordDiv>
+              )}{" "}
+            </InputDiv>
+          </DoubleInput>
+          <BioDiv>
+            <div>
+              <FormLabel>Biography</FormLabel>
+            </div>
+            <Biotext
+              value={userData.Biography}
+              style={{ height: 140 }}
               onChange={(event) => {
-                changeUserData({ ...userData, Username: event.target.value });
+                changeUserData({
+                  ...userData,
+                  Biography: event.target.value,
+                });
               }}
             />
-          </InputDiv>
-          <InputDiv>
-            <FormLabel>Password</FormLabel>
-            {seePassword ? (
-              <PasswordDiv>
-                <Forminput
-                  disabled={true}
-                  type="text"
-                  onChange={(event) => {
-                    changeUserData({
-                      ...userData,
-                      Password: event.target.value,
-                    });
-                  }}
-                />
-                <RiEyeFill
-                  size={16}
-                  style={{ marginRight: 4 }}
-                  onMouseUpCapture={() => {
-                    setSeePassword(false);
-                  }}
-                />
-              </PasswordDiv>
-            ) : (
-              <PasswordDiv>
-                <Forminput
-                  type="password"
-                  onChange={(event) => {
-                    changeUserData({
-                      ...userData,
-                      Password: event.target.value,
-                    });
-                  }}
-                />
-                <RiEyeCloseLine
-                  size={16}
-                  style={{ marginRight: 4 }}
-                  onMouseDownCapture={() => {
-                    setSeePassword(true);
-                  }}
-                />
-              </PasswordDiv>
-            )}{" "}
-          </InputDiv>
-        </DoubleInput>
-        <BioDiv>
-          <div>
-            <FormLabel>Biography</FormLabel>
-          </div>
-          <Biotext
-            value={userData.Biography}
-            style={{ height: 140 }}
-            onChange={(event) => {
-              changeUserData({
-                ...userData,
-                Biography: event.target.value,
-              });
-            }}
-          />
-        </BioDiv>
+          </BioDiv>
+        </Form>
       </Padding>
     </Layout>
   );
@@ -166,8 +168,15 @@ const Layout = styled.div`
   overflow-y: scroll;
 `;
 const Padding = styled.div`
+  height: 100%;
   width: 100%;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+const Form = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -176,7 +185,7 @@ const ImageZone = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   row-gap: 8px;
 `;
