@@ -56,7 +56,9 @@ const SearchResult = ({ person, onClick, selected = false }: any) => {
         </Block>
         <Block>
           <p>
-            <strong>Price rate: </strong>
+            <strong>
+              Price rate: {person.minPrice}-{person.maxPrice} baht(per 30 min)
+            </strong>
             {priceRange}
           </p>
         </Block>

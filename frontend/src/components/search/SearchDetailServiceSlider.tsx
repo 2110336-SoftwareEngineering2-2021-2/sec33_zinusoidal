@@ -62,6 +62,8 @@ const Layout = styled.div`
   display: flex;
   max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 5px;
   cursor: grabbing;
   @media screen and (max-width: 1050px) {
     margin-top: 20px;
