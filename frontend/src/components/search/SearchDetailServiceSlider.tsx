@@ -34,7 +34,7 @@ const ColorSelector = (index: number) => {
 };
 const SearchDetailServiceSlider = ({ serviceList }: any) => {
   return (
-    <Layout>
+    <Layout className="slider">
       {serviceList.map((service: any, index: number) => (
         <SliderItem
           serviceName={service.fortuneType}
@@ -61,7 +61,8 @@ const Layout = styled.div`
   margin-top: 27px;
   display: flex;
   max-width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
+  cursor: grabbing;
   @media screen and (max-width: 1050px) {
     margin-top: 20px;
   }

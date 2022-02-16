@@ -10,11 +10,14 @@ type Service struct {
 type Databaser interface {
 	GetProviderByID(userID string) (ProviderProfile, error)
 	GetCustomerByID(userID string) (CustomerProfile, error)
-	EditProvider(string, ProviderEditRequest) (ProviderProfile, error)
+	EditProvider(string, ProviderEditRequest, string) (ProviderProfile, error)
 }
 
-func NewService(database Databaser) *Service {
-	return &Service{database: database}
+func NewService(database Databaser, s services.Service) *Service {
+	return &Service{
+		database:       database,
+		centralService: s,
+	}
 }
 
 func (s *Service) getProviderProfile(userId string) (ProviderProfile, error) {
@@ -35,16 +38,18 @@ func (s *Service) getCustomerProfile(userId string) (CustomerProfile, error) {
 
 func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (ProviderProfile, error) {
 
-	profilePicUrl, upErr := s.centralService.UploadFile(*req.ProfilePic, userId+"-profile"+req.ProfilePic.Filename)
-
-	if upErr != nil {
-		return ProviderProfile{}, upErr
+	var profilePicUrl string
+	var err error
+	if req.ProfilePic != nil {
+		profilePicUrl, err = s.centralService.UploadFile(*req.ProfilePic, userId+"-profile-"+req.ProfilePic.Filename)
+		if err != nil {
+			return ProviderProfile{}, err
+		}
+	} else {
+		profilePicUrl = ""
 	}
 
-	req.ProfilePicUrl = profilePicUrl
-
-	provider, err := s.database.EditProvider(userId, req)
-
+	provider, err := s.database.EditProvider(userId, req, profilePicUrl)
 	if err != nil {
 		return provider, err
 	}

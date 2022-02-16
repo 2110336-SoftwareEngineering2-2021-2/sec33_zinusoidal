@@ -88,7 +88,7 @@ const PriceRange = styled("div")<PriceRangeType>`
   button {
     background-color: ${(props) =>
       props.range == null ? COLOR["magenta/700"] : "transparent"};
-    width: 174px;
+    min-width: 174px;
     height: 38px;
     font-size: 14px;
     line-height: 22px;

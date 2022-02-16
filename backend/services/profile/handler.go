@@ -71,7 +71,7 @@ func (h *Handler) EditProviderHandler(c *gin.Context) {
 	}
 	user_id := token.UserID
 	var req ProviderEditRequest
-	if err = c.ShouldBindJSON(&req); err != nil {
+	if err = c.ShouldBind(&req); err != nil {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "invalid request",
 		})

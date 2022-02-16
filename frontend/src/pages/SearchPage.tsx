@@ -44,6 +44,7 @@ const SearchPage = () => {
   console.log("SEARCHRESULT", SEARCHRESULT);
 
   const searchRequestHandler = async () => {
+    setSelectedPerson(null);
     let data = {};
     if (serviceList.length == 1 && serviceList[0] == "All") {
       data = { ...data, fortuneType: [] };
@@ -84,6 +85,7 @@ const SearchPage = () => {
     })
       .then(function (response) {
         if (!pressed) setPressed(true);
+
         setSEARCHRESULT(response.data);
       })
       .catch(function (error) {
@@ -164,6 +166,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   background-size: 100% 100%;
+  overflow-y: visible;
   background-image: url(https://s3-alpha-sig.figma.com/img/df68/cd15/425f624aed5ae4c31cf5ece70613ca84?Expires=1645401600&Signature=Hd1OzQVwT-uOMTRjqoEMw4FU5QBa25WlvGZUD1XrfEJqGoNyPal2oD0VWwjt275HfYulQGopTjaf2x3eMzuVpogyqkmXPCHFkoha9zh97lUfwFmyNLkrErVHwmsPtC7xVO-ExcpOXxayyZfTsf5E9XDN6kMZM5A3sY3S7o~JRHmDIXKAFJWmf2AOyQvHp92Ar4FzpbAnt330nScB8ckksZNn2Rb0-FwGxUGdYgLl2BIudPiA6jeP8GA9PMFrJHcxW-33r9AYBArVyNlk0ucOOugrW3bekHxg5OH7Qr~GAZyWyqQMP8UVlYBHLh1~z~nakS2lu47zg8MeDePsoknb5g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA);
 `;
 
@@ -244,7 +247,9 @@ const SearchResultList = styled("div")<SearchResultListPropType>`
   align-self: flex-start;
   border-radius: 8px;
   width: 450px;
+  max-height: 605px;
   /* align-self: stretch; */
+  overflow-y: auto;
 
   @media screen and (max-width: 930px) {
     width: 400px;

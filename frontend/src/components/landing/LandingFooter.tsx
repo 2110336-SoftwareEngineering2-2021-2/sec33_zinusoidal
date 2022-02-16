@@ -81,7 +81,8 @@ const Button = styled("button")<ButtonPropType>`
   color: ${(props) => (props.provider ? "white" : COLOR["violet/400"])};
   cursor: pointer;
   :hover {
-    background-color: ${COLOR["violet/500"]};
+    background-color: ${(props) =>
+      props.provider ? COLOR["violet/500"] : "transparent"};
   }
 
   @media screen and (max-width: 550px) {

@@ -23,8 +23,8 @@ type ProviderRegisterRequest struct {
 	FirstName    string                `json:"firstName" form:"firstName" binding:"required"`
 	LastName     string                `json:"lastName" form:"lastName" binding:"required"`
 	Schedule     string                `json:"schedule" form:"schedule"`
-	WorkSchedule []model.WorkSchedule  `json:"workSchedule"`
-	Fortune      []model.Fortune       `json:"fortuneList"`
+	WorkSchedule string                `json:"workSchedule" form:"workSchedule"`
+	Fortune      string                `json:"fortuneList" form:"fortuneList"`
 	ProfilePic   *multipart.FileHeader `form:"profilePic"`
 	Biography    string                `json:"biography" form:"biography"`
 	CitizenId    string                `json:"citizenId" form:"citizenId"`

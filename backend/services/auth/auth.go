@@ -2,6 +2,7 @@ package auth
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"errors"
 	"log"
 	"math/rand"
@@ -56,12 +57,15 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	}
 	customer.Password = string(hash_password)
 
-	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, customer.UserId+"-profile-"+req.ProfilePic.Filename)
-	if err != nil {
-		return err
+	if req.ProfilePic != nil {
+		profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, customer.UserId+"-profile-"+req.ProfilePic.Filename)
+		if err != nil {
+			return err
+		}
+		customer.ProfilePicUrl = profilePicUrl
+	} else {
+		customer.ProfilePicUrl = "https://drive.google.com/file/d/1-2ipaLuCes8lVZRsv3ACn9J-hf99Cg-w/view?usp=sharing"
 	}
-
-	customer.ProfilePicUrl = profilePicUrl
 
 	err = s.database.RegisterCustomer(customer)
 	if err != nil {
@@ -69,12 +73,12 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 	}
 
 	key := randomStringKey(20)
-	/*
-		err = sendEmailConfirmationLink(req.Email, key)
-		if err != nil {
-			return err
-		}
-	*/
+
+	err = sendEmailConfirmationLink(req.Email, key)
+	if err != nil {
+		return err
+	}
+
 	err = s.database.InsertConfirmationKey(customer.UserId, key)
 	return err
 }
@@ -82,12 +86,22 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	var err error
 	provider := model.Provider{}
-	req.Schedule, err = model.ParseSchedule(req.WorkSchedule)
+	var ws []model.WorkSchedule
+	err = json.Unmarshal([]byte(req.WorkSchedule), &ws)
+	if err != nil {
+		return err
+	}
+	req.Schedule, err = model.ParseSchedule(ws)
 	if err != nil {
 		return err
 	}
 	smapping.FillStruct(&provider, smapping.MapFields(&req))
-	provider.FortuneList = req.Fortune
+	var fortune []model.Fortune
+	err = json.Unmarshal([]byte(req.Fortune), &fortune)
+	if err != nil {
+		return err
+	}
+	provider.FortuneList = fortune
 	userId, err := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
@@ -103,23 +117,26 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	provider.Password = string(hash_password)
 	key := randomStringKey(20)
 
-	profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, provider.UserId+"-profile-"+req.ProfilePic.Filename)
-	if err != nil {
-		return err
+	if req.ProfilePic != nil {
+		profilePicUrl, err := s.centralService.UploadFile(*req.ProfilePic, provider.UserId+"-profile-"+req.ProfilePic.Filename)
+		if err != nil {
+			return err
+		}
+		provider.ProfilePicUrl = profilePicUrl
+	} else {
+		provider.ProfilePicUrl = "https://drive.google.com/file/d/1-2ipaLuCes8lVZRsv3ACn9J-hf99Cg-w/view?usp=sharing"
 	}
-
-	provider.ProfilePicUrl = profilePicUrl
 
 	err = s.database.RegisterProvider(provider)
 	if err != nil {
 		return err
 	}
-	/*
-		err = sendEmailConfirmationLink(req.Email, key)
-		if err != nil {
-			return err
-		}
-	*/
+
+	err = sendEmailConfirmationLink(req.Email, key)
+	if err != nil {
+		return err
+	}
+
 	err = s.database.InsertConfirmationKey(provider.UserId, key)
 	return err
 }
@@ -142,7 +159,7 @@ func sendEmailConfirmationLink(email, key string) error {
 	mail.SetHeader("From", sender)
 	mail.SetHeader("Subject", "Email activation")
 	mail.SetHeader("To", email)
-	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://localhost:"+viper.GetString("app.port")+"/activate/"+key)
+	mail.SetBody("text/plain", "You have registered for Fortune168 service, the verification link is\n"+"http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:"+viper.GetString("app.port")+"/confirm_email/"+key)
 	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 	log.Println("Sending email....")
