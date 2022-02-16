@@ -47,6 +47,7 @@ const NumericDetail = () => {
   }, []);
   return (
     <Layout
+      className="nonedrag"
       initial={typeof user == "undefined" ? "hidden" : "hidden_2"}
       whileInView={typeof user == "undefined" ? "visible" : "visible_2"}
       viewport={{ once: true }}
