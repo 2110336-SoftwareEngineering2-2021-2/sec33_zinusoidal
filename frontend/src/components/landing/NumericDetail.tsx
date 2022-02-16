@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CountUp from "react-countup";
 import ReactVisibilitySensor from "react-visibility-sensor";
+import axios from "axios";
 const NumericDetail = () => {
+  const [shownData, setShownData] = useState({
+    totalCustomer: 6,
+    totalProvider: 6,
+    totalFortuneService: 8,
+  });
+  useEffect(() => {
+    axios
+      .get(
+        "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/landing_page_info"
+      )
+      .then((response) => {
+        console.log(response.data);
+        setShownData(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   return (
     <Layout>
       <NumberDiv>
         <StyledCountUp
           start={0}
-          end={15793}
-          duration={10}
+          end={shownData.totalCustomer}
+          duration={5}
           redraw
           separator=","
         />
@@ -17,12 +36,22 @@ const NumericDetail = () => {
       </NumberDiv>
 
       <NumberDiv>
-        <StyledCountUp end={4789} duration={9} redraw separator="," />
+        <StyledCountUp
+          end={shownData.totalProvider}
+          duration={5}
+          redraw
+          separator=","
+        />
         <H3>Fortune-tellers</H3>
       </NumberDiv>
 
       <NumberDiv>
-        <StyledCountUp end={1327} duration={8} redraw separator="," />
+        <StyledCountUp
+          end={shownData.totalFortuneService}
+          duration={5}
+          redraw
+          separator=","
+        />
         <H3>types of service</H3>
       </NumberDiv>
     </Layout>
@@ -33,7 +62,7 @@ const Layout = styled.div`
   width: 40%;
   height: 60%;
   position: absolute;
-  top: 0;
+  top: 15%;
   right: 0;
   display: flex;
   flex-direction: column;
