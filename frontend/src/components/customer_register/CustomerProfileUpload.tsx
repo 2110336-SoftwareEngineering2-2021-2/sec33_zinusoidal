@@ -4,13 +4,14 @@ import React, { useState, useRef } from "react";
 
 import { BsPeopleFill } from "react-icons/bs";
 import { AiOutlineUpload } from "react-icons/ai";
+import { isConstructorDeclaration } from "typescript";
 const selectedImg = require("../../assets/zinusoidal.png");
 
 const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
   const imageInput = useRef();
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      setProfilePicUrl(URL.createObjectURL(e.target.files[0]));
+      setProfilePicUrl(e.target.files[0]);
     }
   };
 
@@ -25,9 +26,9 @@ const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
         <Flex>
           <img
             src={
-              profilePicUrl == "../../assets/zinusoidal.png"
+              profilePicUrl == null
                 ? selectedImg
-                : profilePicUrl
+                : URL.createObjectURL(profilePicUrl)
             }
             alt="yay"
           />

@@ -12,7 +12,11 @@ import { resourceLimits } from "worker_threads";
 type InputPropType = {
   time?: boolean;
 };
-const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
+const AvailableTimeInputForm = ({
+  availableTime,
+  setAvailableTime,
+  setError,
+}: any) => {
   const [dayDropDownOpen, setDayDropDownOpen] = useState(false);
   const [startTimeDropDownOpen, setStartTimeDropDownOpen] = useState(false);
   const [stopTimeDropDownOpen, setStopTimeDropDownOpen] = useState(false);
@@ -343,6 +347,7 @@ const AvailableTimeInputForm = ({ availableTime, setAvailableTime }: any) => {
           <Button
             disabled={day == "" || startTime == "-1.0" || stopTime == "24.0"}
             onClick={() => {
+              setError(false);
               setDay("");
               setStartTime("-1.0");
               setStopTime("24.0");

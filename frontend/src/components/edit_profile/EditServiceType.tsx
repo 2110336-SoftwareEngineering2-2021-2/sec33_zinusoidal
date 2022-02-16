@@ -33,6 +33,8 @@ const EditServiceType = ({ service, setService }: any) => {
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
   console.log(service);
+  const [serviceError, setServiceError] = useState(false);
+  const [duplicatError, setDuplicatError] = useState(false);
 
   const addServiceToList = (newService: any) => {
     console.log(newService);
@@ -40,8 +42,11 @@ const EditServiceType = ({ service, setService }: any) => {
       if (
         s.fortuneType == "" ||
         s.price == 0 ||
-        (s.fortuneType == newService.fortuneType && s.price == newService.price)
+        s.fortuneType == newService.fortuneType
       ) {
+        setDuplicatError(true);
+        setServiceName("");
+        setServicePrice(0);
         return;
       }
     }
@@ -94,6 +99,8 @@ const EditServiceType = ({ service, setService }: any) => {
                   placeholder="Service's name"
                   value={serviceName}
                   onChange={(e) => {
+                    setDuplicatError(false);
+
                     setServiceName(e.target.value);
                   }}
                 />
@@ -106,6 +113,8 @@ const EditServiceType = ({ service, setService }: any) => {
                     placeholder="0"
                     value={servicePrice == 0 ? "" : servicePrice}
                     onChange={(e) => {
+                      setDuplicatError(false);
+
                       setServicePrice(Number(e.target.value));
                     }}
                   />
@@ -128,6 +137,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
+                  setServiceError(false);
                 }}
               >
                 Add +
@@ -170,7 +180,10 @@ const EditServiceType = ({ service, setService }: any) => {
                     type="text"
                     placeholder="search"
                     onClick={() => setServiceDropDownOpen(true)}
-                    onChange={(e) => setServiceName(e.target.value)}
+                    onChange={(e) => {
+                      setServiceName(e.target.value);
+                      setDuplicatError(false);
+                    }}
                   ></ServiceInput>
                 </SearchServiceDiv>
                 {serviceDropDownOpen ? (
@@ -190,6 +203,8 @@ const EditServiceType = ({ service, setService }: any) => {
                   placeholder="0"
                   value={servicePrice == 0 ? "" : servicePrice}
                   onChange={(e) => {
+                    setDuplicatError(false);
+
                     setServicePrice(Number(e.target.value));
                   }}
                 />
@@ -211,6 +226,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
+                  setServiceError(false);
                 }}
               >
                 Add +
@@ -221,6 +237,12 @@ const EditServiceType = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
+        {duplicatError ? (
+          <Error>You can't select duplicate service!</Error>
+        ) : null}
+        {serviceError ? (
+          <Error>You need to have at least one service type</Error>
+        ) : null}
         <Services>
           {service.map((s: any) => (
             <MyServiceDiv>
@@ -234,7 +256,11 @@ const EditServiceType = ({ service, setService }: any) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    deleteServiceFromList(s);
+                    if (service.length == 1) {
+                      setServiceError(true);
+                    } else {
+                      deleteServiceFromList(s);
+                    }
                   }}
                 />
               </PriceAndMinusDiv>
@@ -263,6 +289,13 @@ const SecondLayout = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
+`;
+
+const Error = styled.p`
+  font-size: 16px;
+  margin-left: 16px;
+  font-weight: bold;
+  color: ${COLOR["magenta/400"]};
 `;
 const Padding = styled.div`
   width: 100%;
