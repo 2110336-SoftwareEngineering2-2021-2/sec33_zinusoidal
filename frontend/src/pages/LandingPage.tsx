@@ -110,13 +110,7 @@ transaction transparantly"
         transition={{ duration: 1 }}
         variants={variants}
       >
-        <BubbleDiv
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          variants={variants}
-        >
+        <BubbleDiv>
           <NumericDetail></NumericDetail>
         </BubbleDiv>
       </Content2>
@@ -317,7 +311,7 @@ const LandingFeature = styled(motion.div)`
   }
 `;
 
-const BubbleDiv = styled(motion.div)`
+const BubbleDiv = styled("div")`
   @media screen and (max-width: 900px) {
     width: 550px;
     height: 550px;

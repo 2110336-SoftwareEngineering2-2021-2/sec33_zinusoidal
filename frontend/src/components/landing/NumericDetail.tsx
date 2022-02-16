@@ -35,7 +35,13 @@ const NumericDetail = () => {
       });
   }, []);
   return (
-    <Layout>
+    <Layout
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
+      variants={variants}
+    >
       <NumberDiv>
         <StyledCountUp
           start={0}
