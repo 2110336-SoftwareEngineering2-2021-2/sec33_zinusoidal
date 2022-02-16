@@ -28,6 +28,12 @@ const variants = {
     y: 300,
     opacity: 0,
   },
+  hidden_2: {
+    opacity: 0,
+  },
+  visible_2: {
+    opacity: 1,
+  },
 };
 
 const LandingPage = () => {
@@ -104,10 +110,12 @@ transaction transparantly"
 
       <LandingFeatures />
       <Content2
-        initial="hidden"
-        whileInView="visible"
+        initial={typeof user == "undefined" ? "hidden" : "hidden_2"}
+        whileInView={typeof user == "undefined" ? "visible" : "visible_2"}
         viewport={{ once: true }}
-        transition={{ duration: 1 }}
+        transition={
+          typeof user == "undefined" ? { duration: 1 } : { duration: 2 }
+        }
         variants={variants}
       >
         <BubbleDiv>

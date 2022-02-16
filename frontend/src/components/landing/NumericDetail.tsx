@@ -4,6 +4,9 @@ import CountUp from "react-countup";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import axios from "axios";
 import { motion } from "framer-motion";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const variants = {
   visible: {
@@ -14,6 +17,12 @@ const variants = {
     y: 300,
     opacity: 0,
   },
+  hidden_2: {
+    opacity: 0,
+  },
+  visible_2: {
+    opacity: 1,
+  },
 };
 const NumericDetail = () => {
   const [shownData, setShownData] = useState({
@@ -21,6 +30,8 @@ const NumericDetail = () => {
     totalProvider: 6,
     totalFortuneService: 8,
   });
+  const user = cookies.get("user");
+
   useEffect(() => {
     axios
       .get(
@@ -36,10 +47,12 @@ const NumericDetail = () => {
   }, []);
   return (
     <Layout
-      initial="hidden"
-      whileInView="visible"
+      initial={typeof user == "undefined" ? "hidden" : "hidden_2"}
+      whileInView={typeof user == "undefined" ? "visible" : "visible_2"}
       viewport={{ once: true }}
-      transition={{ duration: 1 }}
+      transition={
+        typeof user == "undefined" ? { duration: 1 } : { duration: 2 }
+      }
       variants={variants}
     >
       <NumberDiv>
