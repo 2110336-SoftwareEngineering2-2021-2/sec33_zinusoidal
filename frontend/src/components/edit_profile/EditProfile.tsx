@@ -41,7 +41,7 @@ const EditProfile = () => {
   const getProfile = () => {
     axios({
       method: "get",
-      url: `https://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com/api/fortune168/v1/provider/${user?.user_id}`,
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider/${user?.user_id}`,
       data: {},
     })
       .then(function (response) {
@@ -98,7 +98,7 @@ const EditProfile = () => {
     providerInput.append("schedule", JSON.stringify(workTime(availableTime)));
     axios({
       method: "patch",
-      url: `https://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com/api/fortune168/v1/provider_edit`,
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider_edit`,
       data: providerInput,
       headers: {
         "Content-type": "multipart/form-data",

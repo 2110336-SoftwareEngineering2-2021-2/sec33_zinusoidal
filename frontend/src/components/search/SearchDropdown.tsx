@@ -26,7 +26,7 @@ const SearchDropdown = ({
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com/api/fortune168/v1/all_services",
+      url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/all_services",
       data: {},
     })
       .then(function (response) {
