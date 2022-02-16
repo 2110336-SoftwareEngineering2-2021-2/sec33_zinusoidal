@@ -207,6 +207,8 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		MaxRating = searchRequest.MaxRating
 	}
 
+	var Keyword string = "%" + searchRequest.Keyword + "%"
+
 	var query string
 	var fortuneList string = `(`
 	if len(searchRequest.FortuneType) > 0 {
@@ -214,43 +216,49 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 			fortuneList = fortuneList + `'` + element + `',`
 		}
 		fortuneList = fortuneList[:len(fortuneList)-1] + `)`
-		query = `SELECT
-	P.id
-  FROM
-	provider P
-  WHERE
-	P.rating >= ?
-	AND P.rating <= ?
-	AND EXISTS (
-	  SELECT
-		*
-	  FROM
-		provider_service S
-	  WHERE
-		S.provider_id = P.id
-		AND S.fortune_type IN ` + fortuneList + ` AND S.price >= ?
-		AND S.price <= ?);`
+		query = `SELECT P.id
+		FROM provider P LEFT JOIN fortune_user U ON P.id = U.id
+		WHERE P.rating >= ? AND
+			P.rating <= ? 
+			AND
+			(  
+				P.first_name LIKE ? OR
+				P.last_name LIKE ? OR
+				P.biography LIKE ? OR
+				U.username LIKE ?
+			) AND
+			EXISTS (
+				SELECT *
+				FROM provider_service S
+				WHERE S.provider_id = P.id AND
+					S.fortune_type IN ` + fortuneList + ` AND
+					S.price >= ? AND
+					S.price <= ? 
+		);`
 
 	} else {
-		query = `SELECT
-	P.id
-  FROM
-	provider P
-  WHERE
-	P.rating >= ?
-	AND P.rating <= ?
-	AND EXISTS (
-	  SELECT
-		*
-	  FROM
-		provider_service S
-	  WHERE
-		S.provider_id = P.id
-		AND S.price >= ?
-		AND S.price <= ?);`
+		query = `SELECT P.id
+		FROM provider P LEFT JOIN fortune_user U ON P.id = U.id
+		WHERE P.rating >= ? AND
+			P.rating <= ?
+			AND
+			(  
+				P.first_name LIKE ? OR
+				P.last_name LIKE ? OR
+				P.biography LIKE ? OR
+				U.username LIKE ?
+			) AND
+			EXISTS (
+				SELECT *
+				FROM provider_service S
+				WHERE S.provider_id = P.id AND
+					S.fortune_type IN @fortune_list AND
+					S.price >= ? AND
+					S.price <= ? 
+		);`
 	}
 
-	err := db.database.Raw(query, MinRating, MaxRating, MinPrice, MaxPrice).Scan(&searchResults).Error
+	err := db.database.Raw(query, MinRating, MaxRating, Keyword, Keyword, Keyword, Keyword, MinPrice, MaxPrice).Scan(&searchResults).Error
 
 	var profile profile.ProviderProfile
 	var getErr error
