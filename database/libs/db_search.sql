@@ -1,7 +1,14 @@
 SELECT P.id
-FROM provider P
+FROM provider P LEFT JOIN fortune_user U ON P.id = U.id
 WHERE P.rating >= @minRating AND
-    P.rating <= @maxRating AND
+    P.rating <= @maxRating 
+    AND
+    (  
+        P.first_name LIKE @keyword OR
+        P.last_name LIKE @keyword OR
+        P.biography LIKE @keyword OR
+        U.username LIKE @keyword
+    ) AND
     EXISTS (
         SELECT *
         FROM provider_service S
@@ -13,4 +20,6 @@ WHERE P.rating >= @minRating AND
 
 /*
 @fortune_list = ('tarot','ball','ppl')
+
+@keyword = '%keyword%'
 */
