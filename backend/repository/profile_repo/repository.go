@@ -207,7 +207,7 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		MaxRating = searchRequest.MaxRating
 	}
 
-	var Keyword string = "%" + searchRequest.Keyword + "%"
+	var Keyword string = "'%" + searchRequest.Keyword + "%'"
 
 	var query string
 	var fortuneList string = `(`
@@ -252,7 +252,6 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 				SELECT *
 				FROM provider_service S
 				WHERE S.provider_id = P.id AND
-					S.fortune_type IN @fortune_list AND
 					S.price >= ? AND
 					S.price <= ? 
 		);`
@@ -261,6 +260,7 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 	err := db.database.Raw(query, MinRating, MaxRating, Keyword, Keyword, Keyword, Keyword, MinPrice, MaxPrice).Scan(&searchResults).Error
 
 	var profile profile.ProviderProfile
+
 	var getErr error
 	if len(searchResults) > 0 {
 		for _, id := range searchResults {
