@@ -39,6 +39,8 @@ type ProviderProfile struct {
 	Biography     string               `json:"biography"`
 	WorkSchedule  []model.WorkSchedule `json:"workSchedule"`
 	Rating        float64              `json:"rating"`
+	MinPrice      int                  `json:"minPrice"`
+	MaxPrice      int                  `json:"maxPrice"`
 }
 
 type ProviderDB struct {

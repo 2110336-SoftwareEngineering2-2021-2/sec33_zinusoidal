@@ -73,7 +73,7 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 
 	var lst int = 0
 
-	for id, schedule := range works {
+	for id, schedule :=  works {
 		if schedule.Day != days[id] {
 			return "", errors.New("day " + days[id] + "doesn't match")
 		}

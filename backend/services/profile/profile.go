@@ -1,6 +1,8 @@
 package profile
 
-import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+import (
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+)
 
 type Service struct {
 	database       Databaser
@@ -53,5 +55,23 @@ func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (Provider
 	if err != nil {
 		return provider, err
 	}
+
+	var minPrice int
+	var maxPrice int
+
+	for _, fortune := range provider.Fortune {
+
+		if fortune.Price < minPrice {
+			minPrice = fortune.Price
+		}
+
+		if fortune.Price > maxPrice {
+			maxPrice = fortune.Price
+		}
+	}
+
+	provider.MaxPrice = maxPrice
+	provider.MinPrice = minPrice
+
 	return provider, nil
 }
