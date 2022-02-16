@@ -147,8 +147,8 @@ jobs:
             echo "  web:" >> docker-compose.yml
             echo "    image: kirkpig/zinusoidal-frontend:latest" >> docker-compose.yml
             echo "    ports:" >> docker-compose.yml
-            echo "      - 80:80 >> docker-compose.yml
-            echo "      - 443:443 >> docker-compose.yml
+            echo "      - 80:80" >> docker-compose.yml
+            echo "      - 443:443" >> docker-compose.yml
             echo "    volumes:" >> docker-compose.yml
             echo "      - ./certbot/www:/var/www/certbot/:ro" >> docker-compose.yml
             echo "      - ./certbot/conf/:/etc/nginx/ssl/:ro" >> docker-compose.yml
