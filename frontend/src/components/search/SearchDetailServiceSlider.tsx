@@ -80,6 +80,7 @@ const ItemFrame = styled("div")<ItemFramePropType>`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
+  text-align: center;
 
   @media screen and (max-width: 1050px) {
     height: 129px;
