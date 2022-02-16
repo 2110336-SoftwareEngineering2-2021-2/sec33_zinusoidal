@@ -11,7 +11,7 @@ const ProviderProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
   const imageInput = useRef();
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      setProfilePicUrl(URL.createObjectURL(e.target.files[0]));
+      setProfilePicUrl(e.target.files[0]);
     }
   };
 
@@ -26,9 +26,9 @@ const ProviderProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
         <Flex>
           <img
             src={
-              profilePicUrl == "../../assets/zinusoidal.png"
+              profilePicUrl == null
                 ? selectedImg
-                : profilePicUrl
+                : URL.createObjectURL(profilePicUrl)
             }
             alt="yay"
           />
