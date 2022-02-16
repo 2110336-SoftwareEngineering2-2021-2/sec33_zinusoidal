@@ -142,7 +142,7 @@ jobs:
           username: ${{ secrets.AWS_INSTANCE_USERNAME }}
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
-            echo "version: \"2\"" > docker-compose.yml
+            echo "version: \"3\"" > docker-compose.yml
             echo "services:" >> docker-compose.yml
             echo "  web:" >> docker-compose.yml
             echo "    image: kirkpig/zinusoidal-frontend:latest" >> docker-compose.yml
