@@ -136,15 +136,6 @@ func (db *GromDB) EditProvider(userID string, editRequest profile.ProviderEditRe
 		return providerProfile, editErr
 	}
 
-	addMail := `UPDATE fortune_user U
-		SET U.email = ?
-		WHERE U.id = ?;`
-
-	mailErr := db.database.Exec(addMail, editRequest.Email, userID).Error
-	if mailErr != nil {
-		return providerProfile, mailErr
-	}
-
 	deleteQuery := `DELETE FROM provider_service S
     WHERE S.provider_id = ?;`
 
