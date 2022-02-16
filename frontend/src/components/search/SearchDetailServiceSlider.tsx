@@ -73,7 +73,7 @@ const Layout = styled.div`
 const ItemFrame = styled("div")<ItemFramePropType>`
   min-width: 121px;
   height: 168px;
-  background-color: ${(props) => ColorSelector(props.idx)};
+  background-color: ${(props) => ColorSelector(props.idx % 4)};
   margin-right: 40px;
   display: flex;
   flex-direction: column;
