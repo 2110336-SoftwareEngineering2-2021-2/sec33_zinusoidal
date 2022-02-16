@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RiPencilFill } from "react-icons/ri";
@@ -10,7 +10,22 @@ const cookies = new Cookies();
 
 const LandingDropDownWideScreen = ({ setDropDown }: any) => {
   const navigate = useNavigate();
+  const wrapperRef = useRef(null);
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setDropDown(false);
+        }
+      }
 
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(wrapperRef);
   const logoutHandle = () => {
     setDropDown(false);
     cookies.remove("user");
@@ -18,10 +33,12 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
   };
   return (
     <Layout
+      ref={wrapperRef}
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
     >
       <Link to="/editProfile" style={{ textDecoration: "none" }}>
+        <DropArrow />
         <Item>
           <RiPencilFill /> <p>Edit your profile</p>
         </Item>
@@ -43,6 +60,7 @@ const Layout = styled(motion.div)`
   width: 240px;
   background-color: white;
   position: absolute;
+  top: 40px;
   right: 0;
   border-radius: 4px;
   z-index: 1;
@@ -60,6 +78,16 @@ const Item = styled.div`
     line-height: 31px;
     margin-left: 8px;
   }
+`;
+
+const DropArrow = styled.div`
+  border-right: 5px solid transparent;
+
+  border-left: 5px solid transparent;
+  border-bottom: 10px solid white;
+  position: absolute;
+  right: 10px;
+  top: -10px;
 `;
 
 export default LandingDropDownWideScreen;

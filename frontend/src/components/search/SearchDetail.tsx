@@ -78,6 +78,7 @@ const Button = styled.button`
   margin-top: 9px;
   border-radius: 10000px;
   border: none;
+  cursor: pointer;
   @media screen and (max-width: 1050px) {
     margin-left: 9px;
   }

@@ -8,8 +8,9 @@ import LandingFooter from "../components/landing/LandingFooter";
 import NumericDetail from "../components/landing/NumericDetail";
 import LandingFeatures from "../components/landing/LandingFeatures";
 import { COLOR } from "../CONSTANT";
+import { useNavigate } from "react-router-dom";
 const img1 = require("../assets/landingBg.png");
-const img2 = require("../assets/landingBg2.png");
+const img2 = require("../assets/landingBg2_new.png");
 const img3 = require("../assets/landingBg3.png");
 const img1_small = require("../assets/landing1_small.png");
 
@@ -25,6 +26,7 @@ const variants = {
 };
 
 const LandingPage = () => {
+  let navigate = useNavigate();
   return (
     <Layout>
       <LandingNav />
@@ -41,7 +43,13 @@ const LandingPage = () => {
             FORTUNE <span>168</span>
           </h1>
           <h2>online matchmaking fortune teller platform</h2>
-          <Button>Join us</Button>
+          <Button
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Join us
+          </Button>
         </HeaderDetail>
       </Content>
       <SmallContentImg
@@ -239,12 +247,12 @@ const Content2 = styled(motion.div)`
 
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding-top: 50%;
+  padding-top: 40%;
   position: relative;
 
   @media screen and (min-width: 1440px) {
     width: 1355px;
-    padding-top: 677.5px;
+    padding-top: 542px;
     align-self: center;
   }
 

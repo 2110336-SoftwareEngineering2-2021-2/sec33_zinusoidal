@@ -6,6 +6,7 @@ type SearchRequest struct {
 	MaxRating   float64  `json:"maxRating"`
 	MinPrice    float64  `json:"minPrice"`
 	MaxPrice    float64  `json:"maxPrice"`
+	Keyword     string   `json:"keyword"`
 }
 
 type SearchResult struct {

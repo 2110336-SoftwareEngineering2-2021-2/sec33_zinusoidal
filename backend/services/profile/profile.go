@@ -1,6 +1,8 @@
 package profile
 
-import "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+import (
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+)
 
 type Service struct {
 	database       Databaser
@@ -53,5 +55,6 @@ func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (Provider
 	if err != nil {
 		return provider, err
 	}
+
 	return provider, nil
 }

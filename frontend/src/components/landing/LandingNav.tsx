@@ -19,7 +19,7 @@ interface StyledLinkPropType {
 }
 
 interface ParagraphPropType {
-  isUser: boolean;
+  isuser: string;
 }
 const LandingNav = ({ onClickMenu, show }: any) => {
   // const { user, setUser } = useContext(UserContext);
@@ -65,7 +65,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           {typeof user == "undefined" ? (
             <P
               whileHover={{ scale: 1.3, originX: "100%" }}
-              isUser={typeof user != "undefined"}
+              isuser={(typeof user != "undefined").toString()}
               onClick={() => {
                 navigate("/login");
               }}
@@ -75,7 +75,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           ) : (
             <P
               whileHover={{ scale: 1.3, originX: "100%" }}
-              isUser={typeof user != "undefined"}
+              isuser={(typeof user != "undefined").toString()}
               onClick={() => setShowWideDropDown(!showWideDropDown)}
             >
               Hello, {user?.username}
@@ -199,7 +199,7 @@ const Menu = styled(AiOutlineMenu)`
 `;
 
 const P = styled(motion.p)<ParagraphPropType>`
-  color: ${(props) => (props.isUser ? COLOR["aqua/700"] : "black")};
+  color: ${(props) => (props.isuser == "true" ? COLOR["aqua/700"] : "black")};
   font-size: 20px;
   line-height: 31px;
   font-weight: bold;

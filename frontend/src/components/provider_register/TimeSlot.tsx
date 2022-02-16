@@ -2,18 +2,29 @@ import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { AiFillMinusCircle } from "react-icons/ai";
+import { setDefaultResultOrder } from "dns";
 
 type TimeSlotType = {
   day: string;
   time: Array<String>;
   availableTime: any;
   setAvailableTime: any;
+  setError: any;
+};
+const sumLength = (availableTime: any) => {
+  let c = 0;
+  for (let day of availableTime) {
+    c += day.timeList.length;
+  }
+  console.log(c);
+  return c;
 };
 const TimeSlot = ({
   day,
   time,
   availableTime,
   setAvailableTime,
+  setError,
 }: TimeSlotType) => {
   const deleteTime = (day: any, time: any) => {
     const remainTimeList = availableTime.filter(
@@ -41,7 +52,13 @@ const TimeSlot = ({
           marginLeft: 4,
           cursor: "pointer",
         }}
-        onClick={() => deleteTime(day, time)}
+        onClick={() => {
+          if (sumLength(availableTime) == 1) {
+            setError(true);
+          } else {
+            deleteTime(day, time);
+          }
+        }}
       />
     </Layout>
   );
