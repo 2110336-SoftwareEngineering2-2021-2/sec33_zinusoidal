@@ -35,7 +35,7 @@ const NumericDetail = () => {
   useEffect(() => {
     axios
       .get(
-        "https://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com/api/fortune168/v1/landing_page_info"
+        "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/landing_page_info"
       )
       .then((response) => {
         console.log(response.data);
