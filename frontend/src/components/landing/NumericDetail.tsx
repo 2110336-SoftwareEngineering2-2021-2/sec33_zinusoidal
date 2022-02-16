@@ -3,6 +3,18 @@ import styled from "styled-components";
 import CountUp from "react-countup";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import axios from "axios";
+import { motion } from "framer-motion";
+
+const variants = {
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+  hidden: {
+    y: 300,
+    opacity: 0,
+  },
+};
 const NumericDetail = () => {
   const [shownData, setShownData] = useState({
     totalCustomer: 6,
@@ -58,7 +70,7 @@ const NumericDetail = () => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled(motion.div)`
   width: 40%;
   height: 60%;
   position: absolute;
@@ -78,7 +90,8 @@ const Layout = styled.div`
     align-self: center;
     background-color: #f8e4ec;
     border-radius: 8px;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
+    top: 0;
   }
 
   @media screen and (max-width: 550px) {

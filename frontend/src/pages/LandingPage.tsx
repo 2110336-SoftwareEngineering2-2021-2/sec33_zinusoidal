@@ -8,11 +8,16 @@ import LandingFooter from "../components/landing/LandingFooter";
 import NumericDetail from "../components/landing/NumericDetail";
 import LandingFeatures from "../components/landing/LandingFeatures";
 import { COLOR } from "../CONSTANT";
+import Cookies from "universal-cookie";
+
 import { useNavigate } from "react-router-dom";
 const img1 = require("../assets/landingBg.png");
 const img2 = require("../assets/landingBg2_new.png");
 const img3 = require("../assets/landingBg3.png");
 const img1_small = require("../assets/landing1_small.png");
+const bubble = require("../assets/bubble.png");
+
+const cookies = new Cookies();
 
 const variants = {
   visible: {
@@ -27,6 +32,7 @@ const variants = {
 
 const LandingPage = () => {
   let navigate = useNavigate();
+  const user = cookies.get("user");
   return (
     <Layout>
       <LandingNav />
@@ -45,7 +51,12 @@ const LandingPage = () => {
           <h2>online matchmaking fortune teller platform</h2>
           <Button
             onClick={() => {
-              navigate("/login");
+              const user = cookies.get("user");
+              if (typeof user == "undefined") {
+                navigate("/login");
+              } else {
+                alert("You already logged in");
+              }
             }}
           >
             Join us
@@ -99,9 +110,17 @@ transaction transparantly"
         transition={{ duration: 1 }}
         variants={variants}
       >
-        <NumericDetail></NumericDetail>
+        <BubbleDiv
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          variants={variants}
+        >
+          <NumericDetail></NumericDetail>
+        </BubbleDiv>
       </Content2>
-      <LandingFooter />
+      {typeof user == "undefined" ? <LandingFooter /> : null}
     </Layout>
   );
 };
@@ -295,6 +314,28 @@ const LandingFeature = styled(motion.div)`
 
   @media screen and (max-width: 900px) {
     display: none;
+  }
+`;
+
+const BubbleDiv = styled(motion.div)`
+  @media screen and (max-width: 900px) {
+    width: 550px;
+    height: 550px;
+    position: relative;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(${bubble});
+    background-size: 100% 80%;
+    background-repeat: no-repeat;
+  }
+
+  @media screen and (max-width: 550px) {
+    width: 350px;
+    height: 350px;
+    position: relative;
+    align-self: center;
   }
 `;
 

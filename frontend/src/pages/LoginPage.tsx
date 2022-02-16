@@ -2,10 +2,21 @@ import LoginForm from "../components/login/LoginForm";
 import { COLOR } from "../CONSTANT";
 import styled from "styled-components";
 import LoginToRegister from "../components/login/LoginToRegister";
-
+import Cookies from "universal-cookie";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+const cookies = new Cookies();
 const logo = require("../assets/login.png");
 
 const LoginPage = () => {
+  let navigate = useNavigate();
+  useEffect(() => {
+    const data = cookies.get("user");
+    if (typeof data != "undefined") {
+      alert("You are already logged in");
+      navigate("/");
+    }
+  }, []);
   return (
     <Layout>
       <LoginForm />
