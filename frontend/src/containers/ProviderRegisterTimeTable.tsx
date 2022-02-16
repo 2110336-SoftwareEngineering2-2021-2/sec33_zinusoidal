@@ -28,7 +28,7 @@ const Layout = styled.div`
   margin: 10px 15px;
   /* flex: 1; */
   height: 330px;
-  overflow-y: scroll;
+  overflow-y: auto;
   p {
     margin-left: initial;
   }

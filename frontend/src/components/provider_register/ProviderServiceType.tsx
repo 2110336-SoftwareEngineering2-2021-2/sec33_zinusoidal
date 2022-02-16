@@ -32,6 +32,7 @@ const ProviderServiceType = ({ service, setService }: any) => {
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
+  const [duplicatError, setDuplicatError] = useState(false);
 
   const addServiceToList = (newService: any) => {
     console.log(newService);
@@ -39,8 +40,11 @@ const ProviderServiceType = ({ service, setService }: any) => {
       if (
         s.fortuneType == "" ||
         s.price == 0 ||
-        (s.fortuneType == newService.fortuneType && s.price == newService.price)
+        s.fortuneType == newService.fortuneType
       ) {
+        setDuplicatError(true);
+        setServiceName("");
+        setServicePrice(0);
         return;
       }
     }
@@ -98,6 +102,8 @@ const ProviderServiceType = ({ service, setService }: any) => {
                   placeholder="Service's name"
                   value={serviceName}
                   onChange={(e) => {
+                    setDuplicatError(false);
+
                     setServiceName(e.target.value);
                   }}
                 />
@@ -110,6 +116,8 @@ const ProviderServiceType = ({ service, setService }: any) => {
                     placeholder="0"
                     value={servicePrice == 0 ? "" : servicePrice}
                     onChange={(e) => {
+                      setDuplicatError(false);
+
                       setServicePrice(Number(e.target.value));
                     }}
                   />
@@ -174,7 +182,10 @@ const ProviderServiceType = ({ service, setService }: any) => {
                     type="text"
                     placeholder="search"
                     onClick={() => setServiceDropDownOpen(true)}
-                    onChange={(e) => setServiceName(e.target.value)}
+                    onChange={(e) => {
+                      setServiceName(e.target.value);
+                      setDuplicatError(false);
+                    }}
                   ></ServiceInput>
                 </SearchServiceDiv>
                 {serviceDropDownOpen ? (
@@ -194,6 +205,8 @@ const ProviderServiceType = ({ service, setService }: any) => {
                   placeholder="0"
                   value={servicePrice == 0 ? "" : servicePrice}
                   onChange={(e) => {
+                    setDuplicatError(false);
+
                     setServicePrice(Number(e.target.value));
                   }}
                 />
@@ -225,6 +238,9 @@ const ProviderServiceType = ({ service, setService }: any) => {
       </FirstLayout>
       <SecondLayout>
         <Myservice>My service</Myservice>
+        {duplicatError ? (
+          <Error>You can't select duplicate service!</Error>
+        ) : null}
         <Services>
           {service.map((s: any) => (
             <MyServiceDiv>
@@ -278,7 +294,13 @@ const Padding = styled.div`
 `;
 const Services = styled.div`
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
+`;
+const Error = styled.p`
+  font-size: 16px;
+  margin-left: 16px;
+  font-weight: bold;
+  color: ${COLOR["magenta/400"]};
 `;
 
 const ProviderRegistration = styled.div`

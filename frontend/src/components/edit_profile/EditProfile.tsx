@@ -106,8 +106,9 @@ const EditProfile = () => {
         responseInput.Surname = response.data.lastName;
         responseInput.Username = response.data.username;
         responseInput.Biography = response.data.biography;
+
         setUserInput(responseInput);
-        setGetProfilePicUrl(response.data.profilePic);
+        setGetProfilePicUrl(response.data.profilePicUrl);
         setProfilePicUrl(null);
         setAvailableTime(response.data.workSchedule);
         setService(response.data.fortuneList);

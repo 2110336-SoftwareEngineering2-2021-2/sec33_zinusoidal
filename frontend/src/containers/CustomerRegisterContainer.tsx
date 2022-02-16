@@ -54,7 +54,9 @@ const CustomerRegisterContainer = ({
 
 const Layout = styled.div`
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+
   p {
     margin-left: initial;
   }
