@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import Service from "./Service";
-
-const SERVICELIST = [
-  "All",
-  "Taro",
-  "ไพ่ยิปซี",
-  "ไพ่",
-  "Dropdown Item #4",
-  "Dropdown Item #5",
-  "Dropdown Item #6",
-];
+import axios from "axios";
+// const SERVICELIST = [
+//   "All",
+//   "Taro",
+//   "ไพ่ยิปซี",
+//   "ไพ่",
+//   "Dropdown Item #4",
+//   "Dropdown Item #5",
+//   "Dropdown Item #6",
+// ];
 interface SearchDropDownType {
   serviceList: string[];
   handleServiceList: Function;
@@ -21,6 +21,26 @@ const SearchDropdown = ({
   handleServiceList,
 }: SearchDropDownType) => {
   const [searchWord, setSearchWord] = useState("");
+
+  const [SERVICELIST, setSERVICELIST] = useState([]);
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/all_services",
+      data: {},
+    })
+      .then(function (response) {
+        let listSer: any = [...response.data.services];
+        listSer.splice(0, 0, "All");
+
+        setSERVICELIST(listSer);
+        console.log("List", SERVICELIST);
+      })
+      .catch(function (error) {
+        // console.log(error.response.data.message);
+        console.log("error");
+      });
+  }, []);
   return (
     <Layout>
       <SearchInput>
@@ -35,7 +55,7 @@ const SearchDropdown = ({
         />
       </SearchInput>
       {SERVICELIST.map(
-        (item, index) =>
+        (item: any, index: number) =>
           item.toLowerCase().includes(searchWord.toLowerCase()) && (
             <Service
               service={item}

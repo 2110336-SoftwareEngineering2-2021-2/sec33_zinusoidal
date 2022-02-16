@@ -15,6 +15,7 @@
 ::-webkit-scrollbar-thumb {
   /* display: none; */
   background-color: var(--scrollColor);
+  border-radius: 5px;
 }
 
 /* ::-webkit-scrollbar {
@@ -33,5 +34,6 @@ body {
 
 *::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
   background-color: white;
 }

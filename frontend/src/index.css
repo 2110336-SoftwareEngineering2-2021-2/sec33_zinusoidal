@@ -21,6 +21,13 @@ img {
   user-drag: none;
 }
 
+.nonedrag {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  user-drag: none;
+}
+
 .ratings {
   position: relative;
   vertical-align: middle;

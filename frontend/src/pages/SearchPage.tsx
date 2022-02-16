@@ -41,7 +41,7 @@ const SearchPage = () => {
   const [range, setRange] = useState(null);
   const [rating, setRating] = useState(null);
 
-  console.log("SEARCHRESULT", SEARCHRESULT);
+  // console.log("SEARCHRESULT", SEARCHRESULT);
 
   const searchRequestHandler = async () => {
     setSelectedPerson(null);
@@ -76,7 +76,9 @@ const SearchPage = () => {
       data = { ...data, minPrice: 1000, maxPrice: 1000000 };
     }
 
-    console.log("data", data);
+    data = { ...data, keyword: searchWord };
+
+    // console.log("data", data);
 
     await axios({
       method: "post",
@@ -87,6 +89,7 @@ const SearchPage = () => {
         if (!pressed) setPressed(true);
 
         setSEARCHRESULT(response.data);
+        console.log("success");
       })
       .catch(function (error) {
         console.log("error");
