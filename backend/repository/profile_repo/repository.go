@@ -208,10 +208,10 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		}
 		fortuneList = fortuneList[:len(fortuneList)-1] + `)`
 		query = `SELECT P.id FROM provider P LEFT JOIN fortune_user U ON P.id = U.id WHERE P.rating >= ? AND P.rating <= ? AND (  
-				P.first_name LIKE ` + Keyword + ` OR
-				P.last_name LIKE ` + Keyword + ` OR
-				P.biography LIKE ` + Keyword + ` OR
-				U.username LIKE ` + Keyword + `
+				P.first_name LIKE '` + Keyword + `' OR
+				P.last_name LIKE '` + Keyword + `' OR
+				P.biography LIKE '` + Keyword + `' OR
+				U.username LIKE '` + Keyword + `'
 			) AND EXISTS (
 				SELECT * FROM provider_service S WHERE S.provider_id = P.id AND S.fortune_type IN ` + fortuneList + ` AND S.price >= ? AND S.price <= ? 
 );`
@@ -219,10 +219,10 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 	} else {
 		query = `SELECT P.id FROM provider P LEFT JOIN fortune_user U ON P.id = U.id WHERE P.rating >= ? AND P.rating <= ? AND
 			(  
-				P.first_name LIKE ` + Keyword + ` OR
-				P.last_name LIKE ` + Keyword + ` OR
-				P.biography LIKE ` + Keyword + ` ORß
-				U.username LIKE ` + Keyword + `
+				P.first_name LIKE '` + Keyword + `' OR
+				P.last_name LIKE '` + Keyword + `' OR
+				P.biography LIKE '` + Keyword + `' OR
+				U.username LIKE '` + Keyword + `'
 			) AND
 			EXISTS (
 				SELECT *
