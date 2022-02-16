@@ -43,7 +43,7 @@ const ProviderRegister = () => {
 
     axios({
       method: "post",
-      url: "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_register",
+      url: "https://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com/api/fortune168/v1/provider_register",
       data: providerInput,
       headers: { "Content-type": "multipart/form-data" },
     })
