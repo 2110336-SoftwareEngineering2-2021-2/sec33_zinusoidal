@@ -15,5 +15,5 @@ type SearchResult struct {
 	lastName  string
 }
 type SearchDB struct {
-	Id string
+	Id string `gorm:"column:id"`
 }
