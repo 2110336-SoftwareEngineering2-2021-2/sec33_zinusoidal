@@ -24,7 +24,7 @@ const variants = {
     opacity: 1,
   },
   hidden: {
-    y: 300,
+    y: 250,
     opacity: 0,
   },
   hidden_2: {
