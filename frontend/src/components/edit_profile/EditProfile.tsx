@@ -10,6 +10,10 @@ import { BsSave2 } from "react-icons/bs";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+const bgImg = require("../../assets/edit.png");
+const bgImg2 = require("../../assets/edit2.png");
+const bgImg3 = require("../../assets/edit3.png");
+
 const cookies = new Cookies();
 //prettier-ignore
 const workTime = (availableTime: any) => {
@@ -37,7 +41,7 @@ const EditProfile = () => {
   const getProfile = () => {
     axios({
       method: "get",
-      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider/${user?.user_id}`,
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider/${user?.user_id}`,
       data: {},
     })
       .then(function (response) {
@@ -94,7 +98,7 @@ const EditProfile = () => {
     providerInput.append("schedule", JSON.stringify(workTime(availableTime)));
     axios({
       method: "patch",
-      url: `http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/provider_edit`,
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider_edit`,
       data: providerInput,
       headers: {
         "Content-type": "multipart/form-data",
@@ -217,6 +221,10 @@ const EditProfile = () => {
           />
         </SmallNavigate>
       </ButtonDiv>
+      <BGImg
+        src={current == 0 ? bgImg : current == 1 ? bgImg2 : bgImg3}
+        alt="yay"
+      />
     </Layout>
   );
 };
@@ -304,6 +312,17 @@ const Button = styled.button`
   column-gap: 5px;
   :hover {
     background-color: ${COLOR["violet/500"]} !important ;
+  }
+`;
+const BGImg = styled.img`
+  width: 293px;
+  height: 283px;
+  align-self: flex-end;
+  position: absolute;
+  top: 72%;
+  left: 70%;
+  @media screen and (max-width: 1300px) {
+    display: none;
   }
 `;
 export default EditProfile;

@@ -21,7 +21,7 @@ const LandingFooter = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      transition={{ duration: 3 }}
+      transition={{ duration: 1.5 }}
       variants={variants}
     >
       <h1>Wanna try this platform?</h1>

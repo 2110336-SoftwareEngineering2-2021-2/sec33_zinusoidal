@@ -198,7 +198,7 @@ func (db *GromDB) SearchProvider(searchRequest search.SearchRequest) ([]profile.
 		MaxRating = searchRequest.MaxRating
 	}
 
-	var Keyword string = "%" + searchRequest.Keyword + "%"
+	var Keyword string = "'%" + searchRequest.Keyword + "%'"
 
 	var query string
 	var fortuneList string = `(`

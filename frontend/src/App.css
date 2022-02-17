@@ -15,8 +15,12 @@
 ::-webkit-scrollbar-thumb {
   /* display: none; */
   background-color: var(--scrollColor);
+  border-radius: 5px;
 }
-
+::-webkit-scrollbar-track {
+  /* display: none; */
+  background-color: transparent;
+}
 /* ::-webkit-scrollbar {
   width: 0 !important;
 } */
@@ -33,5 +37,6 @@ body {
 
 *::-webkit-scrollbar {
   width: 5px;
-  background-color: white;
+  height: 5px;
+  background-color: transparent;
 }

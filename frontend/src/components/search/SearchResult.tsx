@@ -30,10 +30,7 @@ const SearchResult = ({ person, onClick, selected = false }: any) => {
       selected={selected}
     >
       <Image>
-        <img
-          src="http://images.summitmedia-digital.com/preview/images/2020/06/09/son-ye-jin-most-beautiful-woman-nm.jpg"
-          alt="profle"
-        />
+        <img src={person.profilePicUrl} alt="profle" />
       </Image>
 
       <Detail>
@@ -56,7 +53,9 @@ const SearchResult = ({ person, onClick, selected = false }: any) => {
         </Block>
         <Block>
           <p>
-            <strong>Price rate: </strong>
+            <strong>
+              Price rate: {person.minPrice}-{person.maxPrice} baht(per 30 min)
+            </strong>
             {priceRange}
           </p>
         </Block>

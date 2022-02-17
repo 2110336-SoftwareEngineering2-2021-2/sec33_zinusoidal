@@ -62,6 +62,8 @@ const Layout = styled.div`
   display: flex;
   max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 5px;
   cursor: grabbing;
   @media screen and (max-width: 1050px) {
     margin-top: 20px;
@@ -71,13 +73,14 @@ const Layout = styled.div`
 const ItemFrame = styled("div")<ItemFramePropType>`
   min-width: 121px;
   height: 168px;
-  background-color: ${(props) => ColorSelector(props.idx)};
+  background-color: ${(props) => ColorSelector(props.idx % 4)};
   margin-right: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 15px;
+  text-align: center;
 
   @media screen and (max-width: 1050px) {
     height: 129px;

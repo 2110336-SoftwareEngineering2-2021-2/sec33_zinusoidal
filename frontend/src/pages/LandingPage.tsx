@@ -8,25 +8,38 @@ import LandingFooter from "../components/landing/LandingFooter";
 import NumericDetail from "../components/landing/NumericDetail";
 import LandingFeatures from "../components/landing/LandingFeatures";
 import { COLOR } from "../CONSTANT";
+import Cookies from "universal-cookie";
+
 import { useNavigate } from "react-router-dom";
 const img1 = require("../assets/landingBg.png");
 const img2 = require("../assets/landingBg2_new.png");
 const img3 = require("../assets/landingBg3.png");
 const img1_small = require("../assets/landing1_small.png");
+const bubble = require("../assets/bubble.png");
 
+const cookies = new Cookies();
 const variants = {
   visible: {
     y: 0,
     opacity: 1,
   },
   hidden: {
-    y: 300,
+    y: 250,
     opacity: 0,
+  },
+  hidden_2: {
+    opacity: 0,
+  },
+  visible_2: {
+    opacity: 1,
   },
 };
 
 const LandingPage = () => {
   let navigate = useNavigate();
+  const user = cookies.get("user");
+  window.scrollTo(0, 0);
+
   return (
     <Layout>
       <LandingNav />
@@ -45,7 +58,12 @@ const LandingPage = () => {
           <h2>online matchmaking fortune teller platform</h2>
           <Button
             onClick={() => {
-              navigate("/login");
+              const user = cookies.get("user");
+              if (typeof user == "undefined") {
+                navigate("/login");
+              } else {
+                alert("You already logged in");
+              }
             }}
           >
             Join us
@@ -93,15 +111,19 @@ transaction transparantly"
 
       <LandingFeatures />
       <Content2
-        initial="hidden"
-        whileInView="visible"
+        initial={typeof user == "undefined" ? "hidden" : "hidden_2"}
+        whileInView={typeof user == "undefined" ? "visible" : "visible_2"}
         viewport={{ once: true }}
-        transition={{ duration: 1 }}
+        transition={
+          typeof user == "undefined" ? { duration: 1 } : { duration: 2 }
+        }
         variants={variants}
       >
-        <NumericDetail></NumericDetail>
+        <BubbleDiv>
+          <NumericDetail></NumericDetail>
+        </BubbleDiv>
       </Content2>
-      <LandingFooter />
+      {typeof user == "undefined" ? <LandingFooter /> : null}
     </Layout>
   );
 };
@@ -109,6 +131,7 @@ transaction transparantly"
 const Layout = styled.div`
   width: 100%;
   height: 100%;
+  /* margin-bottom: 200px; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -295,6 +318,28 @@ const LandingFeature = styled(motion.div)`
 
   @media screen and (max-width: 900px) {
     display: none;
+  }
+`;
+
+const BubbleDiv = styled("div")`
+  @media screen and (max-width: 900px) {
+    width: 550px;
+    height: 550px;
+    position: relative;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(${bubble});
+    background-size: 100% 80%;
+    background-repeat: no-repeat;
+  }
+
+  @media screen and (max-width: 550px) {
+    width: 350px;
+    height: 350px;
+    position: relative;
+    align-self: center;
   }
 `;
 

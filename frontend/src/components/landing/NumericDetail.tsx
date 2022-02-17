@@ -3,16 +3,39 @@ import styled from "styled-components";
 import CountUp from "react-countup";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import axios from "axios";
+import { motion } from "framer-motion";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
+const variants = {
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+  hidden: {
+    y: 300,
+    opacity: 0,
+  },
+  hidden_2: {
+    opacity: 0,
+  },
+  visible_2: {
+    opacity: 1,
+  },
+};
 const NumericDetail = () => {
   const [shownData, setShownData] = useState({
     totalCustomer: 6,
     totalProvider: 6,
     totalFortuneService: 8,
   });
+  const user = cookies.get("user");
+
   useEffect(() => {
     axios
       .get(
-        "http://ec2-13-229-67-156.ap-southeast-1.compute.amazonaws.com:1323/api/fortune168/v1/landing_page_info"
+        "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/landing_page_info"
       )
       .then((response) => {
         console.log(response.data);
@@ -23,7 +46,16 @@ const NumericDetail = () => {
       });
   }, []);
   return (
-    <Layout>
+    <Layout
+      className="nonedrag"
+      initial={typeof user == "undefined" ? "hidden" : "hidden_2"}
+      whileInView={typeof user == "undefined" ? "visible" : "visible_2"}
+      viewport={{ once: true }}
+      transition={
+        typeof user == "undefined" ? { duration: 1 } : { duration: 2 }
+      }
+      variants={variants}
+    >
       <NumberDiv>
         <StyledCountUp
           start={0}
@@ -58,7 +90,7 @@ const NumericDetail = () => {
   );
 };
 
-const Layout = styled.div`
+const Layout = styled(motion.div)`
   width: 40%;
   height: 60%;
   position: absolute;
@@ -78,7 +110,8 @@ const Layout = styled.div`
     align-self: center;
     background-color: #f8e4ec;
     border-radius: 8px;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
+    top: 0;
   }
 
   @media screen and (max-width: 550px) {

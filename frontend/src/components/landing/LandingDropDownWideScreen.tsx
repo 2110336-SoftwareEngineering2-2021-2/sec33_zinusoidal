@@ -11,6 +11,8 @@ const cookies = new Cookies();
 const LandingDropDownWideScreen = ({ setDropDown }: any) => {
   const navigate = useNavigate();
   const wrapperRef = useRef(null);
+
+  const user = cookies.get("user");
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
       function handleClickOutside(event: Event) {
@@ -37,12 +39,14 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
     >
-      <Link to="/editProfile" style={{ textDecoration: "none" }}>
-        <DropArrow />
-        <Item>
-          <RiPencilFill /> <p>Edit your profile</p>
-        </Item>
-      </Link>
+      {user.user_id.charAt(0) == "P" && (
+        <Link to="/editProfile" style={{ textDecoration: "none" }}>
+          <DropArrow />
+          <Item>
+            <RiPencilFill /> <p>Edit your profile</p>
+          </Item>
+        </Link>
+      )}
 
       <Item
         onClick={() => {
