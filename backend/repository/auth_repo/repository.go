@@ -104,3 +104,8 @@ func (db *GromDB) ConfirmEmail(key string) error {
 
 	return db.database.Exec(confirmEmailCommand, key).Error
 }
+
+func (db *GromDB) CheckPassword(userId, password string) error {
+
+	return nil
+}

@@ -39,6 +39,10 @@ type LoginRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
+type PasswordRequest struct {
+	Password string `json:"Password" binding:"required"`
+}
+
 type Logger struct {
 	Log string `json:"log"`
 }

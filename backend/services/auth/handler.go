@@ -139,3 +139,34 @@ func (h *Handler) TestHandler(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, req)
 }
+
+func (h *Handler) CheckPasswordHandler(c *gin.Context) {
+	var err error
+	token, err := jwt.VerifyToken(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "invalid jwt token",
+		})
+		return
+	}
+	user_id := token.UserID
+	var req PasswordRequest
+	if err = c.ShouldBind(&req); err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "invalid request",
+		})
+		return
+	}
+	err = h.service.PasswordCheck(req, user_id)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, &Logger{
+			Log: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, &Logger{
+		Log: "OK",
+	})
+
+}

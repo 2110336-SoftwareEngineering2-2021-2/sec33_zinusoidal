@@ -29,6 +29,7 @@ type Databaser interface {
 	Login(username, password string) (model.LoginQuery, error)
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
+	CheckPassword(userId, password string) error
 }
 
 func NewService(database Databaser, centralService services.Service) *Service {
@@ -179,4 +180,14 @@ func randomStringKey(numberOfDigits int) string {
 	}
 	key := b.String()
 	return key
+}
+
+func (s *Service) PasswordCheck(req PasswordRequest, userId string) error {
+
+	err := s.database.CheckPassword(userId, req.Password)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
