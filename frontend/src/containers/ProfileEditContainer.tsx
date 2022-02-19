@@ -6,12 +6,15 @@ import ProviderAvailableTime from "../components/provider_register/ProviderAvail
 import EditAvailableTime from "../components/edit_profile/EditAvailableTime";
 
 import { COLOR } from "../CONSTANT";
+import EditPassword from "../components/edit_profile/EditPassword";
+import EditPasswordComplete from "../components/edit_profile/EditPasswordConplete";
 interface SliderProp {
   idx: number;
 }
 
 interface ProfileEditContainer {}
 const ProfileEditContainer = ({
+  setCurrent,
   profilePicUrl,
   setProfilePicUrl,
   setGetProfilePicUrl,
@@ -28,6 +31,7 @@ const ProfileEditContainer = ({
     <Layout>
       <Slider idx={current}>
         <EditForm
+          setCurrent={setCurrent}
           profilePicUrl={profilePicUrl}
           setProfilePicUrl={setProfilePicUrl}
           userData={userData}
@@ -40,6 +44,8 @@ const ProfileEditContainer = ({
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}
         />
+        <EditPassword setCurrent={setCurrent} />
+        <EditPasswordComplete setCurrent={setCurrent} />
       </Slider>
     </Layout>
   );
@@ -55,7 +61,7 @@ const Layout = styled.div`
 `;
 
 const Slider = styled("div")<SliderProp>`
-  width: 300%;
+  width: 500%;
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;
