@@ -12,7 +12,9 @@ import EditProfilePage from "./pages/EditProfilePage";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
+import CalenderTest from "./pages/CalenderTest";
 import Cookies from "universal-cookie";
+
 const cookies = new Cookies();
 
 const App = () => {
@@ -40,6 +42,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/editProfile" element={<EditProfilePage />} />
+          <Route path="/calender" element={<CalenderTest />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
