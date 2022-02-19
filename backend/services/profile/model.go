@@ -55,3 +55,7 @@ type ProviderDB struct {
 	WorkSchedule  string  `gorm:"column:work_schedule" json:"schedule"`
 	Rating        float64 `gorm:"column:rating" json:"rating"`
 }
+
+type PasswordEditRequest struct {
+	NewPassword string `json:"NewPassword" binding:"required"`
+}

@@ -1,7 +1,10 @@
 package profile
 
 import (
+	"errors"
+
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Service struct {
@@ -13,6 +16,7 @@ type Databaser interface {
 	GetProviderByID(userID string) (ProviderProfile, error)
 	GetCustomerByID(userID string) (CustomerProfile, error)
 	EditProvider(string, ProviderEditRequest, string) (ProviderProfile, error)
+	EditPassword(string, string) error
 }
 
 func NewService(database Databaser, s services.Service) *Service {
@@ -57,4 +61,19 @@ func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (Provider
 	}
 
 	return provider, nil
+}
+
+func (s *Service) PasswordEdit(req PasswordEditRequest, userId string) error {
+
+	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return errors.New("hashed failed")
+	}
+	password := string(hash_password)
+
+	err = s.database.EditPassword(userId, password)
+	if err != nil {
+		return err
+	}
+	return nil
 }

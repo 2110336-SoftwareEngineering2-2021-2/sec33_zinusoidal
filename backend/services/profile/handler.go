@@ -88,3 +88,34 @@ func (h *Handler) EditProviderHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, provider)
 
 }
+
+func (h *Handler) EditPasswordHandler(c *gin.Context) {
+	var err error
+	token, err := jwt.VerifyToken(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "invalid jwt token",
+		})
+		return
+	}
+	user_id := token.UserID
+	var req PasswordEditRequest
+	if err = c.ShouldBind(&req); err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "invalid request",
+		})
+		return
+	}
+	err = h.service.PasswordEdit(req, user_id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, &Logger{
+			Log: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, &Logger{
+		Log: "Password Updated",
+	})
+
+}
