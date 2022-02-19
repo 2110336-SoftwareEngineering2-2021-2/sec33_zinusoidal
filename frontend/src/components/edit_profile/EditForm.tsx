@@ -7,6 +7,7 @@ import { AiOutlineUpload } from "react-icons/ai";
 const selectedImg = require("../../assets/zinusoidal.png");
 
 const EditForm = ({
+  setCurrent,
   userData,
   changeUserData,
   setGetProfilePicUrl,
@@ -95,49 +96,13 @@ const EditForm = ({
                 }}
               />
             </InputDiv>
-            <InputDiv>
-              <FormLabel>Password</FormLabel>
-              {seePassword ? (
-                <PasswordDiv>
-                  <Forminput
-                    disabled={true}
-                    type="text"
-                    onChange={(event) => {
-                      changeUserData({
-                        ...userData,
-                        Password: event.target.value,
-                      });
-                    }}
-                  />
-                  <RiEyeFill
-                    size={16}
-                    style={{ marginRight: 4 }}
-                    onMouseUpCapture={() => {
-                      setSeePassword(false);
-                    }}
-                  />
-                </PasswordDiv>
-              ) : (
-                <PasswordDiv>
-                  <Forminput
-                    type="password"
-                    onChange={(event) => {
-                      changeUserData({
-                        ...userData,
-                        Password: event.target.value,
-                      });
-                    }}
-                  />
-                  <RiEyeCloseLine
-                    size={16}
-                    style={{ marginRight: 4 }}
-                    onMouseDownCapture={() => {
-                      setSeePassword(true);
-                    }}
-                  />
-                </PasswordDiv>
-              )}{" "}
-            </InputDiv>
+            <ChangePButton
+              onClick={() => {
+                setCurrent(3);
+              }}
+            >
+              Change Password
+            </ChangePButton>
           </DoubleInput>
           <BioDiv>
             <div>
@@ -145,7 +110,6 @@ const EditForm = ({
             </div>
             <Biotext
               value={userData.Biography}
-              style={{ height: 140 }}
               onChange={(event) => {
                 changeUserData({
                   ...userData,
@@ -255,6 +219,7 @@ const BioDiv = styled.div`
   row-gap: 5px;
 `;
 const Biotext = styled.textarea`
+  height: 240px;
   padding: 5px;
   font-size: 16px;
   font-weight: bold;
@@ -266,7 +231,6 @@ const Biotext = styled.textarea`
 `;
 const Button = styled.button`
   width: 97px;
-
   padding: 5px;
   border: none;
   color: white;
@@ -278,6 +242,25 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   column-gap: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${COLOR["violet/500"]};
+  }
+`;
+
+const ChangePButton = styled.div`
+  align-self: flex-end;
+  height: 32px;
+  width: 200px;
+  border: none;
+  color: white;
+  background-color: ${COLOR["violet/400"]};
+  text-decoration: none;
+  border-radius: 10000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
   cursor: pointer;
   &:hover {
     background-color: ${COLOR["violet/500"]};

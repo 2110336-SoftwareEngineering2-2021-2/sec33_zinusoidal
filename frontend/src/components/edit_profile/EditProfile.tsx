@@ -146,7 +146,11 @@ const EditProfile = () => {
         <ArrowDiv>
           <MdOutlineNavigateBefore
             style={{ cursor: "pointer" }}
-            visibility={current == 0 ? "hidden" : "visible"}
+            visibility={
+              current == 0 || current == 3 || current == 4
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={100}
             onClick={() => {
@@ -162,6 +166,7 @@ const EditProfile = () => {
           </Header>
           <Form>
             <ProfileEditContainer
+              setCurrent={setCurrent}
               profilePicUrl={profilePicUrl}
               setProfilePicUrl={setProfilePicUrl}
               getProfilePicUrl={getProfilePicUrl}
@@ -179,7 +184,11 @@ const EditProfile = () => {
         <ArrowDiv>
           <MdOutlineNavigateNext
             style={{ cursor: "pointer" }}
-            visibility={current == 2 ? "hidden" : "visible"}
+            visibility={
+              current == 2 || current == 3 || current == 4
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={100}
             onClick={() => {
@@ -192,7 +201,11 @@ const EditProfile = () => {
         <SmallNavigate>
           <MdOutlineNavigateBefore
             style={{ cursor: "pointer" }}
-            visibility={current == 0 ? "hidden" : "visible"}
+            visibility={
+              current == 0 || current == 3 || current == 4
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={50}
             onClick={() => {
@@ -204,6 +217,9 @@ const EditProfile = () => {
           onClick={() => {
             updateProfile();
           }}
+          style={{
+            visibility: current == 3 || current == 4 ? "hidden" : "visible",
+          }}
         >
           {" "}
           Save
@@ -212,7 +228,11 @@ const EditProfile = () => {
         <SmallNavigate>
           <MdOutlineNavigateNext
             style={{ cursor: "pointer" }}
-            visibility={current == 2 ? "hidden" : "visible"}
+            visibility={
+              current == 2 || current == 3 || current == 4
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={50}
             onClick={() => {
@@ -222,7 +242,13 @@ const EditProfile = () => {
         </SmallNavigate>
       </ButtonDiv>
       <BGImg
-        src={current == 0 ? bgImg : current == 1 ? bgImg2 : bgImg3}
+        src={
+          current == 0 || current == 3 || current == 4
+            ? bgImg
+            : current == 1
+            ? bgImg2
+            : bgImg3
+        }
         alt="yay"
       />
     </Layout>
