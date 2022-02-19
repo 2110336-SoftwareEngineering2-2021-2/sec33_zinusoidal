@@ -177,8 +177,9 @@ const DoubleInput = styled.div`
   width: 100%;
   display: flex;
   column-gap: 15px;
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 450px) {
     flex-direction: column;
+    justify-content: center;
   }
 `;
 
@@ -264,6 +265,11 @@ const ChangePButton = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${COLOR["violet/500"]};
+  }
+  @media screen and (max-width: 450px) {
+    margin-top: 10px;
+    width: 150px;
+    align-self: center;
   }
 `;
 

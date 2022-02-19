@@ -298,6 +298,10 @@ const InputDiv = styled.div`
   display: flex;
   column-gap: 10px;
   align-items: center;
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+    align-items: flex-start;
+  } ;
 `;
 const FormLabel = styled.p`
   display: inline;

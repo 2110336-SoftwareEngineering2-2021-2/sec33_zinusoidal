@@ -22,7 +22,9 @@ const EditPasswordComplete = ({ setCurrent }: any) => {
           <div style={{ fontSize: 20, fontWeight: "bold" }}>
             Password Updated!
           </div>
-          <div style={{ fontSize: 16, fontWeight: "normal" }}>
+          <div
+            style={{ fontSize: 16, fontWeight: "normal", textAlign: "center" }}
+          >
             Your Password has been change successfully.{" "}
           </div>
         </ContentDiv>
