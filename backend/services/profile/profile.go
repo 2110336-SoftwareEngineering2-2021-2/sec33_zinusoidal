@@ -68,10 +68,10 @@ func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (Provider
 
 func (s *Service) PasswordEdit(req PasswordEditRequest, userId string) error {
 
-	pwErr := s.authService.CheckPassword(userId, req.OldPassword)
+	pwErr := s.authService.CheckPassword(userId, req.OldPassword, req.NewPassword)
 
 	if pwErr != nil {
-		return errors.New("Wrong password")
+		return pwErr
 	}
 
 	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)

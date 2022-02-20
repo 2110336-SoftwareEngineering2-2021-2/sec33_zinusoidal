@@ -1,6 +1,8 @@
 package auth_repo
 
 import (
+	"errors"
+
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
@@ -105,11 +107,15 @@ func (db *GromDB) ConfirmEmail(key string) error {
 	return db.database.Exec(confirmEmailCommand, key).Error
 }
 
-func (db *GromDB) CheckPassword(userID, password string) error {
+func (db *GromDB) CheckPassword(userID, oldPassword, newPassword string) error {
 	var err error
-	err = bcrypt.CompareHashAndPassword([]byte("wait for db"), []byte(password))
+	err = bcrypt.CompareHashAndPassword([]byte("wait db"), []byte(oldPassword))
 	if err != nil {
-		return err
+		return errors.New("wrong Password")
+	}
+	err = bcrypt.CompareHashAndPassword([]byte("wait db"), []byte(newPassword))
+	if err == nil {
+		return errors.New("New password is the same as current password")
 	}
 	return nil
 }
