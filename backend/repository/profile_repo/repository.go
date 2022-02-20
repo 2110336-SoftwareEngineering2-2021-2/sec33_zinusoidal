@@ -286,5 +286,6 @@ func (db *GromDB) GetLandingPageInfo() (*model.LandingPageInfo, error) {
 }
 
 func (db *GromDB) EditPassword(userID, NewPassword string) error {
+	fmt.Println(userID, NewPassword)
 	return nil
 }

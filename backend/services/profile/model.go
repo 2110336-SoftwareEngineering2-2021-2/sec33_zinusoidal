@@ -57,5 +57,6 @@ type ProviderDB struct {
 }
 
 type PasswordEditRequest struct {
-	NewPassword string `json:"NewPassword" binding:"required"`
+	NewPassword string `json:"newPassword" binding:"required"`
+	OldPassword string `json:"oldPassword" binding:"required"`
 }

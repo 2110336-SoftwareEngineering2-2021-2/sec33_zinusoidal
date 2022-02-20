@@ -152,6 +152,17 @@ func (s *Service) ConfirmEmail(key string) error {
 	return err
 }
 
+func (s *Service) CheckPassword(userId, password string) error {
+
+	var err error
+
+	err = s.database.CheckPassword(userId, password)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func sendEmailConfirmationLink(email, key string) error {
 
 	sender := viper.GetString("email.email")
@@ -180,14 +191,4 @@ func randomStringKey(numberOfDigits int) string {
 	}
 	key := b.String()
 	return key
-}
-
-func (s *Service) PasswordCheck(req PasswordRequest, userId string) error {
-
-	err := s.database.CheckPassword(userId, req.Password)
-	if err != nil {
-		return err
-	}
-	return nil
-
 }

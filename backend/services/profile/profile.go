@@ -4,12 +4,14 @@ import (
 	"errors"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Service struct {
 	database       Databaser
 	centralService services.Service
+	authService    auth.Service
 }
 
 type Databaser interface {
@@ -19,10 +21,11 @@ type Databaser interface {
 	EditPassword(string, string) error
 }
 
-func NewService(database Databaser, s services.Service) *Service {
+func NewService(database Databaser, s services.Service, a auth.Service) *Service {
 	return &Service{
 		database:       database,
 		centralService: s,
+		authService:    a,
 	}
 }
 
@@ -64,6 +67,12 @@ func (s *Service) ProviderEdit(req ProviderEditRequest, userId string) (Provider
 }
 
 func (s *Service) PasswordEdit(req PasswordEditRequest, userId string) error {
+
+	pwErr := s.authService.CheckPassword(userId, req.OldPassword)
+
+	if pwErr != nil {
+		return errors.New("Wrong password")
+	}
 
 	hash_password, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
 	if err != nil {

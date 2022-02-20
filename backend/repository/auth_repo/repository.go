@@ -105,7 +105,11 @@ func (db *GromDB) ConfirmEmail(key string) error {
 	return db.database.Exec(confirmEmailCommand, key).Error
 }
 
-func (db *GromDB) CheckPassword(userId, password string) error {
-
+func (db *GromDB) CheckPassword(userID, password string) error {
+	var err error
+	err = bcrypt.CompareHashAndPassword([]byte("wait for db"), []byte(password))
+	if err != nil {
+		return err
+	}
 	return nil
 }

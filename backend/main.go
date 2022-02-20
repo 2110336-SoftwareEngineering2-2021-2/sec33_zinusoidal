@@ -53,7 +53,6 @@ func main() {
 		v1fortune.POST("/provider_register", auth_handler.ProviderRegisterHandler)
 		v1fortune.POST("/login", auth_handler.LoginHandler)
 		v1fortune.POST("/confirm_email/:key", auth_handler.ActivateEmailHandler)
-		v1fortune.POST("/check_password", auth_handler.CheckPasswordHandler)
 	}
 	v1fortune.POST("/test", auth_handler.TestHandler)
 
@@ -64,7 +63,7 @@ func main() {
 		v1fortune.GET("/landing_page_info", search_handler.GetLandingPageInfoHandler)
 	}
 
-	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess)))
+	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess))))
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)

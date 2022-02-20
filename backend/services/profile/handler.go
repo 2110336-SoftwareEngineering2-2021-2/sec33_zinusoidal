@@ -100,6 +100,7 @@ func (h *Handler) EditPasswordHandler(c *gin.Context) {
 	}
 	user_id := token.UserID
 	var req PasswordEditRequest
+
 	if err = c.ShouldBind(&req); err != nil {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "invalid request",
