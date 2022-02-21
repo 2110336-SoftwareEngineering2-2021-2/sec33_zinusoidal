@@ -7,7 +7,6 @@ import axios from "axios";
 
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
-import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 const bgImg = require("../../assets/edit.png");

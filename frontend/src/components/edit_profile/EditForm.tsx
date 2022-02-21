@@ -4,20 +4,15 @@ import { COLOR } from "../../CONSTANT";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 import { AiOutlineUpload } from "react-icons/ai";
 
-const selectedImg = require("../../assets/zinusoidal.png");
-
 const EditForm = ({
   setCurrent,
   userData,
   changeUserData,
-  setGetProfilePicUrl,
   getProfilePicUrl,
   profilePicUrl,
   setProfilePicUrl,
 }: any) => {
   console.log(userData.Name);
-  const [selectedImage, setSelectedImage] = useState(selectedImg);
-  const [seePassword, setSeePassword] = useState(false);
 
   const imageInput = useRef();
   const imageChange = (e: any) => {

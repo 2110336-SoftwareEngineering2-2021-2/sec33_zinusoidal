@@ -4,10 +4,9 @@ import { COLOR } from "../../CONSTANT";
 import { MdOutlineArrowBack } from "react-icons/md";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 import { FiCheckSquare } from "react-icons/fi";
+import axios from "axios";
 
 const EditPassword = ({ setCurrent }: any) => {
-  const [getPassword, setGetPassword] = useState("");
-
   const [oldPassword, setOldPassword] = useState("");
   const [seeOPassword, setSeeOPassword] = useState(false);
 
@@ -19,15 +18,34 @@ const EditPassword = ({ setCurrent }: any) => {
 
   const [passwordError, setPasswordError] = useState(false);
   const [blankPasswordError, setBlankPasswordError] = useState(false);
+  const [wrongOldPasswordError, setWrongOldPasswordError] = useState(false);
+  const [sameOldPasswordError, setSameOldPasswordError] = useState(false);
 
-  const getOldPassword = () => {
-    console.log("WAIT FOR FCKING API");
-  };
-  useEffect(() => {
-    getOldPassword();
-  }, []);
   const updatePassword = () => {
     console.log("WAIT FOR FCKING API");
+    axios({
+      method: "post",
+      url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/password_edit",
+      data: {
+        newPassword: newPassword,
+        oldPassword: oldPassword,
+      },
+    })
+      .then(function (response) {
+        setOldPassword("");
+        setNewPassword("");
+        setNewCPassword("");
+        setCurrent(4);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.log);
+        if (error.response.data.log.includes("wrong")) {
+          setWrongOldPasswordError(true);
+        }
+        if (error.response.data.log.includes("same")) {
+          setSameOldPasswordError(true);
+        }
+      });
   };
   return (
     <Layout>
@@ -94,21 +112,9 @@ const EditPassword = ({ setCurrent }: any) => {
                 <Star>*</Star>
               </div>
               {seeNPassword ? (
-                <PasswordDiv
-                  style={{
-                    backgroundColor:
-                      oldPassword == getPassword ? "white" : COLOR["gray/400"],
-                  }}
-                >
+                <PasswordDiv>
                   <Forminput
-                    style={{
-                      backgroundColor:
-                        oldPassword == getPassword
-                          ? "white"
-                          : COLOR["gray/400"],
-                    }}
                     value={newPassword}
-                    disabled={oldPassword == getPassword ? false : true}
                     type="text"
                     onChange={(event) => {
                       setNewPassword(event.target.value);
@@ -125,21 +131,9 @@ const EditPassword = ({ setCurrent }: any) => {
                   />
                 </PasswordDiv>
               ) : (
-                <PasswordDiv
-                  style={{
-                    backgroundColor:
-                      oldPassword == getPassword ? "white" : COLOR["gray/400"],
-                  }}
-                >
+                <PasswordDiv>
                   <Forminput
-                    style={{
-                      backgroundColor:
-                        oldPassword == getPassword
-                          ? "white"
-                          : COLOR["gray/400"],
-                    }}
                     value={newPassword}
-                    disabled={oldPassword == getPassword ? false : true}
                     type="password"
                     onChange={(event) => {
                       setNewPassword(event.target.value);
@@ -163,21 +157,9 @@ const EditPassword = ({ setCurrent }: any) => {
                 <Star>*</Star>
               </div>
               {seeNewCPassword ? (
-                <PasswordDiv
-                  style={{
-                    backgroundColor:
-                      oldPassword == getPassword ? "white" : COLOR["gray/400"],
-                  }}
-                >
+                <PasswordDiv>
                   <Forminput
                     value={newCPassword}
-                    style={{
-                      backgroundColor:
-                        oldPassword == getPassword
-                          ? "white"
-                          : COLOR["gray/400"],
-                    }}
-                    disabled={oldPassword == getPassword ? false : true}
                     type="text"
                     onChange={(event) => {
                       setNewCPassword(event.target.value);
@@ -194,21 +176,9 @@ const EditPassword = ({ setCurrent }: any) => {
                   />
                 </PasswordDiv>
               ) : (
-                <PasswordDiv
-                  style={{
-                    backgroundColor:
-                      oldPassword == getPassword ? "white" : COLOR["gray/400"],
-                  }}
-                >
+                <PasswordDiv>
                   <Forminput
                     value={newCPassword}
-                    style={{
-                      backgroundColor:
-                        oldPassword == getPassword
-                          ? "white"
-                          : COLOR["gray/400"],
-                    }}
-                    disabled={oldPassword == getPassword ? false : true}
                     type="password"
                     onChange={(event) => {
                       setNewCPassword(event.target.value);
@@ -230,6 +200,12 @@ const EditPassword = ({ setCurrent }: any) => {
             {blankPasswordError ? (
               <Error>Password can't be blank!</Error>
             ) : null}
+            {sameOldPasswordError ? (
+              <Error>New password cannot be the same as old password!</Error>
+            ) : null}
+            {wrongOldPasswordError ? (
+              <Error>Old password is wrong!</Error>
+            ) : null}
           </PDiv>
           <Button
             onClick={() => {
@@ -238,11 +214,7 @@ const EditPassword = ({ setCurrent }: any) => {
               } else if (newPassword != newCPassword) {
                 setPasswordError(true);
               } else {
-                setOldPassword("");
-                setNewPassword("");
-                setNewCPassword("");
                 updatePassword();
-                setCurrent(4);
               }
             }}
           >
@@ -345,6 +317,7 @@ const PasswordDiv = styled.div`
 const Error = styled.p`
   color: ${COLOR["magenta/500"]};
   align-self: center;
+  text-align: center;
 `;
 const Button = styled.button`
   cursor: pointer;

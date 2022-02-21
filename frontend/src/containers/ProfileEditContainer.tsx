@@ -2,12 +2,11 @@ import React, { ReactElement, ReactPropTypes, useState } from "react";
 import styled from "styled-components";
 import EditForm from "../components/edit_profile/EditForm";
 import EditServiceType from "../components/edit_profile/EditServiceType";
-import ProviderAvailableTime from "../components/provider_register/ProviderAvailableTime";
 import EditAvailableTime from "../components/edit_profile/EditAvailableTime";
 
 import { COLOR } from "../CONSTANT";
 import EditPassword from "../components/edit_profile/EditPassword";
-import EditPasswordComplete from "../components/edit_profile/EditPasswordConplete";
+import EditPasswordComplete from "../components/edit_profile/EditPasswordComplete";
 interface SliderProp {
   idx: number;
 }
