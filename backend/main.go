@@ -63,11 +63,12 @@ func main() {
 		v1fortune.GET("/landing_page_info", search_handler.GetLandingPageInfoHandler)
 	}
 
-	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess)))
+	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess))))
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
 		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
+		v1fortune.PATCH("/password_edit", profile_handler.EditPasswordHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))

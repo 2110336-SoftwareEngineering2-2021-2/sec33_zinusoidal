@@ -29,6 +29,7 @@ type Databaser interface {
 	Login(username, password string) (model.LoginQuery, error)
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
+	CheckPassword(userId, oldPassword, newPassword string) error
 }
 
 func NewService(database Databaser, centralService services.Service) *Service {
@@ -149,6 +150,17 @@ func (s *Service) Login(req LoginRequest) (model.LoginQuery, error) {
 func (s *Service) ConfirmEmail(key string) error {
 	err := s.database.ConfirmEmail(key)
 	return err
+}
+
+func (s *Service) CheckPassword(userId, oldPassword, newPassword string) error {
+
+	var err error
+
+	err = s.database.CheckPassword(userId, oldPassword, newPassword)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func sendEmailConfirmationLink(email, key string) error {
