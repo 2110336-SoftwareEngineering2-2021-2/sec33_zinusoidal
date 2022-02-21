@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import CalenderHeader from "./CalenderHeader";
+import CalenderHeader from "./CalendarHeader";
 import { YEARCOLLECTION } from "../../CONSTANT";
 import DayBar from "./DayBar";
 type DatePropType = {
