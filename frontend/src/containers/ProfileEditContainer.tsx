@@ -2,12 +2,13 @@ import React, { ReactElement, ReactPropTypes, useState } from "react";
 import styled from "styled-components";
 import EditForm from "../components/edit_profile/EditForm";
 import EditServiceType from "../components/edit_profile/EditServiceType";
-import ProviderAvailableTime from "../components/provider_register/ProviderAvailableTime";
 import EditAvailableTime from "../components/edit_profile/EditAvailableTime";
 
 import { COLOR } from "../CONSTANT";
 import EditPassword from "../components/edit_profile/EditPassword";
-import EditPasswordComplete from "../components/edit_profile/EditPasswordConplete";
+import EditPasswordComplete from "../components/edit_profile/EditPasswordComplete";
+import DeleteAccount from "../components/edit_profile/DeleteAccount";
+import DeleteComplete from "../components/edit_profile/DeleteComplete";
 interface SliderProp {
   idx: number;
 }
@@ -46,6 +47,8 @@ const ProfileEditContainer = ({
         />
         <EditPassword setCurrent={setCurrent} />
         <EditPasswordComplete setCurrent={setCurrent} />
+        <DeleteAccount setCurrent={setCurrent} userData={userData} />
+        <DeleteComplete />
       </Slider>
     </Layout>
   );
@@ -61,7 +64,7 @@ const Layout = styled.div`
 `;
 
 const Slider = styled("div")<SliderProp>`
-  width: 500%;
+  width: 700%;
   transform: ${(props) => `translateX(-${535 * props.idx}px)`};
   display: flex;
   flex-direction: row;

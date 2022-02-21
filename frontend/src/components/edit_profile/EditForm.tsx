@@ -4,20 +4,15 @@ import { COLOR } from "../../CONSTANT";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 import { AiOutlineUpload } from "react-icons/ai";
 
-const selectedImg = require("../../assets/zinusoidal.png");
-
 const EditForm = ({
   setCurrent,
   userData,
   changeUserData,
-  setGetProfilePicUrl,
   getProfilePicUrl,
   profilePicUrl,
   setProfilePicUrl,
 }: any) => {
   console.log(userData.Name);
-  const [selectedImage, setSelectedImage] = useState(selectedImg);
-  const [seePassword, setSeePassword] = useState(false);
 
   const imageInput = useRef();
   const imageChange = (e: any) => {
@@ -118,6 +113,13 @@ const EditForm = ({
               }}
             />
           </BioDiv>
+          <DeleteText
+            onClick={() => {
+              setCurrent(5);
+            }}
+          >
+            Delete Account?
+          </DeleteText>
         </Form>
       </Padding>
     </Layout>
@@ -271,6 +273,12 @@ const ChangePButton = styled.div`
     width: 150px;
     align-self: center;
   }
+`;
+
+const DeleteText = styled.p`
+  cursor: pointer;
+  color: ${COLOR["gray/500"]};
+  text-decoration: underline;
 `;
 
 export default EditForm;
