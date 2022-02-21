@@ -1,17 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { COLOR } from "../../CONSTANT";
 import CalenderHeader from "./CalenderHeader";
+import { YEARCOLLECTION } from "../../CONSTANT";
 import DayBar from "./DayBar";
 type DatePropType = {
   inMonth: boolean;
+  selected: boolean;
 };
 
 const lastDay = [31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30];
-const Calender = ({ CALENDERDATA, month }: any) => {
+const Calender = ({ day, setDay }: any) => {
+  const [selectedDate, setSelectedDate] = useState({
+    month: 0,
+    year: 2022,
+  });
+
+  useEffect(() => {
+    const TODAY = new Date();
+
+    setSelectedDate({
+      month: TODAY.getMonth(),
+      year: TODAY.getFullYear(),
+    });
+  }, []);
+
+  const CALENDERDATA =
+    YEARCOLLECTION[selectedDate.year - 2022][selectedDate.month].li;
   let pre = [];
   let post = [];
   const idx = CALENDERDATA[0].idx;
-  const last = lastDay[month];
+  const last = lastDay[selectedDate.month];
   for (let k = last - (idx - 1); k <= last; k++) {
     pre.push({ date: k, idx: -1 });
   }
@@ -22,16 +41,45 @@ const Calender = ({ CALENDERDATA, month }: any) => {
   }
   const jj = j.concat(post);
 
-  console.log(j);
   return (
     <Layout>
-      <CalenderHeader month={month} />
+      <CalenderHeader
+        month={selectedDate.month}
+        setSelectedDate={setSelectedDate}
+        selectedDate={selectedDate}
+      />
       <DayBar />
       <CalenderContainer>
         {jj.map((item, index) => (
-          <Date key={index} inMonth={item.idx != -1}>
+          <DateSlot
+            key={index}
+            inMonth={item.idx != -1}
+            selected={
+              day.date == item.date &&
+              day.month == selectedDate.month &&
+              day.year == selectedDate.year &&
+              item.idx != -1
+            }
+            style={{
+              backgroundColor:
+                day.date == item.date &&
+                selectedDate.month == day.month &&
+                day.year == selectedDate.year &&
+                item.idx != -1
+                  ? COLOR["gray/800"]
+                  : "white",
+            }}
+            onClick={() => {
+              if (item.idx == -1) return;
+              setDay({
+                date: item.date,
+                month: selectedDate.month,
+                year: selectedDate.year,
+              });
+            }}
+          >
             <p>{item.date}</p>
-          </Date>
+          </DateSlot>
         ))}
       </CalenderContainer>
     </Layout>
@@ -40,20 +88,31 @@ const Calender = ({ CALENDERDATA, month }: any) => {
 
 const Layout = styled.div`
   background-color: white;
-  border: 1px solid black;
+  width: 516px;
+  padding: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  user-select: none;
 `;
 
 const CalenderContainer = styled.div`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   /* background-color: blue; */
 `;
 
-const Date = styled("div")<DatePropType>`
+const DateSlot = styled("div")<DatePropType>`
+  height: 60px;
+  /* border: 1px solid black; */
+  padding: 5px;
+  cursor: pointer;
   p {
-    color: ${(props) => (props.inMonth ? "black" : "grey")};
-    text-align: center;
+    color: ${(props) =>
+      props.inMonth ? (props.selected ? "white" : "black") : COLOR["gray/400"]};
+    text-align: left;
+    font-size: 16px;
+    line-height: 25px;
+    font-weight: bold;
   }
 `;
 

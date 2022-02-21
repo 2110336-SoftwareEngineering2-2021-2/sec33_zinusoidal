@@ -1,25 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Calender from "../components/calender/Calender";
-import { YEAR_2022 } from "../CONSTANT";
+import { COLOR } from "../CONSTANT";
+import { YEARCOLLECTION } from "../CONSTANT";
+
 const CalenderTest = () => {
+  const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
+
+  useEffect(() => {
+    const TODAY = new Date();
+
+    setDay({
+      date: TODAY.getDate(),
+      month: TODAY.getMonth(),
+      year: TODAY.getFullYear(),
+    });
+  }, []);
   return (
     <>
-      CalenderTest
       <Layout>
-        {YEAR_2022.map((month, index) => (
-          <Calender key={index} CALENDERDATA={month.dayList} month={index} />
-        ))}
+        <Calender day={day} setDay={setDay} />
       </Layout>
     </>
   );
 };
 
 const Layout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  background-color: blue;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${COLOR["magenta/100"]};
 `;
 
 export default CalenderTest;
