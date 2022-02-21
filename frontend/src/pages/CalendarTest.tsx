@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Calender from "../components/calender/Calender";
+import Calendar from "../components/calendar/Calendar";
 import { COLOR } from "../CONSTANT";
+import Schedule from "../components/schedule/Schedule";
+import LandingNav from "../components/landing/LandingNav";
 import { YEARCOLLECTION } from "../CONSTANT";
 
 const CalenderTest = () => {
@@ -17,17 +19,25 @@ const CalenderTest = () => {
     });
   }, []);
   return (
-    <>
+    <OuterContainer>
+      <LandingNav />
       <Layout>
-        <Calender day={day} setDay={setDay} />
+        <Calendar day={day} setDay={setDay} />
+        <Schedule day={day} />
       </Layout>
-    </>
+    </OuterContainer>
   );
 };
 
+const OuterContainer = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Layout = styled.div`
   width: 100%;
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
