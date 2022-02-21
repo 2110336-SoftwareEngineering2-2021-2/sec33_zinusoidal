@@ -5,6 +5,8 @@ import { MdOutlineArrowBack } from "react-icons/md";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 import { FiCheckSquare } from "react-icons/fi";
 import axios from "axios";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const EditPassword = ({ setCurrent }: any) => {
   const [oldPassword, setOldPassword] = useState("");
@@ -22,13 +24,18 @@ const EditPassword = ({ setCurrent }: any) => {
   const [sameOldPasswordError, setSameOldPasswordError] = useState(false);
 
   const updatePassword = () => {
+    const user = cookies.get("user");
+
     console.log("WAIT FOR FCKING API");
     axios({
-      method: "post",
+      method: "patch",
       url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/password_edit",
       data: {
         newPassword: newPassword,
         oldPassword: oldPassword,
+      },
+      headers: {
+        Authorization: `Bearer ${user.token}`,
       },
     })
       .then(function (response) {

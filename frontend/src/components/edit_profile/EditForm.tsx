@@ -113,6 +113,13 @@ const EditForm = ({
               }}
             />
           </BioDiv>
+          <DeleteText
+            onClick={() => {
+              setCurrent(5);
+            }}
+          >
+            Delete Account?
+          </DeleteText>
         </Form>
       </Padding>
     </Layout>
@@ -266,6 +273,12 @@ const ChangePButton = styled.div`
     width: 150px;
     align-self: center;
   }
+`;
+
+const DeleteText = styled.p`
+  cursor: pointer;
+  color: ${COLOR["gray/500"]};
+  text-decoration: underline;
 `;
 
 export default EditForm;
