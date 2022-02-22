@@ -17,7 +17,7 @@ type ScheduleDto struct {
 
 type Appointment struct {
 	Topic     string   `json:"topic"`
-	FirstName string   `json:"firstName`
+	FirstName string   `json:"firstName"`
 	LastName  string   `json:"lastName"`
 	Time      []string `json:"time"`
 }
