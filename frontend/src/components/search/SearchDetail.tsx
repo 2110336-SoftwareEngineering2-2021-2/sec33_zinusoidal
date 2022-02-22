@@ -6,23 +6,10 @@ import SearchDetailHeader from "./SearchDetailHeader";
 import SearchResult from "./SearchResult";
 import SearchDetailServiceSlider from "./SearchDetailServiceSlider";
 import { FiArrowLeft } from "react-icons/fi";
-interface SearchDetailPropType {
-  person: {
-    name: string;
-    username: string;
-    rating: number;
-    priceRange: string;
-  };
-  onClickBack: Function;
-}
+import { Link } from "react-router-dom";
 
-const SERVICELIST = [
-  { serviceName: "Bird", servicePrice: 200 },
-  { serviceName: "Cat", servicePrice: 200 },
-  { serviceName: "Dog", servicePrice: 200 },
-  { serviceName: "Fish", servicePrice: 200 },
-];
 const SearchDetail = ({ person, onClickBack }: any) => {
+  console.log(person);
   return (
     <Layout>
       <ReturnBackButton onClick={() => onClickBack(null)}>
@@ -33,7 +20,13 @@ const SearchDetail = ({ person, onClickBack }: any) => {
         <SearchResult person={person} />
         <ButtonDiv>
           <Button>Message</Button>
-          <Button>Booking</Button>
+          <Link
+            to={{
+              pathname: `/appointment/${person.userId}`,
+            }}
+          >
+            <Button>Booking</Button>
+          </Link>
         </ButtonDiv>
       </SearchDetailHeader>
       <ContentContainer>

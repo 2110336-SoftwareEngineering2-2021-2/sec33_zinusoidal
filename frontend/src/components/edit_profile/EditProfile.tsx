@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
