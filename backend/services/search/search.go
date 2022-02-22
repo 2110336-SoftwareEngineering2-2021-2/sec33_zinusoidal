@@ -6,7 +6,8 @@ import (
 )
 
 type Service struct {
-	database Databaser
+	database       Databaser
+	profileService profile.Service
 }
 
 type Databaser interface {
@@ -19,8 +20,8 @@ type Servicer interface {
 	SearchProvider(req SearchRequest) ([]profile.ProviderProfile, error)
 }
 
-func NewService(database Databaser) *Service {
-	return &Service{database: database}
+func NewService(database Databaser, p profile.Service) *Service {
+	return &Service{database: database, profileService: p}
 }
 
 func (s *Service) SearchProvider(req SearchRequest) ([]profile.ProviderProfile, error) {
@@ -30,20 +31,7 @@ func (s *Service) SearchProvider(req SearchRequest) ([]profile.ProviderProfile, 
 
 	for _, provider := range results {
 
-		var minPrice int = 10000
-		var maxPrice int
-		for _, fortune := range provider.Fortune {
-
-			if fortune.Price < minPrice {
-
-				minPrice = fortune.Price
-			}
-
-			if fortune.Price > maxPrice {
-				maxPrice = fortune.Price
-			}
-
-		}
+		minPrice, maxPrice := s.profileService.CalMinMaxPrice(provider)
 
 		provider.MaxPrice = maxPrice
 		provider.MinPrice = minPrice

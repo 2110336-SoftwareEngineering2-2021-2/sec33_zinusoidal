@@ -45,7 +45,7 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 		err := fmt.Errorf("Provider not found")
 		return returnProfile, err
 	}
-
+	returnProfile.UserId = userID
 	returnProfile.Biography = providerProfiles[0].Biography
 	returnProfile.Email = providerProfiles[0].Email
 	returnProfile.FirstName = providerProfiles[0].FirstName
@@ -88,6 +88,8 @@ func (db *GromDB) GetCustomerByID(userID string) (profile.CustomerProfile, error
 		err := fmt.Errorf("Customer not found")
 		return customerProfile, err
 	}
+
+	customerProfile.UserId = userID
 
 	return customerProfile, nil
 

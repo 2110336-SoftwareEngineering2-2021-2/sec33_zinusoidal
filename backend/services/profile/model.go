@@ -22,6 +22,7 @@ type Logger struct {
 }
 
 type CustomerProfile struct {
+	UserId        string `gorm:"column:id" json:"userId"`
 	Username      string `gorm:"column:username" json:"username"`
 	FirstName     string `gorm:"column:first_name" json:"firstName"`
 	LastName      string `gorm:"column:last_name" json:"lastName"`
@@ -30,6 +31,7 @@ type CustomerProfile struct {
 }
 
 type ProviderProfile struct {
+	UserId        string               `gorm:"column:id" json:"userId"`
 	Username      string               `json:"username"`
 	FirstName     string               `json:"firstName"`
 	LastName      string               `json:"lastName"`
