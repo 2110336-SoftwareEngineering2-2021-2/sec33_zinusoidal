@@ -22,13 +22,11 @@ interface ParagraphPropType {
   isuser: string;
 }
 const LandingNav = ({ onClickMenu, show }: any) => {
-  // const { user, setUser } = useContext(UserContext);
   const user = cookies.get("user");
   const [showDropDown, setShowDropDown] = useState(true);
   const [showWideDropDown, setShowWideDropDown] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  // console.log(user);
 
   useEffect(() => {
     setShowDropDown(false);

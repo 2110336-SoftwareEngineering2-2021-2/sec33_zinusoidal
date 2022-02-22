@@ -61,6 +61,7 @@ const CalenderTest = () => {
   };
 
   const keyPressHandle = (evt: any) => {
+    evt.preventDefault();
     switch (evt.key) {
       case "ArrowLeft":
         if (day.month == 0 && day.year == 2022 && day.date - 1 < 1) return;

@@ -24,6 +24,7 @@ const SearchDetail = ({ person, onClickBack }: any) => {
             to={{
               pathname: `/appointment/${person.userId}`,
             }}
+            target="_blank"
           >
             <Button>Booking</Button>
           </Link>
