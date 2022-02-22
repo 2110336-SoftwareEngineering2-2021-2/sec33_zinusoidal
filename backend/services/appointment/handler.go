@@ -26,6 +26,13 @@ func (h *Handler) MakeAppointmentHandler(c *gin.Context) {
 		})
 		return
 	}
+	if customerId[0] != byte('C') {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"log": "must to customer token",
+		})
+		return
+	}
+
 	req := AppointmentRequest{}
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
