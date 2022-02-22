@@ -1,6 +1,6 @@
 const COLOR = Object.freeze({
-  "green/50": "#e7fae9",
-  "green/100": "##C7F1C8",
+  "green/50": "#E8FCE3",
+  "green/100": "#C8F2BD",
   "green/200": "#A1E8A5",
   "green/300": "#74E07E",
   "green/400": "#4CD75F",

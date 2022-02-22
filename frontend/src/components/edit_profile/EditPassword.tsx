@@ -38,6 +38,7 @@ const EditPassword = ({ setCurrent }: any) => {
       },
     })
       .then(function (response) {
+        console.log("complete");
         setOldPassword("");
         setNewPassword("");
         setNewCPassword("");

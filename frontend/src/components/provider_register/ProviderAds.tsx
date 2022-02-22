@@ -65,7 +65,7 @@ const Ads = styled.div`
   row-gap: 16px;
   height: 325px;
   justify-content: space-evenly;
-  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 `;
 const Ad = styled.p`
   font-size: 14px;

@@ -56,7 +56,7 @@ func main() {
 	}
 	v1fortune.POST("/test", auth_handler.TestHandler)
 
-	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
+	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess)))))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
 		v1fortune.GET("/all_services", search_handler.GetAllServicesHandler)
