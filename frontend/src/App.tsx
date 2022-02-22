@@ -44,14 +44,11 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/editProfile" element={<EditProfilePage />} />
-<<<<<<< HEAD
-          <Route path="/calender" element={<CalenderTest />} />
+
+          <Route path="/calendar" element={<CalendarTest />} />
           <Route path="/appointment" element={<Appointment />}>
             <Route path=":providerID" element={<Appointment />} />
           </Route>
-=======
-          <Route path="/calendar" element={<CalendarTest />} />
->>>>>>> 32512b35f3eb209494b895d364170f71360a4dea
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
