@@ -9,3 +9,7 @@ type GromDB struct {
 func New(db *gorm.DB) *GromDB {
 	return &GromDB{database: db}
 }
+
+func (db *GromDB) ResponseAppointment(provider_id, appointment_id string, accept bool) error {
+	return nil
+}

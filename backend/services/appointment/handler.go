@@ -19,22 +19,61 @@ func NewHandler(s Service) *Handler {
 
 func (h *Handler) MakeAppointmentHandler(c *gin.Context) {
 	claim, err := jwt.VerifyToken(c)
-	customer_id := claim.UserID
+	customerId := claim.UserID
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"log": err.Error(),
 		})
+		return
 	}
 	req := AppointmentRequest{}
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": err.Error(),
 		})
+		return
 	}
 
-	if err = h.service.MakeAppointment(customer_id, req); err != nil {
+	if err = h.service.MakeAppointment(customerId, req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"log": err.Error(),
 		})
+		return
 	}
+	c.JSON(http.StatusOK, gin.H{
+		"log": "ok",
+	})
+}
+
+func (h *Handler) ResponseAppointmentHandler(c *gin.Context) {
+	claim, err := jwt.VerifyToken(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
+	providerId := claim.UserID
+
+	appointmentId := c.Param("app_id")
+	status := c.Param("accept")
+	is_accept := false
+	if status != "0" && status != "1" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"log": "accept status must be 0 or 1",
+		})
+		return
+	}
+	if status == "1" {
+		is_accept = true
+	}
+	if err = h.service.ResponseAppointment(providerId, appointmentId, is_accept); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"log": "ok",
+	})
 }
