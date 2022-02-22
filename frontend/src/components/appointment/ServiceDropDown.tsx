@@ -29,7 +29,7 @@ const DropDown = styled.div`
   position: absolute;
   background-color: white;
   max-height: 150px !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
   border-radius: 0px 0px 4px 4px;
 
   overflow-y: auto;
