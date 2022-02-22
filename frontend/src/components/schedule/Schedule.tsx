@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import BookedSlot from "./BookedSlot";
 import { BsCalendarCheck } from "react-icons/bs";
+import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
 //prettier-ignore
 const li = [
-{startTime : '08:00' , stopTime : '12.00' , topic : 'Cat' , customer : 'Chawin Gowanit' },    
-{startTime : '08:00' , stopTime : '12.00' , topic : 'Cat' , customer : 'Chawin Gowanit' },
-{startTime : '08:00' , stopTime : '12.00' , topic : 'Cat' , customer : 'Chawin Gowanit' },
-{startTime : '08:00' , stopTime : '12.00' , topic : 'Cat' , customer : 'Chawin Gowanit' },
+{ time : ["08:00" , "17:00"] , topic : 'Cat' , FirstName : 'Chawin Gowanit' },    
+{ time : ["08:00" , "17:00"] , topic : 'Cat' , FirstName : 'Chawin Gowanit' },
+{ time : ["08:00" , "17:00"] , topic : 'Cat' , FirstName : 'Chawin Gowanit' },
+{ time : ["08:00" , "17:00"] , topic : 'Cat' , FirstName : 'Chawin Gowanit' },
 
 ]
 
@@ -28,6 +33,23 @@ const monthList = [
 ];
 
 const Schedule = ({ day }: any) => {
+  const [Schedulelist, setScheduleList] = useState([]);
+  const user = cookies.get("user");
+
+  useEffect(() => {
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/my_schedule/${user?.user_id}`,
+      data: { date: day.date, month: day.month + 1, year: day.year },
+    })
+      .then(function (response) {
+        console.log(response.data);
+        setScheduleList(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+      });
+  }, [day]);
   return (
     <Layout>
       <Clip>
@@ -44,7 +66,7 @@ const Schedule = ({ day }: any) => {
           </DateBlock>
         </Header>
         <Content>
-          {li.map((item, index) => (
+          {Schedulelist.map((item, index) => (
             <BookedSlot key={index} data={item} idx={index} />
           ))}
         </Content>
