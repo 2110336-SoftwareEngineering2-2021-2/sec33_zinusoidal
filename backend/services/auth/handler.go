@@ -2,6 +2,7 @@ package auth
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/gin-gonic/gin"
@@ -113,6 +114,6 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 
 func (h *Handler) TestHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "OK",
+		"message": time.Now(),
 	})
 }

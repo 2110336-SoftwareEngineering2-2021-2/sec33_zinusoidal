@@ -18,6 +18,7 @@ func GetTimes(tim string) (int, int, error) {
 	if err != nil {
 		return -1, -1, err
 	}
+
 	mins, err := strconv.Atoi(tim[3:])
 	if err != nil {
 		return -1, -1, err
