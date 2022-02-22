@@ -142,17 +142,14 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 }
 
 func (s *Service) Login(req LoginRequest) (model.LoginQuery, error) {
-	res, err := s.database.Login(req.Username, req.Password)
-	return res, err
+	return s.database.Login(req.Username, req.Password)
 }
 
 func (s *Service) ConfirmEmail(key string) error {
-	err := s.database.ConfirmEmail(key)
-	return err
+	return s.database.ConfirmEmail(key)
 }
 
 func sendEmailConfirmationLink(email, key string) error {
-
 	sender := viper.GetString("email.email")
 	password := viper.GetString("email.password")
 	mail := gomail.NewMessage()
@@ -165,7 +162,6 @@ func sendEmailConfirmationLink(email, key string) error {
 	log.Println("Sending email....")
 	err := d.DialAndSend(mail)
 	return err
-
 }
 
 func randomStringKey(numberOfDigits int) string {
