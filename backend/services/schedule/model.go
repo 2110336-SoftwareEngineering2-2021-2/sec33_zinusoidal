@@ -6,8 +6,8 @@ type ScheduleRequest struct {
 }
 
 type WorkingDay struct {
-	Date     int
-	TimeList [][]string
+	Date     int        `json:"date"`
+	TimeList [][]string `json:"timeList"`
 }
 
 type ScheduleDto struct {
