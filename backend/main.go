@@ -10,6 +10,7 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -69,6 +70,10 @@ func main() {
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
 		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
 		v1fortune.PATCH("/password_edit", profile_handler.EditPasswordHandler)
+	}
+	schedule_handler := schedule.NewHandler(*schedule.NewService())
+	{
+		v1fortune.POST("/sch_test", schedule_handler.TestHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
