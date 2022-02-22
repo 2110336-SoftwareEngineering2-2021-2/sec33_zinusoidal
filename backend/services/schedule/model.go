@@ -1,8 +1,8 @@
 package schedule
 
 type ScheduleRequest struct {
-	Month int `json:"month"`
-	Year  int `json:"year"`
+	Month int `json:"month" binding:"required"`
+	Year  int `json:"year" binding:"required"`
 }
 
 type WorkingDay struct {
@@ -16,10 +16,10 @@ type ScheduleDto struct {
 }
 
 type Appointment struct {
-	Topic     string
-	FirstName string
-	LastName  string
-	Time      []string
+	Topic     string   `json:"topic"`
+	FirstName string   `json:"firstName`
+	LastName  string   `json:"lastName"`
+	Time      []string `json:"time"`
 }
 
 type MyScheduleRequest struct {
