@@ -74,6 +74,8 @@ func main() {
 	schedule_handler := schedule.NewHandler(*schedule.NewService())
 	{
 		v1fortune.POST("/sch_test", schedule_handler.TestHandler)
+		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)
+		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))

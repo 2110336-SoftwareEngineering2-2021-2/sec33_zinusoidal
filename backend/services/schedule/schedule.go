@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
-	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 )
 
 type Service struct {
@@ -20,16 +19,6 @@ type Servicer interface {
 
 func NewService() *Service {
 	return &Service{}
-}
-
-func (s *Service) SearchProvider(req ScheduleRequest) ([]profile.ProviderProfile, error) {
-	//	results, err := s.database.SearchProvider(req)
-
-	var returnResults []profile.ProviderProfile
-
-	var err error
-
-	return returnResults, err
 }
 
 //get results an array of red n green
@@ -79,7 +68,7 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 	return results, err
 }
 
-func (s *Service) RemoveBooked(w []WorkingDay, userId string) error {
+func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, error) {
 
 	//get appointment of userId []
 	var appointment []string
@@ -94,5 +83,25 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) error {
 	//if avail_time empty -> move to not avail day
 
 	var err error
-	return err
+
+	var ret ScheduleDto
+	return ret, err
+}
+
+func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, error) {
+
+	//get appointment of userId []
+	var dailyAppointment []Appointment
+
+	//get appointment list from db
+	var apt Appointment
+	apt.Topic = "Hi"
+	apt.FirstName = "Mock"
+	apt.LastName = "Data"
+	apt.Time = []string{"8.00", "17.00"}
+
+	dailyAppointment = append(dailyAppointment, apt)
+
+	var err error
+	return dailyAppointment, err
 }
