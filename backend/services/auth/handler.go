@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
-	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -43,10 +42,11 @@ func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	var err error
 	if err = c.ShouldBind(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"log": "invalid request",
+			"log": err.Error(),
 		})
 		return
 	}
+
 	if err = h.service.ProviderRegister(req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": err.Error(),
@@ -112,30 +112,7 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 }
 
 func (h *Handler) TestHandler(c *gin.Context) {
-	req := ProviderRegisterTestRequest{}
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"log": err.Error(),
-		})
-		return
-	}
-	test, err := model.ParseSchedule(req.WorkSchedule)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"log": err.Error(),
-		})
-		return
-	}
 	c.JSON(http.StatusOK, gin.H{
-		"WorkSchedule": test,
+		"message": "OK",
 	})
-
-	req.WorkSchedule, err = model.ParseStringBackToSchedule(test)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"log": err.Error(),
-		})
-		return
-	}
-	c.JSON(http.StatusOK, req)
 }

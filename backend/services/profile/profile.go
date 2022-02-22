@@ -34,6 +34,8 @@ func (s *Service) getProviderProfile(userId string) (ProviderProfile, error) {
 	if err != nil {
 		return provider, err
 	}
+
+	provider.MinPrice, provider.MaxPrice = s.CalMinMaxPrice(provider)
 	return provider, nil
 }
 
@@ -85,4 +87,23 @@ func (s *Service) PasswordEdit(req PasswordEditRequest, userId string) error {
 		return err
 	}
 	return nil
+}
+
+func (s *Service) CalMinMaxPrice(provider ProviderProfile) (int, int) {
+
+	var minPrice int = 10000
+	var maxPrice int
+	for _, fortune := range provider.Fortune {
+
+		if fortune.Price < minPrice {
+
+			minPrice = fortune.Price
+		}
+
+		if fortune.Price > maxPrice {
+			maxPrice = fortune.Price
+		}
+
+	}
+	return maxPrice, minPrice
 }

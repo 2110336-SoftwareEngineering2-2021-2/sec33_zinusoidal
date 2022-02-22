@@ -3,7 +3,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaRegSmileWink } from "react-icons/fa";
 import { COLOR } from "../../CONSTANT";
-import Calender from "../calender/Calender";
+import Calender from "../calendar/Calendar";
 
 const AppointmentInfo = ({ totalPrice, appointmentList }: any) => {
   return (

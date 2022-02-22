@@ -14,7 +14,7 @@ import Appointment from "./pages/Appointment";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
-import CalenderTest from "./pages/CalenderTest";
+import CalendarTest from "./pages/CalendarTest";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -44,10 +44,14 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/editProfile" element={<EditProfilePage />} />
+<<<<<<< HEAD
           <Route path="/calender" element={<CalenderTest />} />
           <Route path="/appointment" element={<Appointment />}>
             <Route path=":providerID" element={<Appointment />} />
           </Route>
+=======
+          <Route path="/calendar" element={<CalendarTest />} />
+>>>>>>> 32512b35f3eb209494b895d364170f71360a4dea
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

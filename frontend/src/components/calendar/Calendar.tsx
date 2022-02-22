@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import CalenderHeader from "./CalenderHeader";
+import CalenderHeader from "./CalendarHeader";
 import { YEARCOLLECTION } from "../../CONSTANT";
 import DayBar from "./DayBar";
 type DatePropType = {
@@ -10,11 +10,26 @@ type DatePropType = {
 };
 
 const lastDay = [31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30];
+
+function checkYear(year: number) {
+  if (year % 400 == 0) return true;
+
+  if (year % 100 == 0) return false;
+
+  if (year % 4 == 0) return true;
+  return false;
+}
 const Calender = ({ day, setDay }: any) => {
   const [selectedDate, setSelectedDate] = useState({
     month: 0,
     year: 2022,
   });
+
+  useEffect(() => {
+    setSelectedDate((selectedDate) => {
+      return { year: day.year, month: day.month };
+    });
+  }, [day]);
 
   useEffect(() => {
     const TODAY = new Date();
@@ -30,7 +45,8 @@ const Calender = ({ day, setDay }: any) => {
   let pre = [];
   let post = [];
   const idx = CALENDERDATA[0].idx;
-  const last = lastDay[selectedDate.month];
+  let last = lastDay[selectedDate.month];
+  if (selectedDate.month == 2 && checkYear(selectedDate.year)) last += 1;
   for (let k = last - (idx - 1); k <= last; k++) {
     pre.push({ date: k, idx: -1 });
   }

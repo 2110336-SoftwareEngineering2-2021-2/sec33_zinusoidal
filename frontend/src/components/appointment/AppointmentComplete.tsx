@@ -5,7 +5,7 @@ import { FiCheckCircle } from "react-icons/fi";
 import { BsCheck2 } from "react-icons/bs";
 
 import { COLOR } from "../../CONSTANT";
-import Calender from "../calender/Calender";
+import Calender from "../calendar/Calendar";
 
 const AppointmentComplete = ({ totalPrice, appointmentList }: any) => {
   let navigate = useNavigate();

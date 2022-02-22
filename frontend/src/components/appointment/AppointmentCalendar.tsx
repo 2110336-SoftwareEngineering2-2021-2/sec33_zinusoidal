@@ -3,7 +3,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsFillBookmarkFill, BsCalendarCheck } from "react-icons/bs";
 import { COLOR } from "../../CONSTANT";
-import Calender from "../calender/Calender";
+import Calender from "../calendar/Calendar";
 
 const AppointmentCalendar = ({ userInfo, profilePicUrl, day, setDay }: any) => {
   return (
