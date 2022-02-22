@@ -31,8 +31,8 @@ func ParseToPosition(tim string, days int) (int, error) {
 		return -1, errors.New("bads format")
 	}
 
-	if tim == "23:59" {
-		pos, err := ParseToPosition("00:00", days)
+	if tim == "23.59" {
+		pos, err := ParseToPosition("00.00", days)
 		return pos + 48, err
 	}
 
@@ -52,7 +52,7 @@ func ParsePositionToString(pos int) string {
 	mins := pos % 2
 	hours := pos / 2
 	result := ""
-	result += fmt.Sprintf("%02d", hours) + ":"
+	result += fmt.Sprintf("%02d", hours) + "."
 	if mins == 1 {
 		mins = 30
 	}
@@ -71,8 +71,6 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 	}
 	result := []byte(result_buffer)
 
-	var lst int = 0
-
 	for id, schedule := range works {
 		if schedule.Day != days[id] {
 			return "", errors.New("day " + days[id] + "doesn't match")
@@ -90,13 +88,9 @@ func ParseSchedule(works []WorkSchedule) (string, error) {
 				return "", err
 			}
 			var add byte = '0'
-			if lst == 1 {
-				add = '1'
-			}
 			for i := start; i < end; i += 1 {
 				result[i] = add
 			}
-			lst ^= 1
 		}
 	}
 
@@ -126,7 +120,7 @@ func ParseStringBackToSchedule(schdule string) ([]WorkSchedule, error) {
 			time_ranges := make([]string, 2)
 			time_ranges[0] = ParsePositionToString(i)
 			if k%48 == 0 {
-				time_ranges[1] = "23:59"
+				time_ranges[1] = "23.59"
 			} else {
 				time_ranges[1] = ParsePositionToString(k % 48)
 			}

@@ -20,7 +20,6 @@ interface LayoutPropType {
 }
 const SearchResult = ({ person, onClick, selected = false }: any) => {
   const { name, username, rating, priceRange } = person;
-  console.log("PERSONal", person);
   return (
     <Layout
       onClick={() => {

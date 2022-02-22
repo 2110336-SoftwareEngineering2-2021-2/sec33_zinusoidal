@@ -9,6 +9,8 @@ import CustomerHome from "./pages/CustomerHome";
 import SearchPage from "./pages/SearchPage";
 import EditProfilePage from "./pages/EditProfilePage";
 
+import Appointment from "./pages/Appointment";
+
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
@@ -42,7 +44,11 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/editProfile" element={<EditProfilePage />} />
+
           <Route path="/calendar" element={<CalendarTest />} />
+          <Route path="/appointment" element={<Appointment />}>
+            <Route path=":providerID" element={<Appointment />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
