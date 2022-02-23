@@ -1,0 +1,1 @@
+DELETE FROM fortune_user WHERE id = @id AND password = @password;
