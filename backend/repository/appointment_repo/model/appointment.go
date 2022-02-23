@@ -5,6 +5,6 @@ type Appointment struct {
 	FortuneType   string   `json:"fortuneType"`
 	TotalPrice    int      `json:"totalPrice"`
 	Time          []string `json:"time"`
-	Information   string   `json:"information"`
-	Value         string   `json:"value"`
+	Information   []string `json:"information"`
+	Value         []string `json:"value"`
 }
