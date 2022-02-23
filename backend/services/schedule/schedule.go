@@ -89,6 +89,8 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 	var availDate []WorkingDay
 	var notAvail []int
 
+	var avail []WorkingDay
+
 	//get appointment of userId []
 
 	var appointment []AppointmentDB
@@ -115,7 +117,7 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 				var newTimeList [][]string
 
 				//thisDay = w.Date = 10
-				for _, t := range thisDay.TimeList {
+				for _, t := range workDay.TimeList {
 					startHr, _ := strconv.Atoi(t[0][0:2])
 					startMin, _ := strconv.Atoi(t[0][2:4])
 					endHr, _ := strconv.Atoi(t[1][0:2])
@@ -127,22 +129,32 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 
 					//ถ้าตกในช่วงนี้ (ถ้าไม่ตก)
 					if !((startTime.Before(appointStart) || (startTime == appointStart)) && (appointEnd.Before(endTime) || endTime == appointEnd)) {
-						continue
 						newTimeList = append(newTimeList, t)
 					}
 				}
 
 				thisDay.TimeList = newTimeList
+				availDate = append(availDate, thisDay)
+			}
+		}
+
+		for _, d := range availDate {
+			if len(d.TimeList) == 0 {
+				notAvail = append(notAvail, d.Date)
+			} else {
+				avail = append(avail, d)
 			}
 		}
 		//for every appointment -> move to not_avail
 	}
 
-	//if avail_time empty -> move to not avail day
-
 	var err error
 
 	var ret ScheduleDto
+
+	ret.AvailDate = avail
+	ret.NotAvailDate = notAvail
+
 	return ret, err
 }
 
