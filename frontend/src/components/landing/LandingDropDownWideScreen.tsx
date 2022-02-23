@@ -29,8 +29,9 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
   }
   useOutsideAlerter(wrapperRef);
   const logoutHandle = () => {
+    console.log("ddd");
     setDropDown(false);
-    cookies.remove("user");
+    cookies.remove("user", { path: "/" });
     navigate("/");
   };
   return (
