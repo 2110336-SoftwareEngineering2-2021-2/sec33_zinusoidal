@@ -290,8 +290,8 @@ func (db *GromDB) GetLandingPageInfo() (*model.LandingPageInfo, error) {
 func (db *GromDB) EditPassword(userID, NewPassword string) error {
 
 	query := `UPDATE fortune_user U
-    SET U.password = @new_password
-    WHERE U.id = @id;`
+    SET U.password = ?
+    WHERE U.id = ?;`
 
 	err := db.database.Exec(query, NewPassword, userID).Error
 	return err
