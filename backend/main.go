@@ -12,6 +12,7 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -58,18 +59,25 @@ func main() {
 	}
 	v1fortune.POST("/test", auth_handler.TestHandler)
 
-	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db)))
+	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess)))))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
 		v1fortune.GET("/all_services", search_handler.GetAllServicesHandler)
 		v1fortune.GET("/landing_page_info", search_handler.GetLandingPageInfoHandler)
 	}
 
-	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess)))
+	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess))))
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
 		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
+		v1fortune.PATCH("/password_edit", profile_handler.EditPasswordHandler)
+	}
+	schedule_handler := schedule.NewHandler(*schedule.NewService())
+	{
+		v1fortune.POST("/sch_test", schedule_handler.TestHandler)
+		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)
+		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
 	}
 
 	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db)))

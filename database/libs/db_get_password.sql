@@ -1,0 +1,1 @@
+SELECT U.password FROM fortune_user U WHERE U.id = @id;

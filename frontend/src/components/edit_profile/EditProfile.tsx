@@ -1,18 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import ProfileEditContainer from "../../containers/ProfileEditContainer";
 import axios from "axios";
-
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
-import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 const bgImg = require("../../assets/edit.png");
 const bgImg2 = require("../../assets/edit2.png");
 const bgImg3 = require("../../assets/edit3.png");
+const bgImg4 = require("../../assets/editPass.png");
+const bgImg5 = require("../../assets/deleteAccount.png");
 
 const cookies = new Cookies();
 //prettier-ignore
@@ -146,7 +146,15 @@ const EditProfile = () => {
         <ArrowDiv>
           <MdOutlineNavigateBefore
             style={{ cursor: "pointer" }}
-            visibility={current == 0 ? "hidden" : "visible"}
+            visibility={
+              current == 0 ||
+              current == 3 ||
+              current == 4 ||
+              current == 5 ||
+              current == 6
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={100}
             onClick={() => {
@@ -162,6 +170,7 @@ const EditProfile = () => {
           </Header>
           <Form>
             <ProfileEditContainer
+              setCurrent={setCurrent}
               profilePicUrl={profilePicUrl}
               setProfilePicUrl={setProfilePicUrl}
               getProfilePicUrl={getProfilePicUrl}
@@ -179,7 +188,15 @@ const EditProfile = () => {
         <ArrowDiv>
           <MdOutlineNavigateNext
             style={{ cursor: "pointer" }}
-            visibility={current == 2 ? "hidden" : "visible"}
+            visibility={
+              current == 2 ||
+              current == 3 ||
+              current == 4 ||
+              current == 5 ||
+              current == 6
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={100}
             onClick={() => {
@@ -192,7 +209,15 @@ const EditProfile = () => {
         <SmallNavigate>
           <MdOutlineNavigateBefore
             style={{ cursor: "pointer" }}
-            visibility={current == 0 ? "hidden" : "visible"}
+            visibility={
+              current == 0 ||
+              current == 3 ||
+              current == 4 ||
+              current == 5 ||
+              current == 6
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={50}
             onClick={() => {
@@ -204,6 +229,12 @@ const EditProfile = () => {
           onClick={() => {
             updateProfile();
           }}
+          style={{
+            visibility:
+              current == 3 || current == 4 || current == 5 || current == 6
+                ? "hidden"
+                : "visible",
+          }}
         >
           {" "}
           Save
@@ -212,7 +243,15 @@ const EditProfile = () => {
         <SmallNavigate>
           <MdOutlineNavigateNext
             style={{ cursor: "pointer" }}
-            visibility={current == 2 ? "hidden" : "visible"}
+            visibility={
+              current == 2 ||
+              current == 3 ||
+              current == 4 ||
+              current == 5 ||
+              current == 6
+                ? "hidden"
+                : "visible"
+            }
             color={COLOR["violet/400"]}
             size={50}
             onClick={() => {
@@ -222,7 +261,17 @@ const EditProfile = () => {
         </SmallNavigate>
       </ButtonDiv>
       <BGImg
-        src={current == 0 ? bgImg : current == 1 ? bgImg2 : bgImg3}
+        src={
+          current == 5 || current == 6
+            ? bgImg5
+            : current == 3 || current == 4
+            ? bgImg4
+            : current == 0
+            ? bgImg
+            : current == 1
+            ? bgImg2
+            : bgImg3
+        }
         alt="yay"
       />
     </Layout>

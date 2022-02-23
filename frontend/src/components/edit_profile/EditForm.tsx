@@ -4,19 +4,15 @@ import { COLOR } from "../../CONSTANT";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 import { AiOutlineUpload } from "react-icons/ai";
 
-const selectedImg = require("../../assets/zinusoidal.png");
-
 const EditForm = ({
+  setCurrent,
   userData,
   changeUserData,
-  setGetProfilePicUrl,
   getProfilePicUrl,
   profilePicUrl,
   setProfilePicUrl,
 }: any) => {
   console.log(userData.Name);
-  const [selectedImage, setSelectedImage] = useState(selectedImg);
-  const [seePassword, setSeePassword] = useState(false);
 
   const imageInput = useRef();
   const imageChange = (e: any) => {
@@ -95,49 +91,13 @@ const EditForm = ({
                 }}
               />
             </InputDiv>
-            <InputDiv>
-              <FormLabel>Password</FormLabel>
-              {seePassword ? (
-                <PasswordDiv>
-                  <Forminput
-                    disabled={true}
-                    type="text"
-                    onChange={(event) => {
-                      changeUserData({
-                        ...userData,
-                        Password: event.target.value,
-                      });
-                    }}
-                  />
-                  <RiEyeFill
-                    size={16}
-                    style={{ marginRight: 4 }}
-                    onMouseUpCapture={() => {
-                      setSeePassword(false);
-                    }}
-                  />
-                </PasswordDiv>
-              ) : (
-                <PasswordDiv>
-                  <Forminput
-                    type="password"
-                    onChange={(event) => {
-                      changeUserData({
-                        ...userData,
-                        Password: event.target.value,
-                      });
-                    }}
-                  />
-                  <RiEyeCloseLine
-                    size={16}
-                    style={{ marginRight: 4 }}
-                    onMouseDownCapture={() => {
-                      setSeePassword(true);
-                    }}
-                  />
-                </PasswordDiv>
-              )}{" "}
-            </InputDiv>
+            <ChangePButton
+              onClick={() => {
+                setCurrent(3);
+              }}
+            >
+              Change Password
+            </ChangePButton>
           </DoubleInput>
           <BioDiv>
             <div>
@@ -145,7 +105,6 @@ const EditForm = ({
             </div>
             <Biotext
               value={userData.Biography}
-              style={{ height: 140 }}
               onChange={(event) => {
                 changeUserData({
                   ...userData,
@@ -154,6 +113,13 @@ const EditForm = ({
               }}
             />
           </BioDiv>
+          <DeleteText
+            onClick={() => {
+              setCurrent(5);
+            }}
+          >
+            Delete Account?
+          </DeleteText>
         </Form>
       </Padding>
     </Layout>
@@ -213,8 +179,9 @@ const DoubleInput = styled.div`
   width: 100%;
   display: flex;
   column-gap: 15px;
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 450px) {
     flex-direction: column;
+    justify-content: center;
   }
 `;
 
@@ -255,6 +222,7 @@ const BioDiv = styled.div`
   row-gap: 5px;
 `;
 const Biotext = styled.textarea`
+  height: 240px;
   padding: 5px;
   font-size: 16px;
   font-weight: bold;
@@ -266,7 +234,6 @@ const Biotext = styled.textarea`
 `;
 const Button = styled.button`
   width: 97px;
-
   padding: 5px;
   border: none;
   color: white;
@@ -282,6 +249,36 @@ const Button = styled.button`
   &:hover {
     background-color: ${COLOR["violet/500"]};
   }
+`;
+
+const ChangePButton = styled.div`
+  align-self: flex-end;
+  height: 32px;
+  width: 200px;
+  border: none;
+  color: white;
+  background-color: ${COLOR["violet/400"]};
+  text-decoration: none;
+  border-radius: 10000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${COLOR["violet/500"]};
+  }
+  @media screen and (max-width: 450px) {
+    margin-top: 10px;
+    width: 150px;
+    align-self: center;
+  }
+`;
+
+const DeleteText = styled.p`
+  cursor: pointer;
+  color: ${COLOR["gray/500"]};
+  text-decoration: underline;
 `;
 
 export default EditForm;

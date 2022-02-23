@@ -22,6 +22,7 @@ type Logger struct {
 }
 
 type CustomerProfile struct {
+	UserId        string `gorm:"column:id" json:"userId"`
 	Username      string `gorm:"column:username" json:"username"`
 	FirstName     string `gorm:"column:first_name" json:"firstName"`
 	LastName      string `gorm:"column:last_name" json:"lastName"`
@@ -30,6 +31,7 @@ type CustomerProfile struct {
 }
 
 type ProviderProfile struct {
+	UserId        string               `gorm:"column:id" json:"userId"`
 	Username      string               `json:"username"`
 	FirstName     string               `json:"firstName"`
 	LastName      string               `json:"lastName"`
@@ -54,4 +56,9 @@ type ProviderDB struct {
 	Biography     string  `gorm:"column:biography" json:"biography"`
 	WorkSchedule  string  `gorm:"column:work_schedule" json:"schedule"`
 	Rating        float64 `gorm:"column:rating" json:"rating"`
+}
+
+type PasswordEditRequest struct {
+	NewPassword string `json:"newPassword" binding:"required"`
+	OldPassword string `json:"oldPassword" binding:"required"`
 }
