@@ -44,16 +44,19 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 	//get Daily Schedule
 	var dailySchedule []model.WorkSchedule
 	t := firstOfMonth
+	//t = 1 jan
 
 	var results []WorkingDay
 
 	//loop each day in week
-	for i := 1; i < 8; i++ {
+	for i := 0; i < 7; i++ {
 
 		check := t.AddDate(0, 0, i)
+		//check ="2jan 3jan .... (1 week) "
 		fmt.Println("check", check)
 
 		var currentDay string
+		currentDay = check.Weekday().String()
 		//get CurrentDay from check
 
 		for _, day := range dailySchedule {
@@ -62,8 +65,8 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 				var work WorkingDay
 
 				//get Date from 'check'
-				var date int = 0
-				work.Date = date
+				_, _, d := check.Date()
+				work.Date = d
 				work.TimeList = day.TimeList
 				// work = ["date": 31, "TimeList" : [[]] } ]
 				results = append(results, work)
@@ -71,6 +74,8 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 
 		}
 	}
+
+	fmt.Println("results", results)
 
 	var err error
 	return results, err
