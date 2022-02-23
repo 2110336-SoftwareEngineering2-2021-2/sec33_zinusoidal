@@ -8,7 +8,7 @@ type Service struct {
 
 type Databaser interface {
 	ResponseAppointment(provider_id, appointment_id string, accept bool) error
-	MakeAppointment(appointmentList []model.Appointment, customerId, providerId, date string) error
+	MakeAppointment(appointmentList model.Appointment, customerId, providerId, date string) error
 }
 
 func NewService(database Databaser) *Service {
@@ -18,7 +18,7 @@ func NewService(database Databaser) *Service {
 }
 
 func (s *Service) MakeAppointment(customerId string, req AppointmentRequest) error {
-	return s.database.MakeAppointment(req.AppointmentList, customerId, req.ProviderId, req.Date)
+	return s.database.MakeAppointment(req.Appointment, customerId, req.ProviderId, req.Date)
 }
 
 func (s *Service) ResponseAppointment(providerId, appointmentId string, accept bool) error {

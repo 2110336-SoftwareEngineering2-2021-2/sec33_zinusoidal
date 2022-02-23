@@ -5,13 +5,17 @@ import (
 	"time"
 )
 
-type Appointment struct {
+type AppointmentInfo struct {
 	AppointmentId string   `json:"appointmentId"`
 	FortuneType   string   `json:"fortuneType"`
-	TotalPrice    int      `json:"totalPrice"`
+	Price         int      `json:"price"`
 	Time          []string `json:"time"`
-	Information   []string `json:"information"`
-	Value         []string `json:"value"`
+}
+
+type Appointment struct {
+	AppointmentInfo []AppointmentInfo `json:"appointmentInfo"`
+	Information     []string          `json:"information"`
+	Value           []string          `json:"value"`
 }
 
 func GetTimes(tim string) (int, int, error) {

@@ -27,7 +27,7 @@ func (db *GromDB) ResponseAppointment(provider_id, appointment_id string, accept
 	return db.database.Exec(response_query, status, appointment_id, provider_id).Error
 }
 
-func (db *GromDB) MakeAppointment(appointmentList []model.Appointment, customerId, providerId, date string) error {
+func (db *GromDB) MakeAppointment(appointment model.Appointment, customerId, providerId, date string) error {
 
 	insert_appointment := `INSERT INTO appointment(appointment_id,customer_id,provider_id)
     VALUES (?, ?, ?)`
@@ -38,16 +38,17 @@ func (db *GromDB) MakeAppointment(appointmentList []model.Appointment, customerI
 	insert_info := `INSERT INTO appointment_info(appointment_id,info_name,info_value)
     VALUES (?, ?, ?)`
 
-	for _, apt := range appointmentList {
+	apt_id, err := uuid.NewV4()
+	if err != nil {
+		return err
+	}
 
-		apt_id, err := uuid.NewV4()
-		if err != nil {
-			return err
-		}
-		err = db.database.Exec(insert_appointment, apt_id, customerId, providerId).Error
-		if err != nil {
-			return err
-		}
+	err = db.database.Exec(insert_appointment, apt_id, customerId, providerId).Error
+	if err != nil {
+		return err
+	}
+
+	for _, apt := range appointment.AppointmentInfo {
 
 		start_time, err := model.ParseToTime(apt.Time[0], date)
 		if err != nil {
@@ -59,17 +60,17 @@ func (db *GromDB) MakeAppointment(appointmentList []model.Appointment, customerI
 			return err
 		}
 
-		err = db.database.Exec(insert_service, apt_id, apt.FortuneType, apt.TotalPrice, start_time, end_time).Error
+		err = db.database.Exec(insert_service, apt_id, apt.FortuneType, apt.Price, start_time, end_time).Error
 		if err != nil {
 			return err
 		}
+	}
 
-		for i, info := range apt.Information {
-			val := apt.Value[i]
-			err = db.database.Exec(insert_info, info, val).Error
-			if err != nil {
-				return err
-			}
+	for i, info := range appointment.Information {
+		val := appointment.Value[i]
+		err = db.database.Exec(insert_info, info, val).Error
+		if err != nil {
+			return err
 		}
 	}
 
