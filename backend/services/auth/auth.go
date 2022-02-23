@@ -46,7 +46,6 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 
 	userId, err := uuid.NewV4()
 	if err != nil {
-		log.Fatal(err)
 		return err
 	}
 	customer.UserId = "C" + userId.String()
