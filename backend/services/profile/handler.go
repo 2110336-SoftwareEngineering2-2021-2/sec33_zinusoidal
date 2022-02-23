@@ -107,6 +107,7 @@ func (h *Handler) EditPasswordHandler(c *gin.Context) {
 		})
 		return
 	}
+
 	err = h.service.PasswordEdit(req, user_id)
 
 	if err != nil {
