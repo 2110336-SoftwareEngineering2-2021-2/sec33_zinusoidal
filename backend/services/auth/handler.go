@@ -2,9 +2,9 @@ package auth
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/gin-gonic/gin"
 )
 
@@ -113,7 +113,11 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 }
 
 func (h *Handler) TestHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": time.Now(),
-	})
+	req := appointment.AppointmentRequest{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"log": err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, req)
 }

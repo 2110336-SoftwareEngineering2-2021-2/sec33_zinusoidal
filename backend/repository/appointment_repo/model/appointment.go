@@ -13,7 +13,7 @@ type AppointmentInfo struct {
 }
 
 type Appointment struct {
-	AppointmentInfo []AppointmentInfo `json:"appointmentInfo"`
+	AppointmentInfo []AppointmentInfo `json:"appointmentList"`
 	Information     []string          `json:"information"`
 	Value           []string          `json:"value"`
 }
