@@ -2,6 +2,7 @@ package schedule
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
@@ -83,14 +84,59 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 
 func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, error) {
 
+	//w = [ { date : 10 , timeList : [ [08.00-10.00] , [12.00-16.00] ]  }  ]
+
+	var availDate []WorkingDay
+	var notAvail []int
+
 	//get appointment of userId []
 
-	//remove not avail
-	// for _, appoint := range appointment {
-	// 	fmt.Println("Appointment", appoint)
-	// 	//for every appointment -> move to not_avail
+	var appointment []AppointmentDB
 
-	// }
+	//remove not avail
+	for _, appoint := range appointment {
+		fmt.Println("Appointment", appoint)
+
+		y, m, day := appoint.StartTime.Date()
+		appointStart := appoint.StartTime
+		appointEnd := appoint.FinishTime
+		//เอาเวลามา ?-?
+
+		//loop เอาวันที่มา
+		//นัดวันที่ 10 ห้าโมง -> หาช่วงที่ตกจาก w(10).timeList
+
+		for _, workDay := range w {
+			if workDay.Date == day {
+
+				//this day = new workDay
+				thisDay := workDay
+				thisDay.Date = workDay.Date
+
+				var newTimeList [][]string
+
+				//thisDay = w.Date = 10
+				for _, t := range thisDay.TimeList {
+					startHr, _ := strconv.Atoi(t[0][0:2])
+					startMin, _ := strconv.Atoi(t[0][2:4])
+					endHr, _ := strconv.Atoi(t[1][0:2])
+					endMin, _ := strconv.Atoi(t[1][2:4])
+
+					//ช่วงนั้น
+					startTime := time.Date(y, m, day, startHr, startMin, 0, 0, time.UTC)
+					endTime := time.Date(y, m, day, endHr, endMin, 0, 0, time.UTC)
+
+					//ถ้าตกในช่วงนี้ (ถ้าไม่ตก)
+					if !((startTime.Before(appointStart) || (startTime == appointStart)) && (appointEnd.Before(endTime) || endTime == appointEnd)) {
+						continue
+						newTimeList = append(newTimeList, t)
+					}
+				}
+
+				thisDay.TimeList = newTimeList
+			}
+		}
+		//for every appointment -> move to not_avail
+	}
 
 	//if avail_time empty -> move to not avail day
 
