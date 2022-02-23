@@ -107,7 +107,7 @@ const AppointmentOtheInfo = ({
             </Button>
           </ButtonAndInput>
           {openDuplicateInfoError ? (
-            <Error>You can't have to duplicate information</Error>
+            <Error>You can't have duplicate information</Error>
           ) : null}
         </div>
         <ShowInfo>
