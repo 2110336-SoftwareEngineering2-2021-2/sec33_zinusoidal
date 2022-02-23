@@ -11,24 +11,24 @@ const RandomColor = () => {
 type SlotType = {
   idx: number;
 };
+
 const BookedSlot = ({ data, idx }: any) => {
   return (
     <Layout idx={idx}>
       <Block>
         <p>
-          {data.startTime} - {data.stopTime}
+          {data.time[0]} - {data.time[1]}
         </p>
         <p>4 hr 30 min</p>
       </Block>
       <Block>Topic : {data.topic}</Block>
-      <Block>Customer : {data.customer} </Block>
+      <Block>Customer : {data.FirstName} </Block>
     </Layout>
   );
 };
 
 const Layout = styled("div")<SlotType>`
   width: 100%;
-  height: 100%;
   min-height: 115px;
   background-color: ${(props) => ranColor[props.idx % 5]};
   margin-bottom: 18px;
