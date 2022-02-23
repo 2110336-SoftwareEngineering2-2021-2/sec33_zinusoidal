@@ -36,7 +36,7 @@ func (h *Handler) ScheduleHandler(c *gin.Context) {
 	mock.Date = 20
 
 	var mockTime [][]string
-	mockTime = append(mockTime, []string{"8.00", "19.00"})
+	mockTime = append(mockTime, []string{"08.00", "19.00"})
 
 	mock.TimeList = mockTime
 	availDate = append(availDate, mock)
