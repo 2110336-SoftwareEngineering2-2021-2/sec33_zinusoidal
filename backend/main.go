@@ -7,6 +7,7 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/profile_repo"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/schedule_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
@@ -71,7 +72,7 @@ func main() {
 		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
 		v1fortune.PATCH("/password_edit", profile_handler.EditPasswordHandler)
 	}
-	schedule_handler := schedule.NewHandler(*schedule.NewService())
+	schedule_handler := schedule.NewHandler(*schedule.NewService(schedule_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess)))))
 	{
 		v1fortune.POST("/sch_test", schedule_handler.TestHandler)
 		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)

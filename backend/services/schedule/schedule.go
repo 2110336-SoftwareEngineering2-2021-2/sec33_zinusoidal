@@ -5,20 +5,26 @@ import (
 	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 )
 
 type Service struct {
-	database Databaser
+	database       Databaser
+	profileService profile.Service
 }
 
 type Databaser interface {
+	GetProviderAppointment(string) ([]AppointmentDB, error)
 }
 
 type Servicer interface {
 }
 
-func NewService() *Service {
-	return &Service{}
+func NewService(database Databaser, p profile.Service) *Service {
+	return &Service{
+		database:       database,
+		profileService: p,
+	}
 }
 
 //get results an array of red n green
@@ -28,6 +34,9 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 
 	fmt.Println("FOM", firstOfMonth)
 	fmt.Println("LOM", lastOfMonth)
+
+	test, fErr := MakeTimeInterval(time.Now(), time.Now())
+	fmt.Println("Test Time", test, "err", fErr)
 
 	weekday := firstOfMonth.Weekday()
 
@@ -61,7 +70,6 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 			}
 
 		}
-
 	}
 
 	var err error
@@ -71,14 +79,13 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, error) {
 
 	//get appointment of userId []
-	var appointment []string
 
 	//remove not avail
-	for _, appoint := range appointment {
-		fmt.Println("Appointment", appoint)
-		//for every appointment -> move to not_avail
+	// for _, appoint := range appointment {
+	// 	fmt.Println("Appointment", appoint)
+	// 	//for every appointment -> move to not_avail
 
-	}
+	// }
 
 	//if avail_time empty -> move to not avail day
 
@@ -90,18 +97,52 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 
 func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, error) {
 
-	//get appointment of userId []
 	var dailyAppointment []Appointment
 
-	//get appointment list from db
-	var apt Appointment
-	apt.Topic = "Hi"
-	apt.FirstName = "Mock"
-	apt.LastName = "Data"
-	apt.Time = []string{"8.00", "17.00"}
+	//appointment of userId []
+	allAppointment, err := s.database.GetProviderAppointment(userId)
 
-	dailyAppointment = append(dailyAppointment, apt)
+	if err != nil {
+		return dailyAppointment, err
+	}
 
-	var err error
+	for _, apt := range allAppointment {
+		yr, m, d := apt.StartTime.Date()
+		if yr == year && m == time.Month(month) && d == date {
+
+			var customer profile.CustomerProfile
+			customer, err = s.profileService.GetCustomerProfile(apt.CustomerId)
+
+			var aptDto Appointment
+
+			aptDto.FirstName = customer.FirstName
+			aptDto.LastName = customer.LastName
+			//aptDto.Topic = ?
+
+			time, _ := MakeTimeInterval(apt.StartTime, apt.FinishTime)
+			aptDto.Time = time
+
+			dailyAppointment = append(dailyAppointment, aptDto)
+		}
+	}
+
 	return dailyAppointment, err
+}
+
+func MakeTimeInterval(startTime, endTime time.Time) ([]string, error) {
+
+	startTime = time.Date(2021, time.Month(2), 21, 1, 10, 30, 0, time.UTC)
+	endTime = time.Now()
+	layoutTime := "15:04:05"
+	strStart := startTime.Format(layoutTime)
+	strStart = strStart[0 : len(strStart)-3]
+
+	strEnd := startTime.Format(layoutTime)
+	strEnd = strEnd[0 : len(strEnd)-3]
+
+	var interval []string
+	interval = append(interval, strStart)
+	interval = append(interval, strEnd)
+
+	return interval, nil
 }
