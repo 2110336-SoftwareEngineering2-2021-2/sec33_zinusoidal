@@ -1,0 +1,2 @@
+INSERT INTO appointment(appointment_id,customer_id,provider_id,fortune_type,price,information,start_time,finish_time)
+    VALUES (@appointment_id,@customer_id,@provider_id,@fortune_type,@price,@information,@start_time,@finish_time);

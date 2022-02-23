@@ -1,4 +1,3 @@
 UPDATE fortune_user U
-    SET U.id = @id,
-        U.password = @new_password,
-    WHERE U.id = @old_password;
+    SET U.password = @new_password
+    WHERE U.id = @id AND U.password = @old_password;
