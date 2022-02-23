@@ -22,6 +22,8 @@ const Appointment = () => {
     }
   }, []);
 
+  if (typeof user == "undefined") return <></>;
+
   return (
     <Layout>
       <Navbar />
