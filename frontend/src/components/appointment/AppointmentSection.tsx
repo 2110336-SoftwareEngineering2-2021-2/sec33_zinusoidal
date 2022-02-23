@@ -9,7 +9,7 @@ import axios from "axios";
 const AppointmentSection = (providerID: any) => {
   const [infoList, setInfoList] = useState([]);
   const [appointmentList, setAppointmentList] = useState([]);
-
+  console.log("BIG STATE", appointmentList);
   const [current, setCurrent] = useState(0);
   const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
   const [userInfo, setUserInfo] = useState({
@@ -33,6 +33,12 @@ const AppointmentSection = (providerID: any) => {
   ]);
 
   const [totalPrice, setTotalPrice] = useState(0);
+  const [a, setA] = useState([
+    ["08.30", "10.30"],
+    ["13.00", "16.00"],
+    ["16.30", "19.00"],
+  ]);
+  const [openOneAppointmentError, setOpenOneAppointmentError] = useState(false);
 
   let responseInput = {
     Name: "",
@@ -87,6 +93,13 @@ const AppointmentSection = (providerID: any) => {
       >
         {current != 2 && current != 3 ? (
           <AppointmentSlider1
+            setOpenOneAppointmentError={setOpenOneAppointmentError}
+            openOneAppointmentError={openOneAppointmentError}
+            availableTime={availableTime}
+            a={a}
+            setA={setA}
+            setTotalPrice={setTotalPrice}
+            setAppointmentList={setAppointmentList}
             appointmentList={appointmentList}
             totalPrice={totalPrice}
             current={current}
@@ -97,6 +110,12 @@ const AppointmentSection = (providerID: any) => {
           />
         ) : null}
         <AppointmentSlider2
+          setOpenOneAppointmentError={setOpenOneAppointmentError}
+          a={a}
+          setA={setA}
+          userInfo={userInfo}
+          totalPrice={totalPrice}
+          setTotalPrice={setTotalPrice}
           appointmentList={appointmentList}
           setAppointmentList={setAppointmentList}
           infoList={infoList}
