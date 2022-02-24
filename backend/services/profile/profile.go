@@ -29,7 +29,7 @@ func NewService(database Databaser, s services.Service, a auth.Service) *Service
 	}
 }
 
-func (s *Service) getProviderProfile(userId string) (ProviderProfile, error) {
+func (s *Service) GetProviderProfile(userId string) (ProviderProfile, error) {
 	provider, err := s.database.GetProviderByID(userId)
 	if err != nil {
 		return provider, err
@@ -39,7 +39,7 @@ func (s *Service) getProviderProfile(userId string) (ProviderProfile, error) {
 	return provider, nil
 }
 
-func (s *Service) getCustomerProfile(userId string) (CustomerProfile, error) {
+func (s *Service) GetCustomerProfile(userId string) (CustomerProfile, error) {
 	customer, err := s.database.GetCustomerByID(userId)
 	if err != nil {
 		return customer, err
