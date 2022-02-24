@@ -108,8 +108,16 @@ func (db *GromDB) ConfirmEmail(key string) error {
 }
 
 func (db *GromDB) CheckPassword(userID, oldPassword, newPassword string) error {
-	var err error
-	err = bcrypt.CompareHashAndPassword([]byte("wait db"), []byte(oldPassword))
+
+	var password []string
+
+	query := `SELECT U.password FROM fortune_user U WHERE U.id = ?;`
+	err := db.database.Raw(query, userID).Scan(&password).Error
+
+	if len(password) == 0 {
+		return errors.New("User not found")
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(password[0]), []byte(oldPassword))
 	if err != nil {
 		return errors.New("wrong Password")
 	}
