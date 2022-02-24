@@ -8,5 +8,5 @@ CREATE TABLE appointment
 
     PRIMARY KEY (appointment_id),
     CONSTRAINT fk_app_cus FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE,
-    CONSTRAINT fk_app_pro FOREIGN KEY (provider_id) REFERENCES customer(id) ON DELETE CASCADE
+    CONSTRAINT fk_app_pro FOREIGN KEY (provider_id) REFERENCES provider(id) ON DELETE CASCADE
 );
