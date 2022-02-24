@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"time"
 
+	"cloud.google.com/go/firestore"
+	firebase "firebase.google.com/go"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
@@ -46,6 +49,7 @@ func main() {
 	/* Router */
 	db := NewSQLConn() /// connect database
 	jwt.Init()         /// init jwt
+	client := NewFirestoreConn()
 
 	sess := ConnectAws()
 
@@ -80,13 +84,28 @@ func main() {
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
 	}
 
-	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db)))
+	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, client)))
 	{
 		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
 		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
+}
+
+func NewFirestoreConn() *firestore.Client {
+	ctx := context.Background()
+	conf := &firebase.Config{ProjectID: ""}
+	app, err := firebase.NewApp(ctx, conf)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return client
 }
 
 func NewSQLConn() *gorm.DB {
