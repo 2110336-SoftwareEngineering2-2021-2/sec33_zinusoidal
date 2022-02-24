@@ -165,11 +165,11 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 				}
 			}
 		}
+		ret.AvailDate = avail
 	} else {
 		ret.AvailDate = w
 	}
 
-	ret.AvailDate = avail
 	ret.NotAvailDate = notAvail
 
 	return ret, err
