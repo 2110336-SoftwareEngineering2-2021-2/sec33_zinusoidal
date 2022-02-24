@@ -5,10 +5,12 @@ import (
 	"time"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/profile_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/schedule_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
@@ -77,6 +79,12 @@ func main() {
 		v1fortune.POST("/sch_test", schedule_handler.TestHandler)
 		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
+	}
+
+	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db)))
+	{
+		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
+		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
