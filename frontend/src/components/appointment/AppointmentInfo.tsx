@@ -35,7 +35,7 @@ const AppointmentInfo = ({
       setOpenOneAppointmentError(true);
       return;
     }
-    let newTimeList = [...a, i.Time].sort();
+    let newTimeList = [...a, i.time].sort();
     let newnewList = [];
     let start = newTimeList[0][0];
     let stop = newTimeList[0][1];
@@ -55,11 +55,11 @@ const AppointmentInfo = ({
     newnewList.push([start, stop]);
     let list = [...newnewList].sort();
     setA(list);
-    setTotalPrice(totalPrice - i.Price);
+    setTotalPrice(totalPrice - i.price);
 
     setAppointmentList(
       appointmentList.filter(
-        (x: any) => x.Time[0] != i.Time[0] && x.Time[1] != i.Time[1]
+        (x: any) => x.time[0] != i.time[0] && x.time[1] != i.time[1]
       )
     );
   };
@@ -90,7 +90,7 @@ const AppointmentInfo = ({
                   <ResultLine style={{ justifyContent: "space-between" }}>
                     <ResultItem>
                       <ResultItem>
-                        Service : <Normal>{i.Topic}</Normal>
+                        Service : <Normal>{i.fortuneType}</Normal>
                       </ResultItem>
                       <ResultItem>
                         Provider :{" "}
@@ -121,7 +121,7 @@ const AppointmentInfo = ({
                     <ResultItem>
                       Time :{" "}
                       <Normal>
-                        {i.Time[0]} - {i.Time[1]}
+                        {i.time[0]} - {i.time[1]}
                       </Normal>
                     </ResultItem>
                     <ResultItem>
@@ -137,7 +137,7 @@ const AppointmentInfo = ({
                       )}
                     </ResultItem>
                     <ResultItem>
-                      Price : <Normal>{i.Price} baht</Normal>
+                      Price : <Normal>{i.price} baht</Normal>
                     </ResultItem>
                   </ResultLine>
                 </AppointmentResult>

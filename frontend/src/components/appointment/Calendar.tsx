@@ -19,7 +19,18 @@ function checkYear(year: number) {
   if (year % 4 == 0) return true;
   return false;
 }
-const Calender = ({ day, setDay, availableTime }: any) => {
+const Calender = ({
+  day,
+  setDay,
+  availableTime,
+  availableDay,
+  notAvailableDay,
+  setA,
+  availableDayAndTime,
+  selected,
+  setSelected,
+}: any) => {
+  console.log(availableDay);
   let TODAY = new Date();
   const [selectedDate, setSelectedDate] = useState({
     month: 0,
@@ -70,6 +81,7 @@ const Calender = ({ day, setDay, availableTime }: any) => {
             key={index}
             inMonth={item.idx != -1}
             selected={
+              selected == true &&
               day.date == item.date &&
               day.month == selectedDate.month &&
               day.year == selectedDate.year &&
@@ -88,11 +100,15 @@ const Calender = ({ day, setDay, availableTime }: any) => {
                   selectedDate.month == TODAY.getMonth() &&
                   item.date < TODAY.getDate())
                   ? COLOR["gray/400"]
+                  : notAvailableDay.includes(item.date) && item.idx != -1
+                  ? "#f66257"
                   : day.date == item.date &&
                     selectedDate.month == day.month &&
                     day.year == selectedDate.year &&
                     item.idx != -1
                   ? COLOR["gray/800"]
+                  : availableDay.includes(item.date) && item.idx != -1
+                  ? COLOR["green/400"]
                   : "white",
               pointerEvents:
                 (item.idx != -1 &&
@@ -104,18 +120,33 @@ const Calender = ({ day, setDay, availableTime }: any) => {
                 (item.idx != -1 &&
                   selectedDate.year == TODAY.getFullYear() &&
                   selectedDate.month == TODAY.getMonth() &&
-                  item.date < TODAY.getDate())
+                  item.date < TODAY.getDate()) ||
+                (notAvailableDay.includes(item.date) && item.idx != -1) ||
+                item.idx == -1
                   ? "none"
                   : "unset",
             }}
             onClick={() => {
-              console.log(item.idx);
+              if (!selected) {
+                setSelected(true);
+              }
               if (item.idx == -1) return;
               setDay({
                 date: item.date,
                 month: selectedDate.month,
                 year: selectedDate.year,
               });
+              console.log(
+                item.date,
+                availableDayAndTime.filter(
+                  (date: any) => date.date == item.date
+                )
+              );
+              setA(
+                availableDayAndTime.filter(
+                  (date: any) => date.date == item.date
+                )[0].timeList
+              );
             }}
           >
             <p>{item.date}</p>
