@@ -65,22 +65,3 @@ func (h *Handler) MyScheduleHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 
 }
-
-func (h *Handler) TestHandler(c *gin.Context) {
-
-	var req ScheduleRequest
-	var err error
-	var working []WorkingDay
-
-	if err = c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid request",
-		})
-		return
-	}
-
-	//working, err = h.service.GetWorkingDay(req.Month, req.Year)
-
-	c.JSON(http.StatusOK, working)
-
-}

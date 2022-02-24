@@ -76,7 +76,6 @@ func main() {
 	}
 	schedule_handler := schedule.NewHandler(*schedule.NewService(schedule_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess)))))
 	{
-		v1fortune.POST("/sch_test", schedule_handler.TestHandler)
 		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
 	}
