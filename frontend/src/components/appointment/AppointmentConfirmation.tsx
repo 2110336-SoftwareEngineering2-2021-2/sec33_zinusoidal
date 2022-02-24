@@ -13,9 +13,50 @@ import { AiOutlineProfile, AiFillMinusCircle } from "react-icons/ai";
 
 import { COLOR } from "../../CONSTANT";
 import { dividerClasses } from "@mui/material";
+const MonthName = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
-const AppointmentConfirmation = ({ current, setCurrent, infoList }: any) => {
-  console.log(current);
+const AppointmentConfirmation = ({
+  current,
+  setCurrent,
+  infoList,
+  appointmentList,
+  totalPrice,
+  userInfo,
+  providerID,
+  day,
+}: any) => {
+  const makeAppointment = () => {
+    let outProviderID = providerID.providerID;
+    let outMonth;
+    if (day.month < 10) {
+      outMonth = "0" + String(day.month);
+    } else {
+      outMonth = String(day.month);
+    }
+    let outDate = String(day.year) + "-" + outMonth + "-" + String(day.date);
+    let outInfo = [];
+    let outValue = [];
+    for (let i = 0; i < infoList.length; i++) {
+      outInfo.push(infoList[i].Name);
+      outValue.push(infoList[i].Value);
+    }
+
+    console.log("APPLIST", { appointmentList });
+    setCurrent(3);
+  };
   const [choice, setChoice] = useState(true);
   return (
     <Layout>
@@ -57,8 +98,55 @@ const AppointmentConfirmation = ({ current, setCurrent, infoList }: any) => {
             </ChoiceButton>
           </ContentHeader>
           <ContentContent>
-            {choice ? null : (
-              <div>
+            {choice ? (
+              <Appointments>
+                {appointmentList.map((i: any) => (
+                  <AppointmentResult>
+                    <ResultLine>
+                      <ResultItem>
+                        <ResultItem>
+                          Service : <Normal>{i.fortuneType}</Normal>
+                        </ResultItem>
+                        <ResultItem>
+                          Provider :{" "}
+                          <Normal>
+                            {userInfo.Name} {userInfo.Surname}
+                          </Normal>
+                        </ResultItem>
+                      </ResultItem>
+                      <ResultItem>
+                        Date :{" "}
+                        <Normal>
+                          {i.Day.date} {MonthName[i.Day.month]} {i.Day.year}
+                        </Normal>
+                      </ResultItem>
+                      <ResultItem>
+                        Time :{" "}
+                        <Normal>
+                          {i.time[0]} - {i.time[1]}
+                        </Normal>
+                      </ResultItem>
+                      <ResultItem>
+                        Duration :{" "}
+                        {i.DurationH == "0" ? (
+                          <Normal>{i.DurationM}min</Normal>
+                        ) : i.DurationM == "0" ? (
+                          <Normal>{i.DurationH}h</Normal>
+                        ) : (
+                          <Normal>
+                            {i.DurationH}h {i.DurationM}min
+                          </Normal>
+                        )}
+                      </ResultItem>
+                      <ResultItem>
+                        Price : <Normal>{i.price} baht</Normal>
+                      </ResultItem>
+                    </ResultLine>
+                  </AppointmentResult>
+                ))}
+              </Appointments>
+            ) : (
+              <Scroll>
                 {infoList.map((i: any) => (
                   <ShowDiv>
                     <NameAndValue>
@@ -66,10 +154,13 @@ const AppointmentConfirmation = ({ current, setCurrent, infoList }: any) => {
                     </NameAndValue>
                   </ShowDiv>
                 ))}
-              </div>
+              </Scroll>
             )}
           </ContentContent>
         </ContentDiv>
+        <div style={{ fontSize: 20, display: "flex", columnGap: "4px" }}>
+          Total Price : <Normal>{totalPrice} baht</Normal>
+        </div>
         <ButtonDiv>
           <PrevButton
             onClick={() => {
@@ -83,7 +174,7 @@ const AppointmentConfirmation = ({ current, setCurrent, infoList }: any) => {
 
           <NextButton
             onClick={() => {
-              setCurrent(3);
+              makeAppointment();
             }}
           >
             Confirm
@@ -199,7 +290,6 @@ const ShowDiv = styled.div`
 
   margin-bottom: 4px;
   display: flex;
-  justify-content: space-between;
 `;
 const NameAndValue = styled.div`
   display: flex;
@@ -207,5 +297,49 @@ const NameAndValue = styled.div`
 `;
 const Value = styled.p`
   font-weight: normal;
+`;
+
+const AppointmentResult = styled.div`
+  width: 100%;
+  min-height: 120px;
+  /* background-color: red; */
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+`;
+const ResultLine = styled.div`
+  display: flex;
+  column-gap: 10px;
+  flex-wrap: wrap;
+`;
+const ResultItem = styled.div`
+  display: flex;
+  column-gap: 4px;
+`;
+const Normal = styled.p`
+  font-weight: normal;
+`;
+const Appointments = styled.div`
+  height: 360px;
+  overflow-y: auto;
+`;
+const ShowInfo = styled.div`
+  width: 100%;
+  background-color: white;
+  border-radius: 0px 0px 20px 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
+  display: flex;
+  padding: 15px;
+`;
+const Scroll = styled.div`
+  padding: 15px;
+  width: 100%;
+  height: 360px;
+  overflow-y: auto;
 `;
 export default AppointmentConfirmation;

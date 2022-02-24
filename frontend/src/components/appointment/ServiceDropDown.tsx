@@ -6,15 +6,22 @@ const ServiceDropDown = ({
   services,
   setService,
   setOpenServiceDropDown,
+  setServicePrice,
+  setStartTime,
+  setStopTime,
+  setPrice,
 }: any) => {
-  console.log(services);
   return (
     <DropDown>
       {services.map(({ fortuneType, price }: any) => (
         <Item
           onClick={() => {
+            setStartTime("-1.0");
+            setStopTime("24.0");
+            setPrice(0);
             setService(fortuneType);
             setOpenServiceDropDown(false);
+            setServicePrice(price);
           }}
         >
           {fortuneType}

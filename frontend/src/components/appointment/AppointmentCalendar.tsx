@@ -3,15 +3,33 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsFillBookmarkFill, BsCalendarCheck } from "react-icons/bs";
 import { COLOR } from "../../CONSTANT";
-import Calender from "../calendar/Calendar";
+import Calender from "./Calendar";
 
-const AppointmentCalendar = ({ userInfo, profilePicUrl, day, setDay }: any) => {
+const AppointmentCalendar = ({
+  userInfo,
+  profilePicUrl,
+  day,
+  setDay,
+  availableTime,
+  availableDay,
+  notAvailableDay,
+  setA,
+  availableDayAndTime,
+  setSelected,
+  selected,
+}: any) => {
   return (
     <Layout>
       <HeaderDiv>
         <img
           src={profilePicUrl}
-          style={{ width: 80, height: 80, marginRight: 8, borderRadius: 10000 }}
+          style={{
+            width: 80,
+            height: 80,
+            marginRight: 8,
+            borderRadius: 10000,
+            objectFit: "cover",
+          }}
         />
         <div style={{ marginLeft: 8 }}>
           <NameDiv>
@@ -33,7 +51,17 @@ const AppointmentCalendar = ({ userInfo, profilePicUrl, day, setDay }: any) => {
       </HeaderDiv>
       <ContentDiv>
         {" "}
-        <Calender day={day} setDay={setDay} />
+        <Calender
+          day={day}
+          setDay={setDay}
+          availableTime={availableTime}
+          availableDay={availableDay}
+          notAvailableDay={notAvailableDay}
+          setA={setA}
+          availableDayAndTime={availableDayAndTime}
+          setSelected={setSelected}
+          selected={selected}
+        />
       </ContentDiv>
     </Layout>
   );
