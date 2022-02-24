@@ -7,5 +7,6 @@ CREATE TABLE appointment_service
     start_time datetime NOT NULL,
     finish_time datetime NOT NULL,
 
-    PRIMARY KEY (appointment_id,start_time)
+    PRIMARY KEY (appointment_id,start_time),
+    CONSTRAINT fk_app_ser FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id) ON DELETE CASCADE
 );
