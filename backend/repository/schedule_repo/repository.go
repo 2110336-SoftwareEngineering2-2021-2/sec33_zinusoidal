@@ -1,7 +1,7 @@
 package schedule_repo
 
 import (
-	"fmt"
+	"errors"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
@@ -20,15 +20,16 @@ func (db *GromDB) GetProviderAppointment(userId string) ([]schedule.AppointmentD
 
 	var results []schedule.AppointmentDB
 
-	fmt.Println("db", userId)
+	query := `SELECT P.fortune_type,
+	A.customer_id,
+	P.start_time,
+	P.finish_time
 
-	query := `SELECT *
 	FROM appointment A
+	LEFT JOIN appointment_service P ON P.appointment_id = A.appointment_id
 	WHERE A.provider_id = ? AND A.status = 2;`
 
 	err := db.database.Raw(query, userId).Scan(&results).Error
-
-	fmt.Println("Test", results)
 
 	return results, err
 
@@ -36,22 +37,25 @@ func (db *GromDB) GetProviderAppointment(userId string) ([]schedule.AppointmentD
 
 func (db *GromDB) GetProviderSchedule(userId string) ([]model.WorkSchedule, error) {
 
-	var results []schedule.AppointmentDB
+	var results []schedule.ScheduleDB
+	query := `SELECT P.work_schedule 
+    FROM provider P
+    WHERE P.id = ?;`
 
-	fmt.Println("db", userId)
-
-	query := `SELECT *
-	FROM appointment A
-	WHERE A.provider_id = ? AND A.status = 2;`
-
-	var test string
-
-	mod, _ := model.ParseStringBackToSchedule(test)
+	var schedule []model.WorkSchedule
 
 	err := db.database.Raw(query, userId).Scan(&results).Error
+	if len(results) == 0 {
+		return schedule, errors.New("Provider schedule not found")
+	}
 
-	fmt.Println("Test", results)
+	var parseErr error
+	schedule, parseErr = model.ParseStringBackToSchedule(results[0].WorkSchedule)
 
-	return mod, err
+	if parseErr != nil {
+		return schedule, errors.New("Parsing schedule error")
+	}
+
+	return schedule, err
 
 }

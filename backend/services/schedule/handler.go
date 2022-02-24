@@ -28,32 +28,19 @@ func (h *Handler) ScheduleHandler(c *gin.Context) {
 		})
 		return
 	}
+	user_id := c.Param("id")
 
-	//work, workErr := h.service.GetWorkingDay(req.Month, req.Year)
-	var availDate []WorkingDay
+	work, workErr := h.service.GetWorkingDay(req.Month, req.Year, user_id)
 
-	var mock WorkingDay
-	mock.Date = 20
+	if workErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": workErr.Error(),
+		})
+		return
+	}
 
-	var mockTime [][]string
-	mockTime = append(mockTime, []string{"08.00", "19.00"})
+	results, err = h.service.RemoveBooked(work, user_id)
 
-	mock.TimeList = mockTime
-	availDate = append(availDate, mock)
-
-	var mock2 WorkingDay
-	mock2.Date = 11
-
-	var mockTime2 [][]string
-	mockTime2 = append(mockTime2, []string{"18.00", "21.00"})
-	mockTime2 = append(mockTime2, []string{"04.00", "10.00"})
-
-	mock2.TimeList = mockTime2
-	availDate = append(availDate, mock2)
-
-	results.AvailDate = availDate
-	results.NotAvailDate = append(results.NotAvailDate, 12)
-	results.NotAvailDate = append(results.NotAvailDate, 15)
 	c.JSON(http.StatusOK, results)
 
 }
@@ -92,7 +79,7 @@ func (h *Handler) TestHandler(c *gin.Context) {
 		return
 	}
 
-	working, err = h.service.GetWorkingDay(req.Month, req.Year)
+	//working, err = h.service.GetWorkingDay(req.Month, req.Year)
 
 	c.JSON(http.StatusOK, working)
 

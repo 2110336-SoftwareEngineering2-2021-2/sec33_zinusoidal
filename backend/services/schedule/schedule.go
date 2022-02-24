@@ -1,7 +1,6 @@
 package schedule
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 
@@ -16,6 +15,7 @@ type Service struct {
 
 type Databaser interface {
 	GetProviderAppointment(string) ([]AppointmentDB, error)
+	GetProviderSchedule(string) ([]model.WorkSchedule, error)
 }
 
 type Servicer interface {
@@ -28,44 +28,34 @@ func NewService(database Databaser, p profile.Service) *Service {
 	}
 }
 
-//get results an array of red n green
-func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
+//get results an array of working day
+func (s *Service) GetWorkingDay(month, year int, userId string) ([]WorkingDay, error) {
 	firstOfMonth := time.Date(year, time.Month(month), 1, 1, 10, 30, 0, time.UTC)
 	lastOfMonth := firstOfMonth.AddDate(0, 1, -1)
+	dailySchedule, schErr := s.database.GetProviderSchedule(userId)
 
-	fmt.Println("FOM", firstOfMonth)
-	fmt.Println("LOM", lastOfMonth)
-
-	test, fErr := MakeTimeInterval(time.Now(), time.Now())
-	fmt.Println("Test Time", test, "err", fErr)
-
-	weekday := firstOfMonth.Weekday()
-
-	fmt.Println("weekday", weekday)
-	//get Daily Schedule
-	var dailySchedule []model.WorkSchedule
+	if schErr != nil {
+		return []WorkingDay{}, schErr
+	}
 	t := firstOfMonth
 	//t = 1 jan
 
 	var results []WorkingDay
 
-	//loop each day in week
-	for i := 0; i < 7; i++ {
+	//loop each day in month
+	for i := 0; i < lastOfMonth.Day(); i++ {
 
 		check := t.AddDate(0, 0, i)
-		//check ="2jan 3jan .... (1 week) "
-		fmt.Println("check", check)
 
 		var currentDay string
 		currentDay = check.Weekday().String()
-		//get CurrentDay from check
+		//mon, tue, wed...
 
 		for _, day := range dailySchedule {
-			if day.Day == currentDay {
-				fmt.Println("daily day", day)
+			//check if timeList not empty
+			if day.Day == currentDay && len(day.TimeList) > 0 {
 				var work WorkingDay
 
-				//get Date from 'check'
 				_, _, d := check.Date()
 				work.Date = d
 				work.TimeList = day.TimeList
@@ -75,8 +65,6 @@ func (s *Service) GetWorkingDay(month, year int) ([]WorkingDay, error) {
 
 		}
 	}
-
-	fmt.Println("results", results)
 
 	var err error
 	return results, err
@@ -89,52 +77,78 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 	var availDate []WorkingDay
 	var notAvail []int
 
+	//final response
 	var avail []WorkingDay
-
-	//get appointment of userId []
 
 	var appointment []AppointmentDB
 
-	//remove not avail
+	appointment, _ = s.database.GetProviderAppointment(userId)
+
+	//for each apt, remove avail time
 	for _, appoint := range appointment {
-		fmt.Println("Appointment", appoint)
 
-		y, m, day := appoint.StartTime.Date()
-		appointStart := appoint.StartTime
-		appointEnd := appoint.FinishTime
-		//เอาเวลามา ?-?
+		sStart, _ := StringToDateTime(appoint.StartTime)
 
-		//loop เอาวันที่มา
-		//นัดวันที่ 10 ห้าโมง -> หาช่วงที่ตกจาก w(10).timeList
+		y, m, day := sStart.Date()
+
+		appointStart, _ := StringToDateTime(appoint.StartTime)
+		appointEnd, _ := StringToDateTime(appoint.FinishTime)
 
 		for _, workDay := range w {
+
 			if workDay.Date == day {
 
 				//this day = new workDay
 				thisDay := workDay
 				thisDay.Date = workDay.Date
 
-				var newTimeList [][]string
-
-				//thisDay = w.Date = 10
 				for _, t := range workDay.TimeList {
 					startHr, _ := strconv.Atoi(t[0][0:2])
 					startMin, _ := strconv.Atoi(t[0][2:4])
 					endHr, _ := strconv.Atoi(t[1][0:2])
 					endMin, _ := strconv.Atoi(t[1][2:4])
 
-					//ช่วงนั้น
+					//working time peiod from timeList
 					startTime := time.Date(y, m, day, startHr, startMin, 0, 0, time.UTC)
 					endTime := time.Date(y, m, day, endHr, endMin, 0, 0, time.UTC)
 
-					//ถ้าตกในช่วงนี้ (ถ้าไม่ตก)
-					if !((startTime.Before(appointStart) || (startTime == appointStart)) && (appointEnd.Before(endTime) || endTime == appointEnd)) {
+					var newTimeList [][]string
+
+					//check if appointment is not in this period
+					haventStarted := endTime.Before(appointStart) || (endTime == appointStart)
+					later := appointEnd.Before(startTime) || appointEnd == startTime
+
+					if !haventStarted && !later {
+
+						var newTime []string
+
+						b1 := startTime
+						b2 := appointStart
+						b3 := appointEnd
+						b4 := endTime
+
+						if b1 == b2 && b3 != b4 {
+							newTime, _ = MakeTimeInterval(b3, b4)
+							newTimeList = append(newTimeList, newTime)
+						} else if b1 != b2 && b3 == b4 {
+							newTime, _ = MakeTimeInterval(b1, b2)
+							newTimeList = append(newTimeList, newTime)
+						} else if b1 != b2 && b3 != b4 {
+							newTime, _ = MakeTimeInterval(b1, b2)
+							newTimeList = append(newTimeList, newTime)
+
+							newTime2, _ := MakeTimeInterval(b3, b4)
+							newTimeList = append(newTimeList, newTime2)
+						}
+
+					} else {
 						newTimeList = append(newTimeList, t)
 					}
+					thisDay.TimeList = newTimeList
 				}
-
-				thisDay.TimeList = newTimeList
 				availDate = append(availDate, thisDay)
+			} else {
+				availDate = append(availDate, workDay)
 			}
 		}
 
@@ -145,7 +159,6 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 				avail = append(avail, d)
 			}
 		}
-		//for every appointment -> move to not_avail
 	}
 
 	var err error
@@ -170,7 +183,10 @@ func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, e
 	}
 
 	for _, apt := range allAppointment {
-		yr, m, d := apt.StartTime.Date()
+		sStart, _ := StringToDateTime(apt.StartTime)
+		sEnd, _ := StringToDateTime(apt.FinishTime)
+
+		yr, m, d := sStart.Date()
 		if yr == year && m == time.Month(month) && d == date {
 
 			var customer profile.CustomerProfile
@@ -180,27 +196,25 @@ func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, e
 
 			aptDto.FirstName = customer.FirstName
 			aptDto.LastName = customer.LastName
-			//aptDto.Topic = ?
+			aptDto.Topic = apt.FortuneType
 
-			time, _ := MakeTimeInterval(apt.StartTime, apt.FinishTime)
+			time, _ := MakeTimeInterval(sStart, sEnd)
 			aptDto.Time = time
 
 			dailyAppointment = append(dailyAppointment, aptDto)
 		}
 	}
 
-	return dailyAppointment, err
+	return dailyAppointment, nil
 }
 
 func MakeTimeInterval(startTime, endTime time.Time) ([]string, error) {
 
-	startTime = time.Date(2021, time.Month(2), 21, 1, 10, 30, 0, time.UTC)
-	endTime = time.Now()
 	layoutTime := "15:04:05"
 	strStart := startTime.Format(layoutTime)
 	strStart = strStart[0 : len(strStart)-3]
 
-	strEnd := startTime.Format(layoutTime)
+	strEnd := endTime.Format(layoutTime)
 	strEnd = strEnd[0 : len(strEnd)-3]
 
 	var interval []string
@@ -208,4 +222,17 @@ func MakeTimeInterval(startTime, endTime time.Time) ([]string, error) {
 	interval = append(interval, strEnd)
 
 	return interval, nil
+}
+
+func StringToDateTime(s string) (time.Time, error) {
+
+	yr, _ := strconv.Atoi(s[0:4])
+	m, _ := strconv.Atoi(s[5:7])
+	d, _ := strconv.Atoi(s[8:10])
+	hr, _ := strconv.Atoi(s[11:13])
+	min, _ := strconv.Atoi(s[14:16])
+
+	startTime := time.Date(yr, time.Month(m), d, hr, min, 0, 0, time.UTC)
+
+	return startTime, nil
 }

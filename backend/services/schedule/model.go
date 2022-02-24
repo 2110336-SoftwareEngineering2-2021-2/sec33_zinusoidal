@@ -1,7 +1,5 @@
 package schedule
 
-import "time"
-
 type ScheduleRequest struct {
 	Month int `json:"month" binding:"required"`
 	Year  int `json:"year" binding:"required"`
@@ -31,9 +29,14 @@ type MyScheduleRequest struct {
 }
 
 type AppointmentDB struct {
-	StartTime  time.Time `gorm:"column:start_time"`
-	FinishTime time.Time `gorm:"column:finish_time"`
-	CustomerId string    `gorm:"column:customer_id"`
+	StartTime   string `gorm:"column:start_time"`
+	FinishTime  string `gorm:"column:finish_time"`
+	CustomerId  string `gorm:"column:customer_id"`
+	FortuneType string `gorm:"column:fortune_type"`
+}
+
+type ScheduleDB struct {
+	WorkSchedule string `gorm:"column:work_schedule"`
 }
 
 type Logger struct {
