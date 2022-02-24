@@ -78,92 +78,96 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 	var notAvail []int = []int{}
 
 	//final response
-	var avail []WorkingDay
+	var avail []WorkingDay = []WorkingDay{}
+
+	var err error
+
+	var ret ScheduleDto
 
 	var appointment []AppointmentDB
 
 	appointment, _ = s.database.GetProviderAppointment(userId)
 
 	//for each apt, remove avail time
-	for _, appoint := range appointment {
+	if len(appointment) > 0 {
+		for _, appoint := range appointment {
 
-		sStart, _ := StringToDateTime(appoint.StartTime)
+			sStart, _ := StringToDateTime(appoint.StartTime)
 
-		y, m, day := sStart.Date()
+			y, m, day := sStart.Date()
 
-		appointStart, _ := StringToDateTime(appoint.StartTime)
-		appointEnd, _ := StringToDateTime(appoint.FinishTime)
+			appointStart, _ := StringToDateTime(appoint.StartTime)
+			appointEnd, _ := StringToDateTime(appoint.FinishTime)
 
-		for _, workDay := range w {
+			for _, workDay := range w {
 
-			if workDay.Date == day {
+				if workDay.Date == day {
 
-				//this day = new workDay
-				thisDay := workDay
-				thisDay.Date = workDay.Date
+					//this day = new workDay
+					thisDay := workDay
+					thisDay.Date = workDay.Date
 
-				for _, t := range workDay.TimeList {
-					startHr, _ := strconv.Atoi(t[0][0:2])
-					startMin, _ := strconv.Atoi(t[0][2:4])
-					endHr, _ := strconv.Atoi(t[1][0:2])
-					endMin, _ := strconv.Atoi(t[1][2:4])
+					for _, t := range workDay.TimeList {
+						startHr, _ := strconv.Atoi(t[0][0:2])
+						startMin, _ := strconv.Atoi(t[0][2:4])
+						endHr, _ := strconv.Atoi(t[1][0:2])
+						endMin, _ := strconv.Atoi(t[1][2:4])
 
-					//working time peiod from timeList
-					startTime := time.Date(y, m, day, startHr, startMin, 0, 0, time.UTC)
-					endTime := time.Date(y, m, day, endHr, endMin, 0, 0, time.UTC)
+						//working time period from timeList
+						startTime := time.Date(y, m, day, startHr, startMin, 0, 0, time.UTC)
+						endTime := time.Date(y, m, day, endHr, endMin, 0, 0, time.UTC)
 
-					var newTimeList [][]string
+						var newTimeList [][]string
 
-					//check if appointment is not in this period
-					haventStarted := endTime.Before(appointStart) || (endTime == appointStart)
-					later := appointEnd.Before(startTime) || appointEnd == startTime
+						//check if appointment is not in this period
+						haventStarted := endTime.Before(appointStart) || (endTime == appointStart)
+						later := appointEnd.Before(startTime) || appointEnd == startTime
 
-					if !haventStarted && !later {
+						if !haventStarted && !later {
 
-						var newTime []string
+							var newTime []string
 
-						b1 := startTime
-						b2 := appointStart
-						b3 := appointEnd
-						b4 := endTime
+							b1 := startTime
+							b2 := appointStart
+							b3 := appointEnd
+							b4 := endTime
 
-						if b1 == b2 && b3 != b4 {
-							newTime, _ = MakeTimeInterval(b3, b4)
-							newTimeList = append(newTimeList, newTime)
-						} else if b1 != b2 && b3 == b4 {
-							newTime, _ = MakeTimeInterval(b1, b2)
-							newTimeList = append(newTimeList, newTime)
-						} else if b1 != b2 && b3 != b4 {
-							newTime, _ = MakeTimeInterval(b1, b2)
-							newTimeList = append(newTimeList, newTime)
+							if b1 == b2 && b3 != b4 {
+								newTime, _ = MakeTimeInterval(b3, b4)
+								newTimeList = append(newTimeList, newTime)
+							} else if b1 != b2 && b3 == b4 {
+								newTime, _ = MakeTimeInterval(b1, b2)
+								newTimeList = append(newTimeList, newTime)
+							} else if b1 != b2 && b3 != b4 {
+								newTime, _ = MakeTimeInterval(b1, b2)
+								newTimeList = append(newTimeList, newTime)
 
-							newTime2, _ := MakeTimeInterval(b3, b4)
-							newTimeList = append(newTimeList, newTime2)
+								newTime2, _ := MakeTimeInterval(b3, b4)
+								newTimeList = append(newTimeList, newTime2)
+							}
+
+						} else {
+							newTimeList = append(newTimeList, t)
 						}
-
-					} else {
-						newTimeList = append(newTimeList, t)
+						thisDay.TimeList = newTimeList
 					}
-					thisDay.TimeList = newTimeList
+					availDate = append(availDate, thisDay)
+				} else {
+					availDate = append(availDate, workDay)
 				}
-				availDate = append(availDate, thisDay)
-			} else {
-				availDate = append(availDate, workDay)
 			}
-		}
 
-		for _, d := range availDate {
-			if len(d.TimeList) == 0 {
-				notAvail = append(notAvail, d.Date)
-			} else {
-				avail = append(avail, d)
+			for _, d := range availDate {
+				if len(d.TimeList) == 0 {
+					notAvail = append(notAvail, d.Date)
+				} else {
+					avail = append(avail, d)
+				}
 			}
 		}
+	} else {
+		ret.AvailDate = w
 	}
-
-	var err error
-
-	var ret ScheduleDto
 
 	ret.AvailDate = avail
 	ret.NotAvailDate = notAvail
