@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -109,7 +110,7 @@ func (db *GromDB) ConfirmEmail(key string) error {
 
 func (db *GromDB) CheckPassword(userID, oldPassword, newPassword string) error {
 
-	var password []string
+	var password []profile.PasswordDB
 
 	query := `SELECT U.password FROM fortune_user U WHERE U.id = ?;`
 	err := db.database.Raw(query, userID).Scan(&password).Error
@@ -117,11 +118,12 @@ func (db *GromDB) CheckPassword(userID, oldPassword, newPassword string) error {
 	if len(password) == 0 {
 		return errors.New("User not found")
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(password[0]), []byte(oldPassword))
+
+	err = bcrypt.CompareHashAndPassword([]byte(password[0].Password), []byte(oldPassword))
 	if err != nil {
-		return errors.New("wrong Password")
+		return errors.New("Wrong Password")
 	}
-	err = bcrypt.CompareHashAndPassword([]byte("wait db"), []byte(newPassword))
+	err = bcrypt.CompareHashAndPassword([]byte(password[0].Password), []byte(newPassword))
 	if err == nil {
 		return errors.New("New password is the same as current password")
 	}
