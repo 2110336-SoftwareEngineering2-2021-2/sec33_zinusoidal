@@ -69,7 +69,7 @@ func (db *GromDB) MakeAppointment(appointment model.Appointment, customerId, pro
 
 	for i, info := range appointment.Information {
 		val := appointment.Value[i]
-		err = db.database.Exec(insert_info, info, val).Error
+		err = db.database.Exec(insert_info, apt_id, info, val).Error
 		if err != nil {
 			return err
 		}

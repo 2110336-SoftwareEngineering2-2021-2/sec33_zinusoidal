@@ -31,7 +31,7 @@ func GetTimes(tim string) (int, int, error) {
 	return hours, mins, nil
 }
 
-var layout = "2020-04-12"
+var layout = "2006-01-02"
 
 func ParseToTime(tims, date string) (time.Time, error) {
 	t, err := time.Parse(layout, date)
