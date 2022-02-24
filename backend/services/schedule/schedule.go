@@ -168,6 +168,10 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 	ret.AvailDate = avail
 	ret.NotAvailDate = notAvail
 
+	if len(notAvail) < 1 {
+		ret.NotAvailDate = []int{}
+	}
+
 	return ret, err
 }
 
@@ -203,6 +207,10 @@ func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, e
 
 			dailyAppointment = append(dailyAppointment, aptDto)
 		}
+	}
+
+	if len(dailyAppointment) < 1 {
+		dailyAppointment = []Appointment{}
 	}
 
 	return dailyAppointment, nil
