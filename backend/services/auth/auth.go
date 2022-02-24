@@ -46,7 +46,6 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 
 	userId, err := uuid.NewV4()
 	if err != nil {
-		log.Fatal(err)
 		return err
 	}
 	customer.UserId = "C" + userId.String()
@@ -80,8 +79,8 @@ func (s *Service) CustomerRegister(req CustomerRegisterRequest) error {
 		return err
 	}
 
-	err = s.database.InsertConfirmationKey(customer.UserId, key)
-	return err
+	return s.database.InsertConfirmationKey(customer.UserId, key)
+
 }
 
 func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
@@ -138,18 +137,15 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 		return err
 	}
 
-	err = s.database.InsertConfirmationKey(provider.UserId, key)
-	return err
+	return s.database.InsertConfirmationKey(provider.UserId, key)
 }
 
 func (s *Service) Login(req LoginRequest) (model.LoginQuery, error) {
-	res, err := s.database.Login(req.Username, req.Password)
-	return res, err
+	return s.database.Login(req.Username, req.Password)
 }
 
 func (s *Service) ConfirmEmail(key string) error {
-	err := s.database.ConfirmEmail(key)
-	return err
+	return s.database.ConfirmEmail(key)
 }
 
 func (s *Service) CheckPassword(userId, oldPassword, newPassword string) error {
@@ -164,7 +160,6 @@ func (s *Service) CheckPassword(userId, oldPassword, newPassword string) error {
 }
 
 func sendEmailConfirmationLink(email, key string) error {
-
 	sender := viper.GetString("email.email")
 	password := viper.GetString("email.password")
 	mail := gomail.NewMessage()
@@ -175,9 +170,7 @@ func sendEmailConfirmationLink(email, key string) error {
 	d := gomail.NewDialer(viper.GetString("smtp.host"), viper.GetInt("smtp.port"), sender, password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 	log.Println("Sending email....")
-	err := d.DialAndSend(mail)
-	return err
-
+	return d.DialAndSend(mail)
 }
 
 func randomStringKey(numberOfDigits int) string {
@@ -189,6 +182,5 @@ func randomStringKey(numberOfDigits int) string {
 	for i := 0; i < numberOfDigits; i++ {
 		b.WriteRune(chars[rand.Intn(len(chars))])
 	}
-	key := b.String()
-	return key
+	return b.String()
 }
