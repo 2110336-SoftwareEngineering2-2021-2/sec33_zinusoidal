@@ -17,15 +17,17 @@ const AppointmentOtheInfo = ({
   setCurrent,
   infoList,
   setInfoList,
+  setOpenOneAppointmentError,
 }: any) => {
-  console.log(current);
   const [infoName, setInfoName] = useState("");
   const [infoValue, setInfoValue] = useState("");
+  const [openDuplicateInfoError, setOpenDuplicateInfoError] = useState(false);
+
   const addInfo = (newInfo: any) => {
     console.log(newInfo);
     for (var s of infoList) {
       if (s.Name == newInfo.Name) {
-        // setDuplicatError(true);
+        setOpenDuplicateInfoError(true);
         setInfoName("");
         setInfoValue("");
         return;
@@ -55,71 +57,86 @@ const AppointmentOtheInfo = ({
           />
           Additional Information
         </HeaderDiv>
-        <ButtonAndInput>
-          <Input>
-            <InputDiv>
-              Information
-              <Forminput
-                type="text"
-                value={infoName}
-                onChange={(e) => {
-                  setInfoName(e.target.value);
-                }}
-              />
-            </InputDiv>
-            <InputDiv>
-              Value
-              <Forminput
-                type="text"
-                value={infoValue}
-                onChange={(e) => {
-                  setInfoValue(e.target.value);
-                }}
-              />
-            </InputDiv>
-          </Input>
-          <Button
-            style={{
-              backgroundColor:
-                infoName == "" || infoValue == ""
-                  ? COLOR["gray/400"]
-                  : COLOR["violet/400"],
-              pointerEvents:
-                infoName == "" || infoValue == "" ? "none" : "unset",
-            }}
-            onClick={() => {
-              addInfo({
-                Name: infoName,
-                Value: infoValue,
-              });
-            }}
-          >
-            Add
-          </Button>
-        </ButtonAndInput>
+        <div>
+          <ButtonAndInput>
+            <Input>
+              <InputDiv>
+                Information
+                <Forminput
+                  type="text"
+                  value={infoName}
+                  onChange={(e) => {
+                    setInfoName(e.target.value);
+                    setOpenOneAppointmentError(false);
+                    setOpenDuplicateInfoError(false);
+                  }}
+                />
+              </InputDiv>
+              <InputDiv>
+                Value
+                <Forminput
+                  type="text"
+                  value={infoValue}
+                  onChange={(e) => {
+                    setInfoValue(e.target.value);
+                    setOpenOneAppointmentError(false);
+                    setOpenDuplicateInfoError(false);
+                  }}
+                />
+              </InputDiv>
+            </Input>
+            <Button
+              style={{
+                backgroundColor:
+                  infoName == "" || infoValue == ""
+                    ? COLOR["gray/400"]
+                    : COLOR["violet/400"],
+                pointerEvents:
+                  infoName == "" || infoValue == "" ? "none" : "unset",
+              }}
+              onClick={() => {
+                setOpenOneAppointmentError(false);
+                setOpenDuplicateInfoError(false);
+                addInfo({
+                  Name: infoName,
+                  Value: infoValue,
+                });
+              }}
+            >
+              Add
+            </Button>
+          </ButtonAndInput>
+          {openDuplicateInfoError ? (
+            <Error>You can't have duplicate information</Error>
+          ) : null}
+        </div>
         <ShowInfo>
-          {infoList.map((i: any) => (
-            <ShowDiv>
-              <NameAndValue>
-                <p>{i.Name} </p> : <Value> {i.Value}</Value>
-              </NameAndValue>
-              <AiFillMinusCircle
-                color={COLOR["magenta/400"]}
-                size={24}
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  deleteInfo(i);
-                }}
-              />
-            </ShowDiv>
-          ))}
+          <Scroll>
+            {infoList.map((i: any) => (
+              <ShowDiv>
+                <NameAndValue>
+                  <p>{i.Name} </p> : <Value> {i.Value}</Value>
+                </NameAndValue>
+                <AiFillMinusCircle
+                  color={COLOR["magenta/400"]}
+                  size={24}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    deleteInfo(i);
+                  }}
+                />
+              </ShowDiv>
+            ))}
+          </Scroll>
         </ShowInfo>
         <ButtonDiv>
           {current == 0 ? null : (
             <PrevButton
               onClick={() => {
+                setOpenOneAppointmentError(false);
+                setOpenDuplicateInfoError(false);
                 setCurrent(0);
               }}
               style={{ visibility: current == 0 ? "hidden" : "visible" }}
@@ -131,6 +148,8 @@ const AppointmentOtheInfo = ({
 
           <NextButton
             onClick={() => {
+              setOpenOneAppointmentError(false);
+              setOpenDuplicateInfoError(false);
               setCurrent(2);
             }}
           >
@@ -243,13 +262,19 @@ const Forminput = styled.input`
   }
 `;
 const ShowInfo = styled.div`
-  /* background-color: red; */
-
   width: 100%;
-  border-radius: 20px;
+  background-color: white;
+  border-radius: 0px 0px 20px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
-  padding: 20px;
+  display: flex;
+  padding: 15px;
   flex: 1;
+`;
+const Scroll = styled.div`
+  padding: 15px;
+  width: 100%;
+  height: 400px;
+  overflow-y: auto;
 `;
 const Button = styled.button`
   width: 80px;
@@ -272,7 +297,7 @@ const Button = styled.button`
 `;
 const ShowDiv = styled.div`
   margin-top: 4px;
-
+  width: 100%;
   margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
@@ -283,5 +308,12 @@ const NameAndValue = styled.div`
 `;
 const Value = styled.p`
   font-weight: normal;
+`;
+const Error = styled.p`
+  width: 100%;
+  font-size: 16px;
+  margin-left: 16px;
+  font-weight: bold;
+  color: ${COLOR["magenta/400"]};
 `;
 export default AppointmentOtheInfo;

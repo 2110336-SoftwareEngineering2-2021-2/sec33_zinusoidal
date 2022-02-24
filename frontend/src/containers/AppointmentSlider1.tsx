@@ -7,6 +7,8 @@ interface SliderProp {
 }
 
 const AppointmentSlider1 = ({
+  availableTime,
+  setTotalPrice,
   totalPrice,
   current,
   userInfo,
@@ -14,19 +16,32 @@ const AppointmentSlider1 = ({
   day,
   setDay,
   appointmentList,
+  setAppointmentList,
+  a,
+  setA,
+  openOneAppointmentError,
+  setOpenOneAppointmentError,
 }: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <AppointmentCalendar
+          availableTime={availableTime}
           userInfo={userInfo}
           profilePicUrl={profilePicUrl}
           day={day}
           setDay={setDay}
         />
         <AppointmentInfo
+          a={a}
+          setA={setA}
+          userInfo={userInfo}
           totalPrice={totalPrice}
+          setTotalPrice={setTotalPrice}
           appointmentList={appointmentList}
+          setAppointmentList={setAppointmentList}
+          openOneAppointmentError={openOneAppointmentError}
+          setOpenOneAppointmentError={setOpenOneAppointmentError}
         />
       </Slider>
     </Layout>
