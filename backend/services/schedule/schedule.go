@@ -74,8 +74,8 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 
 	//w = [ { date : 10 , timeList : [ [08.00-10.00] , [12.00-16.00] ]  }  ]
 
-	var availDate []WorkingDay
-	var notAvail []int
+	var availDate []WorkingDay = []WorkingDay{}
+	var notAvail []int = []int{}
 
 	//final response
 	var avail []WorkingDay
@@ -168,16 +168,12 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 	ret.AvailDate = avail
 	ret.NotAvailDate = notAvail
 
-	if len(notAvail) < 1 {
-		ret.NotAvailDate = []int{}
-	}
-
 	return ret, err
 }
 
 func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, error) {
 
-	var dailyAppointment []Appointment
+	var dailyAppointment []Appointment = []Appointment{}
 
 	//appointment of userId []
 	allAppointment, err := s.database.GetProviderAppointment(userId)
@@ -207,10 +203,6 @@ func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, e
 
 			dailyAppointment = append(dailyAppointment, aptDto)
 		}
-	}
-
-	if len(dailyAppointment) < 1 {
-		dailyAppointment = []Appointment{}
 	}
 
 	return dailyAppointment, nil
