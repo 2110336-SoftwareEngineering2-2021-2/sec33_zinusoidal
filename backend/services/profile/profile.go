@@ -104,5 +104,5 @@ func (s *Service) CalMinMaxPrice(provider ProviderProfile) (int, int) {
 		}
 
 	}
-	return maxPrice, minPrice
+	return minPrice, maxPrice
 }
