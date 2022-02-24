@@ -35,7 +35,28 @@ const AppointmentConfirmation = ({
   appointmentList,
   totalPrice,
   userInfo,
+  providerID,
+  day,
 }: any) => {
+  const makeAppointment = () => {
+    let outProviderID = providerID.providerID;
+    let outMonth;
+    if (day.month < 10) {
+      outMonth = "0" + String(day.month);
+    } else {
+      outMonth = String(day.month);
+    }
+    let outDate = String(day.year) + "-" + outMonth + "-" + String(day.date);
+    let outInfo = [];
+    let outValue = [];
+    for (let i = 0; i < infoList.length; i++) {
+      outInfo.push(infoList[i].Name);
+      outValue.push(infoList[i].Value);
+    }
+
+    console.log("APPLIST", { appointmentList });
+    setCurrent(3);
+  };
   const [choice, setChoice] = useState(true);
   return (
     <Layout>
@@ -84,7 +105,7 @@ const AppointmentConfirmation = ({
                     <ResultLine>
                       <ResultItem>
                         <ResultItem>
-                          Service : <Normal>{i.Topic}</Normal>
+                          Service : <Normal>{i.fortuneType}</Normal>
                         </ResultItem>
                         <ResultItem>
                           Provider :{" "}
@@ -102,7 +123,7 @@ const AppointmentConfirmation = ({
                       <ResultItem>
                         Time :{" "}
                         <Normal>
-                          {i.Time[0]} - {i.Time[1]}
+                          {i.time[0]} - {i.time[1]}
                         </Normal>
                       </ResultItem>
                       <ResultItem>
@@ -118,7 +139,7 @@ const AppointmentConfirmation = ({
                         )}
                       </ResultItem>
                       <ResultItem>
-                        Price : <Normal>{i.Price} baht</Normal>
+                        Price : <Normal>{i.price} baht</Normal>
                       </ResultItem>
                     </ResultLine>
                   </AppointmentResult>
@@ -153,7 +174,7 @@ const AppointmentConfirmation = ({
 
           <NextButton
             onClick={() => {
-              setCurrent(3);
+              makeAppointment();
             }}
           >
             Confirm

@@ -22,11 +22,14 @@ const AppointmentSlider1 = ({
   setTotalPrice,
   userInfo,
   setOpenOneAppointmentError,
+  providerID,
+  selected,
 }: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <AppointmentInput
+          selected={selected}
           userInfo={userInfo}
           a={a}
           setA={setA}
@@ -47,6 +50,8 @@ const AppointmentSlider1 = ({
           setInfoList={setInfoList}
         />
         <AppointmentConfirmation
+          day={day}
+          providerID={providerID}
           userInfo={userInfo}
           current={current}
           setCurrent={setCurrent}
