@@ -38,10 +38,11 @@ func (db *GromDB) MakeAppointment(appointment model.Appointment, customerId, pro
 	insert_info := `INSERT INTO appointment_info(appointment_id,info_name,info_value)
     VALUES (?, ?, ?)`
 
-	apt_id, err := uuid.NewV4()
+	apt_uuid, err := uuid.NewV4()
 	if err != nil {
 		return err
 	}
+	apt_id := apt_uuid.String()
 
 	err = db.database.Exec(insert_appointment, apt_id, customerId, providerId).Error
 	if err != nil {
