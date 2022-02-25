@@ -17,6 +17,10 @@ const AppointmentCalendar = ({
   availableDayAndTime,
   setSelected,
   selected,
+  getAvailableTime,
+  setTotalPrice,
+  setInfoList,
+  setAppointmentList,
 }: any) => {
   return (
     <Layout>
@@ -52,6 +56,7 @@ const AppointmentCalendar = ({
       <ContentDiv>
         {" "}
         <Calender
+          getAvailableTime={getAvailableTime}
           day={day}
           setDay={setDay}
           availableTime={availableTime}
@@ -61,6 +66,9 @@ const AppointmentCalendar = ({
           availableDayAndTime={availableDayAndTime}
           setSelected={setSelected}
           selected={selected}
+          setTotalPrice={setTotalPrice}
+          setInfoList={setInfoList}
+          setAppointmentList={setAppointmentList}
         />
       </ContentDiv>
     </Layout>

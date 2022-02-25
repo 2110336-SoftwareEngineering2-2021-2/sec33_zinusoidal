@@ -7,13 +7,24 @@ import AppointmentSlider2 from "../../containers/AppointmentSlider2";
 import axios from "axios";
 
 const AppointmentSection = (providerID: any) => {
+  //calendar info
   const [selected, setSelected] = useState(false);
-  console.log(selected);
+  const [availableDay, setAvailableDay] = useState([0]);
+  console.log(availableDay);
+  const [availableDayAndTime, setAvailableDayAndTime] = useState([
+    { date: 0, timeList: [["", ""]] },
+  ]);
+  const [notAvailableDay, setNotAvailableDay] = useState([0]);
+  const [a, setA] = useState([]);
+  const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
+  //appointment info
   const [infoList, setInfoList] = useState([]);
   const [appointmentList, setAppointmentList] = useState([]);
-  console.log("BIG STATE", appointmentList);
+  const [totalPrice, setTotalPrice] = useState(0);
+  //current appointment page
   const [current, setCurrent] = useState(0);
-  const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
+  const [openOneAppointmentError, setOpenOneAppointmentError] = useState(false);
+  //provider info
   const [userInfo, setUserInfo] = useState({
     Name: "",
     Surname: "",
@@ -33,14 +44,6 @@ const AppointmentSection = (providerID: any) => {
     { day: "Friday", timeList: [] },
     { day: "Saturday", timeList: [] },
   ]);
-
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [a, setA] = useState([
-    ["08.30", "10.30"],
-    ["13.00", "16.00"],
-    ["16.30", "19.00"],
-  ]);
-  const [openOneAppointmentError, setOpenOneAppointmentError] = useState(false);
 
   let responseInput = {
     Name: "",
@@ -75,46 +78,33 @@ const AppointmentSection = (providerID: any) => {
         console.log(error.response.data.message);
       });
   };
-  const [availableDay, setAvailableDay] = useState([0]);
-  console.log(availableDay);
-  const [availableDayAndTime, setAvailableDayAndTime] = useState([
-    { date: 0, timeList: [["", ""]] },
-  ]);
-  const [notAvailableDay, setNotAvailableDay] = useState([0]);
-  //WAITAPIHERE
-  const getAvailableTime = () => {
-    setAvailableDayAndTime([
-      { date: 10, timeList: [["00.00", "23.00"]] },
-      { date: 11, timeList: [["00.00", "23.00"]] },
-      { date: 12, timeList: [["00.00", "23.00"]] },
-    ]);
-    let x = [];
-    for (let i = 0; i < setAvailableDayAndTime.length; i++) {
-      x.push(availableDayAndTime[i].date);
-    }
-    setAvailableDay([10, 11, 12]);
-    setNotAvailableDay([15, 16, 17, 24]);
-    // axios({
-    //   method: "post",
-    //   url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/available_schedule/${providerID.providerID}`,
-    //   data: {
-    //     month: day.month,
-    //     year: day.year,
-    //   },
-    // })
-    //   .then(function (response) {
-    //     // setAvailableDay(response.data.available_date);
-    //     // setNotAvailableDay(response.data.not_available_date);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error.response.data.message);
-    //   });
+  const getAvailableTime = (year: any, month: any) => {
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/available_schedule/${providerID.providerID}`,
+      data: {
+        month: Number(month) + 1,
+        year: Number(year),
+      },
+    })
+      .then(function (response) {
+        setAvailableDayAndTime(response.data.available_date);
+        let x = [];
+        for (let i = 0; i < response.data.available_date.length; i++) {
+          x.push(response.data.available_date[i].date);
+          console.log(x);
+        }
+        setAvailableDay(x);
+        setNotAvailableDay(response.data.not_available_date);
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+      });
   };
   useEffect(() => {
-    getAvailableTime();
+    getAvailableTime(day.year, day.month);
     getProfile();
     const TODAY = new Date();
-
     setDay({
       date: TODAY.getDate(),
       month: TODAY.getMonth(),
@@ -131,6 +121,8 @@ const AppointmentSection = (providerID: any) => {
       >
         {current != 2 && current != 3 ? (
           <AppointmentSlider1
+            setInfoList={setInfoList}
+            getAvailableTime={getAvailableTime}
             selected={selected}
             setSelected={setSelected}
             availableDayAndTime={availableDayAndTime}

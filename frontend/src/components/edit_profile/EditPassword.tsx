@@ -25,7 +25,7 @@ const EditPassword = ({ setCurrent }: any) => {
 
   const updatePassword = () => {
     const user = cookies.get("user");
-
+    console.log(oldPassword);
     axios({
       method: "patch",
       url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/password_edit",

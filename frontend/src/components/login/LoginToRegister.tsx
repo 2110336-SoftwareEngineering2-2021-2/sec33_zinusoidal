@@ -123,7 +123,7 @@ const ProviderButton = styled.div`
   column-gap: 5px;
 
   &:hover {
-    background-color: ${COLOR["magenta/100"]};
+    background-color: ${COLOR["violet/500"]};
   }
 `;
 const CustomerButton = styled.div`
@@ -142,7 +142,7 @@ const CustomerButton = styled.div`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${COLOR["blue/200"]};
+    background-color: ${COLOR["violet/500"]};
   }
 `;
 const RightTriangle = styled.div`
