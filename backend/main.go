@@ -42,14 +42,16 @@ func main() {
 
 	router := gin.Default()
 	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
+	config.AllowOrigins = []string{"*"}
 	config.AllowHeaders = []string{"Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"}
+	//config.AllowHeaders = []string{"*"}
+
 	router.Use(cors.New(config))
 
 	/* Router */
 	db := NewSQLConn() /// connect database
 	jwt.Init()         /// init jwt
-	client := NewFirestoreConn()
+	//client := NewFirestoreConn()
 
 	sess := ConnectAws()
 
@@ -84,7 +86,7 @@ func main() {
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
 	}
 
-	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, client)))
+	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, nil)))
 	{
 		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
 		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
