@@ -21,7 +21,7 @@ func NewHandler(s Service) *Handler {
 func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
 
 	user_id := c.Param("id")
-	response, err := h.service.getProviderProfile(user_id)
+	response, err := h.service.GetProviderProfile(user_id)
 
 	if err != nil {
 		if err.Error() == errors.New("Provider not found").Error() {
@@ -43,7 +43,7 @@ func (h *Handler) GetProviderProfileHandler(c *gin.Context) {
 func (h *Handler) GetCustomerProfileHandler(c *gin.Context) {
 
 	user_id := c.Param("id")
-	response, err := h.service.getCustomerProfile(user_id)
+	response, err := h.service.GetCustomerProfile(user_id)
 
 	if err != nil {
 		if err.Error() == errors.New("Customer not found").Error() {

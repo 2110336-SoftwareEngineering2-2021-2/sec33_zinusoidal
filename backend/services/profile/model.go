@@ -62,3 +62,7 @@ type PasswordEditRequest struct {
 	NewPassword string `json:"newPassword" binding:"required"`
 	OldPassword string `json:"oldPassword" binding:"required"`
 }
+
+type PasswordDB struct {
+	Password string `gorm:"column:password"`
+}

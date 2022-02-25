@@ -11,6 +11,12 @@ const AppointmentCalendar = ({
   day,
   setDay,
   availableTime,
+  availableDay,
+  notAvailableDay,
+  setA,
+  availableDayAndTime,
+  setSelected,
+  selected,
 }: any) => {
   return (
     <Layout>
@@ -45,7 +51,17 @@ const AppointmentCalendar = ({
       </HeaderDiv>
       <ContentDiv>
         {" "}
-        <Calender day={day} setDay={setDay} availableTime={availableTime} />
+        <Calender
+          day={day}
+          setDay={setDay}
+          availableTime={availableTime}
+          availableDay={availableDay}
+          notAvailableDay={notAvailableDay}
+          setA={setA}
+          availableDayAndTime={availableDayAndTime}
+          setSelected={setSelected}
+          selected={selected}
+        />
       </ContentDiv>
     </Layout>
   );

@@ -42,9 +42,10 @@ const AppointmentInput = ({
   a,
   setA,
   userInfo,
+  selected,
 }: any) => {
   const deleteAppointment = (i: any) => {
-    let newTimeList = [...a, i.Time].sort();
+    let newTimeList = [...a, i.time].sort();
     let newnewList = [];
     let start = newTimeList[0][0];
     let stop = newTimeList[0][1];
@@ -64,11 +65,11 @@ const AppointmentInput = ({
     newnewList.push([start, stop]);
     let list = [...newnewList].sort();
     setA(list);
-    setTotalPrice(totalPrice - i.Price);
+    setTotalPrice(totalPrice - i.price);
 
     setAppointmentList(
       appointmentList.filter(
-        (x: any) => x.Time[0] != i.Time[0] && x.Time[1] != i.Time[1]
+        (x: any) => x.time[0] != i.time[0] && x.time[1] != i.time[1]
       )
     );
   };
@@ -102,18 +103,18 @@ const AppointmentInput = ({
       DurationH: durationH,
       DurationM: durationM,
       Day: day,
-      Topic: service,
-      Price: price,
-      Time: [startTime, stopTime],
+      fortuneType: service,
+      price: price,
+      time: [startTime, stopTime],
     };
     setAppointmentList([...appointmentList, appointment]);
     let b = a.filter((x: any) => x[0] != a[index][0] && x[1] != a[index][1]);
 
-    if (appointment.Time[0] > a[index][0]) {
-      b.push([a[index][0], appointment.Time[0]]);
+    if (appointment.time[0] > a[index][0]) {
+      b.push([a[index][0], appointment.time[0]]);
     }
-    if (appointment.Time[1] < a[index][1]) {
-      b.push([appointment.Time[1], a[index][1]]);
+    if (appointment.time[1] < a[index][1]) {
+      b.push([appointment.time[1], a[index][1]]);
     }
     setA(b.sort());
     setTotalPrice(totalPrice + price);
@@ -199,7 +200,7 @@ const AppointmentInput = ({
           Make Appointment
         </HeaderDiv>
         <ContentDiv>
-          {day.day == new Date() ? (
+          {!selected ? (
             <BsCalendarCheck size={226} color={COLOR["gray/400"]} />
           ) : (
             <MaxH>
@@ -361,7 +362,7 @@ const AppointmentInput = ({
                           >
                             <ResultItem>
                               <ResultItem>
-                                Service : <Normal>{i.Topic}</Normal>
+                                Service : <Normal>{i.fortuneType}</Normal>
                               </ResultItem>
                               <ResultItem>
                                 Provider :{" "}
@@ -393,7 +394,7 @@ const AppointmentInput = ({
                             <ResultItem>
                               Time :{" "}
                               <Normal>
-                                {i.Time[0]} - {i.Time[1]}
+                                {i.time[0]} - {i.time[1]}
                               </Normal>
                             </ResultItem>
                             <ResultItem>
@@ -409,7 +410,7 @@ const AppointmentInput = ({
                               )}
                             </ResultItem>
                             <ResultItem>
-                              Price : <Normal>{i.Price} baht</Normal>
+                              Price : <Normal>{i.price} baht</Normal>
                             </ResultItem>
                           </ResultLine>
                         </AppointmentResult>

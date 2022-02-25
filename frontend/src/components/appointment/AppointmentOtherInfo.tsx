@@ -273,7 +273,7 @@ const ShowInfo = styled.div`
 const Scroll = styled.div`
   padding: 15px;
   width: 100%;
-  height: 400px;
+  height: 360px;
   overflow-y: auto;
 `;
 const Button = styled.button`

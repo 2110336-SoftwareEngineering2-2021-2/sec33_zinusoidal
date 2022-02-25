@@ -21,11 +21,22 @@ const AppointmentSlider1 = ({
   setA,
   openOneAppointmentError,
   setOpenOneAppointmentError,
+  availableDay,
+  notAvailableDay,
+  availableDayAndTime,
+  setSelected,
+  selected,
 }: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <AppointmentCalendar
+          selected={selected}
+          setSelected={setSelected}
+          availableDayAndTime={availableDayAndTime}
+          availableDay={availableDay}
+          notAvailableDay={notAvailableDay}
+          setA={setA}
           availableTime={availableTime}
           userInfo={userInfo}
           profilePicUrl={profilePicUrl}
