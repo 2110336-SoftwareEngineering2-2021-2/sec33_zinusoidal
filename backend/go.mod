@@ -8,6 +8,8 @@ require (
 )
 
 require (
+	cloud.google.com/go/firestore v1.6.1
+	firebase.google.com/go v3.13.0+incompatible
 	github.com/aws/aws-sdk-go v1.42.53
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.6.0
