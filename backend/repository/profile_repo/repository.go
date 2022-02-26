@@ -48,14 +48,15 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 
 	aptQuery := `SELECT DISTINCT S.fortune_type
 	FROM appointment A left join appointment_service S ON A.appointment_id = S.appointment_id
-	WHERE A.provider_id=@provider_id and A.status=2;`
+	WHERE A.provider_id=? and A.status=2;`
 
 	type Result struct {
 		FortuneType string `gorm:"column:fortune_type" `
 	}
 	var results []Result
 
-	err = db.database.Raw(aptQuery).Scan(&results).Error
+	err = db.database.Raw(aptQuery, userID).Scan(&results).Error
+
 	if err != nil {
 		return returnProfile, err
 	}
