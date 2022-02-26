@@ -45,7 +45,29 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 		err := fmt.Errorf("Provider not found")
 		return returnProfile, err
 	}
+
+	aptQuery := `SELECT DISTINCT S.fortune_type
+	FROM appointment A left join appointment_service S ON A.appointment_id = S.appointment_id
+	WHERE A.provider_id=@provider_id and A.status=2;`
+
+	type Result struct {
+		FortuneType string `gorm:"column:fortune_type" `
+	}
+	var results []Result
+
+	err = db.database.Raw(aptQuery).Scan(&results).Error
+	if err != nil {
+		return returnProfile, err
+	}
+
+	bookedService := []string{}
+
+	for _, s := range results {
+		bookedService = append(bookedService, s.FortuneType)
+	}
+
 	returnProfile.UserId = userID
+	returnProfile.BookedService = bookedService
 	returnProfile.Biography = providerProfiles[0].Biography
 	returnProfile.Email = providerProfiles[0].Email
 	returnProfile.FirstName = providerProfiles[0].FirstName

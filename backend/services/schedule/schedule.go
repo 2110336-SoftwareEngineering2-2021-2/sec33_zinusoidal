@@ -211,7 +211,6 @@ func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, e
 
 	return dailyAppointment, nil
 }
-
 func MakeTimeInterval(startTime, endTime time.Time) ([]string, error) {
 
 	layoutTime := "15:04:05"
