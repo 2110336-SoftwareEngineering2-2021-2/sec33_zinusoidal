@@ -43,6 +43,7 @@ type ProviderProfile struct {
 	Rating        float64              `json:"rating"`
 	MinPrice      int                  `json:"minPrice"`
 	MaxPrice      int                  `json:"maxPrice"`
+	BookedService []string             `json:"bookedService"`
 }
 
 type ProviderDB struct {
