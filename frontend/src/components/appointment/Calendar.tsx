@@ -29,6 +29,10 @@ const Calender = ({
   availableDayAndTime,
   selected,
   setSelected,
+  getAvailableTime,
+  setInfoList,
+  setTotalPrice,
+  setAppointmentList,
 }: any) => {
   console.log(availableDay);
   let TODAY = new Date();
@@ -70,6 +74,8 @@ const Calender = ({
   return (
     <Layout>
       <CalenderHeader
+        setSelected={setSelected}
+        getAvailableTime={getAvailableTime}
         month={selectedDate.month}
         setSelectedDate={setSelectedDate}
         selectedDate={selectedDate}
@@ -105,8 +111,9 @@ const Calender = ({
                   : day.date == item.date &&
                     selectedDate.month == day.month &&
                     day.year == selectedDate.year &&
-                    item.idx != -1
-                  ? COLOR["gray/800"]
+                    item.idx != -1 &&
+                    selected
+                  ? COLOR["green/700"]
                   : availableDay.includes(item.date) && item.idx != -1
                   ? COLOR["green/400"]
                   : "white",
@@ -136,17 +143,14 @@ const Calender = ({
                 month: selectedDate.month,
                 year: selectedDate.year,
               });
-              console.log(
-                item.date,
-                availableDayAndTime.filter(
-                  (date: any) => date.date == item.date
-                )
-              );
               setA(
                 availableDayAndTime.filter(
                   (date: any) => date.date == item.date
                 )[0].timeList
               );
+              setInfoList([]);
+              setTotalPrice(0);
+              setAppointmentList([]);
             }}
           >
             <p>{item.date}</p>

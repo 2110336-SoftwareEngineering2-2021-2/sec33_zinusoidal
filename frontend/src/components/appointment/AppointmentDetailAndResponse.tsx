@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
+import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -31,58 +32,11 @@ const MonthName = [
 ];
 const cookies = new Cookies();
 
-const AppointmentConfirmation = ({
-  current,
-  setCurrent,
-  infoList,
-  appointmentList,
-  totalPrice,
-  userInfo,
-  providerID,
-  day,
-}: any) => {
-  const makeAppointment = () => {
-    const user = cookies.get("user");
-
-    let outProviderID = providerID.providerID;
-    let outMonth;
-    if (day.month < 10) {
-      outMonth = "0" + String(day.month);
-    } else {
-      outMonth = String(day.month);
-    }
-    let outDate = String(day.year) + "-" + outMonth + "-" + String(day.date);
-    let information = [];
-    let value = [];
-    for (let i = 0; i < infoList.length; i++) {
-      information.push(infoList[i].Name);
-      value.push(infoList[i].Value);
-    }
-
-    axios({
-      method: "post",
-      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/make_appointment/`,
-      data: {
-        date: outDate,
-        providerId: outProviderID,
-        appointment: {
-          appointmentList,
-          information,
-          value,
-        },
-      },
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    })
-      .then(function (response) {
-        console.log("MAKE APPOINTMNT SUCCESS!");
-        setCurrent(3);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+const AppointmentDetailAndResponse = ({}: any) => {
+  const getAppointmentInfo = () => {
+    //wait for api
   };
+  const response = (bool: any) => {};
   const [choice, setChoice] = useState(true);
   return (
     <Layout>
@@ -126,7 +80,8 @@ const AppointmentConfirmation = ({
           <ContentContent>
             {choice ? (
               <Appointments>
-                {appointmentList.map((i: any) => (
+                {/* wait for response to input detail*/}
+                {/* {appointmentList.map((i: any) => (
                   <AppointmentResult>
                     <ResultLine>
                       <ResultItem>
@@ -169,43 +124,44 @@ const AppointmentConfirmation = ({
                       </ResultItem>
                     </ResultLine>
                   </AppointmentResult>
-                ))}
+                ))} */}
               </Appointments>
             ) : (
               <Scroll>
-                {infoList.map((i: any) => (
+                {/* wait for response to input detail*/}
+                {/* {infoList.map((i: any) => (
                   <ShowDiv>
                     <NameAndValue>
                       <p>{i.Name} </p> : <Value> {i.Value}</Value>
                     </NameAndValue>
                   </ShowDiv>
-                ))}
+                ))} */}
               </Scroll>
             )}
           </ContentContent>
         </ContentDiv>
         <div style={{ fontSize: 20, display: "flex", columnGap: "4px" }}>
-          Total Price : <Normal>{totalPrice} baht</Normal>
+          {/* wait for response to input detail*/}
+          {/* Total Price : <Normal>{totalPrice} baht</Normal> */}
         </div>
         <ButtonDiv>
-          <PrevButton
+          <RejectButton
             onClick={() => {
-              setCurrent(1);
+              response(true);
             }}
-            style={{ visibility: current == 0 ? "hidden" : "visible" }}
           >
-            <MdOutlineNavigateBefore />
             Back
-          </PrevButton>
+            <AiOutlineClose size={20} />
+          </RejectButton>
 
-          <NextButton
+          <ConfirmButton
             onClick={() => {
-              makeAppointment();
+              response(false);
             }}
           >
             Confirm
             <BsCheck2 size={20} />
-          </NextButton>
+          </ConfirmButton>
         </ButtonDiv>
       </Padding>
     </Layout>
@@ -271,7 +227,7 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const NextButton = styled.div`
+const ConfirmButton = styled.div`
   width: 120px;
   height: 40px;
   background-color: ${COLOR["green/400"]};
@@ -291,29 +247,27 @@ const NextButton = styled.div`
     background-color: ${COLOR["green/500"]} !important;
   }
 `;
-const PrevButton = styled.div`
+const RejectButton = styled.div`
   width: 90px;
   height: 40px;
-  background-color: white;
-  border: 1px solid ${COLOR["violet/400"]};
+  background-color: #f66257;
+  border: none;
   border-radius: 10000px;
   font-size: 12px;
   line-height: 19px;
   font-weight: bold;
-  color: ${COLOR["violet/400"]};
+  color: white;
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   :hover {
     cursor: pointer;
-    color: ${COLOR["violet/500"]} !important;
-    border: 1px solid ${COLOR["violet/500"]}!important;
+    background-color: #f44336 !important;
   }
 `;
 const ShowDiv = styled.div`
   margin-top: 4px;
-
   margin-bottom: 4px;
   display: flex;
 `;
@@ -368,4 +322,4 @@ const Scroll = styled.div`
   height: 360px;
   overflow-y: auto;
 `;
-export default AppointmentConfirmation;
+export default AppointmentDetailAndResponse;
