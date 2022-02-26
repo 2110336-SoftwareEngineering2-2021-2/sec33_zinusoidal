@@ -26,6 +26,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
+	"google.golang.org/api/option"
 )
 
 func init() {
@@ -99,8 +100,10 @@ func main() {
 
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
-	conf := &firebase.Config{ProjectID: ""}
-	app, err := firebase.NewApp(ctx, conf)
+	opt := option.WithCredentialsFile("./secret_key/secret_key.json")
+	/// path to file secret_key.json for authenticating
+	app, err := firebase.NewApp(ctx, nil, opt)
+
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
