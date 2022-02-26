@@ -8,6 +8,8 @@ import LoginPage from "./pages/LoginPage";
 import CustomerHome from "./pages/CustomerHome";
 import SearchPage from "./pages/SearchPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import CustomerChangePassword from "./pages/CustomerChangePassword";
+import CustomerDeleteAccount from "./pages/CustomerDeleteAccount";
 
 import Appointment from "./pages/Appointment";
 
@@ -44,6 +46,14 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/editProfile" element={<EditProfilePage />} />
+          <Route
+            path="/customerChangePassword"
+            element={<CustomerChangePassword />}
+          />
+          <Route
+            path="/customerDeleteAccount"
+            element={<CustomerDeleteAccount />}
+          />
 
           <Route path="/calendar" element={<CalendarTest />} />
           <Route path="/appointment" element={<Appointment />}>

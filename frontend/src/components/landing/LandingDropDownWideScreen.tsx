@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RiPencilFill } from "react-icons/ri";
-import { AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineClose } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -47,6 +47,22 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
             <RiPencilFill /> <p>Edit your profile</p>
           </Item>
         </Link>
+      )}
+      {user.user_id.charAt(0) == "C" && (
+        <div>
+          <Link to="/customerChangePassword" style={{ textDecoration: "none" }}>
+            <DropArrow />
+            <Item>
+              <RiPencilFill /> <p>Change Password</p>
+            </Item>
+          </Link>
+          <Link to="/customerDeleteAccount" style={{ textDecoration: "none" }}>
+            <DropArrow />
+            <Item>
+              <AiOutlineClose /> <p>Delete Account</p>
+            </Item>
+          </Link>
+        </div>
       )}
 
       <Item

@@ -105,6 +105,18 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             {typeof user != "undefined" && user.user_id.slice(0, 1) == "P" && (
               <LandingDropDown text="Edit your profiles" where="/editProfile" />
             )}
+            {typeof user != "undefined" && user.user_id.slice(0, 1) == "C" && (
+              <div>
+                <LandingDropDown
+                  text="Change Password"
+                  where="/customerChangePassword"
+                />
+                <LandingDropDown
+                  text="Delete Account"
+                  where="/customerDeleteAccount"
+                />
+              </div>
+            )}
             {typeof user == "undefined" && (
               <LandingDropDown text="Login/Register" where="/login" />
             )}
