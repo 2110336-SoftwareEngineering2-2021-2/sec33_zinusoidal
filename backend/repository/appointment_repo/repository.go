@@ -1,20 +1,30 @@
 package appointment_repo
 
 import (
+	"cloud.google.com/go/firestore"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
 	"github.com/jinzhu/gorm"
 	uuid "github.com/nu7hatch/gouuid"
 )
 
-type GromDB struct {
+type DB struct {
 	database *gorm.DB
+	client   *firestore.Client
 }
 
-func New(db *gorm.DB) *GromDB {
-	return &GromDB{database: db}
+func New(db *gorm.DB, client *firestore.Client) *DB {
+	return &DB{database: db, client: client}
 }
 
-func (db *GromDB) ResponseAppointment(provider_id, appointment_id string, accept bool) error {
+type FirestoreDB struct {
+	client *firestore.Client
+}
+
+func NewFirestore(client *firestore.Client) *FirestoreDB {
+	return &FirestoreDB{client: client}
+}
+
+func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept bool) error {
 	response_query := `UPDATE appointment A
     SET A.status = ?
     WHERE A.appointment_id = ? AND A.provider_id = ?`
@@ -27,7 +37,7 @@ func (db *GromDB) ResponseAppointment(provider_id, appointment_id string, accept
 	return db.database.Exec(response_query, status, appointment_id, provider_id).Error
 }
 
-func (db *GromDB) MakeAppointment(appointment model.Appointment, customerId, providerId, date string) error {
+func (db *DB) MakeAppointment(appointment model.Appointment, customerId, providerId, date string) error {
 
 	insert_appointment := `INSERT INTO appointment(appointment_id,customer_id,provider_id)
     VALUES (?, ?, ?)`

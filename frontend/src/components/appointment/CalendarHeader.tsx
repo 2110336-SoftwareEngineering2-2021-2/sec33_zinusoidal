@@ -16,7 +16,13 @@ const MonthName = [
   "November",
   "December",
 ];
-const CalenderHeader = ({ month, selectedDate, setSelectedDate }: any) => {
+const CalenderHeader = ({
+  month,
+  selectedDate,
+  setSelectedDate,
+  getAvailableTime,
+  setSelected,
+}: any) => {
   return (
     <Layout>
       <p>
@@ -25,12 +31,19 @@ const CalenderHeader = ({ month, selectedDate, setSelectedDate }: any) => {
       <ArrowLeftRight
         setSelectedDate={setSelectedDate}
         selectedDate={selectedDate}
+        getAvailableTime={getAvailableTime}
+        setSelected={setSelected}
       />
     </Layout>
   );
 };
 
-const ArrowLeftRight = ({ setSelectedDate, selectedDate }: any) => {
+const ArrowLeftRight = ({
+  setSelectedDate,
+  selectedDate,
+  getAvailableTime,
+  setSelected,
+}: any) => {
   const leftClickHandle = () => {
     if (selectedDate.month == 0 && selectedDate.year == 2022) return;
     let month = selectedDate.month - 1;
@@ -44,6 +57,8 @@ const ArrowLeftRight = ({ setSelectedDate, selectedDate }: any) => {
       year: year,
       month: month,
     });
+    getAvailableTime(year, month);
+    setSelected(false);
   };
 
   const rightClickHandle = () => {
@@ -60,6 +75,8 @@ const ArrowLeftRight = ({ setSelectedDate, selectedDate }: any) => {
       year: year,
       month: month,
     });
+    getAvailableTime(year, month);
+    setSelected(false);
   };
   return (
     <ArrowDiv>
