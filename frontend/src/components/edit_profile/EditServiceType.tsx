@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import React, { useState, useRef, useEffect } from "react";
-import {
-  MdRemoveRedEye,
-  MdRadioButtonUnchecked,
-  MdRadioButtonChecked,
-} from "react-icons/md";
+import { MdRadioButtonUnchecked, MdRadioButtonChecked } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 import SearchServiceDropDown from "../provider_register/SearchServiceDropDown";

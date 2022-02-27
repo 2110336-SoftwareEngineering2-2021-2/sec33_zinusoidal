@@ -3,8 +3,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaRegSmileWink } from "react-icons/fa";
 import { COLOR } from "../../CONSTANT";
-import Calender from "../calendar/Calendar";
-import { AiOutlineProfile, AiFillMinusCircle } from "react-icons/ai";
+import { AiFillMinusCircle } from "react-icons/ai";
 const MonthName = [
   "January",
   "February",

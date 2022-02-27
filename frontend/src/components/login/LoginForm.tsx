@@ -3,7 +3,6 @@ import { COLOR } from "../../CONSTANT";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 

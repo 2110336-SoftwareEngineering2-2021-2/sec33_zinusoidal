@@ -1,21 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
 import styled from "styled-components";
-import {
-  BsFillBookmarkFill,
-  BsCalendarCheck,
-  BsChevronDown,
-  BsCheck2,
-} from "react-icons/bs";
-import { AiOutlineProfile, AiFillMinusCircle } from "react-icons/ai";
+import { BsFillBookmarkFill, BsCheck2 } from "react-icons/bs";
 
 import { COLOR } from "../../CONSTANT";
-import { dividerClasses } from "@mui/material";
 const MonthName = [
   "Jan",
   "Feb",

@@ -3,7 +3,6 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/landing/LandingNav";
 import AppointmentSection from "../components/appointment/AppointmentSection";
-import { COLOR } from "../CONSTANT";
 import Cookies from "universal-cookie";
 
 const Appointment = () => {

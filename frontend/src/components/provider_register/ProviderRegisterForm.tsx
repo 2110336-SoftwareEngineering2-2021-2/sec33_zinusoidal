@@ -3,7 +3,6 @@ import { COLOR } from "../../CONSTANT";
 import React, { useState } from "react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
-import zIndex from "@mui/material/styles/zIndex";
 const ProviderRegistrationForm = ({
   userData,
   changeUserData,

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
-import { AiOutlineProfile, AiFillMinusCircle } from "react-icons/ai";
+import { AiFillMinusCircle } from "react-icons/ai";
 
 import {
   BsFillBookmarkFill,
