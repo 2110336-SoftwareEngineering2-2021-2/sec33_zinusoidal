@@ -2,7 +2,7 @@ package appointment_repo
 
 import (
 	"context"
-	"time"
+	"log"
 
 	"cloud.google.com/go/firestore"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
@@ -34,8 +34,11 @@ func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept boo
 		return err
 	}
 	ctx := context.Background()
-	_, err = db.client.Collection("test_appointment_noti").Doc(appointment_id).Set(ctx, map[string]interface{}{
-		"status": status,
+	_, err = db.client.Collection("test_appointment_noti").Doc(appointment_id).Update(ctx, []firestore.Update{
+		{
+			Path:  "status",
+			Value: status,
+		},
 	})
 	return err
 }
@@ -83,9 +86,10 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 			return err
 		}
 
-		apt_time := make([]time.Time, 2)
-		apt_time[0] = start_time
-		apt_time[1] = end_time
+		apt_time := model.AppointmentTime{
+			StartTime: start_time,
+			EndTime:   end_time,
+		}
 		noti.AppointmentTime = append(noti.AppointmentTime, apt_time)
 	}
 
@@ -96,6 +100,8 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 			return err
 		}
 	}
+	log.Println("WTF")
+	log.Println(noti.AppointmentTime)
 	ctx := context.Background()
 	_, err = db.client.Collection("test_appointment_noti").Doc(apt_id).Set(ctx, noti)
 

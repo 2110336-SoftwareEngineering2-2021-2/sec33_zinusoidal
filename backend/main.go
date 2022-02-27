@@ -55,7 +55,7 @@ func main() {
 	/* Router */
 	db := NewSQLConn() /// connect database
 	jwt.Init()         /// init jwt
-	//client := NewFirestoreConn()
+	client := NewFirestoreConn()
 
 	sess := ConnectAws()
 
@@ -89,7 +89,7 @@ func main() {
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
 	}
 
-	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, nil)))
+	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, client)))
 	{
 		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
 		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
@@ -100,7 +100,7 @@ func main() {
 
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
-	opt := option.WithCredentialsFile("./secret_key/secret_key.json")
+	opt := option.WithCredentialsFile("./secret_key/secret_key2.json")
 	/// path to file secret_key.json for authenticating
 	app, err := firebase.NewApp(ctx, nil, opt)
 
@@ -112,6 +112,7 @@ func NewFirestoreConn() *firestore.Client {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	log.Println("firestore connected!! 🎉")
 	return client
 }
 

@@ -19,10 +19,15 @@ type Appointment struct {
 }
 
 type AppointmentNoti struct {
-	AppointmentTime [][]time.Time `firestore:"appointmentTime"`
-	CustomerId      string        `firestore:"customerId"`
-	ProviderId      string        `firestore:"providerId"`
-	Status          int           `firestore:"status"`
+	AppointmentTime []AppointmentTime `firestore:"appointmentTime"`
+	CustomerId      string            `firestore:"customerId"`
+	ProviderId      string            `firestore:"providerId"`
+	Status          int               `firestore:"status"`
+}
+
+type AppointmentTime struct {
+	StartTime time.Time `firestore:"startTime"`
+	EndTime   time.Time `firestore:"endTime"`
 }
 
 func GetTimes(tim string) (int, int, error) {
