@@ -18,6 +18,13 @@ type Appointment struct {
 	Value           []string          `json:"value"`
 }
 
+type AppointmentNoti struct {
+	AppointmentTime [][]time.Time `firestore:"appointmentTime"`
+	CustomerId      string        `firestore:"customerId"`
+	ProviderId      string        `firestore:"providerId"`
+	Status          int           `firestore:"status"`
+}
+
 func GetTimes(tim string) (int, int, error) {
 	hours, err := strconv.Atoi(tim[:2])
 	if err != nil {

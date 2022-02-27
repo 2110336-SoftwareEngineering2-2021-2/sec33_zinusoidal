@@ -1,6 +1,9 @@
 package appointment_repo
 
 import (
+	"context"
+	"time"
+
 	"cloud.google.com/go/firestore"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
 	"github.com/jinzhu/gorm"
@@ -16,14 +19,6 @@ func New(db *gorm.DB, client *firestore.Client) *DB {
 	return &DB{database: db, client: client}
 }
 
-type FirestoreDB struct {
-	client *firestore.Client
-}
-
-func NewFirestore(client *firestore.Client) *FirestoreDB {
-	return &FirestoreDB{client: client}
-}
-
 func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept bool) error {
 	response_query := `UPDATE appointment A
     SET A.status = ?
@@ -34,7 +29,15 @@ func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept boo
 	} else {
 		status = 1
 	}
-	return db.database.Exec(response_query, status, appointment_id, provider_id).Error
+	err := db.database.Exec(response_query, status, appointment_id, provider_id).Error
+	if err != nil {
+		return err
+	}
+	ctx := context.Background()
+	_, err = db.client.Collection("test_appointment_noti").Doc(appointment_id).Set(ctx, map[string]interface{}{
+		"status": status,
+	})
+	return err
 }
 
 func (db *DB) MakeAppointment(appointment model.Appointment, customerId, providerId, date string) error {
@@ -58,6 +61,10 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 	if err != nil {
 		return err
 	}
+	noti := model.AppointmentNoti{}
+	noti.CustomerId = customerId
+	noti.ProviderId = providerId
+	noti.Status = 0
 
 	for _, apt := range appointment.AppointmentInfo {
 
@@ -75,6 +82,11 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 		if err != nil {
 			return err
 		}
+
+		apt_time := make([]time.Time, 2)
+		apt_time[0] = start_time
+		apt_time[1] = end_time
+		noti.AppointmentTime = append(noti.AppointmentTime, apt_time)
 	}
 
 	for i, info := range appointment.Information {
@@ -84,6 +96,8 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 			return err
 		}
 	}
+	ctx := context.Background()
+	_, err = db.client.Collection("test_appointment_noti").Doc(apt_id).Set(ctx, noti)
 
-	return nil
+	return err
 }
