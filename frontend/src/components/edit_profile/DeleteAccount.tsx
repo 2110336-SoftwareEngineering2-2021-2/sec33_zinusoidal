@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { MdOutlineArrowBack } from "react-icons/md";
 import { RiAlertLine } from "react-icons/ri";
-import { FiCheckSquare } from "react-icons/fi";
 import axios from "axios";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();

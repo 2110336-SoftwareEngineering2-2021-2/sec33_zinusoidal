@@ -27,6 +27,7 @@ const ProfileEditContainer = ({
   setService,
   availableTime,
   setAvailableTime,
+  bookedService,
 }: any) => {
   return (
     <Layout>
@@ -40,7 +41,11 @@ const ProfileEditContainer = ({
           getProfilePicUrl={getProfilePicUrl}
           setGetProfilePicUrl={setGetProfilePicUrl}
         />
-        <EditServiceType service={service} setService={setService} />
+        <EditServiceType
+          service={service}
+          setService={setService}
+          bookedService={bookedService}
+        />
         <EditAvailableTime
           availableTime={availableTime}
           setAvailableTime={setAvailableTime}
