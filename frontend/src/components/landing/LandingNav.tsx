@@ -11,6 +11,8 @@ import { useLocation } from "react-router-dom";
 import LandingDropDownWideScreen from "./LandingDropDownWideScreen";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import NotificationList from "../notification/NotificationList";
 const cookies = new Cookies();
 const logo = require("../../assets/logo.png");
 
@@ -25,6 +27,8 @@ const LandingNav = ({ onClickMenu, show }: any) => {
   const user = cookies.get("user");
   const [showDropDown, setShowDropDown] = useState(true);
   const [showWideDropDown, setShowWideDropDown] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -48,7 +52,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
   return (
     <Frame>
       <Layout>
-        <img src={logo} alt="logo" />
+        <Image src={logo} alt="logo" />
 
         <StyledLink to="/">
           <motion.h1 whileHover={{ scale: 1.3, originX: 0 }}>Home</motion.h1>
@@ -59,10 +63,20 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             Find provider
           </motion.h1>
         </StyledLink>
+
+        <div style={{ position: "relative", marginLeft: "auto" }}>
+          <IoMdNotificationsOutline
+            size={24}
+            onClick={() => setShowNotification((show) => !show)}
+          />
+          {showNotification && (
+            <NotificationList setDropDown={setShowNotification} />
+          )}
+        </div>
         <NameDiv>
           {typeof user == "undefined" ? (
             <P
-              whileHover={{ scale: 1.3, originX: "100%" }}
+              whileHover={{ scale: 1.1, originX: "100%" }}
               isuser={(typeof user != "undefined").toString()}
               onClick={() => {
                 navigate("/login");
@@ -72,7 +86,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             </P>
           ) : (
             <P
-              whileHover={{ scale: 1.3, originX: "100%" }}
+              whileHover={{ scale: 1.1, originX: "100%" }}
               isuser={(typeof user != "undefined").toString()}
               onClick={() => setShowWideDropDown(!showWideDropDown)}
             >
@@ -136,13 +150,8 @@ const Layout = styled.div`
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: ${COLOR["violet/100"]};
-  z-index: 5;
+  z-index: 2;
   position: relative;
-  img {
-    height: 50px;
-    width: 131px;
-    cursor: pointer;
-  }
 
   h1 {
     font-size: 20px;
@@ -158,6 +167,12 @@ const Layout = styled.div`
       font-size: 16px;
     }
   }
+`;
+
+const Image = styled.img`
+  height: 50px;
+  width: 131px;
+  cursor: pointer;
 `;
 
 const LandingDropDownDiv = styled(motion.div)`
@@ -213,7 +228,7 @@ const P = styled(motion.p)<ParagraphPropType>`
 const NameDiv = styled.div`
   position: relative;
   margin-right: 32px;
-  margin-left: auto;
+  margin-left: 24px;
 
   @media screen and (max-width: 600px) {
     display: none;
