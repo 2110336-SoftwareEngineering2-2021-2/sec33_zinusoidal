@@ -76,7 +76,6 @@ const Layout = styled("div")<LayoutPropType>`
 `;
 
 const Image = styled.div`
-  min-width: 64px;
   width: 64px;
   height: 64px;
   border-radius: 100%;
