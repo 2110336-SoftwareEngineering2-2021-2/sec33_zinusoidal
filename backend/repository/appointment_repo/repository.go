@@ -59,7 +59,7 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 	if err != nil {
 		return err
 	}
-	apt_id := apt_uuid.String()
+	apt_id := "A" + apt_uuid.String()
 
 	err = db.database.Exec(insert_appointment, apt_id, customerId, providerId).Error
 	if err != nil {
