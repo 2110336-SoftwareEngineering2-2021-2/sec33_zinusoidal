@@ -2,9 +2,16 @@ import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import Notification from "./Notification";
 import { motion } from "framer-motion";
+import db from "../../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 const li = [1, 2, 3, 4, 5];
 
 const NotificationList = ({ setDropDown }: any) => {
+  useEffect(() => {
+    onSnapshot(collection(db, "appointments"), (snapshot) => {
+      console.log(snapshot.docs.map((doc) => doc.data()));
+    });
+  });
   const wrapperRef = useRef(null);
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
