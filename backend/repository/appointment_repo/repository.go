@@ -9,7 +9,7 @@ import (
 	uuid "github.com/nu7hatch/gouuid"
 )
 
-const collection_name string = "appointments"
+const appointment_collection_name string = "appointments"
 
 type DB struct {
 	database *gorm.DB
@@ -35,7 +35,7 @@ func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept boo
 		return err
 	}
 	ctx := context.Background()
-	_, err = db.client.Collection(collection_name).Doc(appointment_id).Update(ctx, []firestore.Update{
+	_, err = db.client.Collection(appointment_collection_name).Doc(appointment_id).Update(ctx, []firestore.Update{
 		{
 			Path:  "status",
 			Value: status,
@@ -103,7 +103,7 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 	}
 
 	ctx := context.Background()
-	_, err = db.client.Collection(collection_name).Doc(apt_id).Set(ctx, noti)
+	_, err = db.client.Collection(appointment_collection_name).Doc(apt_id).Set(ctx, noti)
 
 	return err
 }
