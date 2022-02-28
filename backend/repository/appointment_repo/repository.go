@@ -9,7 +9,7 @@ import (
 	uuid "github.com/nu7hatch/gouuid"
 )
 
-const collection_name string = "appointmentNoti"
+const collection_name string = "appointment"
 
 type DB struct {
 	database *gorm.DB
