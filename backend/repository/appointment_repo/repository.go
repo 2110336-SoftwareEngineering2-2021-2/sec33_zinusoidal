@@ -2,13 +2,14 @@ package appointment_repo
 
 import (
 	"context"
-	"log"
 
 	"cloud.google.com/go/firestore"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
 	"github.com/jinzhu/gorm"
 	uuid "github.com/nu7hatch/gouuid"
 )
+
+const collection_name string = "appointmentNoti"
 
 type DB struct {
 	database *gorm.DB
@@ -34,7 +35,7 @@ func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept boo
 		return err
 	}
 	ctx := context.Background()
-	_, err = db.client.Collection("test_appointment_noti").Doc(appointment_id).Update(ctx, []firestore.Update{
+	_, err = db.client.Collection(collection_name).Doc(appointment_id).Update(ctx, []firestore.Update{
 		{
 			Path:  "status",
 			Value: status,
@@ -100,10 +101,9 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 			return err
 		}
 	}
-	log.Println("WTF")
-	log.Println(noti.AppointmentTime)
+
 	ctx := context.Background()
-	_, err = db.client.Collection("test_appointment_noti").Doc(apt_id).Set(ctx, noti)
+	_, err = db.client.Collection(collection_name).Doc(apt_id).Set(ctx, noti)
 
 	return err
 }
