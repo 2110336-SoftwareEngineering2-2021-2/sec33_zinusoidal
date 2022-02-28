@@ -149,11 +149,7 @@ func (s *Service) ConfirmEmail(key string) error {
 }
 
 func (s *Service) CheckPassword(userId, oldPassword, newPassword string) error {
-	err := s.database.CheckPassword(userId, oldPassword, newPassword)
-	if err != nil {
-		return err
-	}
-	return nil
+	return s.database.CheckPassword(userId, oldPassword, newPassword)
 }
 
 func sendEmailConfirmationLink(email, key string) error {
