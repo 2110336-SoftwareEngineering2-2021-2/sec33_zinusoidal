@@ -10,11 +10,28 @@ const cookies = new Cookies();
 const EditPassword = ({ setCurrent, userData }: any) => {
   const [deleteWord, setDeleteWord] = useState("");
   const [usernameNotMatch, setUsernameNotMatch] = useState(false);
-  const [stillHaveAppointMent, setStillHaveAppointMent] = useState(false);
+  const [deleteErrorOpen, setDeleteErrorOpen] = useState(false);
   const deleteAccount = () => {
+    setUsernameNotMatch(false);
+    setDeleteErrorOpen(false);
+    const user = cookies.get("user");
+    console.log("wait for delete API");
     setDeleteWord("");
-    setCurrent(6);
-    console.log("wait for make appointment api to check if have appointment");
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/delete_account`,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(function (response) {
+        setCurrent(6);
+      })
+      .catch(function (error) {
+        setDeleteErrorOpen(true);
+        console.log(error.response.data.message);
+      });
   };
   return (
     <Layout>
@@ -44,6 +61,7 @@ const EditPassword = ({ setCurrent, userData }: any) => {
                 placeholder={userData.Username}
                 onChange={(e) => {
                   setUsernameNotMatch(false);
+                  setDeleteErrorOpen(false);
                   setDeleteWord(e.target.value);
                 }}
               ></Forminput>
@@ -58,6 +76,9 @@ const EditPassword = ({ setCurrent, userData }: any) => {
               </Button>
             </InandButtonDiv>
             {usernameNotMatch ? <Error>Incorrect Username</Error> : null}
+            {deleteErrorOpen ? (
+              <Error>You still have appointment! Don't leave us yet!</Error>
+            ) : null}
           </InputDiv>
         </ContentDiv>
       </Padding>
