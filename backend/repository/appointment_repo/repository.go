@@ -69,6 +69,9 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 	noti.CustomerId = customerId
 	noti.ProviderId = providerId
 	noti.Status = 0
+	noti.TotalPrice = 0
+	noti.Information = appointment.Information
+	noti.Value = appointment.Value
 
 	for _, apt := range appointment.AppointmentInfo {
 
@@ -92,6 +95,7 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 			EndTime:   end_time,
 		}
 		noti.AppointmentTime = append(noti.AppointmentTime, apt_time)
+		noti.TotalPrice += apt.Price
 	}
 
 	for i, info := range appointment.Information {
