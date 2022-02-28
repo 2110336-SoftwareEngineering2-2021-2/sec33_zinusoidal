@@ -30,6 +30,7 @@ type Databaser interface {
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
 	CheckPassword(userId, oldPassword, newPassword string) error
+	DeleteAccount(userId string) error
 }
 
 func NewService(database Databaser, centralService services.Service) *Service {
@@ -157,6 +158,10 @@ func (s *Service) CheckPassword(userId, oldPassword, newPassword string) error {
 		return err
 	}
 	return nil
+}
+
+func (s *Service) DeleteAccount(userId string) error {
+	return s.database.DeleteAccount(userId)
 }
 
 func sendEmailConfirmationLink(email, key string) error {

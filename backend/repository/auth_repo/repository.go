@@ -129,3 +129,10 @@ func (db *GromDB) CheckPassword(userID, oldPassword, newPassword string) error {
 	}
 	return nil
 }
+
+func (db *GromDB) DeleteAccount(userId string) error {
+
+	query := `DELETE FROM fortune_user WHERE id = ?`
+	return db.database.Exec(query, userId).Error
+
+}

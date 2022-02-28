@@ -65,6 +65,7 @@ func main() {
 		v1fortune.POST("/provider_register", auth_handler.ProviderRegisterHandler)
 		v1fortune.POST("/login", auth_handler.LoginHandler)
 		v1fortune.POST("/confirm_email/:key", auth_handler.ActivateEmailHandler)
+		v1fortune.POST("/delete_account", auth_handler.DeleteAccountHandler)
 	}
 	v1fortune.POST("/test", auth_handler.TestHandler)
 
