@@ -52,6 +52,7 @@ const AppointmentConfirmation = ({
       outDay = String(day.date);
     }
     let outDate = String(day.year) + "-" + outMonth + "-" + outDay;
+    console.log(outDate);
     let information = [];
     let value = [];
     for (let i = 0; i < infoList.length; i++) {
