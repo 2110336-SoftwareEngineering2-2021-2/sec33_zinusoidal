@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"time"
 
@@ -101,29 +100,12 @@ func main() {
 
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
-	// opt := option.WithCredentialsFile("./secret_key/secret_key.json")
+
 	/*
 		method 1: connect by file secret_key.json, this method is easier
 		path to file secret_key.json for authenticating
 	*/
-	cred := map[string]interface{}{
-		"type":                        viper.GetString("type"),
-		"project_id":                  viper.GetString("project_id"),
-		"private_key_id":              viper.GetString("private_key_id"),
-		"private_key":                 viper.GetString("private_key"),
-		"client_email":                viper.GetString("client_email"),
-		"client_id":                   viper.GetString("client_id"),
-		"auth_uri":                    viper.GetString("auth_uri"),
-		"token_uri":                   viper.GetString("token_uri"),
-		"auth_provider_x509_cert_url": viper.GetString("auth_provider_x509_cert_url"),
-		"client_x509_cert_url":        viper.GetString("client_x509_cert_url"),
-	}
-	cred_byte, err := json.Marshal(cred)
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
-	opt := option.WithCredentialsJSON(cred_byte)
+	opt := option.WithCredentialsFile("./configs/secret_key.json")
 
 	app, err := firebase.NewApp(ctx, nil, opt)
 
