@@ -140,7 +140,11 @@ const Notification = ({ person, content, data }: any) => {
   return (
     <Layout
       onClick={() => {
-        if (data.status == 1 && showNotification == false)
+        if (
+          user.user_id.slice(0, 1) == "P" &&
+          data.status == 1 &&
+          showNotification == false
+        )
           setShowNotification(true);
       }}
     >
