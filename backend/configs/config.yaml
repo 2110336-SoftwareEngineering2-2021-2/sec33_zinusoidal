@@ -6,7 +6,7 @@ mysql:
   username: ""
   password: ""
   db_name: ""
-  net: ""
+  net: "tcp"
 smtp:
   host: "smtp.gmail.com"
   port: 587
