@@ -19,8 +19,9 @@ import (
 )
 
 type Service struct {
-	database       Databaser
-	centralService services.Service
+	database        Databaser
+	centralService  services.Service
+	profileDatabase ProfileDatabaser
 }
 
 type Databaser interface {
@@ -30,12 +31,18 @@ type Databaser interface {
 	InsertConfirmationKey(userId, key string) error
 	ConfirmEmail(key string) error
 	CheckPassword(userId, oldPassword, newPassword string) error
+	DeleteAccount(userId string) error
 }
 
-func NewService(database Databaser, centralService services.Service) *Service {
+type ProfileDatabaser interface {
+	GetLandingPageInfo() (*model.LandingPageInfo, error)
+}
+
+func NewService(database Databaser, centralService services.Service, pd ProfileDatabaser) *Service {
 	return &Service{
-		database:       database,
-		centralService: centralService,
+		database:        database,
+		centralService:  centralService,
+		profileDatabase: pd,
 	}
 }
 
@@ -150,6 +157,33 @@ func (s *Service) ConfirmEmail(key string) error {
 
 func (s *Service) CheckPassword(userId, oldPassword, newPassword string) error {
 	return s.database.CheckPassword(userId, oldPassword, newPassword)
+}
+
+func (s *Service) DeleteAccount(userId string) error {
+
+	before_delete, err := s.profileDatabase.GetLandingPageInfo()
+
+	if err != nil {
+		return err
+	}
+
+	err = s.database.DeleteAccount(userId)
+
+	if err != nil {
+		return err
+	}
+
+	after_delete, err := s.profileDatabase.GetLandingPageInfo()
+
+	if err != nil {
+		return err
+	}
+
+	if before_delete.CustomerCnt+before_delete.FortuneCnt == after_delete.CustomerCnt+after_delete.FortuneCnt {
+		return errors.New("No delete")
+	}
+
+	return nil
 }
 
 func sendEmailConfirmationLink(email, key string) error {

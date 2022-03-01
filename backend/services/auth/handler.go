@@ -127,3 +127,31 @@ func (h *Handler) TestHandler(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) DeleteAccountHandler(c *gin.Context) {
+	claim, err := jwt.VerifyToken(c)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
+
+	userId := claim.UserID
+
+	err = h.service.DeleteAccount(userId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"log": err.Error(),
+		})
+		return
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"log": "OK",
+		})
+		return
+	}
+
+}
