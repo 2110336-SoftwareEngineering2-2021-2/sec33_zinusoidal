@@ -57,6 +57,8 @@ const ArrowLeftRight = ({
       year: year,
       month: month,
     });
+    console.log(" C Header", year, month);
+
     getAvailableTime(year, month);
     setSelected(false);
   };
@@ -75,6 +77,7 @@ const ArrowLeftRight = ({
       year: year,
       month: month,
     });
+    console.log(" C Header", year, month);
     getAvailableTime(year, month);
     setSelected(false);
   };
