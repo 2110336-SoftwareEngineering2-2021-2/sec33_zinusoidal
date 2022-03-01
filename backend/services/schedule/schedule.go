@@ -156,16 +156,17 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 					availDate = append(availDate, workDay)
 				}
 			}
-
-			for _, d := range availDate {
-				if len(d.TimeList) == 0 {
-					notAvail = append(notAvail, d.Date)
-				} else {
-					avail = append(avail, d)
-				}
-			}
-			w = avail
+			w = availDate
 		}
+
+		for _, d := range availDate {
+			if len(d.TimeList) == 0 {
+				notAvail = append(notAvail, d.Date)
+			} else {
+				avail = append(avail, d)
+			}
+		}
+
 		ret.AvailDate = avail
 	} else {
 		ret.AvailDate = w
