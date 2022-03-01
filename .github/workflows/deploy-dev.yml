@@ -155,6 +155,8 @@ jobs:
             echo "    image: kirkpig/zinusoidal-backend:latest" >> docker-compose.yml
             echo "    ports:" >> docker-compose.yml
             echo "      - \"1323:1323\"" >> docker-compose.yml
+            echo "    volumes:" >> docker-compose.yml
+            echo "      - /home/ubuntu/backend_secret:./configs/secret" >> docker-compose.yml
 
             sudo docker-compose down
             sudo docker container prune --force
