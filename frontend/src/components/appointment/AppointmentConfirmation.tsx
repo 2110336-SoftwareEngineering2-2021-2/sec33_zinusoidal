@@ -39,10 +39,11 @@ const AppointmentConfirmation = ({
 
     let outProviderID = providerID.providerID;
     let outMonth;
-    if (day.month < 10) {
-      outMonth = "0" + String(day.month);
+    let m = day.month + 1;
+    if (m < 10) {
+      outMonth = "0" + String(m);
     } else {
-      outMonth = String(day.month);
+      outMonth = String(m);
     }
     let outDay;
     if (day.date < 10) {
@@ -51,6 +52,7 @@ const AppointmentConfirmation = ({
       outDay = String(day.date);
     }
     let outDate = String(day.year) + "-" + outMonth + "-" + outDay;
+    console.log(outDate);
     let information = [];
     let value = [];
     for (let i = 0; i < infoList.length; i++) {
