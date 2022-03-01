@@ -6,7 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 import SearchServiceDropDown from "../provider_register/SearchServiceDropDown";
 
-const EditServiceType = ({ service, setService, bookedService }: any) => {
+const EditServiceType = ({ service, setService }: any) => {
   const wrapperRef = useRef(null);
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
@@ -30,7 +30,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
   const [enableAdd, setEnableAdd] = useState(false);
   const [serviceError, setServiceError] = useState(false);
   const [duplicatError, setDuplicatError] = useState(false);
-  const [bookedError, setBookedError] = useState(false);
   const addServiceToList = (newService: any) => {
     console.log(newService);
     for (var s of service) {
@@ -51,10 +50,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
     setEnableAdd(false);
   };
   const deleteServiceFromList = (deleteService: any) => {
-    if (bookedService.includes(deleteService.fortuneType)) {
-      setBookedError(true);
-      return;
-    }
     setService(
       service.filter(
         (service: any) =>
@@ -98,7 +93,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
                   placeholder="Service's name"
                   value={serviceName}
                   onChange={(e) => {
-                    setBookedError(false);
                     setDuplicatError(false);
                     setServiceError(false);
                     setServiceName(e.target.value);
@@ -113,7 +107,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
                     placeholder="0"
                     value={servicePrice == 0 ? "" : servicePrice}
                     onChange={(e) => {
-                      setBookedError(false);
                       setDuplicatError(false);
                       setServiceError(false);
                       setServicePrice(Number(e.target.value));
@@ -138,7 +131,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
-                  setBookedError(false);
                   setDuplicatError(false);
                   setServiceError(false);
                 }}
@@ -185,7 +177,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
                     onClick={() => setServiceDropDownOpen(true)}
                     onChange={(e) => {
                       setServiceName(e.target.value);
-                      setBookedError(false);
                       setDuplicatError(false);
                       setServiceError(false);
                     }}
@@ -208,7 +199,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
                   placeholder="0"
                   value={servicePrice == 0 ? "" : servicePrice}
                   onChange={(e) => {
-                    setBookedError(false);
                     setDuplicatError(false);
                     setServiceError(false);
                     setServicePrice(Number(e.target.value));
@@ -232,7 +222,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
-                  setBookedError(false);
                   setDuplicatError(false);
                   setServiceError(false);
                 }}
@@ -251,7 +240,6 @@ const EditServiceType = ({ service, setService, bookedService }: any) => {
         {serviceError ? (
           <Error>You need to have at least one service type</Error>
         ) : null}
-        {bookedError ? <Error>You can't delete booked service</Error> : null}
         <Services>
           {service.map((s: any) => (
             <MyServiceDiv>

@@ -55,8 +55,6 @@ const EditProfile = () => {
         setAvailableTime(response.data.workSchedule);
         setService(response.data.fortuneList);
         setGetProfilePicUrl(response.data.profilePicUrl);
-        // setBookedService(response.data.bookedService);
-        setBookedService(["gacha1"]);
       })
       .catch(function (error) {
         console.log(error.response.data.message);
@@ -123,8 +121,6 @@ const EditProfile = () => {
         console.log(error.response.data);
       });
   };
-  const [bookedService, setBookedService] = useState([""]);
-  console.log(bookedService);
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
@@ -170,7 +166,6 @@ const EditProfile = () => {
           </Header>
           <Form>
             <ProfileEditContainer
-              bookedService={bookedService}
               setCurrent={setCurrent}
               profilePicUrl={profilePicUrl}
               setProfilePicUrl={setProfilePicUrl}
