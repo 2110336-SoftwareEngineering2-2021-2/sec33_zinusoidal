@@ -101,17 +101,19 @@ func main() {
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
 
-	opt := option.WithCredentialsFile("./configs/secret/secret_key.json")
+	opt := option.WithCredentialsFile("./etc/zinusoidal/secret/secret_key.json")
 
 	app, err := firebase.NewApp(ctx, nil, opt)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return nil
 	}
 
 	client, err := app.Firestore(ctx)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return nil
 	}
 	log.Println("firestore connected!! 🎉")
 	return client
