@@ -36,9 +36,12 @@ const Notification = ({ person, content, data }: any) => {
       },
     })
       .then(function (response) {
+        console.log("FINIsh");
         setShowNotification(false);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        console.log("error");
+      });
   };
 
   console.log("DATA is ", data);
@@ -65,14 +68,14 @@ const Notification = ({ person, content, data }: any) => {
       </Content>
       {showNotification && (
         <Backdrop onClick={onClick}>
-          <AppointMent data={data} />
+          <AppointMent data={data} handleRequest={HandleRequest} />
         </Backdrop>
       )}
     </Layout>
   );
 };
 
-const AppointMent = ({ data }: any) => {
+const AppointMent = ({ data, handleRequest }: any) => {
   let detail = [];
   for (let i = 0; i < data.information.length; i++) {
     detail.push({ info: data.information[i], value: data.value[i] });
@@ -100,8 +103,22 @@ const AppointMent = ({ data }: any) => {
       </AppointmentList>
       <P>Total price : {data.total_price} baht</P>
       <HandleButton>
-        <Button style={{ backgroundColor: "#F66257" }}>Reject</Button>
-        <Button style={{ backgroundColor: COLOR["green/400"] }}>Accept</Button>
+        <Button
+          style={{ backgroundColor: "#F66257" }}
+          onClick={() => {
+            handleRequest("0");
+          }}
+        >
+          Reject
+        </Button>
+        <Button
+          style={{ backgroundColor: COLOR["green/400"] }}
+          onClick={() => {
+            handleRequest("1");
+          }}
+        >
+          Accept
+        </Button>
       </HandleButton>
     </AppointmentDetailBox>
   );
