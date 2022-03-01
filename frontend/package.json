@@ -16,6 +16,7 @@
     "@types/react-modal": "^3.13.1",
     "axios": "^0.26.0",
     "cookie-parser": "^1.4.6",
+    "firebase": "^9.6.7",
     "framer-motion": "^6.2.3",
     "i": "^0.3.7",
     "npm": "^8.5.2",
