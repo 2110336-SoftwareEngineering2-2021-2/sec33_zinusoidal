@@ -164,6 +164,7 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 					avail = append(avail, d)
 				}
 			}
+			w = avail
 		}
 		ret.AvailDate = avail
 	} else {
@@ -174,6 +175,15 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 
 	return ret, err
 }
+
+// func (s *Service) GetFreeTime(date, month, year int, userId string) ([][]string, error) {
+// 	var w []WorkingDay
+// 	var err error
+// 	w, err = s.GetWorkingDay(month, year, userId)
+
+// 	return test, nil
+
+// }
 
 func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, error) {
 
