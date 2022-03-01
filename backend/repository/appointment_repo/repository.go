@@ -1,11 +1,15 @@
 package appointment_repo
 
 import (
+	"context"
+
 	"cloud.google.com/go/firestore"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
 	"github.com/jinzhu/gorm"
 	uuid "github.com/nu7hatch/gouuid"
 )
+
+const appointment_collection_name string = "appointments"
 
 type DB struct {
 	database *gorm.DB
@@ -14,14 +18,6 @@ type DB struct {
 
 func New(db *gorm.DB, client *firestore.Client) *DB {
 	return &DB{database: db, client: client}
-}
-
-type FirestoreDB struct {
-	client *firestore.Client
-}
-
-func NewFirestore(client *firestore.Client) *FirestoreDB {
-	return &FirestoreDB{client: client}
 }
 
 func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept bool) error {
@@ -34,7 +30,18 @@ func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept boo
 	} else {
 		status = 1
 	}
-	return db.database.Exec(response_query, status, appointment_id, provider_id).Error
+	err := db.database.Exec(response_query, status, appointment_id, provider_id).Error
+	if err != nil {
+		return err
+	}
+	ctx := context.Background()
+	_, err = db.client.Collection(appointment_collection_name).Doc(appointment_id).Update(ctx, []firestore.Update{
+		{
+			Path:  "status",
+			Value: status,
+		},
+	})
+	return err
 }
 
 func (db *DB) MakeAppointment(appointment model.Appointment, customerId, providerId, date string) error {
@@ -52,12 +59,19 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 	if err != nil {
 		return err
 	}
-	apt_id := apt_uuid.String()
+	apt_id := "A" + apt_uuid.String()
 
 	err = db.database.Exec(insert_appointment, apt_id, customerId, providerId).Error
 	if err != nil {
 		return err
 	}
+	noti := model.AppointmentNoti{}
+	noti.CustomerId = customerId
+	noti.ProviderId = providerId
+	noti.Status = 0
+	noti.TotalPrice = 0
+	noti.Information = appointment.Information
+	noti.Value = appointment.Value
 
 	for _, apt := range appointment.AppointmentInfo {
 
@@ -75,6 +89,13 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 		if err != nil {
 			return err
 		}
+
+		apt_time := model.AppointmentTime{
+			StartTime: start_time,
+			EndTime:   end_time,
+		}
+		noti.AppointmentTime = append(noti.AppointmentTime, apt_time)
+		noti.TotalPrice += apt.Price
 	}
 
 	for i, info := range appointment.Information {
@@ -85,5 +106,8 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 		}
 	}
 
-	return nil
+	ctx := context.Background()
+	_, err = db.client.Collection(appointment_collection_name).Doc(apt_id).Set(ctx, noti)
+
+	return err
 }
