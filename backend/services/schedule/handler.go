@@ -41,6 +41,13 @@ func (h *Handler) ScheduleHandler(c *gin.Context) {
 
 	results, err = h.service.RemoveBooked(work, user_id, req.Month)
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, results)
 
 }
@@ -62,6 +69,13 @@ func (h *Handler) MyScheduleHandler(c *gin.Context) {
 
 	results, err = h.service.GetApt(req.Date, req.Month, req.Year, user_id)
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, results)
 
 }
@@ -82,6 +96,13 @@ func (h *Handler) FreeTimeHandler(c *gin.Context) {
 	}
 
 	results, err = h.service.GetFreeTime(req.Date, req.Month, req.Year, user_id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"log": err.Error(),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, results)
 
