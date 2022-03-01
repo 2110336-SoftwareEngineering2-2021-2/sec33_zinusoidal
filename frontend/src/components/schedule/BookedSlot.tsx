@@ -12,17 +12,31 @@ type SlotType = {
   idx: number;
 };
 
+const Calculate = (startTime: string, stopTime: string) => {
+  const min =
+    Number(stopTime.slice(0, 2)) * 60 +
+    Number(stopTime.slice(3, 5)) -
+    Number(startTime.slice(0, 2)) * 60 -
+    Number(startTime.slice(3, 5));
+  if (Math.floor(min / 60) == 0) return `${min % 60} min`;
+
+  return `${Math.floor(min / 60)} hours ${min % 60} mins`;
+};
+
 const BookedSlot = ({ data, idx }: any) => {
+  const s = Calculate(data.time[0], data.time[1]);
   return (
     <Layout idx={idx}>
       <Block>
         <p>
           {data.time[0]} - {data.time[1]}
         </p>
-        <p>4 hr 30 min</p>
+        <p>{s}</p>
       </Block>
       <Block>Topic : {data.topic}</Block>
-      <Block>Customer : {data.FirstName} </Block>
+      <Block>
+        Customer : {data.firstName} {data.lastName}{" "}
+      </Block>
     </Layout>
   );
 };
