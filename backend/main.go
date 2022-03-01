@@ -89,7 +89,7 @@ func main() {
 	{
 		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
-		v1fortune.POST("/free_time/:id", schedule_handler.FreeTimeHandler)
+		v1fortune.POST("/available_time/:id", schedule_handler.FreeTimeHandler)
 	}
 
 	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, client)))
