@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RiPencilFill } from "react-icons/ri";
 import { AiOutlineLogout, AiOutlineClose } from "react-icons/ai";
+import { BsCalendarCheck } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -41,12 +42,20 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
       animate={{ opacity: 1, scale: 1 }}
     >
       {user.user_id.charAt(0) == "P" && (
-        <Link to="/editProfile" style={{ textDecoration: "none" }}>
-          <DropArrow />
-          <Item>
-            <RiPencilFill /> <p>Edit your profile</p>
-          </Item>
-        </Link>
+        <div>
+          <Link to="/editProfile" style={{ textDecoration: "none" }}>
+            <DropArrow />
+            <Item>
+              <RiPencilFill /> <p>Edit your profile</p>
+            </Item>
+          </Link>
+          <Link to="/calendar" style={{ textDecoration: "none" }}>
+            <DropArrow />
+            <Item>
+              <BsCalendarCheck /> <p>See my appointment</p>
+            </Item>
+          </Link>
+        </div>
       )}
       {user.user_id.charAt(0) == "C" && (
         <div>
@@ -56,6 +65,7 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
               <RiPencilFill /> <p>Change Password</p>
             </Item>
           </Link>
+
           <Link to="/customerDeleteAccount" style={{ textDecoration: "none" }}>
             <DropArrow />
             <Item>
