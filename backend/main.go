@@ -106,14 +106,12 @@ func NewFirestoreConn() *firestore.Client {
 	app, err := firebase.NewApp(ctx, nil, opt)
 
 	if err != nil {
-		log.Println(err)
-		return nil
+		log.Fatalln(err)
 	}
 
 	client, err := app.Firestore(ctx)
 	if err != nil {
-		log.Println(err)
-		return nil
+		log.Fatalln(err)
 	}
 	log.Println("firestore connected!! 🎉")
 	return client
