@@ -121,7 +121,13 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             <LandingDropDown text="Home" where="/" />
             <LandingDropDown text="Find provider" where="/search" />
             {typeof user != "undefined" && user.user_id.slice(0, 1) == "P" && (
-              <LandingDropDown text="Edit your profiles" where="/editProfile" />
+              <div>
+                <LandingDropDown
+                  text="Edit your profiles"
+                  where="/editProfile"
+                />
+                <LandingDropDown text="See my appointment" where="/calendar" />
+              </div>
             )}
             {typeof user != "undefined" && user.user_id.slice(0, 1) == "C" && (
               <div>

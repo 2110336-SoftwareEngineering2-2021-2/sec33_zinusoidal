@@ -5,6 +5,9 @@ import { COLOR } from "../CONSTANT";
 import Schedule from "../components/schedule/Schedule";
 import LandingNav from "../components/landing/LandingNav";
 import { YEARCOLLECTION } from "../CONSTANT";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+const cookies = new Cookies();
 
 const endMonth_1 = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const endMonth_2 = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -20,6 +23,15 @@ function checkYear(year: number) {
 
 const CalenderTest = () => {
   const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
+
+  let navigate = useNavigate();
+  const user = cookies.get("user");
+  useEffect(() => {
+    if (typeof user == "undefined") {
+      alert("You must be logged in");
+      navigate(`/`);
+    }
+  }, []);
 
   const handleDay = (payload: number) => {
     setDay((day) => {
@@ -102,6 +114,9 @@ const CalenderTest = () => {
       year: TODAY.getFullYear(),
     });
   }, []);
+
+  if (typeof user == "undefined") return <></>;
+
   return (
     <OuterContainer>
       <LandingNav />
