@@ -8,6 +8,7 @@ import SearchDetailServiceSlider from "./SearchDetailServiceSlider";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
+import AvailableTimeCalendar from "../calendar/AvailableTimeCalendar";
 
 const cookies = new Cookies();
 const SearchDetail = ({ person, onClickBack }: any) => {
@@ -45,6 +46,10 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       </ContentContainer>
       <ContentContainer>
         <h1>Reviews</h1>
+      </ContentContainer>
+      <ContentContainer>
+        <h1>Available Time</h1>
+        <AvailableTimeCalendar />
       </ContentContainer>
     </Layout>
   );
