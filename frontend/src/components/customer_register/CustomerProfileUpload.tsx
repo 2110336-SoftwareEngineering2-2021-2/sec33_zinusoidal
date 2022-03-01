@@ -4,7 +4,6 @@ import React, { useState, useRef } from "react";
 
 import { BsPeopleFill } from "react-icons/bs";
 import { AiOutlineUpload } from "react-icons/ai";
-import { isConstructorDeclaration } from "typescript";
 const selectedImg = require("../../assets/zinusoidal.png");
 
 const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {

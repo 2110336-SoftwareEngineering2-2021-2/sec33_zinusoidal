@@ -46,7 +46,7 @@ const EditPassword = ({ setCurrent }: any) => {
       })
       .catch(function (error) {
         console.log(error.response.data.log);
-        if (error.response.data.log.includes("wrong")) {
+        if (error.response.data.log.includes("Wrong Password")) {
           setWrongOldPasswordError(true);
         }
         if (error.response.data.log.includes("same")) {
@@ -216,6 +216,8 @@ const EditPassword = ({ setCurrent }: any) => {
           </PDiv>
           <Button
             onClick={() => {
+              setWrongOldPasswordError(false);
+              setSameOldPasswordError(false);
               if (newPassword == "" || newCPassword == "") {
                 setBlankPasswordError(true);
               } else if (newPassword != newCPassword) {

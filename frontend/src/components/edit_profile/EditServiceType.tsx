@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import React, { useState, useRef, useEffect } from "react";
-import {
-  MdRemoveRedEye,
-  MdRadioButtonUnchecked,
-  MdRadioButtonChecked,
-} from "react-icons/md";
+import { MdRadioButtonUnchecked, MdRadioButtonChecked } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMinusCircle } from "react-icons/ai";
 import SearchServiceDropDown from "../provider_register/SearchServiceDropDown";
@@ -32,10 +28,8 @@ const EditServiceType = ({ service, setService }: any) => {
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState(0);
   const [enableAdd, setEnableAdd] = useState(false);
-  console.log(service);
   const [serviceError, setServiceError] = useState(false);
   const [duplicatError, setDuplicatError] = useState(false);
-
   const addServiceToList = (newService: any) => {
     console.log(newService);
     for (var s of service) {
@@ -100,7 +94,7 @@ const EditServiceType = ({ service, setService }: any) => {
                   value={serviceName}
                   onChange={(e) => {
                     setDuplicatError(false);
-
+                    setServiceError(false);
                     setServiceName(e.target.value);
                   }}
                 />
@@ -114,7 +108,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     value={servicePrice == 0 ? "" : servicePrice}
                     onChange={(e) => {
                       setDuplicatError(false);
-
+                      setServiceError(false);
                       setServicePrice(Number(e.target.value));
                     }}
                   />
@@ -137,6 +131,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
+                  setDuplicatError(false);
                   setServiceError(false);
                 }}
               >
@@ -183,6 +178,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     onChange={(e) => {
                       setServiceName(e.target.value);
                       setDuplicatError(false);
+                      setServiceError(false);
                     }}
                   ></ServiceInput>
                 </SearchServiceDiv>
@@ -204,7 +200,7 @@ const EditServiceType = ({ service, setService }: any) => {
                   value={servicePrice == 0 ? "" : servicePrice}
                   onChange={(e) => {
                     setDuplicatError(false);
-
+                    setServiceError(false);
                     setServicePrice(Number(e.target.value));
                   }}
                 />
@@ -226,6 +222,7 @@ const EditServiceType = ({ service, setService }: any) => {
                     fortuneType: serviceName,
                     price: servicePrice,
                   });
+                  setDuplicatError(false);
                   setServiceError(false);
                 }}
               >

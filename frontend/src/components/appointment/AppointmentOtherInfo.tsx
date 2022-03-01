@@ -3,11 +3,6 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from "react-icons/md";
 
 import styled from "styled-components";
-import {
-  BsFillBookmarkFill,
-  BsCalendarCheck,
-  BsChevronDown,
-} from "react-icons/bs";
 import { AiOutlineProfile, AiFillMinusCircle } from "react-icons/ai";
 
 import { COLOR } from "../../CONSTANT";

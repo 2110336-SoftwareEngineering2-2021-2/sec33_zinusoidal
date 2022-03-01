@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { BsPeopleFill } from "react-icons/bs";
 import { FiCheckCircle } from "react-icons/fi";
 import { AiOutlineLogin } from "react-icons/ai";
-const selectedImg = require("../../assets/zinusoidal.png");
 
 const CustomerRegisterComplete = () => {
   let navigate = useNavigate();

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { COLOR } from "../../CONSTANT";
 import { BsPeopleFill } from "react-icons/bs";
 import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
-import zIndex from "@mui/material/styles/zIndex";
 
 const CustomerRegistrationForm = ({
   userData,

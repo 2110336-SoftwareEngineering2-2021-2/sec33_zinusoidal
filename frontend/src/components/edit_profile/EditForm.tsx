@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import { RiEyeCloseLine, RiEyeFill } from "react-icons/ri";
 import { AiOutlineUpload } from "react-icons/ai";
 
 const EditForm = ({
@@ -12,8 +11,6 @@ const EditForm = ({
   profilePicUrl,
   setProfilePicUrl,
 }: any) => {
-  console.log(userData.Name);
-
   const imageInput = useRef();
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {

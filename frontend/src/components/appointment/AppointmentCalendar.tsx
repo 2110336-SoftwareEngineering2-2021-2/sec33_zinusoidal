@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { BsFillBookmarkFill, BsCalendarCheck } from "react-icons/bs";
 import { COLOR } from "../../CONSTANT";
 import Calender from "./Calendar";
 

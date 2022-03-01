@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
-import { MdOutlineArrowBack } from "react-icons/md";
-import { RiAlertLine } from "react-icons/ri";
+
 import { FaRegSmileWink } from "react-icons/fa";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -18,7 +17,7 @@ const EditPassword = ({ setCurrent, userData }: any) => {
       <Padding>
         <PicDiv>
           <FaRegSmileWink size={200} color={"#f66257"} />
-          <p>Your account is gone forever bye bye ;)</p>
+          <p>Your account is gone forever bye bye :D</p>
         </PicDiv>
         <Button
           onClick={() => {

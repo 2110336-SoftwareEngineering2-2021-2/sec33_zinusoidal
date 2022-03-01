@@ -121,7 +121,6 @@ const EditProfile = () => {
         console.log(error.response.data);
       });
   };
-
   const [service, setService] = useState([]);
   const [availableTime, setAvailableTime] = useState([
     { day: "Sunday", timeList: [] },
@@ -132,9 +131,6 @@ const EditProfile = () => {
     { day: "Friday", timeList: [] },
     { day: "Saturday", timeList: [] },
   ]);
-  console.log(userInput);
-  console.log(service);
-  console.log(availableTime);
 
   useEffect(() => {
     getProfile();
