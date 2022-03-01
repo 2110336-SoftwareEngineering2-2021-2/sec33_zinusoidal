@@ -27,13 +27,17 @@ const NotificationList = ({ setDropDown }: any) => {
         console.log("cone here");
         q = query(
           collection(db, "appointments"),
-          where("customerID", "==", "ddd")
+          where("customerID", "==", user.user_id)
         );
       }
 
       onSnapshot(q, (snapshot) => {
-        console.log(snapshot.docs.map((doc) => doc.data()));
-        setLi(snapshot.docs.map((doc) => doc.data()) as never);
+        // console.log("DOCS is ", snapshot.docs);
+        setLi(
+          snapshot.docs.map((doc) => {
+            return { id: doc.id, ...doc.data() };
+          }) as never
+        );
         setLoading(false);
       });
     };
@@ -43,6 +47,7 @@ const NotificationList = ({ setDropDown }: any) => {
 
     run();
   }, []);
+
   const wrapperRef = useRef(null);
   function useOutsideAlerter(ref: any) {
     useEffect(() => {

@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import Backdrop from "./Backdrop";
+import axios from "axios";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const customStyles = {
   content: {
@@ -16,11 +19,26 @@ const customStyles = {
 };
 
 const Notification = ({ person, content, data }: any) => {
+  const user = cookies.get("user");
   const [showNotification, setShowNotification] = useState(false);
   // console.log(showNotification);
   const onClick = () => {
     console.log("call this");
     setShowNotification(false);
+  };
+
+  const HandleRequest = async (accept: string) => {
+    await axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/response_appointment/${data.id}/${accept}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(function (response) {
+        setShowNotification(false);
+      })
+      .catch(function (error) {});
   };
 
   console.log("DATA is ", data);

@@ -63,7 +63,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             Find provider
           </motion.h1>
         </StyledLink>
-        {typeof user == "undefined" && (
+        {typeof user != "undefined" && (
           <div style={{ position: "relative", marginLeft: "auto" }}>
             <IoMdNotificationsOutline
               size={24}
