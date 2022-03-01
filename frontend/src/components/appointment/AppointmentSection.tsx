@@ -92,9 +92,9 @@ const AppointmentSection = (providerID: any) => {
         let x = [];
         for (let i = 0; i < response.data.available_date.length; i++) {
           x.push(response.data.available_date[i].date);
-          console.log(x);
         }
         setAvailableDay(x);
+        console.log(response.data.available_date);
         setNotAvailableDay(response.data.not_available_date);
       })
       .catch(function (error) {
