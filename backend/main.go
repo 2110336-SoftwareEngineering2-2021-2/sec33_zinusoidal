@@ -101,10 +101,6 @@ func main() {
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
 
-	/*
-		method 1: connect by file secret_key.json, this method is easier
-		path to file secret_key.json for authenticating
-	*/
 	opt := option.WithCredentialsFile("./configs/secret_key.json")
 
 	app, err := firebase.NewApp(ctx, nil, opt)
