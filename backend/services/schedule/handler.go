@@ -65,3 +65,24 @@ func (h *Handler) MyScheduleHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 
 }
+
+func (h *Handler) FreeTimeHandler(c *gin.Context) {
+
+	var req MyScheduleRequest
+	var err error
+	var results [][]string
+
+	user_id := c.Param("id")
+
+	if err = c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid request",
+		})
+		return
+	}
+
+	results, err = h.service.GetFreeTime(req.Date, req.Month, req.Year, user_id)
+
+	c.JSON(http.StatusOK, results)
+
+}
