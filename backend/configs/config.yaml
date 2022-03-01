@@ -3,16 +3,16 @@ app:
 mysql:
   host: 127.0.0.1
   port: 3306
-  username: ""
-  password: ""
-  db_name: ""
+  username: "root"
+  password: "Namning927"
+  db_name: "fortune168"
   net: "tcp"
 smtp:
   host: "smtp.gmail.com"
   port: 587
 email:
-  email: ""
-  password: ""
+  email: "vipsnam927@gmail.com"
+  password: "Namning2793"
 bucket:
   zone: ""
   access: ""
