@@ -33,7 +33,6 @@ const AvailableTimeCalendar = () => {
         selectedDay={selectedDay}
         setSelected={setSelectedDay}
       />
-      AvailableTimeCalendar
       <TimeCalendar selectedDay={selectedDay} />
     </Layout>
   );

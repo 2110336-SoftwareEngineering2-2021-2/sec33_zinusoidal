@@ -17,6 +17,7 @@ const TimeCalendar = ({ selectedDay }: any) => {
 const Layout = styled.div`
   width: 100%;
   display: flex;
+  padding-top: 16px;
 `;
 
 const TimeBar = () => {
