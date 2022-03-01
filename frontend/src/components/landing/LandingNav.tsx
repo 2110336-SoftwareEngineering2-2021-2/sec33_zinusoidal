@@ -63,17 +63,21 @@ const LandingNav = ({ onClickMenu, show }: any) => {
             Find provider
           </motion.h1>
         </StyledLink>
+        {typeof user == "undefined" && (
+          <div style={{ position: "relative", marginLeft: "auto" }}>
+            <IoMdNotificationsOutline
+              size={24}
+              onClick={() => setShowNotification((show) => !show)}
+            />
+            {showNotification && (
+              <NotificationList setDropDown={setShowNotification} />
+            )}
+          </div>
+        )}
 
-        <div style={{ position: "relative", marginLeft: "auto" }}>
-          <IoMdNotificationsOutline
-            size={24}
-            onClick={() => setShowNotification((show) => !show)}
-          />
-          {showNotification && (
-            <NotificationList setDropDown={setShowNotification} />
-          )}
-        </div>
-        <NameDiv>
+        <NameDiv
+          style={{ marginLeft: typeof user == "undefined" ? "auto" : 24 }}
+        >
           {typeof user == "undefined" ? (
             <P
               whileHover={{ scale: 1.1, originX: "100%" }}

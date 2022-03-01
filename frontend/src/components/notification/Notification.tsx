@@ -15,12 +15,25 @@ const customStyles = {
   },
 };
 
-const Notification = ({ person, content }: any) => {
+const Notification = ({ person, content, data }: any) => {
   const [showNotification, setShowNotification] = useState(false);
-  console.log(showNotification);
+  // console.log(showNotification);
   const onClick = () => {
     console.log("call this");
     setShowNotification(false);
+  };
+
+  console.log("DATA is ", data);
+
+  const Detail = () => {
+    if (data.status == 0) {
+      return (
+        <p>
+          {data.customerID} has request you an fortune telling's appointment
+        </p>
+      );
+    }
+    return <></>;
   };
   return (
     <Layout
@@ -30,18 +43,23 @@ const Notification = ({ person, content }: any) => {
     >
       <Image src="https://www.blexar.com/avatar.png" alt="profilePic" />
       <Content>
-        <p>{content}</p>
+        <Detail />
       </Content>
       {showNotification && (
         <Backdrop onClick={onClick}>
-          <AppointMent />
+          <AppointMent data={data} />
         </Backdrop>
       )}
     </Layout>
   );
 };
 
-const AppointMent = () => {
+const AppointMent = ({ data }: any) => {
+  let detail = [];
+  for (let i = 0; i < data.information.length; i++) {
+    detail.push({ info: data.information[i], value: data.value[i] });
+  }
+
   return (
     <AppointmentDetailBox
       onClick={(e) => {
@@ -54,8 +72,15 @@ const AppointMent = () => {
           <div>Appointment</div>
           Information
         </AppointmentListHeader>
+        <div style={{ flex: 1, padding: 20 }}>
+          {detail.map((item, index) => (
+            <p>
+              <b>{item.info}</b> : {item.value}
+            </p>
+          ))}
+        </div>
       </AppointmentList>
-      <P>Total price : 300 baht</P>
+      <P>Total price : {data.total_price} baht</P>
       <HandleButton>
         <Button style={{ backgroundColor: "#F66257" }}>Reject</Button>
         <Button style={{ backgroundColor: COLOR["green/400"] }}>Accept</Button>
