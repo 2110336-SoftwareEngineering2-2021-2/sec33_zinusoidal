@@ -132,7 +132,12 @@ func (db *GromDB) CheckPassword(userID, oldPassword, newPassword string) error {
 
 func (db *GromDB) DeleteAccount(userId string) error {
 
-	query := `DELETE FROM fortune_user WHERE id = ?`
-	return db.database.Exec(query, userId).Error
+	query := `DELETE U FROM fortune_user U
+	WHERE U.id = ? AND NOT EXISTS(
+		SELECT *
+		FROM appointment A
+		WHERE (A.provider_id = ? OR A.customer_id = ?) and A.status = 2
+	);`
+	return db.database.Exec(query, userId, userId, userId).Error
 
 }

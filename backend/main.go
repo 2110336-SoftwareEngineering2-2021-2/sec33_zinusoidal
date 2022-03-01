@@ -58,7 +58,7 @@ func main() {
 
 	sess := ConnectAws()
 
-	auth_handler := auth.NewHandler(*auth.NewService(auth_repo.New(db), *services.NewService(sess)))
+	auth_handler := auth.NewHandler(*auth.NewService(auth_repo.New(db), *services.NewService(sess), profile_repo.New(db)))
 	v1fortune := router.Group("api/fortune168/v1")
 	{
 		v1fortune.POST("/customer_register", auth_handler.CustomerRegisterHandler)
@@ -69,21 +69,22 @@ func main() {
 	}
 	v1fortune.POST("/test", auth_handler.TestHandler)
 
-	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess)))))
+	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db), *profile.NewService(profile_repo.New(db),
+		*services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess), profile_repo.New(db)))))
 	{
 		v1fortune.POST("/search", search_handler.SearchHandler)
 		v1fortune.GET("/all_services", search_handler.GetAllServicesHandler)
 		v1fortune.GET("/landing_page_info", search_handler.GetLandingPageInfoHandler)
 	}
 
-	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess))))
+	profile_handler := profile.NewHandler(*profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess), profile_repo.New(db))))
 	{
 		v1fortune.GET("/customer/:id", profile_handler.GetCustomerProfileHandler)
 		v1fortune.GET("/provider/:id", profile_handler.GetProviderProfileHandler)
 		v1fortune.PATCH("/provider_edit", profile_handler.EditProviderHandler)
 		v1fortune.PATCH("/password_edit", profile_handler.EditPasswordHandler)
 	}
-	schedule_handler := schedule.NewHandler(*schedule.NewService(schedule_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess)))))
+	schedule_handler := schedule.NewHandler(*schedule.NewService(schedule_repo.New(db), *profile.NewService(profile_repo.New(db), *services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess), profile_repo.New(db)))))
 	{
 		v1fortune.POST("/my_schedule/:id", schedule_handler.MyScheduleHandler)
 		v1fortune.POST("/available_schedule/:id", schedule_handler.ScheduleHandler)
