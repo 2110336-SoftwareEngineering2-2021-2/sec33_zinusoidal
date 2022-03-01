@@ -34,7 +34,6 @@ const Calender = ({
   setTotalPrice,
   setAppointmentList,
 }: any) => {
-  console.log(availableDay);
   let TODAY = new Date();
   const [selectedDate, setSelectedDate] = useState({
     month: 0,

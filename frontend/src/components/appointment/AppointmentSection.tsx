@@ -10,13 +10,13 @@ const AppointmentSection = (providerID: any) => {
   //calendar info
   const [selected, setSelected] = useState(false);
   const [availableDay, setAvailableDay] = useState([0]);
-  console.log(availableDay);
   const [availableDayAndTime, setAvailableDayAndTime] = useState([
     { date: 0, timeList: [["", ""]] },
   ]);
   const [notAvailableDay, setNotAvailableDay] = useState([0]);
   const [a, setA] = useState([]);
   const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
+  console.log(day.year, day.month);
   //appointment info
   const [infoList, setInfoList] = useState([]);
   const [appointmentList, setAppointmentList] = useState([]);
@@ -88,21 +88,20 @@ const AppointmentSection = (providerID: any) => {
       },
     })
       .then(function (response) {
-        setAvailableDayAndTime(response.data.available_date);
         let x = [];
         for (let i = 0; i < response.data.available_date.length; i++) {
           x.push(response.data.available_date[i].date);
         }
         setAvailableDay(x);
-        console.log(response.data.available_date);
+        // console.log(response.data.available_date);
         setNotAvailableDay(response.data.not_available_date);
+        setAvailableDayAndTime(response.data.available_date);
       })
       .catch(function (error) {
         console.log(error.response.data.message);
       });
   };
   useEffect(() => {
-    getAvailableTime(day.year, day.month);
     getProfile();
     const TODAY = new Date();
     setDay({
@@ -110,6 +109,7 @@ const AppointmentSection = (providerID: any) => {
       month: TODAY.getMonth(),
       year: TODAY.getFullYear(),
     });
+    getAvailableTime(day.year, day.month);
   }, []);
   return (
     <Layout>
