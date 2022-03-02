@@ -70,7 +70,7 @@ func (s *Service) GetWorkingDay(month, year int, userId string) ([]WorkingDay, e
 	return results, err
 }
 
-func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, error) {
+func (s *Service) RemoveBooked(w []WorkingDay, userId string, month, year int) (ScheduleDto, error) {
 
 	//w = [ { date : 10 , timeList : [ [08.00-10.00] , [12.00-16.00] ]  }  ]
 
@@ -94,7 +94,7 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 
 			sStart, _ := StringToDateTime(appoint.StartTime)
 
-			y, m, day := sStart.Date()
+			_, _, day := sStart.Date()
 
 			appointStart, _ := StringToDateTime(appoint.StartTime)
 			appointEnd, _ := StringToDateTime(appoint.FinishTime)
@@ -118,8 +118,8 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string) (ScheduleDto, erro
 						endHr, _ := strconv.Atoi(t[1][0:2])
 						endMin, _ := strconv.Atoi(t[1][2:4])
 
-						startTime := time.Date(y, m, day, startHr, startMin, 0, 0, time.UTC)
-						endTime := time.Date(y, m, day, endHr, endMin, 0, 0, time.UTC)
+						startTime := time.Date(year, time.Month(month), day, startHr, startMin, 0, 0, time.UTC)
+						endTime := time.Date(year, time.Month(month), day, endHr, endMin, 0, 0, time.UTC)
 
 						//check if appointment is not in this period
 						haventStarted := endTime.Before(appointStart) || (endTime == appointStart)
@@ -191,7 +191,7 @@ func (s *Service) GetFreeTime(date, month, year int, userId string) ([][]string,
 		return [][]string{}, err
 	}
 
-	avail, aErr := s.RemoveBooked(w, userId)
+	avail, aErr := s.RemoveBooked(w, userId, month, year)
 
 	if aErr != nil {
 		return [][]string{}, err

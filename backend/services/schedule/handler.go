@@ -39,7 +39,7 @@ func (h *Handler) ScheduleHandler(c *gin.Context) {
 		return
 	}
 
-	results, err = h.service.RemoveBooked(work, user_id)
+	results, err = h.service.RemoveBooked(work, user_id, req.Month, req.Year)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
