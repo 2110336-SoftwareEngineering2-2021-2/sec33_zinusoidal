@@ -45,6 +45,16 @@ const AppointmentSection = (providerID: any) => {
     { day: "Saturday", timeList: [] },
   ]);
 
+  useEffect(() => {
+    const TODAY = new Date();
+    setDay({
+      date: TODAY.getDate(),
+      month: TODAY.getMonth(),
+      year: TODAY.getFullYear(),
+    });
+    getProfile();
+    getAvailableTime(TODAY.getFullYear(), TODAY.getMonth());
+  }, []);
   let responseInput = {
     Name: "",
     Surname: "",
@@ -101,16 +111,7 @@ const AppointmentSection = (providerID: any) => {
         console.log(error.response.data.message);
       });
   };
-  useEffect(() => {
-    getProfile();
-    const TODAY = new Date();
-    setDay({
-      date: TODAY.getDate(),
-      month: TODAY.getMonth(),
-      year: TODAY.getFullYear(),
-    });
-    getAvailableTime(day.year, day.month);
-  }, []);
+
   return (
     <Layout>
       <Content
