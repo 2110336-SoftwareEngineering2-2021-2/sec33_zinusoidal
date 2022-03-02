@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DaySlider from "./DaySlider";
 import TimeCalendar from "./TimeCalendar";
-const AvailableTimeCalendar = () => {
+const AvailableTimeCalendar = ({ providerID }: any) => {
   const [day, setDay] = useState({ day: 0, date: 1, month: 0, year: 2022 });
   const [selectedDay, setSelectedDay] = useState({
     day: 0,
@@ -33,7 +33,7 @@ const AvailableTimeCalendar = () => {
         selectedDay={selectedDay}
         setSelected={setSelectedDay}
       />
-      <TimeCalendar selectedDay={selectedDay} />
+      <TimeCalendar selectedDay={selectedDay} providerID={providerID} />
     </Layout>
   );
 };
