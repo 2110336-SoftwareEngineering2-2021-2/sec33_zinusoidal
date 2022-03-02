@@ -36,5 +36,7 @@ const TimeBarFrame = styled.div`
 `;
 const Time = styled.div`
   height: 57px;
+  border-bottom: 1px solid black;
 `;
+
 export default TimeCalendar;

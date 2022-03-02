@@ -142,7 +142,7 @@ const Notification = ({ person, content, data }: any) => {
       onClick={() => {
         if (
           user.user_id.slice(0, 1) == "P" &&
-          data.status == 1 &&
+          data.status == 0 &&
           showNotification == false
         )
           setShowNotification(true);

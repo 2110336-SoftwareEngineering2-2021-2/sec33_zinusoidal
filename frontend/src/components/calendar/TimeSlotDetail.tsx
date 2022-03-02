@@ -12,7 +12,7 @@ const TimeSlotDetail = ({ time, type, topic }: any) => {
     return (
       <Layout
         style={{
-          height: (58 * min) / 60,
+          height: (57 * min) / 60,
           backgroundColor: COLOR["green/100"],
         }}
       />
@@ -21,7 +21,7 @@ const TimeSlotDetail = ({ time, type, topic }: any) => {
     return (
       <Layout
         style={{
-          height: (58 * min) / 60,
+          height: (57 * min) / 60,
           backgroundColor: COLOR["blue/100"],
         }}
       >
@@ -32,7 +32,7 @@ const TimeSlotDetail = ({ time, type, topic }: any) => {
       </Layout>
     );
   if (type == "no") {
-    return <Layout style={{ height: (58 * min) / 60 }} />;
+    return <Layout style={{ height: (57 * min) / 60 }} />;
   }
   return <></>;
 };
