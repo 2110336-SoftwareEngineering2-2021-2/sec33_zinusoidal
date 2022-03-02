@@ -94,5 +94,8 @@ const Layout = styled(motion.div)`
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 export default NotificationList;

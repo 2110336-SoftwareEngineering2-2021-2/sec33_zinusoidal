@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import Backdrop from "./Backdrop";
@@ -21,11 +21,13 @@ const customStyles = {
 const Notification = ({ person, content, data }: any) => {
   const user = cookies.get("user");
   const [showNotification, setShowNotification] = useState(false);
-  // console.log(showNotification);
+  const [partner, setPartner] = useState({} as any);
   const onClick = () => {
     console.log("call this");
     setShowNotification(false);
   };
+
+  console.log(partner);
 
   const HandleRequest = async (accept: string) => {
     await axios({
@@ -44,25 +46,116 @@ const Notification = ({ person, content, data }: any) => {
       });
   };
 
-  console.log("DATA is ", data);
+  useEffect(() => {
+    let customer: any;
+    let provider: any;
 
+    axios({
+      method: "get",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/customer/${data.customerID}`,
+    })
+      .then(function (response) {
+        customer = response.data;
+        axios({
+          method: "get",
+          url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider/${data.providerID}`,
+        })
+          .then(function (response) {
+            provider = response.data;
+            setPartner({ customer: customer, provider: provider } as any);
+          })
+          .catch(function (error) {
+            console.log("error");
+          });
+      })
+      .catch(function (error) {
+        console.log("error");
+      });
+  }, []);
   const Detail = () => {
-    if (data.status == 0) {
-      return (
-        <p>
-          {data.customerID} has request you an fortune telling's appointment
-        </p>
-      );
+    if (typeof partner.provider == "undefined") return null;
+    if (typeof user != "undefined" && user.user_id.slice(0, 1) == "C") {
+      if (data.status == 0) {
+        return (
+          <p>
+            You sent{" "}
+            <b>
+              {partner.provider.firstName} {partner.provider.lastName}
+            </b>{" "}
+            an fortune telling's appointment
+          </p>
+        );
+      } else if (data.status == 1) {
+        return (
+          <p>
+            <b>
+              {partner.provider.firstName} {partner.provider.lastName}
+            </b>{" "}
+            has <b>reject</b> your appointment
+          </p>
+        );
+      } else {
+        return (
+          <p>
+            <b>
+              {partner.provider.firstName} {partner.provider.lastName}
+            </b>{" "}
+            has <b>accept</b> your appointment
+          </p>
+        );
+      }
+    } else {
+      if (data.status == 0) {
+        return (
+          <p>
+            <b>
+              {partner.customer.firstName} {partner.customer.lastName}
+            </b>{" "}
+            has request you an fortune telling's appointment
+          </p>
+        );
+      } else if (data.status == 1) {
+        return (
+          <p>
+            You <b>rejected</b>{" "}
+            <b>
+              {partner.customer.firstName} {partner.customer.lastName}
+            </b>{" "}
+            an fortune telling's appointment
+          </p>
+        );
+      } else {
+        return (
+          <p>
+            You <b>accepted</b>{" "}
+            <b>
+              {partner.customer.firstName} {partner.customer.lastName}
+            </b>{" "}
+            an fortune telling's appointment
+          </p>
+        );
+      }
     }
-    return <></>;
   };
   return (
     <Layout
       onClick={() => {
-        if (showNotification == false) setShowNotification(true);
+        if (
+          user.user_id.slice(0, 1) == "P" &&
+          data.status == 1 &&
+          showNotification == false
+        )
+          setShowNotification(true);
       }}
     >
-      <Image src="https://www.blexar.com/avatar.png" alt="profilePic" />
+      <Image
+        src={
+          typeof user != "undefined" && user.user_id.slice(0, 1) == "C"
+            ? partner.provider?.profilePicUrl
+            : partner.customer?.profilePicUrl
+        }
+        alt="profilePic"
+      />
       <Content>
         <Detail />
       </Content>
@@ -129,6 +222,7 @@ const Layout = styled.div`
   align-items: center;
   padding: 0 12px;
   min-height: 60px;
+  margin: 2px 0;
 `;
 
 const Image = styled.img`

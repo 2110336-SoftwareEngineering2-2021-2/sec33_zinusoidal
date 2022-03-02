@@ -7,8 +7,12 @@ import SearchResult from "./SearchResult";
 import SearchDetailServiceSlider from "./SearchDetailServiceSlider";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
+import AvailableTimeCalendar from "../calendar/AvailableTimeCalendar";
 
+const cookies = new Cookies();
 const SearchDetail = ({ person, onClickBack }: any) => {
+  const user = cookies.get("user");
   console.log(person);
   return (
     <Layout>
@@ -26,7 +30,9 @@ const SearchDetail = ({ person, onClickBack }: any) => {
             }}
             target="_blank"
           >
-            <Button>Booking</Button>
+            {typeof user != "undefined" && user.user_id.slice(0, 1) == "C" && (
+              <Button>Booking</Button>
+            )}
           </Link>
         </ButtonDiv>
       </SearchDetailHeader>
@@ -40,6 +46,10 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       </ContentContainer>
       <ContentContainer>
         <h1>Reviews</h1>
+      </ContentContainer>
+      <ContentContainer>
+        <h1>Available Time</h1>
+        <AvailableTimeCalendar />
       </ContentContainer>
     </Layout>
   );
