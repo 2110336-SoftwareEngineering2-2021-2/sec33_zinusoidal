@@ -15,7 +15,7 @@ const SearchDetail = ({ person, onClickBack }: any) => {
   const user = cookies.get("user");
   console.log(person);
   return (
-    <Layout>
+    <Layout style={{ maxHeight: 700, overflowY: "scroll" }}>
       <ReturnBackButton onClick={() => onClickBack(null)}>
         <FiArrowLeft size={25} />
         <p>search result</p>
