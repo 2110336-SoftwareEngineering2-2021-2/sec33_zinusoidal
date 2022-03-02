@@ -3,7 +3,13 @@ import styled from "styled-components";
 import Notification from "./Notification";
 import { motion } from "framer-motion";
 import db from "../../firebase";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -21,6 +27,7 @@ const NotificationList = ({ setDropDown }: any) => {
         q = query(
           collection(db, "appointments"),
           where("providerID", "==", user.user_id)
+          // orderBy("status")
         );
       } else {
         //user.user_id
@@ -28,6 +35,7 @@ const NotificationList = ({ setDropDown }: any) => {
         q = query(
           collection(db, "appointments"),
           where("customerID", "==", user.user_id)
+          // orderBy("status")
         );
       }
 
