@@ -148,18 +148,23 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string, month, year int) (
 
 								newTime2, _ := MakeTimeInterval(b3, b4)
 								newTimeList = append(newTimeList, newTime2)
+							} else if b1 == b2 && b3 == b4 {
+								newTimeList = [][]string{}
 							}
 
 						} else {
+
 							newTimeList = append(newTimeList, t)
 						}
 						thisDay.TimeList = newTimeList
 					}
 
 					availDate = append(availDate, thisDay)
+
 				} else {
 					availDate = append(availDate, workDay)
 				}
+
 			}
 			w = availDate
 		}
