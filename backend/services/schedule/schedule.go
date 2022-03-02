@@ -91,7 +91,6 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string, month, year int) (
 	//for each apt, remove avail time
 	if len(appointment) > 0 {
 		for _, appoint := range appointment {
-
 			sStart, _ := StringToDateTime(appoint.StartTime)
 
 			_, _, day := sStart.Date()
@@ -111,22 +110,25 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string, month, year int) (
 					thisDay.Date = workDay.Date
 
 					var newTimeList [][]string
+
 					for _, t := range workDay.TimeList {
 
 						startHr, _ := strconv.Atoi(t[0][0:2])
-						startMin, _ := strconv.Atoi(t[0][2:4])
-						endHr, _ := strconv.Atoi(t[1][0:2])
-						endMin, _ := strconv.Atoi(t[1][2:4])
+						startMin, _ := strconv.Atoi(t[0][3:5])
 
+						endHr, _ := strconv.Atoi(t[1][0:2])
+						endMin, _ := strconv.Atoi(t[1][3:5])
 						startTime := time.Date(year, time.Month(month), day, startHr, startMin, 0, 0, time.UTC)
 						endTime := time.Date(year, time.Month(month), day, endHr, endMin, 0, 0, time.UTC)
 
 						//check if appointment is not in this period
-						haventStarted := endTime.Before(appointStart) || (endTime == appointStart)
-						later := appointEnd.Before(startTime) || appointEnd == startTime
+						haventStarted := endTime.Before(appointStart) || (startTime == appointEnd)
+						later := appointEnd.Before(startTime) || appointStart == endTime
 
 						//if in this period
-						if !haventStarted && !later {
+						if haventStarted || later {
+							newTimeList = append(newTimeList, t)
+						} else {
 
 							var newTime []string
 
@@ -135,7 +137,7 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string, month, year int) (
 							b3 := appointEnd
 							b4 := endTime
 
-							if b1 == b2 && b3 != b4 {
+							if b1.Equal(b2) && !b3.Equal(b4) {
 								newTime, _ = MakeTimeInterval(b3, b4)
 								newTimeList = append(newTimeList, newTime)
 
@@ -149,16 +151,13 @@ func (s *Service) RemoveBooked(w []WorkingDay, userId string, month, year int) (
 								newTime2, _ := MakeTimeInterval(b3, b4)
 								newTimeList = append(newTimeList, newTime2)
 							} else if b1 == b2 && b3 == b4 {
-								newTimeList = [][]string{}
+								//newTimeList = [][]string{}
 							}
 
-						} else {
-
-							newTimeList = append(newTimeList, t)
 						}
+
 						thisDay.TimeList = newTimeList
 					}
-
 					availDate = append(availDate, thisDay)
 
 				} else {
