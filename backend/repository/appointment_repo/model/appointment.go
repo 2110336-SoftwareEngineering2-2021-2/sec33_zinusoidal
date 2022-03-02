@@ -23,9 +23,15 @@ type AppointmentNoti struct {
 	CustomerId      string            `firestore:"customerID"`
 	ProviderId      string            `firestore:"providerID"`
 	Status          int               `firestore:"status"`
+	Services        []Service         `firestore:"service"`
 	TotalPrice      int               `firestore:"total_price"`
 	Information     []string          `firestore:"information"`
 	Value           []string          `firestore:"value"`
+}
+
+type Service struct {
+	FortuneType string `firestore:"service_type"`
+	Price       int    `json:"price"`
 }
 
 type AppointmentTime struct {
