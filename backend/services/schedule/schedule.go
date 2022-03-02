@@ -249,7 +249,7 @@ func (s *Service) GetApt(date, month, year int, userId string) ([]Appointment, e
 }
 func MakeTimeInterval(startTime, endTime time.Time) ([]string, error) {
 
-	layoutTime := "15:04:05"
+	layoutTime := "15.04.05"
 	strStart := startTime.Format(layoutTime)
 	strStart = strStart[0 : len(strStart)-3]
 
