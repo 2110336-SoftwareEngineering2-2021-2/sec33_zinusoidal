@@ -52,7 +52,7 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
           <Link to="/calendar" style={{ textDecoration: "none" }}>
             <DropArrow />
             <Item>
-              <BsCalendarCheck /> <p>See my appointment</p>
+              <BsCalendarCheck /> <p>View my appointment</p>
             </Item>
           </Link>
         </div>
