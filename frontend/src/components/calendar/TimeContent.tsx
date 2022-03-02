@@ -71,7 +71,7 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
                 if (list[0].startTime != "00:00") {
                   realList.push({
                     startTime: "00:00",
-                    stopTime: list[0].stopTime,
+                    stopTime: list[0].startTime,
                     type: "no",
                     topic: "no",
                   });
@@ -96,6 +96,7 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
                 topic: "no",
               });
             }
+            console.log("REALLIST", realList);
 
             setRealList(realList as any);
           })
