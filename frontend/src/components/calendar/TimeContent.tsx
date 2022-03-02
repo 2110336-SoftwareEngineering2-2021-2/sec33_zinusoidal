@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import TimeSlotDetail from "./TimeSlotDetail";
@@ -11,44 +12,107 @@ const list = [
   { startTime: "11:00", stopTime: "15:30", type: "free", topic: "dog" },
   { startTime: "17:00", stopTime: "24:00", type: "booked", topic: "dog" },
 ];
-const TimeContent = ({ selectedDay }: any) => {
-  let realList = [];
+const TimeContent = ({ selectedDay, providerID }: any) => {
+  const [realList, setRealList] = useState([] as any);
+  useEffect(() => {
+    let list = [] as any;
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/available_time/${providerID}`,
+      data: {
+        date: selectedDay.date,
+        month: selectedDay.month + 1,
+        year: selectedDay.year,
+      },
+    })
+      .then(function (response) {
+        const wang = response.data;
+        for (let i = 0; i < response.data.length; i++) {
+          list.push({
+            startTime: wang[i][0],
+            stopTime: wang[i][1],
+            type: "free",
+            topic: "free",
+          });
+        }
 
-  for (let i = 0; i < list.length; i++) {
-    if (i == 0) {
-      if (list[0].startTime != "00:00") {
-        realList.push({
-          startTime: "00:00",
-          stopTime: list[0].stopTime,
-          type: "no",
-          topic: "no",
-        });
-      }
-    }
-    realList.push(list[i]);
-    if (i == list.length - 1) {
-      break;
-    }
-    realList.push({
-      startTime: list[i].stopTime,
-      stopTime: list[i + 1].startTime,
-      type: "no",
-      topic: "no",
-    });
-  }
-  if (list[list.length - 1].stopTime != "23:59") {
-    realList.push({
-      startTime: list[list.length - 1].stopTime,
-      stopTime: "23:59",
-      type: "no",
-      topic: "no",
-    });
-  }
+        axios({
+          method: "post",
+          url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/my_schedule/${providerID}`,
+          data: {
+            date: selectedDay.date,
+            month: selectedDay.month + 1,
+            year: selectedDay.year,
+          },
+        })
+          .then(function (response) {
+            const notwang = response.data;
+            for (let i = 0; i < notwang.length; i++) {
+              list.push({
+                startTime: notwang[i].time[0],
+                stopTime: notwang[i].time[1],
+                type: "booked",
+                topic: notwang[i].topic,
+              });
+            }
+            list.sort(function (a: any, b: any) {
+              if (
+                a.startTime < b.startTime ||
+                (a.startTime == b.startTime && a.stopTime < b.stopTime)
+              )
+                return -1;
+              return 1;
+            });
+            console.log("PPP", list);
+            let realList = [];
+
+            for (let i = 0; i < list.length; i++) {
+              if (i == 0) {
+                if (list[0].startTime != "00:00") {
+                  realList.push({
+                    startTime: "00:00",
+                    stopTime: list[0].stopTime,
+                    type: "no",
+                    topic: "no",
+                  });
+                }
+              }
+              realList.push(list[i]);
+              if (i == list.length - 1) {
+                break;
+              }
+              realList.push({
+                startTime: list[i].stopTime,
+                stopTime: list[i + 1].startTime,
+                type: "no",
+                topic: "no",
+              });
+            }
+            if (list[list.length - 1].stopTime != "23:59") {
+              realList.push({
+                startTime: list[list.length - 1].stopTime,
+                stopTime: "23:59",
+                type: "no",
+                topic: "no",
+              });
+            }
+
+            setRealList(realList as any);
+          })
+          .catch(function (error) {});
+      })
+      .catch(function (error) {});
+  }, [selectedDay, providerID]);
 
   return (
     <Layout>
-      {realList.map((item) => (
-        <TimeSlotDetail time={item} type={item.type} topic={item.topic} />
+      {realList.map((item: any, index: any) => (
+        <TimeSlotDetail
+          key={index}
+          time={item}
+          type={item.type}
+          topic={item.topic}
+        />
       ))}
     </Layout>
   );

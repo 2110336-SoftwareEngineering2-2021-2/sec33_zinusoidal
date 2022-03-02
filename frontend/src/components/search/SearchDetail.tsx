@@ -49,7 +49,7 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       </ContentContainer>
       <ContentContainer>
         <h1>Available Time</h1>
-        <AvailableTimeCalendar />
+        <AvailableTimeCalendar providerID={person.userId} />
       </ContentContainer>
     </Layout>
   );
