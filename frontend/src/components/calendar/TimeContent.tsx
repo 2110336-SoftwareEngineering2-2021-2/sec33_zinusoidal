@@ -47,6 +47,7 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
         })
           .then(function (response) {
             const notwang = response.data;
+            console.log("NOT WANG", notwang);
             for (let i = 0; i < notwang.length; i++) {
               list.push({
                 startTime: notwang[i].time[0],
@@ -88,7 +89,7 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
                 topic: "no",
               });
             }
-            if (list[list.length - 1].stopTime != "23:59") {
+            if (list.length > 0 && list[list.length - 1].stopTime != "23:59") {
               realList.push({
                 startTime: list[list.length - 1].stopTime,
                 stopTime: "23:59",
