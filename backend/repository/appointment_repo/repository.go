@@ -2,6 +2,7 @@ package appointment_repo
 
 import (
 	"context"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
@@ -110,6 +111,7 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 		}
 	}
 
+	noti.CreatedAt = time.Now()
 	ctx := context.Background()
 	_, err = db.client.Collection(appointment_collection_name).Doc(apt_id).Set(ctx, noti)
 
