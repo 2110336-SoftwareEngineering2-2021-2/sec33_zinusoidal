@@ -4,6 +4,7 @@ import { COLOR } from "../../CONSTANT";
 import Backdrop from "./Backdrop";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { SDK_VERSION } from "firebase/app";
 const cookies = new Cookies();
 
 const customStyles = {
@@ -27,7 +28,7 @@ const Notification = ({ person, content, data }: any) => {
     setShowNotification(false);
   };
 
-  console.log(partner);
+  // console.log(partner);
 
   const HandleRequest = async (accept: string) => {
     await axios({
@@ -161,19 +162,30 @@ const Notification = ({ person, content, data }: any) => {
       </Content>
       {showNotification && (
         <Backdrop onClick={onClick}>
-          <AppointMent data={data} handleRequest={HandleRequest} />
+          <AppointMent
+            customer={partner.customer}
+            data={data}
+            handleRequest={HandleRequest}
+          />
         </Backdrop>
       )}
     </Layout>
   );
 };
 
-const AppointMent = ({ data, handleRequest }: any) => {
+const AppointMent = ({ data, handleRequest, customer }: any) => {
+  console.log("DATA is ", data);
   let detail = [];
   for (let i = 0; i < data.information.length; i++) {
     detail.push({ info: data.information[i], value: data.value[i] });
   }
+  const [show, setShow] = useState(false);
 
+  const d = new Date(data.appointment_time[0].start_time.seconds * 1000);
+  const g = new Date(data.appointment_time[0].end_time.seconds * 1000);
+  var seconds = (g.getTime() - d.getTime()) / 1000;
+  console.log("second", seconds);
+  console.log("pp", d, g);
   return (
     <AppointmentDetailBox
       onClick={(e) => {
@@ -183,15 +195,60 @@ const AppointMent = ({ data, handleRequest }: any) => {
       <h1>Appointment Detail</h1>
       <AppointmentList>
         <AppointmentListHeader>
-          <div>Appointment</div>
-          Information
+          <div
+            style={{
+              backgroundColor: show ? COLOR["violet/200"] : COLOR["violet/400"],
+            }}
+            onClick={() => {
+              setShow(false);
+            }}
+          >
+            Appointment
+          </div>
+          <div
+            style={{
+              backgroundColor: show ? COLOR["violet/400"] : COLOR["violet/200"],
+              borderRadius: "0 20px 0 0 ",
+            }}
+            onClick={() => {
+              setShow(true);
+            }}
+          >
+            Information
+          </div>
         </AppointmentListHeader>
         <div style={{ flex: 1, padding: 20 }}>
-          {detail.map((item, index) => (
-            <p>
-              <b>{item.info}</b> : {item.value}
-            </p>
-          ))}
+          {show ? (
+            detail.map((item, index) => (
+              <p>
+                <b>{item.info}</b> : {item.value}
+              </p>
+            ))
+          ) : (
+            <DetailBox>
+              <p>
+                <b>Service:</b> <b>Customer:</b> {customer.firstName}{" "}
+                {customer.lastName}
+              </p>
+              <p>
+                <b>Date: </b>
+                {d.getDate()} {d.getMonth().toLocaleString()} {d.getFullYear()}
+                <b> Time: </b> {d.getHours() < 10 ? "0" : ""}
+                {d.getHours()}:{d.getMinutes() < 10 ? "0" : ""}
+                {d.getMinutes()} - {g.getHours() < 10 ? "0" : ""}
+                {g.getHours()}:{g.getMinutes() < 10 ? "0" : ""}
+                {g.getMinutes()}
+                <b> Duration: </b>
+                {seconds / 3600 >= 1 ? `${seconds / 3600} hours` : ""}
+                {(seconds % 3600) / 60} minutes
+              </p>
+
+              <p>
+                <b>Price: </b>
+                {data.total_price}
+              </p>
+            </DetailBox>
+          )}
         </div>
       </AppointmentList>
       <P>Total price : {data.total_price} baht</P>
@@ -270,7 +327,7 @@ const AppointmentListHeader = styled.div`
   line-height: 25px;
   font-weight: bold;
   align-items: center;
-  padding-right: 10px;
+  padding-right: 0px;
   div {
     align-self: stretch;
     width: 116px;
@@ -306,5 +363,16 @@ const Button = styled.button`
   color: white;
   font-weight: bold;
   cursor: pointer;
+`;
+
+const DetailBox = styled.div`
+  height: 117px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 export default Notification;
