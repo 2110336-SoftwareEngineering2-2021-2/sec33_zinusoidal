@@ -41,6 +41,10 @@ func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept boo
 			Path:  "status",
 			Value: status,
 		},
+		{
+			Path:  "updated_at",
+			Value: time.Now(),
+		},
 	})
 	return err
 }
@@ -112,6 +116,7 @@ func (db *DB) MakeAppointment(appointment model.Appointment, customerId, provide
 	}
 
 	noti.CreatedAt = time.Now()
+	noti.UpdatedAt = time.Now()
 	ctx := context.Background()
 	_, err = db.client.Collection(appointment_collection_name).Doc(apt_id).Set(ctx, noti)
 
