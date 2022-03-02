@@ -28,6 +28,7 @@ type AppointmentNoti struct {
 	Value           []string          `firestore:"value"`
 	Services        []Service         `firestore:"service"`
 	CreatedAt       time.Time         `firestore:"created_at"`
+	UpdatedAt       time.Time         `firestore:"updated_at"`
 }
 
 type Service struct {
