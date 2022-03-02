@@ -6,7 +6,20 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { SDK_VERSION } from "firebase/app";
 const cookies = new Cookies();
-
+const MonthName = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 const customStyles = {
   content: {
     top: "50%",
@@ -232,7 +245,7 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
               </p>
               <p>
                 <b>Date: </b>
-                {d.getDate()} {d.getMonth().toLocaleString()} {d.getFullYear()}
+                {d.getDate()} {MonthName[d.getMonth()]} {d.getFullYear()}
                 <b> Time: </b> {d.getHours() < 10 ? "0" : ""}
                 {d.getHours()}:{d.getMinutes() < 10 ? "0" : ""}
                 {d.getMinutes()} - {g.getHours() < 10 ? "0" : ""}
