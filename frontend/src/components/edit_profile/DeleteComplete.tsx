@@ -21,6 +21,7 @@ const EditPassword = ({ setCurrent, userData }: any) => {
         </PicDiv>
         <Button
           onClick={() => {
+            cookies.remove("user", { path: "/" });
             navigate(`/`);
           }}
         >

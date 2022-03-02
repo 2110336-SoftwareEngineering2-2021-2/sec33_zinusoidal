@@ -53,6 +53,7 @@ const EditPassword = ({}: any) => {
             <p>Your account is gone forever bye bye ;)</p>
             <GreenButton
               onClick={() => {
+                cookies.remove("user", { path: "/" });
                 navigate(`/`);
               }}
             >
