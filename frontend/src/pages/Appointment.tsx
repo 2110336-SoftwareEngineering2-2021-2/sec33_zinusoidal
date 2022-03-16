@@ -35,6 +35,8 @@ const Appointment = () => {
 const Layout = styled.div`
   width: 100%;
   min-height: 100vh;
+  background-size: 100% 100%;
+  overflow-y: visible;
 
   background-image: url(${searchBg});
   display: flex;
