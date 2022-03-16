@@ -19,6 +19,7 @@ const ChatLayout = ({
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
         setMessage={setMessage}
+        getChatMessage={getChatMessage}
       />
       <Chat
         chatMessage={chatMessage}
