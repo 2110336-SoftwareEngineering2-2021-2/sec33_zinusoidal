@@ -35,11 +35,11 @@ const CustomerRegister = () => {
       })
       .catch(function (error) {
         console.log(error.response);
-        if (error.response.data.message.includes("email")) {
+        if (error.response.data.log.includes("email")) {
           setCurrent(1);
           setEmailError(true);
         }
-        if (error.response.data.message.includes("username")) {
+        if (error.response.data.log.includes("username")) {
           setCurrent(1);
           setUsernameError(true);
         }
