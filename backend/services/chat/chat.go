@@ -17,3 +17,7 @@ func NewService(database Databaser) *Service {
 func (s *Service) SendMessage(senderId, receiverId, message string) error {
 	return s.database.SendMessage(senderId, receiverId, message)
 }
+
+func (s *Service) Block(userId, blockedUserId string) error {
+	return nil
+}

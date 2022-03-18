@@ -43,3 +43,38 @@ func (h *Handler) SendMessageHandler(c *gin.Context) {
 		"log": "ok",
 	})
 }
+func (h *Handler) BlockHandler(c *gin.Context) {
+
+	var req BlockRequest
+	var err error
+	if err = c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid request",
+		})
+		return
+	}
+
+	token, err := jwt.VerifyToken(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid jwt token",
+		})
+		return
+	}
+
+	user_id := token.UserID
+
+	err = h.service.Block(user_id, req.BlockedUserId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "error blocking",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "OK",
+	})
+
+}

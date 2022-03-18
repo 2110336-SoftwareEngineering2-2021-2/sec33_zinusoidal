@@ -103,6 +103,7 @@ func main() {
 	chat_handler := chat.NewHandler(*chat.NewService(chat_repo.New(db, client)))
 	{
 		v1fortune.POST("/send_message", chat_handler.SendMessageHandler)
+		v1fortune.POST("/block", chat_handler.BlockHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
