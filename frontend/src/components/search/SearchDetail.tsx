@@ -23,7 +23,14 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       <SearchDetailHeader>
         <SearchResult person={person} />
         <ButtonDiv>
-          <Button>Message</Button>
+          <Link
+            to={{
+              //send provider ID here
+              pathname: `/chat`,
+            }}
+          >
+            <Button>Message</Button>
+          </Link>
           <Link
             to={{
               pathname: `/appointment/${person.userId}`,

@@ -18,6 +18,7 @@ import SearchDetail from "./components/search/SearchDetail";
 import { UserContext } from "./context/UserContext";
 import CalendarTest from "./pages/CalendarTest";
 import Cookies from "universal-cookie";
+import Chat from "./pages/Chat";
 
 const cookies = new Cookies();
 
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="/appointment" element={<Appointment />}>
             <Route path=":providerID" element={<Appointment />} />
           </Route>
+          <Route path="/chat" element={<Chat />}></Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
