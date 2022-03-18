@@ -10,11 +10,13 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/chat_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/profile_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/schedule_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/chat"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
@@ -98,13 +100,37 @@ func main() {
 		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
 	}
 
+	chat_handler := chat.NewHandler(*chat.NewService(chat_repo.New(db, client)))
+	{
+		v1fortune.POST("/send_message", chat_handler.SendMessageHandler)
+	}
+
 	router.Run(":" + viper.GetString("app.port"))
 }
+
+/*
+func clean(client *firestore.Client) {
+	ctx := context.Background()
+	iter := client.Collection("appointments").Documents(ctx)
+
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if doc.Ref.ID == "A1edd69c2-fb71-4c4f-47cc-d14772a5266" {
+			continue
+		}
+		print(doc.Ref.ID)
+		client.Collection("appointments").Doc(doc.Ref.ID).Delete(ctx)
+	}
+}
+*/
 
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
 
-	opt := option.WithCredentialsFile("/etc/zinusoidal/secret/secret_key.json")
+	opt := option.WithCredentialsFile("./secret_key/secret_key.json")
 
 	app, err := firebase.NewApp(ctx, nil, opt)
 
