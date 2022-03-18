@@ -15,6 +15,7 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/chat"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
@@ -96,6 +97,11 @@ func main() {
 	{
 		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
 		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
+	}
+
+	chat_handler := chat.NewHandler(*chat.NewService())
+	{
+		v1fortune.POST("/block", chat_handler.BlockHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
