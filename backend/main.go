@@ -109,25 +109,6 @@ func main() {
 	router.Run(":" + viper.GetString("app.port"))
 }
 
-/*
-func clean(client *firestore.Client) {
-	ctx := context.Background()
-	iter := client.Collection("appointments").Documents(ctx)
-
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if doc.Ref.ID == "A1edd69c2-fb71-4c4f-47cc-d14772a5266" {
-			continue
-		}
-		print(doc.Ref.ID)
-		client.Collection("appointments").Doc(doc.Ref.ID).Delete(ctx)
-	}
-}
-*/
-
 func NewFirestoreConn() *firestore.Client {
 	ctx := context.Background()
 
