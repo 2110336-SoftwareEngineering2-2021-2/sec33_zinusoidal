@@ -9,7 +9,9 @@ import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import AvailableTimeCalendar from "../calendar/AvailableTimeCalendar";
+import ReviewBlock from "../review/ReviewBlock";
 
+const REVIEWMOCK = [1, 2, 3, 4, 5];
 const cookies = new Cookies();
 const SearchDetail = ({ person, onClickBack }: any) => {
   const user = cookies.get("user");
@@ -53,6 +55,11 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       </ContentContainer>
       <ContentContainer>
         <h1>Reviews</h1>
+        <ReviewBox>
+          {REVIEWMOCK.map((item, index) => (
+            <ReviewBlock key={index} />
+          ))}
+        </ReviewBox>
       </ContentContainer>
       <ContentContainer>
         <h1>Available Time</h1>
@@ -147,6 +154,12 @@ const ReturnBackButton = styled.div`
   @media screen and (min-width: 769px) {
     display: none;
   }
+`;
+
+const ReviewBox = styled.div`
+  display: flex;
+  overflow-x: scroll;
+  padding-bottom: 10px;
 `;
 
 export default SearchDetail;
