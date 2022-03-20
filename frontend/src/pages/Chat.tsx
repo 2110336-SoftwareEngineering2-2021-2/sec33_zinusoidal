@@ -42,6 +42,22 @@ const Chat = () => {
       { userID: "123456", message: "hello, my name is Chawin" },
       { userID: "123456", message: "hello, my name is Chawin" },
       { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      { userID: "789101", message: "hello, my name is Chawin" },
+      {
+        userID: "789101",
+        message:
+          "hello my name is Chawin asdasdasdasdsdasdasdagggf dajsdhagjdgahhjdagdkjhagdhagsdsjahdgaksjhdgajskhdgasjdhgakshjdgasjhdgahsdgakjshdgaskhjdgakhsjdgakshdgaskhjdgkasjhdgakhjsgdashjdgkashjdgaskjhgdhsbcxcbcn,mzcnaidhjqdhusdfdbakjhdalkjhbdkjabcjkabfcludhfkduhkajhdlajkshdalkjshdkjacbnkjasbdjkashdjksahdakljhda",
+      },
+      { userID: "789101", message: "hello, my name is Chawin" },
     ]);
   };
   useEffect(() => {

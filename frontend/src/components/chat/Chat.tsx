@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { BiSend } from "react-icons/bi";
@@ -10,12 +10,22 @@ const Chat = ({ chatMessage, selectedUser, setMessage, message }: any) => {
     //send message api
     setMessage("");
   };
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    (messagesEndRef as any).current?.scrollIntoView({ behavior: "instant" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessage]);
   return (
     <Layout>
       <ChatHeader>{selectedUser}</ChatHeader>
       <ChatField>
         {chatMessage.map((item: any, index: any) => (
           <MessageDiv
+            ref={messagesEndRef}
             style={{
               justifyContent:
                 item.userID == "789101" ? "flex-end" : "flex-start",
@@ -45,6 +55,7 @@ const Chat = ({ chatMessage, selectedUser, setMessage, message }: any) => {
             </ChatMessage>
           </MessageDiv>
         ))}
+        <div ref={messagesEndRef}> </div>
       </ChatField>
       <ChatInput>
         <Chatbox
@@ -86,13 +97,15 @@ const ChatHeader = styled.div`
   font-weight: bold;
   box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.3);
 `;
+
 const ChatField = styled.div`
+  width: 690px;
   flex: 1;
   background-color: ${COLOR["violet/50"]};
   padding: 20px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: scroll;
 `;
 const ChatInput = styled.div`
   height: 88px;
