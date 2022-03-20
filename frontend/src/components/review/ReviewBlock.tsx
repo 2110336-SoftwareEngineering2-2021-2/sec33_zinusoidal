@@ -17,12 +17,12 @@ const ReviewBlock = () => {
             style={{ width: `${(4.4 * 100) / 5}%` }}
           ></div>
         </div>
-        <p>
+        <P>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. In
           voluptatibus nulla fuga quam, ab tempore autem ratione ea nam,
           explicabo, qui dolorum minus delectus culpa. Itaque adipisci culpa
           nesciunt sequi.
-        </p>
+        </P>
       </Detail>
     </Layout>
   );
@@ -62,9 +62,12 @@ const Detail = styled.div`
     line-height: 25px;
     font-weight: bold;
   }
-  p {
-    font-size: 12px;
-    line-height: 19px;
-  }
+`;
+
+const P = styled.h4`
+  font-size: 12px;
+  line-height: 19px;
+  pointer-events: none;
+  font-weight: normal;
 `;
 export default ReviewBlock;
