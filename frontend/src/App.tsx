@@ -19,6 +19,7 @@ import { UserContext } from "./context/UserContext";
 import CalendarTest from "./pages/CalendarTest";
 import Cookies from "universal-cookie";
 import Chat from "./pages/Chat";
+import ReviewPage from "./pages/ReviewPage";
 
 const cookies = new Cookies();
 
@@ -61,6 +62,7 @@ const App = () => {
             <Route path=":providerID" element={<Appointment />} />
           </Route>
           <Route path="/chat" element={<Chat />}></Route>
+          <Route path="/review" element={<ReviewPage />}></Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
