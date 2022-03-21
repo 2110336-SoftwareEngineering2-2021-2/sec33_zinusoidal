@@ -5,6 +5,6 @@ CREATE TABLE review
     score int NOT NULL,
     comment varchar(1000),
 
-    PRIMARY KEY appointment_id,
+    PRIMARY KEY (appointment_id),
     CONSTRAINT fk_rev_app FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id) ON DELETE CASCADE
 );
