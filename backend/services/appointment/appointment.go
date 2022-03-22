@@ -7,7 +7,7 @@ type Service struct {
 }
 
 type Databaser interface {
-	ResponseAppointment(provider_id, appointment_id string, accept bool) error
+	ResponseAppointment(provider_id, appointment_id string, status int) error
 	MakeAppointment(appointmentList model.Appointment, customerId, providerId, date string) error
 }
 
@@ -21,6 +21,6 @@ func (s *Service) MakeAppointment(customerId string, req AppointmentRequest) err
 	return s.database.MakeAppointment(req.Appointment, customerId, req.ProviderId, req.Date)
 }
 
-func (s *Service) ResponseAppointment(providerId, appointmentId string, accept bool) error {
-	return s.database.ResponseAppointment(providerId, appointmentId, accept)
+func (s *Service) ResponseAppointment(providerId, appointmentId string, status int) error {
+	return s.database.ResponseAppointment(providerId, appointmentId, status)
 }
