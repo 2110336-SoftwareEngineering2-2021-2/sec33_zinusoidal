@@ -97,7 +97,7 @@ func main() {
 	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, client)))
 	{
 		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
-		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
+		v1fortune.POST("/response_appointment/:app_id/:status", appointment_handler.ResponseAppointmentHandler)
 	}
 
 	chat_handler := chat.NewHandler(*chat.NewService(chat_repo.New(db, client)))
