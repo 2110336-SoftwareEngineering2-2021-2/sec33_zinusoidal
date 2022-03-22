@@ -64,17 +64,21 @@ func (h *Handler) ResponseAppointmentHandler(c *gin.Context) {
 
 	appointmentId := c.Param("app_id")
 	status := c.Param("is_accept")
-	is_accept := false
-	if status != "0" && status != "1" {
+	if len(status) != 1 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"log": "accept status must be 0 or 1",
+			"log": "invalid status should be between 0 and 3",
 		})
 		return
 	}
-	if status == "1" {
-		is_accept = true
+	status_val := int([]byte(status)[0] - '0')
+	if status_val < 0 || status_val > 3 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"log": "invalid status should be between 0 and 3",
+		})
+		return
 	}
-	if err = h.service.ResponseAppointment(providerId, appointmentId, is_accept); err != nil {
+
+	if err = h.service.ResponseAppointment(providerId, appointmentId, status_val); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"log": err.Error(),
 		})

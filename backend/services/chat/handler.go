@@ -18,7 +18,7 @@ func NewHandler(s Service) *Handler {
 }
 
 func (h *Handler) SendMessageHandler(c *gin.Context) {
-	userId, err := jwt.VerifyToken(c)
+	token, err := jwt.VerifyToken(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": err.Error(),
@@ -32,7 +32,7 @@ func (h *Handler) SendMessageHandler(c *gin.Context) {
 		})
 		return
 	}
-	err = h.service.SendMessage(userId.UserID, req.ReceiverId, req.Message)
+	err = h.service.SendMessage(token.UserID, req.ReceiverId, req.Message)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"log": err.Error(),

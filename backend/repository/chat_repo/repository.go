@@ -2,6 +2,7 @@ package chat_repo
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -18,17 +19,19 @@ func New(db *gorm.DB, client *firestore.Client) *DB {
 	return &DB{database: db, client: client}
 }
 
-func createRoomId(id1, id2 string) string {
-	if id1 < id2 {
-		id1, id2 = id2, id1
-	}
-	return "R-" + id1 + "-" + id2
-}
-
 func (db *DB) SendMessage(senderId, receiverId, text string) error {
+	if !db.isValidId(receiverId) {
+		return errors.New("invalid receiver id")
+	}
 	roomId := createRoomId(senderId, receiverId)
-	db.ensureRoom(senderId, roomId)
-	db.ensureRoom(receiverId, roomId)
+	err := db.ensureRoom(senderId, roomId)
+	if err != nil {
+		return errors.New("failed to create room " + err.Error())
+	}
+	err = db.ensureRoom(receiverId, roomId)
+	if err != nil {
+		return errors.New("failed to create room " + err.Error())
+	}
 
 	ctx := context.Background()
 	message := model.Message{
@@ -36,10 +39,36 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 		MessageSentTime: time.Now(),
 		MessageText:     text,
 	}
-	_, err := db.client.Collection("chatRoom").Doc(roomId).Collection("message").NewDoc().Set(ctx, message)
+	_, err = db.client.Collection("chatRoom").Doc(roomId).Collection("message").NewDoc().Set(ctx, message)
 	return err
 }
 
-func (db *DB) ensureRoom(userId, roomId string) {
-	db.client.Collection("userChat").Doc(userId).Collection(roomId)
+func (db *DB) ensureRoom(userId, roomId string) error {
+	//db.client.Collection("userChat").Doc(userId)
+	ctx := context.Background()
+	_, err := db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
+		"updatedAt": time.Now(),
+	})
+	return err
+	//db.client.Collection("userChat").Doc(userId).Collection(roomId)
+}
+
+func (db *DB) isValidId(userId string) bool {
+	isExist := `SELECT COUNT(*) as cnt from fortune_user WHERE id = ?`
+	var result struct {
+		Cnt int `gorm:"cnt"`
+	}
+	err := db.database.Raw(isExist, userId).Scan(&result).Error
+	if err != nil {
+		return false
+	}
+
+	return result.Cnt == 1
+}
+
+func createRoomId(id1, id2 string) string {
+	if id1 < id2 {
+		id1, id2 = id2, id1
+	}
+	return "R_" + id1 + "_" + id2
 }
