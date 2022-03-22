@@ -66,14 +66,14 @@ func (h *Handler) ResponseAppointmentHandler(c *gin.Context) {
 	status := c.Param("is_accept")
 	if len(status) != 1 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"log": "invalid status should be between 0 and 3",
+			"log": "invalid status. status should be between 1 and 4",
 		})
 		return
 	}
 	status_val := int([]byte(status)[0] - '0')
-	if status_val < 0 || status_val > 3 {
+	if status_val <= 0 || status_val > 5 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"log": "invalid status should be between 0 and 3",
+			"log": "invalid status. status should be between 1 and 4",
 		})
 		return
 	}
