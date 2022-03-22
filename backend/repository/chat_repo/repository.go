@@ -24,11 +24,11 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 		return errors.New("invalid receiver id")
 	}
 	roomId := createRoomId(senderId, receiverId)
-	err := db.ensureRoom(senderId, roomId)
+	err := db.ensureRoom(senderId, receiverId, roomId)
 	if err != nil {
 		return errors.New("failed to create room " + err.Error())
 	}
-	err = db.ensureRoom(receiverId, roomId)
+	err = db.ensureRoom(receiverId, senderId, roomId)
 	if err != nil {
 		return errors.New("failed to create room " + err.Error())
 	}
@@ -43,11 +43,12 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 	return err
 }
 
-func (db *DB) ensureRoom(userId, roomId string) error {
+func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 	//db.client.Collection("userChat").Doc(userId)
 	ctx := context.Background()
 	_, err := db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
-		"updatedAt": time.Now(),
+		"updatedAt":   time.Now(),
+		"otherUserId": otherId,
 	})
 	return err
 	//db.client.Collection("userChat").Doc(userId).Collection(roomId)
