@@ -1,4 +1,5 @@
 vendor/*
+secret_key/*
 !vendor/vendor.json
 coverage.out
 count.out
