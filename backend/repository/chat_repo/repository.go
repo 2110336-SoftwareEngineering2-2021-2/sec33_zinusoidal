@@ -34,9 +34,10 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 	}
 
 	ctx := context.Background()
+	sendTime := time.Now()
 	message := model.Message{
 		MessageSentBy:   senderId,
-		MessageSentTime: time.Now(),
+		MessageSentTime: sendTime,
 		MessageText:     text,
 	}
 	_, err = db.client.Collection("chatRoom").Doc(roomId).Collection("message").NewDoc().Set(ctx, message)
@@ -45,16 +46,15 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 		return err
 	}
 
-	return db.updatedRoom(senderId, receiverId, roomId)
+	return db.updatedRoom(senderId, receiverId, roomId, sendTime)
 }
 
-func (db *DB) updatedRoom(userId, senderId, roomId string) error {
+func (db *DB) updatedRoom(userId, senderId, roomId string, sendTime time.Time) error {
 	ctx := context.Background()
-	updatedTime := time.Now()
 	_, err := db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
 		{
 			Path:  "updatedAt",
-			Value: updatedTime,
+			Value: sendTime,
 		},
 	})
 
@@ -65,7 +65,7 @@ func (db *DB) updatedRoom(userId, senderId, roomId string) error {
 	_, err = db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
 		{
 			Path:  "updatedAt",
-			Value: updatedTime,
+			Value: sendTime,
 		},
 	})
 
@@ -76,7 +76,7 @@ func (db *DB) updatedRoom(userId, senderId, roomId string) error {
 	_, err = db.client.Collection("userChat").Doc(senderId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
 		{
 			Path:  "updatedAt",
-			Value: updatedTime,
+			Value: sendTime,
 		},
 	})
 
@@ -88,9 +88,11 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 		return nil
 	}
 	ctx := context.Background()
+	createdTime := time.Now()
 
 	_, err := db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
-		"createdAt":   time.Now(),
+		"createdAt":   createdTime,
+		"updatedAt":   createdTime,
 		"otherUserId": otherId,
 	})
 	if err != nil {
@@ -98,6 +100,7 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 	}
 	_, err = db.client.Collection("userChat").Doc(otherId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
 		"createdAt":   time.Now(),
+		"updatedAt":   createdTime,
 		"otherUserId": userId,
 	})
 	if err != nil {
@@ -107,8 +110,8 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 	_, err = db.client.Collection("chatRoom").Doc(roomId).Set(ctx, map[string]interface{}{
 		"isBlocked": false,
 		"blockedBy": "",
-		"updatedAt": time.Now(),
-		"createdAt": time.Now(),
+		"updatedAt": createdTime,
+		"createdAt": createdTime,
 	})
 	return err
 }
