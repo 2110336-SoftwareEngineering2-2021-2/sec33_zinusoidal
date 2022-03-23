@@ -4,26 +4,28 @@ import ChatRoom from "./ChatRoom";
 import Chat from "./Chat";
 const ChatLayout = ({
   ChatRoomList,
-  selectedUser,
-  setSelectedUser,
+  selectedRoom,
+  setSelectedRoom,
   chatMessage,
   message,
   setMessage,
   getChatMessage,
+  setFirst,
 }: any) => {
   return (
     <Layout>
       <ChatRoom
+        setFirst={setFirst}
         getChatMessag={getChatMessage}
         ChatRoomList={ChatRoomList}
-        selectedUser={selectedUser}
-        setSelectedUser={setSelectedUser}
+        selectedRoom={selectedRoom}
+        setSelectedRoom={setSelectedRoom}
         setMessage={setMessage}
         getChatMessage={getChatMessage}
       />
       <Chat
         chatMessage={chatMessage}
-        selectedUser={selectedUser}
+        selectedRoom={selectedRoom}
         message={message}
         setMessage={setMessage}
       />

@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { FiSearch } from "react-icons/fi";
 
+import ChatItem from "./ChatItem";
+
 const ChatRoom = ({
   ChatRoomList,
-  setSelectedUser,
-  selectedUser,
+  setSelectedRoom,
+  selectedRoom,
   setMessage,
   getChatMessage,
+  setFirst,
 }: any) => {
-  console.log(selectedUser);
   return (
     <Layout>
       <SearchChatRoom>
@@ -23,22 +25,20 @@ const ChatRoom = ({
         </SearchDiv>
       </SearchChatRoom>
       <MyChatRoom>
-        {ChatRoomList.map((item: any, index: any) => (
-          <Item
+        {ChatRoomList.map((item: any, index: number) => (
+          <ChatItem
             style={{
               backgroundColor:
-                selectedUser == item.userID
+                selectedRoom.roomID == item.roomID
                   ? COLOR["violet/200"]
                   : COLOR["violet/50"],
             }}
-            onClick={() => {
-              getChatMessage();
-              setMessage("");
-              setSelectedUser(item.userID);
-            }}
-          >
-            {item.userID}
-          </Item>
+            setFirst={setFirst}
+            getChatMessage={getChatMessage}
+            setMessage={setMessage}
+            setSelectedRoom={setSelectedRoom}
+            item={item}
+          ></ChatItem>
         ))}
       </MyChatRoom>
     </Layout>
@@ -90,16 +90,5 @@ const MyChatRoom = styled.div`
   border-radius: 0px 0px 8px 8px;
   background-color: ${COLOR["violet/50"]};
 `;
-const Item = styled.div`
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  border-radius: 8px;
-  height: 96px;
-  :hover {
-    background-color: ${COLOR["violet/200"]};
-  }
-  padding: 16px;
-`;
+
 export default ChatRoom;
