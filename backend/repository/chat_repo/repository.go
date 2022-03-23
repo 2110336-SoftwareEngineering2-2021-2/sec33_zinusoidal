@@ -115,7 +115,7 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 
 func (db *DB) roomExist(roomId string) bool {
 	ctx := context.Background()
-	_, err := db.client.Collection("userChat").Doc(roomId).Get(ctx)
+	_, err := db.client.Collection("chatRoom").Doc(roomId).Get(ctx)
 	return err == nil
 }
 
