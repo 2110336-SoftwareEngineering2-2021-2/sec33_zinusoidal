@@ -6,6 +6,7 @@ type Service struct {
 
 type Databaser interface {
 	SendMessage(senderId, receiverId, message string) error
+	Block(blockerId, blockedId string) error
 }
 
 func NewService(database Databaser) *Service {
@@ -19,5 +20,5 @@ func (s *Service) SendMessage(senderId, receiverId, message string) error {
 }
 
 func (s *Service) Block(userId, blockedUserId string) error {
-	return nil
+	return s.database.Block(userId, blockedUserId)
 }
