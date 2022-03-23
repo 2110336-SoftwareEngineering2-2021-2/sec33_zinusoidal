@@ -48,12 +48,31 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 }
 
 func (db *DB) ensureRoom(userId, otherId, roomId string) error {
+	if db.roomExist(roomId) {
+		return nil
+	}
 	ctx := context.Background()
+
 	_, err := db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
-		"updatedAt":   time.Now(),
+		"createdAt":   time.Now(),
 		"otherUserId": otherId,
 	})
+	if err != nil {
+		return err
+	}
+
+	_, err = db.client.Collection("chatRoom").Doc(roomId).Set(ctx, map[string]interface{}{
+		"isBlocked": false,
+		"createdAt": time.Now(),
+	})
+
 	return err
+}
+
+func (db *DB) roomExist(roomId string) bool {
+	ctx := context.Background()
+	_, err := db.client.Collection("userChat").Doc(roomId).Get(ctx)
+	return err == nil
 }
 
 func (db *DB) isValidId(userId string) bool {
