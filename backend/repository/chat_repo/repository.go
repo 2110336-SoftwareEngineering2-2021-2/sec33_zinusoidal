@@ -67,6 +67,7 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 	_, err = db.client.Collection("chatRoom").Doc(roomId).Set(ctx, map[string]interface{}{
 		"isBlocked": false,
 		"createdAt": time.Now(),
+		"blockedBy": "",
 	})
 
 	return err
