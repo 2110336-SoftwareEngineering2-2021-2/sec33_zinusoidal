@@ -28,30 +28,98 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 	if err != nil {
 		return errors.New("failed to create room " + err.Error())
 	}
-	err = db.ensureRoom(receiverId, senderId, roomId)
-	if err != nil {
-		return errors.New("failed to create room " + err.Error())
+
+	if text == "" {
+		return nil
 	}
 
 	ctx := context.Background()
+	sendTime := time.Now()
 	message := model.Message{
 		MessageSentBy:   senderId,
-		MessageSentTime: time.Now(),
+		MessageSentTime: sendTime,
 		MessageText:     text,
 	}
 	_, err = db.client.Collection("chatRoom").Doc(roomId).Collection("message").NewDoc().Set(ctx, message)
+
+	if err != nil {
+		return err
+	}
+
+	return db.updatedRoom(senderId, receiverId, roomId, sendTime)
+}
+
+func (db *DB) updatedRoom(userId, senderId, roomId string, sendTime time.Time) error {
+	ctx := context.Background()
+	_, err := db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "updatedAt",
+			Value: sendTime,
+		},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "updatedAt",
+			Value: sendTime,
+		},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = db.client.Collection("userChat").Doc(senderId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "updatedAt",
+			Value: sendTime,
+		},
+	})
+
 	return err
 }
 
 func (db *DB) ensureRoom(userId, otherId, roomId string) error {
-	//db.client.Collection("userChat").Doc(userId)
+	if db.roomExist(roomId) {
+		return nil
+	}
 	ctx := context.Background()
+	createdTime := time.Now()
+
 	_, err := db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
-		"updatedAt":   time.Now(),
+		"createdAt":   createdTime,
+		"updatedAt":   createdTime,
 		"otherUserId": otherId,
 	})
+	if err != nil {
+		return err
+	}
+	_, err = db.client.Collection("userChat").Doc(otherId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
+		"createdAt":   time.Now(),
+		"updatedAt":   createdTime,
+		"otherUserId": userId,
+	})
+	if err != nil {
+		return err
+	}
+
+	_, err = db.client.Collection("chatRoom").Doc(roomId).Set(ctx, map[string]interface{}{
+		"isBlocked": false,
+		"blockedBy": "",
+		"updatedAt": createdTime,
+		"createdAt": createdTime,
+	})
 	return err
-	//db.client.Collection("userChat").Doc(userId).Collection(roomId)
+}
+
+func (db *DB) roomExist(roomId string) bool {
+	ctx := context.Background()
+	_, err := db.client.Collection("chatRoom").Doc(roomId).Get(ctx)
+	return err == nil
 }
 
 func (db *DB) isValidId(userId string) bool {
