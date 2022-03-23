@@ -33,6 +33,10 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 		return errors.New("failed to create room " + err.Error())
 	}
 
+	if text == "" {
+		return nil
+	}
+
 	ctx := context.Background()
 	message := model.Message{
 		MessageSentBy:   senderId,
@@ -44,14 +48,12 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 }
 
 func (db *DB) ensureRoom(userId, otherId, roomId string) error {
-	//db.client.Collection("userChat").Doc(userId)
 	ctx := context.Background()
 	_, err := db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Set(ctx, map[string]interface{}{
 		"updatedAt":   time.Now(),
 		"otherUserId": otherId,
 	})
 	return err
-	//db.client.Collection("userChat").Doc(userId).Collection(roomId)
 }
 
 func (db *DB) isValidId(userId string) bool {
