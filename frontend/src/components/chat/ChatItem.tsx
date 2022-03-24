@@ -16,6 +16,7 @@ const ChatItem = ({
   style,
   setFirst,
   selectedRoom,
+  setOpenChatRoom,
 }: any) => {
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
   const getInfo = () => {
@@ -70,6 +71,7 @@ const ChatItem = ({
         getChatMessage();
         setMessage("");
         setSelectedRoom({ roomID: item.roomID, userID: item.userID });
+        setOpenChatRoom(true);
       }}
     >
       <ProfileImg src={info.profilePic}></ProfileImg>
@@ -98,7 +100,7 @@ const Item = styled.div`
   border-radius: 8px;
   height: 96px;
   :hover {
-    background-color: ${COLOR["violet/200"]};
+    background-color: ${COLOR["violet/100"]};
   }
   padding: 16px;
 `;

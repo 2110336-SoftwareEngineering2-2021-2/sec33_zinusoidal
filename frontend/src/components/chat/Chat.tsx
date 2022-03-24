@@ -5,7 +5,7 @@ import { BiSend } from "react-icons/bi";
 import { MdBlock } from "react-icons/md";
 import Cookies from "universal-cookie";
 import axios from "axios";
-import { NONAME } from "dns";
+import { FiArrowLeft } from "react-icons/fi";
 
 const cookies = new Cookies();
 
@@ -15,6 +15,7 @@ const Chat = ({
   setMessage,
   message,
   loading,
+  setOpenChatRoom,
 }: any) => {
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
   const [openBlock, setopenBlock] = useState(false);
@@ -81,6 +82,13 @@ const Chat = ({
   return (
     <Layout>
       <ChatHeader>
+        <ReturnBackButton
+          style={{ marginRight: 8 }}
+          onClick={() => setOpenChatRoom(false)}
+        >
+          <FiArrowLeft size={25} />
+          <p>back</p>
+        </ReturnBackButton>
         {loading ? (
           <p>Loading . . . </p>
         ) : (
@@ -93,9 +101,9 @@ const Chat = ({
               alignItems: "center",
             }}
           >
-            <p>
+            <Name>
               {info.name} {info.surname}
-            </p>
+            </Name>
             {selectedRoom.isBlocked ? (
               selectedRoom.blockedBy == user.user_id ? (
                 <UnblockButton
@@ -201,6 +209,7 @@ const Chat = ({
   );
 };
 const Layout = styled.div`
+  flex: 1;
   height: 690px;
   width: 690px;
   display: flex;
@@ -208,6 +217,21 @@ const Layout = styled.div`
   background-color: white;
   border-radius: 8px;
   flex-direction: column;
+  @media screen and (max-width: 1200px) {
+    z-index: 1;
+    position: absolute;
+    margin-left: 0px;
+    width: 800px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 const ChatHeader = styled.div`
   z-index: 1;
@@ -231,6 +255,18 @@ const ChatField = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  @media screen and (max-width: 1200px) {
+    width: 800px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 const ChatInput = styled.div`
   height: 88px;
@@ -267,6 +303,15 @@ const Button = styled.div`
   font-size: 20px;
   &:hover {
     background-color: ${COLOR["violet/500"]} !important;
+  }
+  @media screen and (max-width: 650px) {
+    margin-left: 10px;
+
+    font-size: 16px;
+    padding: 0px 20px;
+  }
+  @media screen and (max-width: 450px) {
+    padding: 0px 10px;
   }
 `;
 const ChatMessage = styled.div`
@@ -338,5 +383,28 @@ const Error = styled.div`
   font-size: 20px;
   width: 100%;
   color: #f44336;
+  @media screen and (max-width: 650px) {
+    font-size: 16px;
+  }
+`;
+const ReturnBackButton = styled.div`
+  color: #f66257;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  p {
+    font-size: 20px;
+    line-height: 31px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    display: none;
+  }
+`;
+const Name = styled.div`
+  font-size: 20px;
+  @media screen and (max-width: 650px) {
+    font-size: 16px;
+  }
 `;
 export default Chat;

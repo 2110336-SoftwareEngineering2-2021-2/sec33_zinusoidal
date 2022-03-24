@@ -12,6 +12,8 @@ const ChatLayout = ({
   getChatMessage,
   setFirst,
   loading,
+  openChatRoom,
+  setOpenChatRoom,
 }: any) => {
   return (
     <Layout>
@@ -24,14 +26,18 @@ const ChatLayout = ({
         setSelectedRoom={setSelectedRoom}
         setMessage={setMessage}
         getChatMessage={getChatMessage}
+        setOpenChatRoom={setOpenChatRoom}
       />
-      <Chat
-        loading={loading}
-        chatMessage={chatMessage}
-        selectedRoom={selectedRoom}
-        message={message}
-        setMessage={setMessage}
-      />
+      {openChatRoom ? (
+        <Chat
+          setOpenChatRoom={setOpenChatRoom}
+          loading={loading}
+          chatMessage={chatMessage}
+          selectedRoom={selectedRoom}
+          message={message}
+          setMessage={setMessage}
+        />
+      ) : null}
     </Layout>
   );
 };
@@ -40,5 +46,19 @@ const Layout = styled.div`
   display: flex;
   margin: auto;
   justify-content: space-between;
+  @media screen and (max-width: 1200px) {
+    width: 800px;
+    justify-content: center;
+    align-items: center;
+  }
+  @media screen and (max-width: 850px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 export default ChatLayout;

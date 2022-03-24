@@ -13,6 +13,7 @@ const ChatRoom = ({
   getChatMessage,
   setFirst,
   loading,
+  setOpenChatRoom,
 }: any) => {
   return (
     <Layout>
@@ -37,6 +38,7 @@ const ChatRoom = ({
                     ? COLOR["violet/200"]
                     : COLOR["violet/50"],
               }}
+              setOpenChatRoom={setOpenChatRoom}
               selectedRoom={selectedRoom}
               setFirst={setFirst}
               getChatMessage={getChatMessage}
@@ -51,6 +53,7 @@ const ChatRoom = ({
   );
 };
 const Layout = styled.div`
+  margin-right: 8px;
   height: fit-content;
   width: 450px;
   display: flex;
@@ -58,6 +61,19 @@ const Layout = styled.div`
   justify-content: space-between;
   background-color: white;
   border-radius: 8px;
+  @media screen and (max-width: 1200px) {
+    width: 800px;
+    margin-right: 0px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 const SearchChatRoom = styled.div`
   z-index: 1;

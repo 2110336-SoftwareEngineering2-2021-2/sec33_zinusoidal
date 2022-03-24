@@ -27,6 +27,7 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [first, setFirst] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [openChatRoom, setOpenChatRoom] = useState(true);
 
   const getChatRoomList = () => {
     // create new chatroom if dont have one with the selected provider
@@ -175,6 +176,8 @@ const Chat = () => {
         chatMessage={chatMessage}
         message={message}
         setMessage={setMessage}
+        openChatRoom={openChatRoom}
+        setOpenChatRoom={setOpenChatRoom}
       />
     </Layout>
   );
