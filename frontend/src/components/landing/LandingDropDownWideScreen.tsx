@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { RiPencilFill } from "react-icons/ri";
 import { AiOutlineLogout, AiOutlineClose } from "react-icons/ai";
 import { BsCalendarCheck } from "react-icons/bs";
+import { BiMessageDots } from "react-icons/bi";
+
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -41,8 +43,14 @@ const LandingDropDownWideScreen = ({ setDropDown }: any) => {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
     >
+      <Link to="/chat" style={{ textDecoration: "none" }}>
+        <DropArrow />
+        <Item>
+          <BiMessageDots /> <p>Message</p>
+        </Item>
+      </Link>
       {user.user_id.charAt(0) == "P" && (
-        <div>
+        <div style={{ margin: 0, padding: 0 }}>
           <Link to="/editProfile" style={{ textDecoration: "none" }}>
             <DropArrow />
             <Item>

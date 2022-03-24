@@ -2,13 +2,64 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
 import { BiSend } from "react-icons/bi";
+import { MdBlock } from "react-icons/md";
+import Cookies from "universal-cookie";
+import axios from "axios";
+
+const cookies = new Cookies();
+
 const Img = require("../../assets/zinusoidal.png");
 
-const Chat = ({ chatMessage, selectedUser, setMessage, message }: any) => {
-  console.log(message);
+const Chat = ({ chatMessage, selectedRoom, setMessage, message }: any) => {
+  const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
+  const getInfo = () => {
+    if (selectedRoom.userID.slice(0, 1) == "P") {
+      axios({
+        method: "get",
+        url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider/${selectedRoom.userID}`,
+      })
+        .then(function (response) {
+          setInfo({
+            name: response.data.firstName,
+            surname: response.data.lastName,
+            profilePic: response.data.profilePicUrl,
+          });
+        })
+        .catch(function (error) {});
+    }
+    if (selectedRoom.userID.slice(0, 1) == "C") {
+      axios({
+        method: "get",
+        url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/customer/${selectedRoom.userID}`,
+      })
+        .then(function (response) {
+          setInfo({
+            name: response.data.firstName,
+            surname: response.data.lastName,
+            profilePic: response.data.profilePicUrl,
+          });
+        })
+        .catch(function (error) {});
+    }
+  };
+  const user = cookies.get("user");
   const sendMessage = () => {
-    //send message api
+    if (message == "") return;
+    let data = message;
     setMessage("");
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/send_message`,
+      data: {
+        receiverId: selectedRoom.userID,
+        message: data,
+      },
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(function (response) {})
+      .catch(function (error) {});
   };
   const messagesEndRef = useRef(null);
 
@@ -17,24 +68,36 @@ const Chat = ({ chatMessage, selectedUser, setMessage, message }: any) => {
   };
 
   useEffect(() => {
+    getInfo();
     scrollToBottom();
   }, [chatMessage]);
   return (
     <Layout>
-      <ChatHeader>{selectedUser}</ChatHeader>
+      <ChatHeader>
+        {info.name} {info.surname}
+        <BlockButton
+          onClick={() => {
+            sendMessage();
+          }}
+        >
+          <MdBlock style={{ marginRight: 4 }} />
+          Block
+        </BlockButton>
+      </ChatHeader>
       <ChatField>
         {chatMessage.map((item: any, index: any) => (
           <MessageDiv
+            key={index}
             ref={messagesEndRef}
             style={{
               justifyContent:
-                item.userID == "789101" ? "flex-end" : "flex-start",
+                item.userID == user.user_id ? "flex-end" : "flex-start",
             }}
           >
-            {item.userID == "789101" ? null : index == 0 ||
+            {item.userID == user.user_id ? null : index == 0 ||
               chatMessage[index - 1].userID != item.userID ? (
               <Image>
-                <img src={Img} alt="profle" />
+                <img src={info.profilePic} alt="profle" />
               </Image>
             ) : (
               <Image />
@@ -42,11 +105,11 @@ const Chat = ({ chatMessage, selectedUser, setMessage, message }: any) => {
             <ChatMessage
               style={{
                 backgroundColor:
-                  item.userID == "789101"
+                  item.userID == user.user_id
                     ? COLOR["violet/200"]
                     : COLOR["blue/100"],
                 borderRadius:
-                  item.userID == "789101"
+                  item.userID == user.user_id
                     ? "20px 25px 0px 20px"
                     : "25px 20px 20px 0px",
               }}
@@ -92,6 +155,7 @@ const ChatHeader = styled.div`
   border-radius: 8px 8px 0px 0px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 15px;
   font-size: 20px;
   font-weight: bold;
@@ -168,6 +232,23 @@ const Image = styled.div`
     height: 100%;
     border-radius: 100%;
     object-fit: cover;
+  }
+`;
+const BlockButton = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  background-color: #f44336;
+  text-decoration: none;
+  color: #ffffff;
+  border-radius: 10000px;
+  font-weight: bold;
+  font-size: 18px;
+  &:hover {
+    background-color: #d63b2f;
   }
 `;
 export default Chat;
