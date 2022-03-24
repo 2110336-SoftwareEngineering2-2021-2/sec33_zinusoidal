@@ -43,7 +43,7 @@ const Chat = () => {
       });
     };
     const run = async () => {
-      await fetch().then(() => {});
+      await fetch();
     };
 
     run();
@@ -116,12 +116,21 @@ const Chat = () => {
   useEffect(() => {
     if (first) {
       console.log(providerID);
+      console.log("CASE 1", providerID == undefined);
+      console.log("CASE 2", ChatRoomList.length < 2);
+      console.log("CASE 3", ChatRoomList.length >= 2);
+
       if (providerID == undefined) {
         setSelectedRoom({
           roomID: ChatRoomList[0].roomID,
           userID: ChatRoomList[0].userID,
         });
-      } else if (ChatRoomList.length >= 2) {
+      } else if (ChatRoomList.length < 2 && ChatRoomList.length > 0) {
+        setSelectedRoom({
+          roomID: ChatRoomList[0].roomID,
+          userID: ChatRoomList[0].userID,
+        });
+      } else if (ChatRoomList.length >= 2 && ChatRoomList.length > 0) {
         let temp = ChatRoomList.filter((e) => e.userID == providerID) as any;
         setSelectedRoom({
           roomID: temp[0].roomID,
