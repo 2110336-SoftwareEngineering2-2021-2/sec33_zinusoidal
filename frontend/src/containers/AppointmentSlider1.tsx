@@ -73,6 +73,9 @@ const Layout = styled.div`
   p {
     margin-left: initial;
   }
+  @media screen and (max-width: 1100px) {
+    display: none;
+  } ;
 `;
 
 const Slider = styled("div")<SliderProp>`

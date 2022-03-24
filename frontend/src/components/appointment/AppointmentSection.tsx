@@ -180,6 +180,11 @@ const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  } ;
 `;
 
 export default AppointmentSection;
