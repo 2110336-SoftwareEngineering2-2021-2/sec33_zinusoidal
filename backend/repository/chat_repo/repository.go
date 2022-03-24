@@ -164,6 +164,36 @@ func (db *DB) Block(blockerId, blockedId string) error {
 		},
 	})
 
+	_, err = db.client.Collection("userChat").Doc(blockerId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "isBlocked",
+			Value: true,
+		},
+		{
+			Path:  "updatedAt",
+			Value: time.Now(),
+		},
+		{
+			Path:  "blockedBy",
+			Value: blockerId,
+		},
+	})
+
+	_, err = db.client.Collection("userChat").Doc(blockedId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "isBlocked",
+			Value: true,
+		},
+		{
+			Path:  "updatedAt",
+			Value: time.Now(),
+		},
+		{
+			Path:  "blockedBy",
+			Value: blockerId,
+		},
+	})
+
 	return err
 }
 
@@ -191,6 +221,36 @@ func (db *DB) Unblock(userId, unblockedId string) error {
 	}
 
 	_, err = db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "isBlocked",
+			Value: false,
+		},
+		{
+			Path:  "updatedAt",
+			Value: time.Now(),
+		},
+		{
+			Path:  "blockedBy",
+			Value: "",
+		},
+	})
+
+	_, err = db.client.Collection("userChat").Doc(userId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "isBlocked",
+			Value: false,
+		},
+		{
+			Path:  "updatedAt",
+			Value: time.Now(),
+		},
+		{
+			Path:  "blockedBy",
+			Value: "",
+		},
+	})
+
+	_, err = db.client.Collection("userChat").Doc(unblockedId).Collection("room").Doc(roomId).Update(ctx, []firestore.Update{
 		{
 			Path:  "isBlocked",
 			Value: false,
