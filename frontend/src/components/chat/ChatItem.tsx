@@ -15,6 +15,7 @@ const ChatItem = ({
   setSelectedRoom,
   style,
   setFirst,
+  selectedRoom,
 }: any) => {
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
   const getInfo = () => {
@@ -50,8 +51,19 @@ const ChatItem = ({
   useEffect(() => {
     getInfo();
   }, [item]);
+  useEffect(() => {
+    if (item.roomID == selectedRoom.roomID) {
+      scrollToBottom();
+    }
+  }, [item]);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    (messagesEndRef as any).current?.scrollIntoView({ behavior: "instant" });
+  };
   return (
     <Item
+      ref={messagesEndRef}
       style={style}
       onClick={() => {
         setFirst(false);
@@ -61,7 +73,12 @@ const ChatItem = ({
       }}
     >
       <ProfileImg src={info.profilePic}></ProfileImg>
-      {info.name} {info.surname}
+      <p>
+        {info.name} {info.surname}
+      </p>
+      {item.isBlocked ? (
+        <MdBlock style={{ marginLeft: 4, color: "#f44336" }} />
+      ) : null}
     </Item>
   );
 };

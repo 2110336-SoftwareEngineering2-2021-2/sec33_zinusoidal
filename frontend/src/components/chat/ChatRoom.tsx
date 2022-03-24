@@ -12,6 +12,7 @@ const ChatRoom = ({
   setMessage,
   getChatMessage,
   setFirst,
+  loading,
 }: any) => {
   return (
     <Layout>
@@ -25,21 +26,26 @@ const ChatRoom = ({
         </SearchDiv>
       </SearchChatRoom>
       <MyChatRoom>
-        {ChatRoomList.map((item: any, index: number) => (
-          <ChatItem
-            style={{
-              backgroundColor:
-                selectedRoom.roomID == item.roomID
-                  ? COLOR["violet/200"]
-                  : COLOR["violet/50"],
-            }}
-            setFirst={setFirst}
-            getChatMessage={getChatMessage}
-            setMessage={setMessage}
-            setSelectedRoom={setSelectedRoom}
-            item={item}
-          ></ChatItem>
-        ))}
+        {loading ? (
+          <Item>Loading . . .</Item>
+        ) : (
+          ChatRoomList.map((item: any, index: number) => (
+            <ChatItem
+              style={{
+                backgroundColor:
+                  selectedRoom.roomID == item.roomID
+                    ? COLOR["violet/200"]
+                    : COLOR["violet/50"],
+              }}
+              selectedRoom={selectedRoom}
+              setFirst={setFirst}
+              getChatMessage={getChatMessage}
+              setMessage={setMessage}
+              setSelectedRoom={setSelectedRoom}
+              item={item}
+            ></ChatItem>
+          ))
+        )}
       </MyChatRoom>
     </Layout>
   );
@@ -91,4 +97,14 @@ const MyChatRoom = styled.div`
   background-color: ${COLOR["violet/50"]};
 `;
 
+const Item = styled.div`
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 8px;
+  height: 96px;
+  padding: 16px;
+`;
 export default ChatRoom;

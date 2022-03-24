@@ -11,10 +11,12 @@ const ChatLayout = ({
   setMessage,
   getChatMessage,
   setFirst,
+  loading,
 }: any) => {
   return (
     <Layout>
       <ChatRoom
+        loading={loading}
         setFirst={setFirst}
         getChatMessag={getChatMessage}
         ChatRoomList={ChatRoomList}
@@ -24,6 +26,7 @@ const ChatLayout = ({
         getChatMessage={getChatMessage}
       />
       <Chat
+        loading={loading}
         chatMessage={chatMessage}
         selectedRoom={selectedRoom}
         message={message}
