@@ -169,11 +169,24 @@ func (db *DB) Unblock(userId, unblockedId string) error {
 
 	roomId := createRoomId(userId, unblockedId)
 
-	if !db.roomExist(roomId) {
+	room, err := db.client.Collection("chatRoom").Doc(roomId).Get(ctx)
+
+	if err != nil {
 		return errors.New("No chatroom")
 	}
 
-	_, err := db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
+	var roomData model.ChatRoom
+	err = room.DataTo(&roomData)
+
+	if err != nil {
+		return err
+	}
+
+	if roomData.BlockedBy != userId {
+		return errors.New("blockedBy userId doesn't match")
+	}
+
+	_, err = db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
 		{
 			Path:  "isBlocked",
 			Value: false,
