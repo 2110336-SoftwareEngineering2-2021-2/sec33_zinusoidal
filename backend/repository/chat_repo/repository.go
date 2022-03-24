@@ -94,6 +94,8 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 		"createdAt":   createdTime,
 		"updatedAt":   createdTime,
 		"otherUserId": otherId,
+		"isBlocked":   false,
+		"blockedBy":   "",
 	})
 	if err != nil {
 		return err
@@ -102,6 +104,8 @@ func (db *DB) ensureRoom(userId, otherId, roomId string) error {
 		"createdAt":   time.Now(),
 		"updatedAt":   createdTime,
 		"otherUserId": userId,
+		"isBlocked":   false,
+		"blockedBy":   "",
 	})
 	if err != nil {
 		return err
