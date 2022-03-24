@@ -135,6 +135,75 @@ func (db *DB) isValidId(userId string) bool {
 	return result.Cnt == 1
 }
 
+func (db *DB) Block(blockerId, blockedId string) error {
+
+	ctx := context.Background()
+
+	roomId := createRoomId(blockedId, blockerId)
+
+	if !db.roomExist(roomId) {
+		db.ensureRoom(blockerId, blockedId, roomId)
+	}
+
+	_, err := db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "isBlocked",
+			Value: true,
+		},
+		{
+			Path:  "updatedAt",
+			Value: time.Now(),
+		},
+		{
+			Path:  "blockedBy",
+			Value: blockerId,
+		},
+	})
+
+	return err
+}
+
+func (db *DB) Unblock(userId, unblockedId string) error {
+
+	ctx := context.Background()
+
+	roomId := createRoomId(userId, unblockedId)
+
+	room, err := db.client.Collection("chatRoom").Doc(roomId).Get(ctx)
+
+	if err != nil {
+		return errors.New("No chatroom")
+	}
+
+	var roomData model.ChatRoom
+	err = room.DataTo(&roomData)
+
+	if err != nil {
+		return err
+	}
+
+	if roomData.BlockedBy != userId {
+		return errors.New("blockedBy userId doesn't match")
+	}
+
+	_, err = db.client.Collection("chatRoom").Doc(roomId).Update(ctx, []firestore.Update{
+		{
+			Path:  "isBlocked",
+			Value: false,
+		},
+		{
+			Path:  "updatedAt",
+			Value: time.Now(),
+		},
+		{
+			Path:  "blockedBy",
+			Value: "",
+		},
+	})
+
+	return err
+}
+
 func createRoomId(id1, id2 string) string {
 	if id1 < id2 {
 		id1, id2 = id2, id1

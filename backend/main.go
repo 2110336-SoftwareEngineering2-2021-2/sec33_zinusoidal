@@ -104,6 +104,7 @@ func main() {
 	{
 		v1fortune.POST("/send_message", chat_handler.SendMessageHandler)
 		v1fortune.POST("/block", chat_handler.BlockHandler)
+		v1fortune.POST("/unblock", chat_handler.UnBlockHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))

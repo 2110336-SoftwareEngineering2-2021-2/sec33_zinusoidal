@@ -21,6 +21,7 @@ require (
 	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mashingan/smapping v0.1.13
+	github.com/mitchellh/mapstructure v1.4.3
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/spf13/afero v1.8.1 // indirect
 	github.com/spf13/viper v1.10.1
