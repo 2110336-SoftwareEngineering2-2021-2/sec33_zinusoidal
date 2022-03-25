@@ -48,13 +48,13 @@ const Layout = styled.div`
   justify-content: space-between;
   @media screen and (max-width: 1200px) {
     width: 800px;
-    justify-content: center;
-    align-items: center;
   }
   @media screen and (max-width: 850px) {
-    width: 600px;
+    width: 700px;
   }
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 720px) {
+    justify-content: center;
+    align-items: center;
     width: 400px;
   }
   @media screen and (max-width: 450px) {

@@ -220,15 +220,15 @@ const Layout = styled.div`
   border-radius: 8px;
   flex-direction: column;
   @media screen and (max-width: 1200px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 720px) {
     z-index: 1;
     position: absolute;
     margin-left: 0px;
-    width: 800px;
-  }
-  @media screen and (max-width: 850px) {
-    width: 600px;
-  }
-  @media screen and (max-width: 650px) {
     width: 400px;
   }
   @media screen and (max-width: 450px) {
@@ -258,12 +258,12 @@ const ChatField = styled.div`
   flex-direction: column;
   overflow-y: scroll;
   @media screen and (max-width: 1200px) {
-    width: 800px;
+    width: 500px;
   }
   @media screen and (max-width: 850px) {
-    width: 600px;
+    width: 400px;
   }
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 720px) {
     width: 400px;
   }
   @media screen and (max-width: 450px) {
@@ -306,9 +306,8 @@ const Button = styled.div`
   &:hover {
     background-color: ${COLOR["violet/500"]} !important;
   }
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 720px) {
     margin-left: 10px;
-
     font-size: 16px;
     padding: 0px 20px;
   }
@@ -323,6 +322,9 @@ const ChatMessage = styled.div`
   max-width: 70%;
   background-color: red;
   padding: 15px;
+  @media screen and (max-width: 720px) {
+    max-width: 90%;
+  }
 `;
 const MessageDiv = styled.div`
   width: 100%;
@@ -385,8 +387,8 @@ const Error = styled.div`
   font-size: 20px;
   width: 100%;
   color: #f44336;
-  @media screen and (max-width: 650px) {
-    font-size: 16px;
+  @media screen and (max-width: 720px) {
+    font-size: 14px;
   }
 `;
 const ReturnBackButton = styled.div`
@@ -397,18 +399,18 @@ const ReturnBackButton = styled.div`
   p {
     font-size: 20px;
     line-height: 31px;
-    @media screen and (max-width: 650px) {
+    @media screen and (max-width: 720px) {
       font-size: 16px;
     }
   }
 
-  @media screen and (min-width: 1200px) {
+  @media screen and (min-width: 720px) {
     display: none;
   }
 `;
 const Name = styled.div`
   font-size: 20px;
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 720px) {
     font-size: 16px;
   }
 `;

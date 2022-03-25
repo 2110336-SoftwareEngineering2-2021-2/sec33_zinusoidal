@@ -66,7 +66,9 @@ const ChatItem = ({
   };
   return (
     <div>
-      {info.name.toLowerCase().includes(searchRoom.toLowerCase()) && (
+      {(info.name + info.surname)
+        .toLowerCase()
+        .includes(searchRoom.toLowerCase()) && (
         <Item
           ref={messagesEndRef}
           style={style}

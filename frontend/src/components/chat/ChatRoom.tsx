@@ -45,7 +45,6 @@ const ChatRoom = ({
               }}
               searchRoom={searchRoom}
               setSearchRoom={setSearchRoom}
-
               setOpenChatRoom={setOpenChatRoom}
               selectedRoom={selectedRoom}
               setFirst={setFirst}
@@ -69,14 +68,11 @@ const Layout = styled.div`
   justify-content: space-between;
   background-color: white;
   border-radius: 8px;
-  @media screen and (max-width: 1200px) {
-    width: 800px;
-    margin-right: 0px;
-  }
   @media screen and (max-width: 850px) {
-    width: 600px;
+    width: 300px;
   }
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 720px) {
+    margin-right: 0px;
     width: 400px;
   }
   @media screen and (max-width: 450px) {
