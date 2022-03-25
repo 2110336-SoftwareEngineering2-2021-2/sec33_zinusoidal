@@ -82,13 +82,6 @@ const Chat = ({
   return (
     <Layout>
       <ChatHeader>
-        <ReturnBackButton
-          style={{ marginRight: 8 }}
-          onClick={() => setOpenChatRoom(false)}
-        >
-          <FiArrowLeft size={25} />
-          <p>back</p>
-        </ReturnBackButton>
         {loading ? (
           <p>Loading . . . </p>
         ) : (
@@ -101,9 +94,18 @@ const Chat = ({
               alignItems: "center",
             }}
           >
-            <Name>
-              {info.name} {info.surname}
-            </Name>
+            <div>
+              <ReturnBackButton
+                style={{ marginRight: 8 }}
+                onClick={() => setOpenChatRoom(false)}
+              >
+                <FiArrowLeft size={25} />
+                <p>back</p>
+              </ReturnBackButton>
+              <Name>
+                {info.name} {info.surname}
+              </Name>
+            </div>
             {selectedRoom.isBlocked ? (
               selectedRoom.blockedBy == user.user_id ? (
                 <UnblockButton
@@ -395,6 +397,9 @@ const ReturnBackButton = styled.div`
   p {
     font-size: 20px;
     line-height: 31px;
+    @media screen and (max-width: 650px) {
+      font-size: 16px;
+    }
   }
 
   @media screen and (min-width: 1200px) {

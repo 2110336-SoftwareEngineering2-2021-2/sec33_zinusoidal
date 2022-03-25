@@ -130,7 +130,7 @@ const AppointmentConfirmation = ({
                 {appointmentList.map((i: any) => (
                   <AppointmentResult>
                     <ResultLine>
-                      <ResultItem>
+                      <ResultLine>
                         <ResultItem>
                           Service : <Normal>{i.fortuneType}</Normal>
                         </ResultItem>
@@ -140,7 +140,7 @@ const AppointmentConfirmation = ({
                             {userInfo.Name} {userInfo.Surname}
                           </Normal>
                         </ResultItem>
-                      </ResultItem>
+                      </ResultLine>
                       <ResultItem>
                         Date :{" "}
                         <Normal>
@@ -220,6 +220,9 @@ const Layout = styled.div`
   /* padding: 30px; */
 
   font-weight: bold;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const Padding = styled.div`
   height: 100%;
@@ -230,6 +233,9 @@ const Padding = styled.div`
   justify-content: center;
   align-items: center;
   row-gap: 20px;
+  @media screen and (max-width: 540px) {
+    row-gap: 10px;
+  } ;
 `;
 const HeaderDiv = styled.div`
   width: 100%;
@@ -237,6 +243,9 @@ const HeaderDiv = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: bold;
+  @media screen and (max-width: 540px) {
+    font-size: 16px;
+  } ;
 `;
 const ContentDiv = styled.div`
   width: 100%;
@@ -338,11 +347,18 @@ const AppointmentResult = styled.div`
   flex-direction: column;
   justify-content: center;
   font-weight: bold;
+  overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    padding: 8px;
+  }
 `;
 const ResultLine = styled.div`
   display: flex;
   column-gap: 10px;
   flex-wrap: wrap;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
 const ResultItem = styled.div`
   display: flex;

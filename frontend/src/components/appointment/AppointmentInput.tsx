@@ -43,6 +43,7 @@ const AppointmentInput = ({
   setA,
   userInfo,
   selected,
+  setSelected,
 }: any) => {
   const deleteAppointment = (i: any) => {
     let newTimeList = [...a, i.time].sort();
@@ -251,67 +252,78 @@ const AppointmentInput = ({
                   </div>
                 </ServiceDiv>
                 <TimeDiv>
-                  From{" "}
-                  <div ref={wrapperRef1}>
-                    <TimeInput
-                      style={{
-                        backgroundColor:
-                          service == "" ? COLOR["gray/400"] : "white",
-                        pointerEvents: service == "" ? "none" : "unset",
-                      }}
-                      onClick={() => {
-                        setOpenStartTimeDropDown(!openStartTimeDropDown);
-                      }}
-                    >
-                      {startTime == "-1.0" ? (
-                        <p style={{ color: COLOR["gray/700"] }}>start time</p>
-                      ) : (
-                        startTime
-                      )}
-                      <BsChevronDown color="#AAA" />
-                    </TimeInput>
-                    {openStartTimeDropDown ? (
-                      <StartTimeDropDown
-                        a={a}
-                        setStartTime={setStartTime}
-                        setOpenStartTimeDropDown={setOpenStartTimeDropDown}
-                        setIndex={setIndex}
-                        setStopTime={setStopTime}
-                        setPrice={setPrice}
-                      />
-                    ) : null}
-                  </div>
-                  To{" "}
-                  <div ref={wrapperRef2}>
-                    <TimeInput
-                      style={{
-                        backgroundColor:
-                          startTime == "-1.0" ? COLOR["gray/400"] : "white",
-                        pointerEvents: startTime == "-1.0" ? "none" : "unset",
-                      }}
-                      onClick={() => {
-                        setOpenStopTimeDropDown(!openStartTimeDropDown);
-                      }}
-                    >
-                      {stopTime == "24.0" ? (
-                        <p style={{ color: COLOR["gray/700"] }}>stop time</p>
-                      ) : (
-                        stopTime
-                      )}
-                      <BsChevronDown color="#AAA" />
-                    </TimeInput>
-                    {openStopTimeDropDown ? (
-                      <StopTimeDropDown
-                        a={a}
-                        setStopTime={setStopTime}
-                        setOpenStopTimeDropDown={setOpenStopTimeDropDown}
-                        startTime={startTime}
-                        setPrice={setPrice}
-                        index={index}
-                        servicePrice={servicePrice}
-                      />
-                    ) : null}
-                  </div>
+                  <TwoTime>
+                    <OneTime>
+                      From{" "}
+                      <div ref={wrapperRef1}>
+                        <TimeInput
+                          style={{
+                            backgroundColor:
+                              service == "" ? COLOR["gray/400"] : "white",
+                            pointerEvents: service == "" ? "none" : "unset",
+                          }}
+                          onClick={() => {
+                            setOpenStartTimeDropDown(!openStartTimeDropDown);
+                          }}
+                        >
+                          {startTime == "-1.0" ? (
+                            <p style={{ color: COLOR["gray/700"] }}>
+                              start time
+                            </p>
+                          ) : (
+                            startTime
+                          )}
+                          <BsChevronDown color="#AAA" />
+                        </TimeInput>
+                        {openStartTimeDropDown ? (
+                          <StartTimeDropDown
+                            a={a}
+                            setStartTime={setStartTime}
+                            setOpenStartTimeDropDown={setOpenStartTimeDropDown}
+                            setIndex={setIndex}
+                            setStopTime={setStopTime}
+                            setPrice={setPrice}
+                          />
+                        ) : null}
+                      </div>
+                    </OneTime>
+                    <OneTime>
+                      To{" "}
+                      <div ref={wrapperRef2}>
+                        <TimeInput
+                          style={{
+                            backgroundColor:
+                              startTime == "-1.0" ? COLOR["gray/400"] : "white",
+                            pointerEvents:
+                              startTime == "-1.0" ? "none" : "unset",
+                          }}
+                          onClick={() => {
+                            setOpenStopTimeDropDown(!openStartTimeDropDown);
+                          }}
+                        >
+                          {stopTime == "24.0" ? (
+                            <p style={{ color: COLOR["gray/700"] }}>
+                              stop time
+                            </p>
+                          ) : (
+                            stopTime
+                          )}
+                          <BsChevronDown color="#AAA" />
+                        </TimeInput>
+                        {openStopTimeDropDown ? (
+                          <StopTimeDropDown
+                            a={a}
+                            setStopTime={setStopTime}
+                            setOpenStopTimeDropDown={setOpenStopTimeDropDown}
+                            startTime={startTime}
+                            setPrice={setPrice}
+                            index={index}
+                            servicePrice={servicePrice}
+                          />
+                        ) : null}
+                      </div>
+                    </OneTime>
+                  </TwoTime>
                   <Button
                     onClick={() => {
                       addAppointment();
@@ -357,20 +369,22 @@ const AppointmentInput = ({
                     <Appointments>
                       {appointmentList.map((i: any) => (
                         <AppointmentResult>
-                          <ResultLine
-                            style={{ justifyContent: "space-between" }}
-                          >
-                            <ResultItem>
-                              <ResultItem>
-                                Service : <Normal>{i.fortuneType}</Normal>
-                              </ResultItem>
-                              <ResultItem>
-                                Provider :{" "}
-                                <Normal>
-                                  {userInfo.Name} {userInfo.Surname}
-                                </Normal>
-                              </ResultItem>
-                            </ResultItem>
+                          <FirstLine>
+                            <ResultLine
+                              style={{ justifyContent: "space-between" }}
+                            >
+                              <ResultLine>
+                                <ResultItem>
+                                  Service : <Normal>{i.fortuneType}</Normal>
+                                </ResultItem>
+                                <ResultItem>
+                                  Provider :
+                                  <Normal>
+                                    {userInfo.Name} {userInfo.Surname}
+                                  </Normal>
+                                </ResultItem>
+                              </ResultLine>
+                            </ResultLine>
                             <AiFillMinusCircle
                               color={COLOR["magenta/400"]}
                               size={20}
@@ -382,7 +396,7 @@ const AppointmentInput = ({
                                 deleteAppointment(i);
                               }}
                             />
-                          </ResultLine>
+                          </FirstLine>
                           <ResultLine>
                             <ResultItem>
                               Date :{" "}
@@ -424,7 +438,9 @@ const AppointmentInput = ({
         </ContentDiv>
         <ButtonDiv>
           <PrevButton
-            style={{ visibility: current == 0 ? "hidden" : "visible" }}
+            onClick={() => {
+              setSelected(false);
+            }}
           >
             <MdOutlineNavigateBefore />
             Back
@@ -456,6 +472,9 @@ const Layout = styled.div`
   background-color: white;
   height: 668px;
   border-radius: 20px;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const Padding = styled.div`
   height: 100%;
@@ -515,10 +534,32 @@ const ServiceSelector = styled.div`
   padding: 0px 10px;
   justify-content: space-between;
 `;
+const TwoTime = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  column-gap: 20px;
+  @media screen and (max-width: 540px) {
+    margin-bottom: 10px;
+  } ;
+`;
+const OneTime = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  } ;
+`;
 const TimeDiv = styled.div`
   display: flex;
   align-items: center;
   column-gap: 25px;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  } ;
 `;
 const TimeInput = styled.div`
   height: 38px;
@@ -551,14 +592,20 @@ const Appointment = styled.div`
   background-color: white;
   border-radius: 0px 0px 20px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
-  flex: 1;
   display: flex;
   padding: 15px;
+  @media screen and (max-width: 540px) {
+    padding: 4px;
+    height: 120px;
+  } ;
 `;
 const ButtonDiv = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  @media screen and (max-width: 1100px) {
+    justify-content: space-between;
+  } ;
 `;
 const NextButton = styled.div`
   width: 90px;
@@ -598,6 +645,9 @@ const PrevButton = styled.div`
     color: ${COLOR["violet/500"]} !important;
     border: 1px solid ${COLOR["violet/500"]}!important;
   }
+  @media screen and (min-width: 1100px) {
+    display: none;
+  } ;
 `;
 
 const AvailableTimeDiv = styled.div`
@@ -636,16 +686,30 @@ const ResultLine = styled.div`
   display: flex;
   column-gap: 10px;
   flex-wrap: wrap;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
 const ResultItem = styled.div`
   display: flex;
   column-gap: 4px;
 `;
+const FirstLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 540px) {
+    justify-content: center;
+  }
+`;
 const Normal = styled.p`
   font-weight: normal;
 `;
 const Appointments = styled.div`
+  width: 100%;
   height: 156px;
   overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    height: 110px;
+  }
 `;
 export default AppointmentInput;

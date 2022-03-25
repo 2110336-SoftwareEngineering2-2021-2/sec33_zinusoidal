@@ -5,6 +5,9 @@ import AppointmentInfo from "../components/appointment/AppointmentInfo";
 interface SliderProp {
   idx: number;
 }
+type PropType = {
+  selected: boolean;
+};
 
 const AppointmentSlider1 = ({
   availableTime,
@@ -30,7 +33,7 @@ const AppointmentSlider1 = ({
   setInfoList,
 }: any) => {
   return (
-    <Layout>
+    <Layout selected={selected}>
       <Slider idx={current}>
         <AppointmentCalendar
           setInfoList={setInfoList}
@@ -65,7 +68,7 @@ const AppointmentSlider1 = ({
   );
 };
 
-const Layout = styled.div`
+const Layout = styled("div")<PropType>`
   width: 536px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -74,7 +77,10 @@ const Layout = styled.div`
     margin-left: initial;
   }
   @media screen and (max-width: 1100px) {
-    display: none;
+    z-index: ${(props) => (props.selected ? -1 : 1)};
+  }
+  @media screen and (max-width: 540px) {
+    width: 300px;
   } ;
 `;
 
@@ -83,6 +89,9 @@ const Slider = styled("div")<SliderProp>`
   transform: ${(props) => `translateX(-${536 * props.idx}px)`};
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 540px) {
+    transform: ${(props) => `translateX(-${300 * props.idx}px)`};
+  } ;
 `;
 
 export default AppointmentSlider1;

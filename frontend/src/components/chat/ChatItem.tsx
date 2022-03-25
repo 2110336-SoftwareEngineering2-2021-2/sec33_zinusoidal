@@ -70,7 +70,12 @@ const ChatItem = ({
         setFirst(false);
         getChatMessage();
         setMessage("");
-        setSelectedRoom({ roomID: item.roomID, userID: item.userID });
+        setSelectedRoom({
+          roomID: item.roomID,
+          userID: item.userID,
+          isBlocked: item.isBlocked,
+          blockedBy: item.blockedBy,
+        });
         setOpenChatRoom(true);
       }}
     >

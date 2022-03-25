@@ -52,65 +52,64 @@ const AppointmentOtheInfo = ({
           />
           Additional Information
         </HeaderDiv>
-        <div>
-          <ButtonAndInput>
-            <Input>
-              <InputDiv>
-                Information
-                <Forminput
-                  type="text"
-                  value={infoName}
-                  onChange={(e) => {
-                    setInfoName(e.target.value);
-                    setOpenOneAppointmentError(false);
-                    setOpenDuplicateInfoError(false);
-                  }}
-                />
-              </InputDiv>
-              <InputDiv>
-                Value
-                <Forminput
-                  type="text"
-                  value={infoValue}
-                  onChange={(e) => {
-                    setInfoValue(e.target.value);
-                    setOpenOneAppointmentError(false);
-                    setOpenDuplicateInfoError(false);
-                  }}
-                />
-              </InputDiv>
-            </Input>
-            <Button
-              style={{
-                backgroundColor:
-                  infoName == "" || infoValue == ""
-                    ? COLOR["gray/400"]
-                    : COLOR["violet/400"],
-                pointerEvents:
-                  infoName == "" || infoValue == "" ? "none" : "unset",
-              }}
-              onClick={() => {
-                setOpenOneAppointmentError(false);
-                setOpenDuplicateInfoError(false);
-                addInfo({
-                  Name: infoName,
-                  Value: infoValue,
-                });
-              }}
-            >
-              Add
-            </Button>
-          </ButtonAndInput>
-          {openDuplicateInfoError ? (
-            <Error>You can't have duplicate information</Error>
-          ) : null}
-        </div>
+        <ButtonAndInput>
+          <Input>
+            <InputDiv>
+              Information
+              <Forminput
+                type="text"
+                value={infoName}
+                onChange={(e) => {
+                  setInfoName(e.target.value);
+                  setOpenOneAppointmentError(false);
+                  setOpenDuplicateInfoError(false);
+                }}
+              />
+            </InputDiv>
+            <InputDiv>
+              Value
+              <Forminput
+                type="text"
+                value={infoValue}
+                onChange={(e) => {
+                  setInfoValue(e.target.value);
+                  setOpenOneAppointmentError(false);
+                  setOpenDuplicateInfoError(false);
+                }}
+              />
+            </InputDiv>
+          </Input>
+          <Button
+            style={{
+              backgroundColor:
+                infoName == "" || infoValue == ""
+                  ? COLOR["gray/400"]
+                  : COLOR["violet/400"],
+              pointerEvents:
+                infoName == "" || infoValue == "" ? "none" : "unset",
+            }}
+            onClick={() => {
+              setOpenOneAppointmentError(false);
+              setOpenDuplicateInfoError(false);
+              addInfo({
+                Name: infoName,
+                Value: infoValue,
+              });
+            }}
+          >
+            Add
+          </Button>
+        </ButtonAndInput>
+        {openDuplicateInfoError ? (
+          <Error>You can't have duplicate information</Error>
+        ) : null}
         <ShowInfo>
           <Scroll>
-            {infoList.map((i: any) => (
-              <ShowDiv>
+            {infoList.map((i: any, index: number) => (
+              <ShowDiv key={index}>
                 <NameAndValue>
-                  <p>{i.Name} </p> : <Value> {i.Value}</Value>
+                  <div>{i.Name} :</div>
+                  <div style={{ fontWeight: "normal" }}> {i.Value}</div>
                 </NameAndValue>
                 <AiFillMinusCircle
                   color={COLOR["magenta/400"]}
@@ -165,6 +164,9 @@ const Layout = styled.div`
   /* padding: 30px; */
 
   font-weight: bold;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const Padding = styled.div`
   height: 100%;
@@ -185,6 +187,11 @@ const HeaderDiv = styled.div`
 `;
 const ButtonAndInput = styled.div`
   display: flex;
+  width: 100%;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+    row-gap: 8px;
+  }
 `;
 const ButtonDiv = styled.div`
   width: 100%;
@@ -232,6 +239,9 @@ const PrevButton = styled.div`
 `;
 const InputDiv = styled.div`
   width: 50%;
+  @media screen and (max-width: 540px) {
+    width: 100%;
+  }
 `;
 
 const Input = styled.div`
@@ -239,7 +249,8 @@ const Input = styled.div`
   display: flex;
   column-gap: 15px;
   @media screen and (max-width: 540px) {
-    flex-direction: column;
+    width: 100%;
+    margin-right: 0px;
   }
 `;
 
@@ -258,18 +269,18 @@ const Forminput = styled.input`
 `;
 const ShowInfo = styled.div`
   width: 100%;
-  background-color: white;
   border-radius: 0px 0px 20px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
   display: flex;
   padding: 15px;
   flex: 1;
+  padding: 5px;
 `;
 const Scroll = styled.div`
   padding: 15px;
-  width: 100%;
   height: 360px;
   overflow-y: auto;
+  width: 100%;
 `;
 const Button = styled.button`
   width: 80px;
@@ -289,6 +300,8 @@ const Button = styled.button`
     cursor: pointer;
     background-color: ${COLOR["violet/500"]} !important;
   }
+
+  align-self: center;
 `;
 const ShowDiv = styled.div`
   margin-top: 4px;
@@ -298,12 +311,14 @@ const ShowDiv = styled.div`
   justify-content: space-between;
 `;
 const NameAndValue = styled.div`
+  overflow-wrap: break-word;
   display: flex;
   column-gap: 4px;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
-const Value = styled.p`
-  font-weight: normal;
-`;
+
 const Error = styled.p`
   width: 100%;
   font-size: 16px;

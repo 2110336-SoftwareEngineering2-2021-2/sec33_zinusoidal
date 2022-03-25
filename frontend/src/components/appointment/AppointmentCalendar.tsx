@@ -52,6 +52,8 @@ const AppointmentCalendar = ({
           </PriceRateDiv>
         </div>
       </HeaderDiv>
+      <DropDown>month year day</DropDown>
+
       <ContentDiv>
         {" "}
         <Calender
@@ -84,6 +86,9 @@ const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const HeaderDiv = styled.div`
   width: 100%;
@@ -119,4 +124,5 @@ const PriceRate = styled.p`
   margin-left: 16px;
   font-weight: normal;
 `;
+const DropDown = styled.div``;
 export default AppointmentCalendar;
