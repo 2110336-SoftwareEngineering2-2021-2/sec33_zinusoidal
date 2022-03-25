@@ -177,7 +177,7 @@ const AppointmentConfirmation = ({
                 {infoList.map((i: any) => (
                   <ShowDiv>
                     <NameAndValue>
-                      <p>{i.Name} </p> : <Value> {i.Value}</Value>
+                      <p>{i.Name} :</p> <Value> {i.Value}</Value>
                     </NameAndValue>
                   </ShowDiv>
                 ))}
@@ -261,6 +261,8 @@ const ContentHeader = styled.div`
   align-items: center;
 `;
 const ContentContent = styled.div`
+  background-color: ${COLOR["gray/100"]};
+
   width: 100%;
   height: 100%;
   flex: 1;
@@ -330,12 +332,17 @@ const ShowDiv = styled.div`
 const NameAndValue = styled.div`
   display: flex;
   column-gap: 4px;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
 const Value = styled.p`
   font-weight: normal;
 `;
 
 const AppointmentResult = styled.div`
+  background-color: white;
+
   width: 100%;
   min-height: 120px;
   /* background-color: red; */

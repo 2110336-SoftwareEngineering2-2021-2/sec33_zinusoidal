@@ -364,7 +364,7 @@ const AppointmentInput = ({
                   }}
                 >
                   {appointmentList.length == 0 ? (
-                    <FaRegSmileWink color={COLOR["gray/400"]} size={120} />
+                    <FaRegSmileWink color={COLOR["gray/400"]} size={80} />
                   ) : (
                     <Appointments>
                       {appointmentList.map((i: any) => (
@@ -386,7 +386,7 @@ const AppointmentInput = ({
                               </ResultLine>
                             </ResultLine>
                             <AiFillMinusCircle
-                              color={COLOR["magenta/400"]}
+                              color={"#f44336"}
                               size={20}
                               style={{
                                 cursor: "pointer",
@@ -485,6 +485,9 @@ const Padding = styled.div`
   justify-content: center;
   align-items: center;
   row-gap: 20px;
+  @media screen and (max-width: 540px) {
+    row-gap: 10px;
+  } ;
 `;
 const HeaderDiv = styled.div`
   width: 100%;
@@ -587,6 +590,9 @@ const Button = styled.button`
     cursor: pointer;
     background-color: ${COLOR["violet/500"]} !important;
   }
+  @media screen and (max-width: 540px) {
+    width: 100%;
+  } ;
 `;
 const Appointment = styled.div`
   background-color: white;
@@ -594,10 +600,12 @@ const Appointment = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.45);
   display: flex;
   padding: 15px;
+  flex: 1;
   @media screen and (max-width: 540px) {
     padding: 4px;
     height: 120px;
-  } ;
+  }
+  background-color: ${COLOR["gray/100"]};
 `;
 const ButtonDiv = styled.div`
   width: 100%;
@@ -681,6 +689,7 @@ const AppointmentResult = styled.div`
   flex-direction: column;
   justify-content: center;
   font-weight: bold;
+  background-color: white;
 `;
 const ResultLine = styled.div`
   display: flex;

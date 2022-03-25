@@ -112,7 +112,7 @@ const AppointmentOtheInfo = ({
                   <div style={{ fontWeight: "normal" }}> {i.Value}</div>
                 </NameAndValue>
                 <AiFillMinusCircle
-                  color={COLOR["magenta/400"]}
+                  color={"#f44336"}
                   size={24}
                   style={{
                     cursor: "pointer",
@@ -238,6 +238,7 @@ const PrevButton = styled.div`
   }
 `;
 const InputDiv = styled.div`
+  font-weight: bold;
   width: 50%;
   @media screen and (max-width: 540px) {
     width: 100%;
@@ -249,6 +250,7 @@ const Input = styled.div`
   display: flex;
   column-gap: 15px;
   @media screen and (max-width: 540px) {
+    flex-direction: column;
     width: 100%;
     margin-right: 0px;
   }
@@ -275,6 +277,10 @@ const ShowInfo = styled.div`
   padding: 15px;
   flex: 1;
   padding: 5px;
+  background-color: ${COLOR["gray/100"]};
+  @media screen and (max-width: 540px) {
+    height: 200px;
+  }
 `;
 const Scroll = styled.div`
   padding: 15px;
@@ -300,6 +306,9 @@ const Button = styled.button`
     cursor: pointer;
     background-color: ${COLOR["violet/500"]} !important;
   }
+  @media screen and (max-width: 540px) {
+    width: 100%;
+  }
 
   align-self: center;
 `;
@@ -309,6 +318,7 @@ const ShowDiv = styled.div`
   margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 const NameAndValue = styled.div`
   overflow-wrap: break-word;
