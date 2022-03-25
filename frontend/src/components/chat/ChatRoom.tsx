@@ -15,6 +15,7 @@ const ChatRoom = ({
   loading,
   setOpenChatRoom,
 }: any) => {
+  const [searchRoom, setSearchRoom] = useState("");
   return (
     <Layout>
       <SearchChatRoom>
@@ -23,6 +24,10 @@ const ChatRoom = ({
           <SearchChatInput
             type={"text"}
             placeholder={"Search Chat"}
+            value={searchRoom}
+            onChange={(e) => {
+              setSearchRoom(e.target.value);
+            }}
           ></SearchChatInput>
         </SearchDiv>
       </SearchChatRoom>
@@ -38,6 +43,9 @@ const ChatRoom = ({
                     ? COLOR["violet/200"]
                     : COLOR["violet/50"],
               }}
+              searchRoom={searchRoom}
+              setSearchRoom={setSearchRoom}
+
               setOpenChatRoom={setOpenChatRoom}
               selectedRoom={selectedRoom}
               setFirst={setFirst}

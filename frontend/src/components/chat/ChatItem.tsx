@@ -17,6 +17,8 @@ const ChatItem = ({
   setFirst,
   selectedRoom,
   setOpenChatRoom,
+  searchRoom,
+  setSearchRoom,
 }: any) => {
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
   const getInfo = () => {
@@ -63,30 +65,35 @@ const ChatItem = ({
     (messagesEndRef as any).current?.scrollIntoView({ behavior: "instant" });
   };
   return (
-    <Item
-      ref={messagesEndRef}
-      style={style}
-      onClick={() => {
-        setFirst(false);
-        getChatMessage();
-        setMessage("");
-        setSelectedRoom({
-          roomID: item.roomID,
-          userID: item.userID,
-          isBlocked: item.isBlocked,
-          blockedBy: item.blockedBy,
-        });
-        setOpenChatRoom(true);
-      }}
-    >
-      <ProfileImg src={info.profilePic}></ProfileImg>
-      <p>
-        {info.name} {info.surname}
-      </p>
-      {item.isBlocked ? (
-        <MdBlock style={{ marginLeft: 4, color: "#f44336" }} />
-      ) : null}
-    </Item>
+    <div>
+      {info.name.toLowerCase().includes(searchRoom.toLowerCase()) && (
+        <Item
+          ref={messagesEndRef}
+          style={style}
+          onClick={() => {
+            setFirst(false);
+            getChatMessage();
+            setMessage("");
+            setSelectedRoom({
+              roomID: item.roomID,
+              userID: item.userID,
+              isBlocked: item.isBlocked,
+              blockedBy: item.blockedBy,
+            });
+            setSearchRoom("");
+            setOpenChatRoom(true);
+          }}
+        >
+          <ProfileImg src={info.profilePic}></ProfileImg>
+          <p>
+            {info.name} {info.surname}
+          </p>
+          {item.isBlocked ? (
+            <MdBlock style={{ marginLeft: 4, color: "#f44336" }} />
+          ) : null}
+        </Item>
+      )}
+    </div>
   );
 };
 const ProfileImg = styled.img`
