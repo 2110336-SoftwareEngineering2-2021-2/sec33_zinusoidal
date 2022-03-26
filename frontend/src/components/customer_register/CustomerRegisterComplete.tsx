@@ -7,7 +7,7 @@ import { BsPeopleFill } from "react-icons/bs";
 import { FiCheckCircle } from "react-icons/fi";
 import { AiOutlineLogin } from "react-icons/ai";
 
-const CustomerRegisterComplete = () => {
+const CustomerRegisterComplete = ({ loading }: any) => {
   let navigate = useNavigate();
 
   return (
@@ -17,17 +17,23 @@ const CustomerRegisterComplete = () => {
           <BsPeopleFill color={COLOR["violet/400"]} />
           Customer Registration
         </CustomerRegistration>
-        <Flex>
-          <FiCheckCircle size={100} />
-          <Text>Registration Complete!</Text>
-          <GreenButton
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login <AiOutlineLogin />
-          </GreenButton>
-        </Flex>
+        {loading ? (
+          <Flex style={{ fontSize: 40, color: COLOR["gray/700"] }}>
+            Loading . . .
+          </Flex>
+        ) : (
+          <Flex>
+            <FiCheckCircle size={100} />
+            <Text>Registration Complete!</Text>
+            <GreenButton
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login <AiOutlineLogin />
+            </GreenButton>
+          </Flex>
+        )}
       </Padding>
     </Layout>
   );

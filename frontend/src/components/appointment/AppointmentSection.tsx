@@ -7,6 +7,8 @@ import AppointmentSlider2 from "../../containers/AppointmentSlider2";
 import axios from "axios";
 
 const AppointmentSection = (providerID: any) => {
+  const [width, setWidth] = useState(window.innerWidth);
+  console.log(width);
   //calendar info
   const [selected, setSelected] = useState(false);
   const [availableDay, setAvailableDay] = useState([0]);
@@ -111,7 +113,7 @@ const AppointmentSection = (providerID: any) => {
         console.log(error.response.data.message);
       });
   };
-
+  console.log(width);
   return (
     <Layout>
       <Content
@@ -146,6 +148,7 @@ const AppointmentSection = (providerID: any) => {
           />
         ) : null}
         <AppointmentSlider2
+          setSelected={setSelected}
           selected={selected}
           providerID={providerID}
           setOpenOneAppointmentError={setOpenOneAppointmentError}
@@ -169,7 +172,7 @@ const AppointmentSection = (providerID: any) => {
 };
 
 const Layout = styled.div`
-  margin-top: 125px;
+  margin: auto;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -180,6 +183,11 @@ const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  } ;
 `;
 
 export default AppointmentSection;

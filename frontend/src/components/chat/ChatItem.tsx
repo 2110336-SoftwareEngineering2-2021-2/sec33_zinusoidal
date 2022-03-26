@@ -15,6 +15,10 @@ const ChatItem = ({
   setSelectedRoom,
   style,
   setFirst,
+  selectedRoom,
+  setOpenChatRoom,
+  searchRoom,
+  setSearchRoom,
 }: any) => {
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
   const getInfo = () => {
@@ -50,19 +54,48 @@ const ChatItem = ({
   useEffect(() => {
     getInfo();
   }, [item]);
+  useEffect(() => {
+    if (item.roomID == selectedRoom.roomID) {
+      scrollToBottom();
+    }
+  }, [item]);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    (messagesEndRef as any).current?.scrollIntoView({ behavior: "instant" });
+  };
   return (
-    <Item
-      style={style}
-      onClick={() => {
-        setFirst(false);
-        getChatMessage();
-        setMessage("");
-        setSelectedRoom({ roomID: item.roomID, userID: item.userID });
-      }}
-    >
-      <ProfileImg src={info.profilePic}></ProfileImg>
-      {info.name} {info.surname}
-    </Item>
+    <div>
+      {(info.name + info.surname)
+        .toLowerCase()
+        .includes(searchRoom.toLowerCase()) && (
+        <Item
+          ref={messagesEndRef}
+          style={style}
+          onClick={() => {
+            setFirst(false);
+            getChatMessage();
+            setMessage("");
+            setSelectedRoom({
+              roomID: item.roomID,
+              userID: item.userID,
+              isBlocked: item.isBlocked,
+              blockedBy: item.blockedBy,
+            });
+            setSearchRoom("");
+            setOpenChatRoom(true);
+          }}
+        >
+          <ProfileImg src={info.profilePic}></ProfileImg>
+          <p>
+            {info.name} {info.surname}
+          </p>
+          {item.isBlocked ? (
+            <MdBlock style={{ marginLeft: 4, color: "#f44336" }} />
+          ) : null}
+        </Item>
+      )}
+    </div>
   );
 };
 const ProfileImg = styled.img`
@@ -81,7 +114,7 @@ const Item = styled.div`
   border-radius: 8px;
   height: 96px;
   :hover {
-    background-color: ${COLOR["violet/200"]};
+    background-color: ${COLOR["violet/100"]};
   }
   padding: 16px;
 `;

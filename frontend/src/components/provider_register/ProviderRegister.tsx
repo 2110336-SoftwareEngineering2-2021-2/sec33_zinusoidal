@@ -24,6 +24,7 @@ const workTime = (availableTime: any) => {
 
 const ProviderRegister = () => {
   const register = () => {
+    setCurrent(5);
     var providerInput = new FormData();
     if (profilePicUrl != null) {
       providerInput.append("profilePic", profilePicUrl);
@@ -48,8 +49,8 @@ const ProviderRegister = () => {
       headers: { "Content-type": "multipart/form-data" },
     })
       .then(function (response) {
+        setLoading(false);
         console.log("register success");
-        setCurrent(5);
       })
       .catch(function (error) {
         console.log(error.response);
@@ -64,6 +65,7 @@ const ProviderRegister = () => {
         }
       });
   };
+  const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -137,6 +139,7 @@ const ProviderRegister = () => {
       </Header>
       <Form>
         <ProviderRegisterContainer
+          loading={loading}
           usernameError={usernameError}
           setUsernameError={setUsernameError}
           emailError={emailError}

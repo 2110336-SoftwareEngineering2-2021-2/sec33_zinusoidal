@@ -11,7 +11,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [disable, setDisable] = useState(false);
-  // const { user, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -48,6 +47,11 @@ const LoginForm = () => {
         {error ? <ErrorText>Invalid Username or Password</ErrorText> : null}
         <FormLabel>Username</FormLabel>
         <Forminput
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              login();
+            }
+          }}
           type="text"
           onChange={(event) => {
             setUsername(event.target.value);
@@ -57,6 +61,11 @@ const LoginForm = () => {
       <InputDiv>
         <FormLabel>Password</FormLabel>
         <Forminput
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              login();
+            }
+          }}
           type="password"
           onChange={(event) => {
             setPassword(event.target.value);
@@ -98,7 +107,7 @@ const LoginFormLayout = styled.div`
     margin-top: 200px;
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 500px) {
     width: 280px;
     margin-top: 50px;
     padding: 12px;
@@ -118,7 +127,7 @@ const LoginFormHeader1 = styled.p`
   margin: 0px;
   font-size: 64px;
   color: ${COLOR["violet/800"]};
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 500px) {
     text-align: center;
   } ;
 `;
@@ -154,7 +163,7 @@ const RememberAndForgetDiv = styled.div`
   column-gap: 8px;
   justify-content: space-between;
   align-items: center;
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 500px) {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
@@ -175,7 +184,7 @@ const CheckboxStyle = styled.input`
 const Forget = styled.a`
   text-decoration: none;
   color: ${COLOR["magenta/300"]};
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 500px) {
     margin-top: 8px;
   } ;
 `;

@@ -5,13 +5,21 @@ import { BiSend } from "react-icons/bi";
 import { MdBlock } from "react-icons/md";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import { FiArrowLeft } from "react-icons/fi";
 
 const cookies = new Cookies();
 
-const Img = require("../../assets/zinusoidal.png");
-
-const Chat = ({ chatMessage, selectedRoom, setMessage, message }: any) => {
+const Chat = ({
+  chatMessage,
+  selectedRoom,
+  setMessage,
+  message,
+  loading,
+  setOpenChatRoom,
+}: any) => {
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
+  const [openBlock, setopenBlock] = useState(false);
+  const unblock = () => {};
   const getInfo = () => {
     if (selectedRoom.userID.slice(0, 1) == "P") {
       axios({
@@ -74,54 +82,123 @@ const Chat = ({ chatMessage, selectedRoom, setMessage, message }: any) => {
   return (
     <Layout>
       <ChatHeader>
-        {info.name} {info.surname}
-        <BlockButton
-          onClick={() => {
-            sendMessage();
-          }}
-        >
-          <MdBlock style={{ marginRight: 4 }} />
-          Block
-        </BlockButton>
-      </ChatHeader>
-      <ChatField>
-        {chatMessage.map((item: any, index: any) => (
-          <MessageDiv
-            key={index}
-            ref={messagesEndRef}
+        {loading ? (
+          <p>Loading . . . </p>
+        ) : (
+          <div
             style={{
-              justifyContent:
-                item.userID == user.user_id ? "flex-end" : "flex-start",
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            {item.userID == user.user_id ? null : index == 0 ||
-              chatMessage[index - 1].userID != item.userID ? (
-              <Image>
-                <img src={info.profilePic} alt="profle" />
-              </Image>
+            <div>
+              <ReturnBackButton
+                style={{ marginRight: 8 }}
+                onClick={() => setOpenChatRoom(false)}
+              >
+                <FiArrowLeft size={25} />
+                <p>back</p>
+              </ReturnBackButton>
+              <Name>
+                {info.name} {info.surname}
+              </Name>
+            </div>
+            {selectedRoom.isBlocked ? (
+              selectedRoom.blockedBy == user.user_id ? (
+                <UnblockButton
+                  onClick={() => {
+                    unblock();
+                  }}
+                >
+                  <MdBlock style={{ marginRight: 4 }} />
+                  Unblock
+                </UnblockButton>
+              ) : null
             ) : (
-              <Image />
+              <BlockButton
+                onClick={() => {
+                  setopenBlock(true);
+                }}
+              >
+                <MdBlock style={{ marginRight: 4 }} />
+                Block
+              </BlockButton>
             )}
-            <ChatMessage
+          </div>
+        )}
+      </ChatHeader>
+      <ChatField>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p
               style={{
-                backgroundColor:
-                  item.userID == user.user_id
-                    ? COLOR["violet/200"]
-                    : COLOR["blue/100"],
-                borderRadius:
-                  item.userID == user.user_id
-                    ? "20px 25px 0px 20px"
-                    : "25px 20px 20px 0px",
+                fontSize: 40,
+                color: COLOR["gray/700"],
               }}
             >
-              {item.message}
-            </ChatMessage>
-          </MessageDiv>
-        ))}
+              Loading . . .
+            </p>
+          </div>
+        ) : (
+          chatMessage.map((item: any, index: any) => (
+            <MessageDiv
+              key={index}
+              ref={messagesEndRef}
+              style={{
+                justifyContent:
+                  item.userID == user.user_id ? "flex-end" : "flex-start",
+              }}
+            >
+              {item.userID == user.user_id ? null : index == 0 ||
+                chatMessage[index - 1].userID != item.userID ? (
+                <Image>
+                  <img src={info.profilePic} alt="profle" />
+                </Image>
+              ) : (
+                <Image />
+              )}
+              <ChatMessage
+                style={{
+                  backgroundColor:
+                    item.userID == user.user_id
+                      ? COLOR["violet/200"]
+                      : COLOR["blue/100"],
+                  borderRadius:
+                    item.userID == user.user_id
+                      ? "20px 25px 0px 20px"
+                      : "25px 20px 20px 0px",
+                }}
+              >
+                {item.message}
+              </ChatMessage>
+            </MessageDiv>
+          ))
+        )}
         <div ref={messagesEndRef}> </div>
+        {selectedRoom.isBlocked ? (
+          <Error>
+            ! You can no longer chat with {info.name} {info.surname} !
+          </Error>
+        ) : null}
       </ChatField>
       <ChatInput>
         <Chatbox
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              sendMessage();
+            }
+          }}
           type={"text"}
           onChange={(e) => {
             setMessage(e.target.value);
@@ -132,6 +209,13 @@ const Chat = ({ chatMessage, selectedRoom, setMessage, message }: any) => {
           onClick={() => {
             sendMessage();
           }}
+          style={{
+            backgroundColor:
+              loading || selectedRoom.isBlocked
+                ? COLOR["gray/400"]
+                : COLOR["violet/400"],
+            pointerEvents: loading || selectedRoom.isBlocked ? "none" : "unset",
+          }}
         >
           Send <BiSend style={{ marginLeft: 8 }} />
         </Button>
@@ -140,6 +224,7 @@ const Chat = ({ chatMessage, selectedRoom, setMessage, message }: any) => {
   );
 };
 const Layout = styled.div`
+  flex: 1;
   height: 690px;
   width: 690px;
   display: flex;
@@ -147,6 +232,21 @@ const Layout = styled.div`
   background-color: white;
   border-radius: 8px;
   flex-direction: column;
+  @media screen and (max-width: 1200px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 720px) {
+    z-index: 1;
+    position: absolute;
+    margin-left: 0px;
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 const ChatHeader = styled.div`
   z-index: 1;
@@ -170,6 +270,18 @@ const ChatField = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  @media screen and (max-width: 1200px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 720px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 const ChatInput = styled.div`
   height: 88px;
@@ -205,7 +317,12 @@ const Button = styled.div`
   font-weight: bold;
   font-size: 20px;
   &:hover {
-    background-color: ${COLOR["violet/500"]};
+    background-color: ${COLOR["violet/500"]} !important;
+  }
+  @media screen and (max-width: 850px) {
+    margin-left: 10px;
+    font-size: 16px;
+    padding: 0px 20px;
   }
 `;
 const ChatMessage = styled.div`
@@ -215,6 +332,9 @@ const ChatMessage = styled.div`
   max-width: 70%;
   background-color: red;
   padding: 15px;
+  @media screen and (max-width: 720px) {
+    max-width: 90%;
+  }
 `;
 const MessageDiv = styled.div`
   width: 100%;
@@ -249,6 +369,59 @@ const BlockButton = styled.div`
   font-size: 18px;
   &:hover {
     background-color: #d63b2f;
+  }
+`;
+const UnblockButton = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  border: 2px solid #f44336;
+  background-color: white;
+  text-decoration: none;
+  color: #f44336;
+  border-radius: 10000px;
+  font-weight: bold;
+  font-size: 18px;
+  &:hover {
+    border: 2px solid #d63b2f;
+    color: #d63b2f;
+  }
+`;
+const Error = styled.div`
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  width: 100%;
+  color: #f44336;
+  @media screen and (max-width: 720px) {
+    font-size: 14px;
+  }
+`;
+const ReturnBackButton = styled.div`
+  color: #f66257;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  p {
+    font-size: 20px;
+    line-height: 31px;
+    @media screen and (max-width: 720px) {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (min-width: 720px) {
+    display: none;
+  }
+`;
+const Name = styled.div`
+  font-size: 20px;
+  @media screen and (max-width: 720px) {
+    font-size: 16px;
   }
 `;
 export default Chat;

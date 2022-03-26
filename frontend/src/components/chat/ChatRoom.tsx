@@ -12,7 +12,10 @@ const ChatRoom = ({
   setMessage,
   getChatMessage,
   setFirst,
+  loading,
+  setOpenChatRoom,
 }: any) => {
+  const [searchRoom, setSearchRoom] = useState("");
   return (
     <Layout>
       <SearchChatRoom>
@@ -21,30 +24,45 @@ const ChatRoom = ({
           <SearchChatInput
             type={"text"}
             placeholder={"Search Chat"}
+            value={searchRoom}
+            onChange={(e) => {
+              setSearchRoom(e.target.value);
+            }}
           ></SearchChatInput>
         </SearchDiv>
       </SearchChatRoom>
       <MyChatRoom>
-        {ChatRoomList.map((item: any, index: number) => (
-          <ChatItem
-            style={{
-              backgroundColor:
-                selectedRoom.roomID == item.roomID
-                  ? COLOR["violet/200"]
-                  : COLOR["violet/50"],
-            }}
-            setFirst={setFirst}
-            getChatMessage={getChatMessage}
-            setMessage={setMessage}
-            setSelectedRoom={setSelectedRoom}
-            item={item}
-          ></ChatItem>
-        ))}
+        {loading ? (
+          <Item>Loading . . .</Item>
+        ) : ChatRoomList.length == 0 ? (
+          <Item>No chatroom yet!</Item>
+        ) : (
+          ChatRoomList.map((item: any, index: number) => (
+            <ChatItem
+              style={{
+                backgroundColor:
+                  selectedRoom.roomID == item.roomID
+                    ? COLOR["violet/200"]
+                    : COLOR["violet/50"],
+              }}
+              searchRoom={searchRoom}
+              setSearchRoom={setSearchRoom}
+              setOpenChatRoom={setOpenChatRoom}
+              selectedRoom={selectedRoom}
+              setFirst={setFirst}
+              getChatMessage={getChatMessage}
+              setMessage={setMessage}
+              setSelectedRoom={setSelectedRoom}
+              item={item}
+            ></ChatItem>
+          ))
+        )}
       </MyChatRoom>
     </Layout>
   );
 };
 const Layout = styled.div`
+  margin-right: 8px;
   height: fit-content;
   width: 450px;
   display: flex;
@@ -52,6 +70,16 @@ const Layout = styled.div`
   justify-content: space-between;
   background-color: white;
   border-radius: 8px;
+  @media screen and (max-width: 850px) {
+    width: 300px;
+  }
+  @media screen and (max-width: 720px) {
+    margin-right: 0px;
+    width: 400px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
 `;
 const SearchChatRoom = styled.div`
   z-index: 1;
@@ -91,4 +119,14 @@ const MyChatRoom = styled.div`
   background-color: ${COLOR["violet/50"]};
 `;
 
+const Item = styled.div`
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 8px;
+  height: 96px;
+  padding: 16px;
+`;
 export default ChatRoom;

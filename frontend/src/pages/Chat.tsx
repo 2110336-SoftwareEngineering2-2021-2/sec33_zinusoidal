@@ -14,12 +14,21 @@ const Chat = () => {
   let { providerID } = useParams();
   const user = cookies.get("user");
   const [ChatRoomList, setChatRoomList] = useState([
-    { userID: "", roomID: "" },
+    { userID: "", roomID: "", blockedBy: "", isBlocked: false },
   ]);
-  const [selectedRoom, setSelectedRoom] = useState({ userID: "", roomID: "" });
+  const [selectedRoom, setSelectedRoom] = useState({
+    userID: "",
+    roomID: "",
+    blockedBy: "",
+    isBlocked: false,
+  });
+  console.log(selectedRoom);
   const [chatMessage, setChatMessage] = useState([{ userID: "", message: "" }]);
   const [message, setMessage] = useState("");
   const [first, setFirst] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [openChatRoom, setOpenChatRoom] = useState(true);
+
   const getChatRoomList = () => {
     // create new chatroom if dont have one with the selected provider
     // select first chatroom if come from dropdown select selected provider chatroom if come from search page
@@ -34,12 +43,15 @@ const Chat = () => {
                 userID: doc.data().otherUserId,
                 roomID: doc.id,
                 updatedAt: doc.data().updatedAt,
+                blockedBy: doc.data().blockedBy,
+                isBlocked: doc.data().isBlocked,
               };
             })
             .sort((a: any, b: any) => {
               return b.updatedAt - a.updatedAt;
             })
         );
+        setLoading(false);
       });
     };
     const run = async () => {
@@ -70,6 +82,8 @@ const Chat = () => {
       setSelectedRoom({
         userID: "",
         roomID: "",
+        isBlocked: false,
+        blockedBy: "",
       });
     }
   };
@@ -98,6 +112,7 @@ const Chat = () => {
               return a.time - b.time;
             })
         );
+        setLoading(false);
       });
     };
     const run = async () => {
@@ -115,27 +130,30 @@ const Chat = () => {
   };
   useEffect(() => {
     if (first) {
-      console.log(providerID);
-      console.log("CASE 1", providerID == undefined);
-      console.log("CASE 2", ChatRoomList.length < 2);
-      console.log("CASE 3", ChatRoomList.length >= 2);
-
-      if (providerID == undefined) {
+      if (providerID == undefined && ChatRoomList.length > 0) {
         setSelectedRoom({
           roomID: ChatRoomList[0].roomID,
           userID: ChatRoomList[0].userID,
+          isBlocked: ChatRoomList[0].isBlocked,
+          blockedBy: ChatRoomList[0].blockedBy,
         });
       } else if (ChatRoomList.length < 2 && ChatRoomList.length > 0) {
         setSelectedRoom({
           roomID: ChatRoomList[0].roomID,
           userID: ChatRoomList[0].userID,
+          isBlocked: ChatRoomList[0].isBlocked,
+          blockedBy: ChatRoomList[0].blockedBy,
         });
       } else if (ChatRoomList.length >= 2 && ChatRoomList.length > 0) {
         let temp = ChatRoomList.filter((e) => e.userID == providerID) as any;
-        setSelectedRoom({
-          roomID: temp[0].roomID,
-          userID: temp[0].userID,
-        });
+        if (temp.length != 0) {
+          setSelectedRoom({
+            roomID: temp[0].roomID,
+            userID: temp[0].userID,
+            isBlocked: temp[0].isBlocked,
+            blockedBy: temp[0].blockedBy,
+          });
+        }
       }
     }
   }, [ChatRoomList]);
@@ -149,6 +167,7 @@ const Chat = () => {
     <Layout>
       <Navbar />
       <ChatLayout
+        loading={loading}
         setFirst={setFirst}
         getChatMessage={getChatMessage}
         ChatRoomList={ChatRoomList}
@@ -157,6 +176,8 @@ const Chat = () => {
         chatMessage={chatMessage}
         message={message}
         setMessage={setMessage}
+        openChatRoom={openChatRoom}
+        setOpenChatRoom={setOpenChatRoom}
       />
     </Layout>
   );
