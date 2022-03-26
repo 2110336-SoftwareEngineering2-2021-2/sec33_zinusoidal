@@ -13,6 +13,14 @@ const searchBg = require("../assets/searchBg.jpeg");
 const Chat = () => {
   let { providerID } = useParams();
   const user = cookies.get("user");
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof user == "undefined") {
+      alert("You must be logged in");
+      navigate(`/`);
+    }
+  }, []);
   const [ChatRoomList, setChatRoomList] = useState([
     { userID: "", roomID: "", blockedBy: "", isBlocked: false },
   ]);
