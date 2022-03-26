@@ -132,16 +132,24 @@ const Chat = ({
       </ChatHeader>
       <ChatField>
         {loading ? (
-          <p
+          <div
             style={{
+              display: "flex",
               width: "100%",
               height: "100%",
-              justifySelf: "center",
-              alignSelf: "center",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            Loading . . .{" "}
-          </p>
+            <p
+              style={{
+                fontSize: 40,
+                color: COLOR["gray/700"],
+              }}
+            >
+              Loading . . .
+            </p>
+          </div>
         ) : (
           chatMessage.map((item: any, index: any) => (
             <MessageDiv

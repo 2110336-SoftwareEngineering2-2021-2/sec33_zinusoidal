@@ -194,7 +194,7 @@ const HeaderDiv = styled.div`
 `;
 const ButtonAndInput = styled.div`
   display: flex;
-  width: 100%;
+  align-items: flex-end;
   @media screen and (max-width: 540px) {
     flex-direction: column;
     row-gap: 8px;
@@ -308,7 +308,6 @@ const Button = styled.button`
   line-height: 19px;
   font-weight: bold;
   color: white;
-  align-self: flex-end;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -319,8 +318,6 @@ const Button = styled.button`
   @media screen and (max-width: 540px) {
     width: 100%;
   }
-
-  align-self: center;
 `;
 const ShowDiv = styled.div`
   margin-top: 4px;

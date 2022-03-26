@@ -34,6 +34,8 @@ const ChatRoom = ({
       <MyChatRoom>
         {loading ? (
           <Item>Loading . . .</Item>
+        ) : ChatRoomList.length == 0 ? (
+          <Item>No chatroom yet!</Item>
         ) : (
           ChatRoomList.map((item: any, index: number) => (
             <ChatItem

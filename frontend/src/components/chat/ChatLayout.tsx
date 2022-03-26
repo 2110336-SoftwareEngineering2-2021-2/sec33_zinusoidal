@@ -28,7 +28,7 @@ const ChatLayout = ({
         getChatMessage={getChatMessage}
         setOpenChatRoom={setOpenChatRoom}
       />
-      {openChatRoom ? (
+      {openChatRoom && (loading || ChatRoomList.length != 0) ? (
         <Chat
           setOpenChatRoom={setOpenChatRoom}
           loading={loading}
