@@ -186,6 +186,11 @@ const Chat = ({
       </ChatField>
       <ChatInput>
         <Chatbox
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              sendMessage();
+            }
+          }}
           type={"text"}
           onChange={(e) => {
             setMessage(e.target.value);

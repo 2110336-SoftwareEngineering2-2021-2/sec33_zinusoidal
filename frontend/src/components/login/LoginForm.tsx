@@ -11,7 +11,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [disable, setDisable] = useState(false);
-  // const { user, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -48,6 +47,11 @@ const LoginForm = () => {
         {error ? <ErrorText>Invalid Username or Password</ErrorText> : null}
         <FormLabel>Username</FormLabel>
         <Forminput
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              login();
+            }
+          }}
           type="text"
           onChange={(event) => {
             setUsername(event.target.value);
@@ -57,6 +61,11 @@ const LoginForm = () => {
       <InputDiv>
         <FormLabel>Password</FormLabel>
         <Forminput
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              login();
+            }
+          }}
           type="password"
           onChange={(event) => {
             setPassword(event.target.value);
