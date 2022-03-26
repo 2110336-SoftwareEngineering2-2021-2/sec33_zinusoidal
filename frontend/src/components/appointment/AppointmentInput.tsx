@@ -74,6 +74,15 @@ const AppointmentInput = ({
       )
     );
   };
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    (messagesEndRef as any).current?.scrollIntoView({ behavior: "instant" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [appointmentList]);
+
   const addAppointment = () => {
     let x;
     let y;
@@ -368,7 +377,7 @@ const AppointmentInput = ({
                   ) : (
                     <Appointments>
                       {appointmentList.map((i: any) => (
-                        <AppointmentResult>
+                        <AppointmentResult ref={messagesEndRef}>
                           <FirstLine>
                             <ResultLine
                               style={{ justifyContent: "space-between" }}

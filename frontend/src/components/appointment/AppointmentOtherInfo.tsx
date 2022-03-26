@@ -17,7 +17,14 @@ const AppointmentOtheInfo = ({
   const [infoName, setInfoName] = useState("");
   const [infoValue, setInfoValue] = useState("");
   const [openDuplicateInfoError, setOpenDuplicateInfoError] = useState(false);
+  const messagesEndRef = useRef(null);
 
+  const scrollToBottom = () => {
+    (messagesEndRef as any).current?.scrollIntoView({ behavior: "instant" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [infoList]);
   const addInfo = (newInfo: any) => {
     console.log(newInfo);
     for (var s of infoList) {
@@ -107,7 +114,7 @@ const AppointmentOtheInfo = ({
           <Scroll>
             {infoList.map((i: any, index: number) => (
               <ShowDiv key={index}>
-                <NameAndValue>
+                <NameAndValue ref={messagesEndRef}>
                   <div>{i.Name} :</div>
                   <div style={{ fontWeight: "normal" }}> {i.Value}</div>
                 </NameAndValue>
@@ -284,9 +291,12 @@ const ShowInfo = styled.div`
 `;
 const Scroll = styled.div`
   padding: 15px;
-  height: 360px;
+  height: 400px;
   overflow-y: auto;
   width: 100%;
+  @media screen and (max-width: 540px) {
+    height: 100%;
+  }
 `;
 const Button = styled.button`
   width: 80px;
@@ -319,6 +329,9 @@ const ShowDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media screen and (max-width: 540px) {
+    margin-bottom: 8px;
+  }
 `;
 const NameAndValue = styled.div`
   overflow-wrap: break-word;

@@ -262,9 +262,7 @@ const ContentHeader = styled.div`
 `;
 const ContentContent = styled.div`
   background-color: ${COLOR["gray/100"]};
-
   width: 100%;
-  height: 100%;
   flex: 1;
   border-radius: 0px 0px 20px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
@@ -325,9 +323,11 @@ const PrevButton = styled.div`
 `;
 const ShowDiv = styled.div`
   margin-top: 4px;
-
   margin-bottom: 4px;
   display: flex;
+  @media screen and (max-width: 540px) {
+    margin-bottom: 8px;
+  }
 `;
 const NameAndValue = styled.div`
   display: flex;
@@ -342,10 +342,8 @@ const Value = styled.p`
 
 const AppointmentResult = styled.div`
   background-color: white;
-
   width: 100%;
   min-height: 120px;
-  /* background-color: red; */
   padding: 15px;
   border-radius: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
@@ -377,6 +375,9 @@ const Normal = styled.p`
 const Appointments = styled.div`
   height: 360px;
   overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    height: 380px;
+  }
 `;
 const ShowInfo = styled.div`
   width: 100%;
@@ -391,5 +392,8 @@ const Scroll = styled.div`
   width: 100%;
   height: 360px;
   overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    height: 380px;
+  }
 `;
 export default AppointmentConfirmation;
