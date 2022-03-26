@@ -311,13 +311,10 @@ const Button = styled.div`
   &:hover {
     background-color: ${COLOR["violet/500"]} !important;
   }
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 850px) {
     margin-left: 10px;
     font-size: 16px;
     padding: 0px 20px;
-  }
-  @media screen and (max-width: 450px) {
-    padding: 0px 10px;
   }
 `;
 const ChatMessage = styled.div`
