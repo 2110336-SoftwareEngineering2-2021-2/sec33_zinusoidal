@@ -17,12 +17,13 @@ const Chat = ({
   message,
   loading,
   setOpenChatRoom,
+  openBlock,
+  setopenBlock,
 }: any) => {
   const [loadingblock, setLoadingblock] = useState(false);
   const [loadingUnblock, setLoadingUnblock] = useState(false);
 
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
-  const [openBlock, setopenBlock] = useState(false);
   const unblock = () => {
     const user = cookies.get("user");
     axios({

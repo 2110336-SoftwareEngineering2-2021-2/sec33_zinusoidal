@@ -31,6 +31,8 @@ const Chat = () => {
     isBlocked: false,
   });
   console.log(selectedRoom);
+  const [openBlock, setopenBlock] = useState(false);
+
   const [chatMessage, setChatMessage] = useState([{ userID: "", message: "" }]);
   const [message, setMessage] = useState("");
   const [first, setFirst] = useState(true);
@@ -170,11 +172,14 @@ const Chat = () => {
   }, []);
   useEffect(() => {
     getChatMessage();
+    setopenBlock(false);
   }, [selectedRoom]);
   return (
     <Layout>
       <Navbar />
       <ChatLayout
+        openBlock={openBlock}
+        setopenBlock={setopenBlock}
         loading={loading}
         setFirst={setFirst}
         getChatMessage={getChatMessage}

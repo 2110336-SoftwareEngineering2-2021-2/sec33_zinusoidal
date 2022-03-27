@@ -15,6 +15,8 @@ const ChatLayout = ({
   loading,
   openChatRoom,
   setOpenChatRoom,
+  openBlock,
+  setopenBlock,
 }: any) => {
   return (
     <Layout>
@@ -31,6 +33,8 @@ const ChatLayout = ({
       />
       {openChatRoom && (loading || ChatRoomList.length != 0) ? (
         <Chat
+          openBlock={openBlock}
+          setopenBlock={setopenBlock}
           setOpenChatRoom={setOpenChatRoom}
           loading={loading}
           chatMessage={chatMessage}
