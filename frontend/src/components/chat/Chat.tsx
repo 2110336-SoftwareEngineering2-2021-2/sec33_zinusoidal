@@ -6,6 +6,7 @@ import { MdBlock } from "react-icons/md";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { FiArrowLeft } from "react-icons/fi";
+import ChatBlock from "./ChatBlock";
 
 const cookies = new Cookies();
 
@@ -17,9 +18,26 @@ const Chat = ({
   loading,
   setOpenChatRoom,
 }: any) => {
+  const [loadingblock, setLoadingblock] = useState(false);
+  const [loadingUnblock, setLoadingUnblock] = useState(false);
+
   const [info, setInfo] = useState({ name: "", surname: "", profilePic: "" });
   const [openBlock, setopenBlock] = useState(false);
-  const unblock = () => {};
+  const unblock = () => {
+    const user = cookies.get("user");
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/unblock`,
+      data: { blockedUserId: selectedRoom.userID },
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(function (response) {
+        setLoadingUnblock(false);
+      })
+      .catch(function (error) {});
+  };
   const getInfo = () => {
     if (selectedRoom.userID.slice(0, 1) == "P") {
       axios({
@@ -76,6 +94,9 @@ const Chat = ({
   };
 
   useEffect(() => {
+    scrollToBottom();
+  }, [loadingblock, loadingUnblock]);
+  useEffect(() => {
     getInfo();
     scrollToBottom();
   }, [chatMessage]);
@@ -110,6 +131,7 @@ const Chat = ({
               selectedRoom.blockedBy == user.user_id ? (
                 <UnblockButton
                   onClick={() => {
+                    setLoadingUnblock(true);
                     unblock();
                   }}
                 >
@@ -130,8 +152,17 @@ const Chat = ({
           </div>
         )}
       </ChatHeader>
+      {openBlock ? (
+        <ChatBlock
+          info={info}
+          setopenBlock={setopenBlock}
+          selectedRoom={selectedRoom}
+          setLoadingblock={setLoadingblock}
+        />
+      ) : null}
+
       <ChatField>
-        {loading ? (
+        {loading || loadingblock || loadingUnblock ? (
           <div
             style={{
               display: "flex",
@@ -141,14 +172,34 @@ const Chat = ({
               alignItems: "center",
             }}
           >
-            <p
-              style={{
-                fontSize: 40,
-                color: COLOR["gray/700"],
-              }}
-            >
-              Loading . . .
-            </p>
+            {loadingblock ? (
+              <p
+                style={{
+                  fontSize: 40,
+                  color: COLOR["gray/700"],
+                }}
+              >
+                Blocking . . .
+              </p>
+            ) : loadingUnblock ? (
+              <p
+                style={{
+                  fontSize: 40,
+                  color: COLOR["gray/700"],
+                }}
+              >
+                Unblocking . . .
+              </p>
+            ) : (
+              <p
+                style={{
+                  fontSize: 40,
+                  color: COLOR["gray/700"],
+                }}
+              >
+                Loading . . .
+              </p>
+            )}
           </div>
         ) : (
           chatMessage.map((item: any, index: any) => (
@@ -186,8 +237,8 @@ const Chat = ({
           ))
         )}
         <div ref={messagesEndRef}> </div>
-        {selectedRoom.isBlocked ? (
-          <Error>
+        {selectedRoom.isBlocked && !loadingblock && !loadingUnblock ? (
+          <Error ref={messagesEndRef}>
             ! You can no longer chat with {info.name} {info.surname} !
           </Error>
         ) : null}
@@ -242,14 +293,12 @@ const Layout = styled.div`
     z-index: 1;
     position: absolute;
     margin-left: 0px;
-    width: 400px;
   }
   @media screen and (max-width: 450px) {
     width: 300px;
   }
 `;
 const ChatHeader = styled.div`
-  z-index: 1;
   width: 100%;
   height: 80px;
   border-radius: 8px 8px 0px 0px;

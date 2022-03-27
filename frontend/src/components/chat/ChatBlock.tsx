@@ -1,84 +1,145 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { FaBan } from "react-icons/fa";
+import { MdBlock } from "react-icons/md";
 import { COLOR } from "../../CONSTANT";
-const ChatBlock = ({ selectedUser }: any) => {
+import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
+const ChatBlock = ({
+  info,
+  setopenBlock,
+  selectedRoom,
+  setLoadingblock,
+}: any) => {
+  const block = () => {
+    const user = cookies.get("user");
+    axios({
+      method: "post",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/block`,
+      data: { blockedUserId: selectedRoom.userID },
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then(function (response) {
+        setLoadingblock(false);
+      })
+      .catch(function (error) {});
+  };
   return (
     <Layout>
-      <BanDiv>
-        <FaBan size="133.33px" />
-      </BanDiv>
+      <MdBlock size={160} />
 
-      <h1> Do you want to block {selectedUser} ?</h1>
+      <Text>
+        <p>Do you want to block</p>
+        <Name>
+          {info.name} {info.surname} ?
+        </Name>
+      </Text>
       <FlexDiv>
-        <CancelButton>confirm</CancelButton>
-        <BlankBox />
-        <CancelButton>cancel</CancelButton>
+        <RedButton
+          onClick={() => {
+            setopenBlock(false);
+          }}
+        >
+          Cancel
+        </RedButton>
+        <GreenButton
+          onClick={() => {
+            setLoadingblock(true);
+            setopenBlock(false);
+            block();
+          }}
+        >
+          Confirm
+        </GreenButton>
       </FlexDiv>
     </Layout>
   );
 };
 const Layout = styled.div`
+  text-align: center;
+  padding: 30px;
+  font-weight: bold;
   height: 690px;
   width: 690px;
   display: flex;
-  justify-content: space-between;
+  font-size: 24px;
   background-color: ${COLOR["violet/50"]};
   border-radius: 8px;
   flex-direction: column;
+  position: absolute;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-`;
+  row-gap: 20px;
+  @media screen and (max-width: 1200px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 850px) {
+    width: 400px;
+  }
 
-const BanDiv = styled.div`
-  weight: 160px;
-  height: 160px;
+  @media screen and (max-width: 450px) {
+    width: 300px;
+  }
+`;
+const Name = styled.p`
+  margin-left: 8px;
+  @media screen and (max-width: 450px) {
+    margin-left: 0px;
+  }
+`;
+const Text = styled.div`
+  display: flex;
+  @media screen and (max-width: 850px) {
+    flex-direction: column;
+  }
+`;
+const GreenButton = styled.div`
   justify-content: center;
+  width: 120px;
+  display: flex;
   align-items: center;
-`;
-
-const ConfirmlButton = styled.div`
-  width: 96px;
-  align-items: center;
-  padding: 10px 15px;
   cursor: pointer;
   border: none;
-  height: 48px;
-  justify-content: center;
-  background-color: ${COLOR["green/400"]};
+  height: 40px;
+  background-color: ${COLOR["green/300"]};
   text-decoration: none;
   color: #ffffff;
   border-radius: 10000px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   &:hover {
-    background-color: ${COLOR["green/500"]};
+    background-color: ${COLOR["green/400"]};
   }
 `;
-const CancelButton = styled.div`
-  width: 96px;
+const RedButton = styled.div`
+  justify-content: center;
+  width: 120px;
+  display: flex;
   align-items: center;
-  padding: 10px 20px;
   cursor: pointer;
   border: none;
-  height: 48px;
-  justify-content: center;
+  height: 40px;
   background-color: #f44336;
   text-decoration: none;
   color: #ffffff;
   border-radius: 10000px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   &:hover {
-    background-color: #ff0000;
+    background-color: #d63b2f;
   }
 `;
 const FlexDiv = styled.div`
   display: flex;
-  flex-direction: row;
-`;
-const BlankBox = styled.div`
-  width: 30px;
+  width: 300px;
+  justify-content: space-between;
+  @media screen and (max-width: 450px) {
+    width: 250px;
+  }
 `;
 
 export default ChatBlock;
