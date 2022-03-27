@@ -61,7 +61,9 @@ const App = () => {
           <Route path="/appointment" element={<Appointment />}>
             <Route path=":providerID" element={<Appointment />} />
           </Route>
-          <Route path="/chat" element={<Chat />}></Route>
+          <Route path="/chat" element={<Chat />}>
+            <Route path=":providerID" element={<Chat />} />
+          </Route>
           <Route path="/review" element={<ReviewPage />}></Route>
         </Routes>
       </BrowserRouter>

@@ -99,7 +99,7 @@ const AppointmentInfo = ({
                       </ResultItem>
                     </ResultItem>
                     <AiFillMinusCircle
-                      color={COLOR["magenta/400"]}
+                      color={"#f44336"}
                       size={20}
                       style={{
                         cursor: "pointer",
@@ -194,6 +194,7 @@ const Appointment = styled.div`
   flex: 1;
   display: flex;
   padding: 15px;
+  background-color: ${COLOR["gray/100"]};
 `;
 
 const AppointmentResult = styled.div`
@@ -208,6 +209,7 @@ const AppointmentResult = styled.div`
   flex-direction: column;
   justify-content: center;
   font-weight: bold;
+  background-color: white;
 `;
 const ResultLine = styled.div`
   display: flex;

@@ -10,6 +10,7 @@ interface SliderProp {
 
 interface CustomerRegisterContainer {}
 const CustomerRegisterContainer = ({
+  loading,
   emailError,
   setEmailError,
   usernameError,
@@ -46,7 +47,7 @@ const CustomerRegisterContainer = ({
           profilePicUrl={profilePicUrl}
           setProfilePicUrl={setProfilePicUrl}
         />
-        <CustomerRegisterComplete />
+        <CustomerRegisterComplete loading={loading} />
       </Slider>
     </Layout>
   );

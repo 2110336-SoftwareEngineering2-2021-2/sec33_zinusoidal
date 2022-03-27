@@ -12,6 +12,7 @@ import LandingDropDownWideScreen from "./LandingDropDownWideScreen";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { IoMdNotificationsOutline } from "react-icons/io";
+
 import NotificationList from "../notification/NotificationList";
 const cookies = new Cookies();
 const logo = require("../../assets/logo.png");
@@ -120,6 +121,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           >
             <LandingDropDown text="Home" where="/" />
             <LandingDropDown text="Find provider" where="/search" />
+            <LandingDropDown text="message" where="/chat" />
             {typeof user != "undefined" && user.user_id.slice(0, 1) == "P" && (
               <div>
                 <LandingDropDown

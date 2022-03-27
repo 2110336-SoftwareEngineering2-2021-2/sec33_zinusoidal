@@ -7,7 +7,7 @@ import { MdRemoveRedEye } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 import { AiOutlineLogin } from "react-icons/ai";
 
-const ProviderRegisterComplete = () => {
+const ProviderRegisterComplete = ({ loading }: any) => {
   let navigate = useNavigate();
 
   return (
@@ -17,17 +17,23 @@ const ProviderRegisterComplete = () => {
           <MdRemoveRedEye color={COLOR["violet/400"]} />
           Provider Registration
         </ProviderRegistration>
-        <Flex>
-          <FiCheckCircle size={100} />
-          <Text>Registration Complete!</Text>
-          <GreenButton
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login <AiOutlineLogin />
-          </GreenButton>
-        </Flex>
+        {loading ? (
+          <Flex style={{ fontSize: 40, color: COLOR["gray/700"] }}>
+            Loading . . .
+          </Flex>
+        ) : (
+          <Flex>
+            <FiCheckCircle size={100} />
+            <Text>Registration Complete!</Text>
+            <GreenButton
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login <AiOutlineLogin />
+            </GreenButton>
+          </Flex>
+        )}
       </Padding>
     </Layout>
   );

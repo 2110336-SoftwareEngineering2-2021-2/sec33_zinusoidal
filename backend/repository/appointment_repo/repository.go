@@ -21,16 +21,10 @@ func New(db *gorm.DB, client *firestore.Client) *DB {
 	return &DB{database: db, client: client}
 }
 
-func (db *DB) ResponseAppointment(provider_id, appointment_id string, accept bool) error {
+func (db *DB) ResponseAppointment(provider_id, appointment_id string, status int) error {
 	response_query := `UPDATE appointment A
     SET A.status = ?
     WHERE A.appointment_id = ? AND A.provider_id = ?`
-	var status int
-	if accept {
-		status = 2
-	} else {
-		status = 1
-	}
 	err := db.database.Exec(response_query, status, appointment_id, provider_id).Error
 	if err != nil {
 		return err

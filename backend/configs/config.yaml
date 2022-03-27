@@ -11,8 +11,8 @@ smtp:
   host: "smtp.gmail.com"
   port: 587
 email:
-  email: "vipsnam927@gmail.com"
-  password: "Namning2793"
+  email: ""
+  password: ""
 bucket:
   zone: ""
   access: ""

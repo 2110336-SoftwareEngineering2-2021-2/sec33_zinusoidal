@@ -12,6 +12,7 @@ interface SliderProp {
 
 interface ProviderRegisterContainer {}
 const ProviderRegisterContainer = ({
+  loading,
   userData,
   changeUserData,
   openPasswordError,
@@ -57,7 +58,7 @@ const ProviderRegisterContainer = ({
           profilePicUrl={profilePicUrl}
           setProfilePicUrl={setProfilePicUrl}
         />
-        <ProviderRegisterComplete />
+        <ProviderRegisterComplete loading={loading} />
       </Slider>
     </Layout>
   );

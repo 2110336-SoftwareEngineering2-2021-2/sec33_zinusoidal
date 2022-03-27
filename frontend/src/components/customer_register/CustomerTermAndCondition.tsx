@@ -29,7 +29,7 @@ const Layout = styled.div`
 `;
 const Term = styled.div`
   width: 100%;
-  height: 370px;
+  height: 390px;
   padding: 15px;
   row-gap: 10px;
   background-color: white;
