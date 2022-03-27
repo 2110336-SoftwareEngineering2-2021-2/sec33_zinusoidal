@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ChatRoom from "./ChatRoom";
 import Chat from "./Chat";
+import ChatBlock from "./ChatBlock";
 const ChatLayout = ({
   ChatRoomList,
   selectedRoom,
