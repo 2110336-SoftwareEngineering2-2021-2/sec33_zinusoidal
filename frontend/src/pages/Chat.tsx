@@ -13,6 +13,14 @@ const searchBg = require("../assets/searchBg.jpeg");
 const Chat = () => {
   let { providerID } = useParams();
   const user = cookies.get("user");
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof user == "undefined") {
+      alert("You must be logged in");
+      navigate(`/`);
+    }
+  }, []);
   const [ChatRoomList, setChatRoomList] = useState([
     { userID: "", roomID: "", blockedBy: "", isBlocked: false },
   ]);
@@ -23,6 +31,8 @@ const Chat = () => {
     isBlocked: false,
   });
   console.log(selectedRoom);
+  const [openBlock, setopenBlock] = useState(false);
+
   const [chatMessage, setChatMessage] = useState([{ userID: "", message: "" }]);
   const [message, setMessage] = useState("");
   const [first, setFirst] = useState(true);
@@ -162,11 +172,14 @@ const Chat = () => {
   }, []);
   useEffect(() => {
     getChatMessage();
+    setopenBlock(false);
   }, [selectedRoom]);
   return (
     <Layout>
       <Navbar />
       <ChatLayout
+        openBlock={openBlock}
+        setopenBlock={setopenBlock}
         loading={loading}
         setFirst={setFirst}
         getChatMessage={getChatMessage}

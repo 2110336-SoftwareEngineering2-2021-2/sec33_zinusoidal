@@ -31,7 +31,7 @@ const SearchDetail = ({ person, onClickBack }: any) => {
               pathname: `/chat/${person.userId}`,
             }}
           >
-            <Button>Message</Button>
+            {typeof user != "undefined" && <Button>Message</Button>}
           </Link>
           <Link
             to={{

@@ -33,7 +33,16 @@ const AppointmentCalendar = ({
             </Name>
             <Username>@{userInfo.Username}</Username>
           </NameDiv>
-          <p style={{ fontSize: 16 }}>{userInfo.rating}</p>
+          <RatingDiv>
+            <div className="ratings">
+              <div className="empty-stars"></div>
+              <div
+                className="full-stars"
+                style={{ width: `${(userInfo.rating * 100) / 5}%` }}
+              ></div>
+            </div>
+            <p style={{ fontSize: 16, marginLeft: 8 }}>{userInfo.rating}</p>
+          </RatingDiv>
           <PriceRateDiv>
             <div style={{ display: "flex" }}>
               Price rate :<SmallScreenText>per 30 min</SmallScreenText>
@@ -110,6 +119,10 @@ const NameDiv = styled.div`
     align-items: flex-start;
   } ;
 `;
+const RatingDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const Name = styled.p`
   font-size: 20px;
 `;
@@ -136,7 +149,7 @@ const Img = styled.img`
   height: 80px;
   margin-right: 8px;
   border-radius: 10000px;
-  object-fit: "cover";
+  object-fit: cover;
   @media screen and (max-width: 540px) {
     width: 64px;
     height: 64px;
