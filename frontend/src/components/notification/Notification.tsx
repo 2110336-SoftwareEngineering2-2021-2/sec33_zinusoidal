@@ -89,6 +89,7 @@ const Notification = ({ person, content, data }: any) => {
   const Detail = () => {
     if (typeof partner.provider == "undefined") return null;
     if (typeof user != "undefined" && user.user_id.slice(0, 1) == "C") {
+      //cust send req to provider
       if (data.status == 0) {
         return (
           <p>
@@ -99,7 +100,9 @@ const Notification = ({ person, content, data }: any) => {
             an fortune telling's appointment
           </p>
         );
-      } else if (data.status == 1) {
+      }
+      //provider reject
+      if (data.status == 1) {
         return (
           <p>
             <b>
@@ -108,7 +111,9 @@ const Notification = ({ person, content, data }: any) => {
             has <b>reject</b> your appointment
           </p>
         );
-      } else {
+      }
+      // provider accept
+      if (data.status == 2) {
         return (
           <p>
             <b>
@@ -118,6 +123,31 @@ const Notification = ({ person, content, data }: any) => {
           </p>
         );
       }
+      if (data.status == 3) {
+        return (
+          <p>
+            <b>
+              {partner.provider.firstName} {partner.provider.lastName}
+            </b>
+            has <b>accepted</b> your appointment's proposal in 24/02/2022 in
+            12.00 - 13.00 Please proceed to payment
+          </p>
+        );
+      }
+
+      if (data.status == 4) {
+        return (
+          <p>
+            Your appointment with{" "}
+            <b>
+              {partner.provider.firstName} {partner.provider.lastName}
+            </b>{" "}
+            is completed !
+          </p>
+        );
+      }
+
+      return null;
     } else {
       if (data.status == 0) {
         return (
@@ -269,7 +299,7 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
         <Button
           style={{ backgroundColor: "#F66257" }}
           onClick={() => {
-            handleRequest("0");
+            handleRequest("1");
           }}
         >
           Reject
@@ -277,7 +307,7 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
         <Button
           style={{ backgroundColor: COLOR["green/400"] }}
           onClick={() => {
-            handleRequest("1");
+            handleRequest("2");
           }}
         >
           Accept

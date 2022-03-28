@@ -2,15 +2,32 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { VscStarFull } from "react-icons/vsc";
 import { COLOR } from "../../CONSTANT";
+import axios from "axios";
+
 const CreateReviewModal = () => {
   const [rating, setRating] = useState(0);
-  console.log(rating);
+  const [review, setReview] = useState("");
+  // console.log(rating);
   const setStar = (star: number) => {
     if (rating == star) {
       setRating(star - 1);
     } else {
       setRating(star);
     }
+  };
+
+  const sendReview = () => {
+    axios({
+      method: "post",
+      url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/review",
+      data: {
+        appointmentId: "",
+        score: rating,
+        text: review,
+      },
+    })
+      .then(function (response) {})
+      .catch(function (error) {});
   };
   return (
     <Layout>
@@ -56,8 +73,19 @@ const CreateReviewModal = () => {
           onClick={() => setStar(5)}
         />
       </StarBox>
-      <CommentBox placeholder="Additional Comments" />
-      <Button>Submit</Button>
+      <CommentBox
+        placeholder="Additional Comments"
+        value={review}
+        onChange={(e) => setReview(e.target.value)}
+      />
+
+      <Button
+        onClick={() => {
+          sendReview();
+        }}
+      >
+        Submit
+      </Button>
     </Layout>
   );
 };
