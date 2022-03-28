@@ -53,6 +53,7 @@ const Notification = ({ person, content, data }: any) => {
     })
       .then(function (response) {
         console.log("FINIsh");
+        alert("Finish");
         setShowNotification(false);
       })
       .catch(function (error) {
@@ -119,23 +120,13 @@ const Notification = ({ person, content, data }: any) => {
             <b>
               {partner.provider.firstName} {partner.provider.lastName}
             </b>{" "}
-            has <b>accept</b> your appointment
-          </p>
-        );
-      }
-      if (data.status == 3) {
-        return (
-          <p>
-            <b>
-              {partner.provider.firstName} {partner.provider.lastName}
-            </b>
-            has <b>accepted</b> your appointment's proposal in 24/02/2022 in
-            12.00 - 13.00 Please proceed to payment
+            has <b>accept</b> your appointment's proposal in 24/02/2022 in 12.00
+            - 13.00 Please proceed to payment
           </p>
         );
       }
 
-      if (data.status == 4) {
+      if (data.status == 3) {
         return (
           <p>
             Your appointment with{" "}
@@ -202,6 +193,18 @@ const Notification = ({ person, content, data }: any) => {
       />
       <Content>
         <Detail />
+        {typeof user != "undefined" &&
+          user.user_id.slice(0, 1) == "C" &&
+          data.status == 2 && (
+            <PayButton
+              type="button"
+              onClick={() => {
+                HandleRequest("3");
+              }}
+            >
+              Pay
+            </PayButton>
+          )}
       </Content>
       {showNotification && (
         <Backdrop onClick={onClick}>
@@ -417,5 +420,18 @@ const DetailBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+`;
+
+const PayButton = styled.button`
+  width: 68px;
+  height: 28px;
+  border-radius: 10000px;
+  background-color: ${COLOR["violet/400"]};
+  font-size: 12px;
+  line-height: 19px;
+  color: white;
+  border: none;
+  font-weight: bold;
+  align-self: flex-end;
 `;
 export default Notification;
