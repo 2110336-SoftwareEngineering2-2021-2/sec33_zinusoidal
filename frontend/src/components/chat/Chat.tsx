@@ -19,6 +19,7 @@ const Chat = ({
   setOpenChatRoom,
   openBlock,
   setopenBlock,
+  setSelectedRoom,
 }: any) => {
   const [loadingblock, setLoadingblock] = useState(false);
   const [loadingUnblock, setLoadingUnblock] = useState(false);
@@ -35,6 +36,12 @@ const Chat = ({
       },
     })
       .then(function (response) {
+        setSelectedRoom({
+          roomID: selectedRoom.roomID,
+          userID: selectedRoom.userID,
+          isBlocked: false,
+          blockedBy: "",
+        });
         setLoadingUnblock(false);
       })
       .catch(function (error) {});
@@ -95,12 +102,9 @@ const Chat = ({
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [loadingblock, loadingUnblock]);
-  useEffect(() => {
     getInfo();
     scrollToBottom();
-  }, [chatMessage]);
+  }, [loadingblock, loadingUnblock, chatMessage]);
   return (
     <Layout>
       <ChatHeader>
@@ -159,6 +163,7 @@ const Chat = ({
           setopenBlock={setopenBlock}
           selectedRoom={selectedRoom}
           setLoadingblock={setLoadingblock}
+          setSelectedRoom={setSelectedRoom}
         />
       ) : null}
 

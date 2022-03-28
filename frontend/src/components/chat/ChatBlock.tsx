@@ -12,6 +12,7 @@ const ChatBlock = ({
   setopenBlock,
   selectedRoom,
   setLoadingblock,
+  setSelectedRoom,
 }: any) => {
   const block = () => {
     const user = cookies.get("user");
@@ -24,6 +25,12 @@ const ChatBlock = ({
       },
     })
       .then(function (response) {
+        setSelectedRoom({
+          roomID: selectedRoom.roomID,
+          userID: selectedRoom.userID,
+          isBlocked: true,
+          blockedBy: user.user_id,
+        });
         setLoadingblock(false);
       })
       .catch(function (error) {});
