@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import CreateReviewModal from "../components/review/CreateReviewModal";
+import { useParams } from "react-router-dom";
 const ReviewPage = () => {
+  let { appointmentID } = useParams();
+  console.log("ROP", appointmentID);
   return (
     <Layout>
-      <CreateReviewModal />
+      <CreateReviewModal appointmentID={appointmentID} />
     </Layout>
   );
 };

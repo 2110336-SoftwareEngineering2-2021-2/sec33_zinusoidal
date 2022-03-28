@@ -5,6 +5,8 @@ import Backdrop from "./Backdrop";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { SDK_VERSION } from "firebase/app";
+import { Link } from "react-router-dom";
+
 const cookies = new Cookies();
 const MonthName = [
   "January",
@@ -41,7 +43,7 @@ const Notification = ({ person, content, data }: any) => {
     setShowNotification(false);
   };
 
-  // console.log(partner);
+  console.log("DATA", data);
 
   const HandleRequest = async (accept: string) => {
     await axios({
@@ -204,6 +206,20 @@ const Notification = ({ person, content, data }: any) => {
             >
               Pay
             </PayButton>
+          )}
+        {typeof user != "undefined" &&
+          user.user_id.slice(0, 1) == "C" &&
+          data.status == 3 && (
+            <Link
+              to={{
+                pathname: `/review/${data.id}`,
+              }}
+              target="_blank"
+            >
+              <PayButton type="button" onClick={() => {}}>
+                Review
+              </PayButton>
+            </Link>
           )}
       </Content>
       {showNotification && (
