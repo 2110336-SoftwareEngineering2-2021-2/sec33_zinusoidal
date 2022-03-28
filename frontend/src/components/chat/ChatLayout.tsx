@@ -33,6 +33,7 @@ const ChatLayout = ({
       />
       {openChatRoom && (loading || ChatRoomList.length != 0) ? (
         <Chat
+          setSelectedRoom={setSelectedRoom}
           openBlock={openBlock}
           setopenBlock={setopenBlock}
           setOpenChatRoom={setOpenChatRoom}

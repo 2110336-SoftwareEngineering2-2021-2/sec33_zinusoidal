@@ -30,7 +30,6 @@ const Chat = () => {
     blockedBy: "",
     isBlocked: false,
   });
-  console.log(selectedRoom);
   const [openBlock, setopenBlock] = useState(false);
 
   const [chatMessage, setChatMessage] = useState([{ userID: "", message: "" }]);
@@ -180,10 +179,12 @@ const Chat = () => {
       <ChatLayout
         openBlock={openBlock}
         setopenBlock={setopenBlock}
+        setLoading={setLoading}
         loading={loading}
         setFirst={setFirst}
         getChatMessage={getChatMessage}
         ChatRoomList={ChatRoomList}
+        getChatRoomList={getChatRoomList}
         selectedRoom={selectedRoom}
         setSelectedRoom={setSelectedRoom}
         chatMessage={chatMessage}
