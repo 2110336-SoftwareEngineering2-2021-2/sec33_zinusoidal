@@ -8,7 +8,7 @@ const searchBg = require("../assets/searchBg.jpeg");
 
 const Appointment = () => {
   let { providerID } = useParams();
-  console.log(providerID);
+  // console.log(providerID);
 
   const cookies = new Cookies();
   const user = cookies.get("user");

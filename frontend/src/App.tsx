@@ -24,19 +24,6 @@ import ReviewPage from "./pages/ReviewPage";
 const cookies = new Cookies();
 
 const App = () => {
-  // const [user, setUser] = useState(cookies.get("user"));
-  // const data = cookies.get("user");
-  // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
-  // useEffect(() => {
-  //   const data = cookies.get("user");
-  //   console.log("DATA", typeof data);
-  //   if (typeof data == "undefined") {
-  //     setUser({});
-  //   } else {
-  //     setUser(data);
-  //   }
-  // }, []);
-
   return (
     <UserContext.Provider value="value">
       <BrowserRouter>
@@ -62,7 +49,9 @@ const App = () => {
             <Route path=":providerID" element={<Appointment />} />
           </Route>
           <Route path="/chat" element={<Chat />}></Route>
-          <Route path="/review" element={<ReviewPage />}></Route>
+          <Route path="/review" element={<ReviewPage />}>
+            <Route path=":appointmentID" element={<ReviewPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

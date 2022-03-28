@@ -4,7 +4,7 @@ import { VscStarFull } from "react-icons/vsc";
 import { COLOR } from "../../CONSTANT";
 import axios from "axios";
 
-const CreateReviewModal = () => {
+const CreateReviewModal = ({ appointmentID }: any) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   // console.log(rating);
@@ -21,13 +21,17 @@ const CreateReviewModal = () => {
       method: "post",
       url: "https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/review",
       data: {
-        appointmentId: "",
+        appointmentId: appointmentID,
         score: rating,
         text: review,
       },
     })
-      .then(function (response) {})
-      .catch(function (error) {});
+      .then(function (response) {
+        console.log("Finish");
+      })
+      .catch(function (error) {
+        console.log("ERROR");
+      });
   };
   return (
     <Layout>
