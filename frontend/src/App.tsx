@@ -48,9 +48,11 @@ const App = () => {
           <Route path="/appointment" element={<Appointment />}>
             <Route path=":providerID" element={<Appointment />} />
           </Route>
-          <Route path="/chat" element={<Chat />}></Route>
           <Route path="/review" element={<ReviewPage />}>
             <Route path=":appointmentID" element={<ReviewPage />} />
+          </Route>
+          <Route path="/chat" element={<Chat />}>
+            <Route path=":providerID" element={<Chat />} />
           </Route>
         </Routes>
       </BrowserRouter>

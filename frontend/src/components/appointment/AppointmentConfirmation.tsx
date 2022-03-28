@@ -130,7 +130,7 @@ const AppointmentConfirmation = ({
                 {appointmentList.map((i: any) => (
                   <AppointmentResult>
                     <ResultLine>
-                      <ResultItem>
+                      <ResultLine>
                         <ResultItem>
                           Service : <Normal>{i.fortuneType}</Normal>
                         </ResultItem>
@@ -140,7 +140,7 @@ const AppointmentConfirmation = ({
                             {userInfo.Name} {userInfo.Surname}
                           </Normal>
                         </ResultItem>
-                      </ResultItem>
+                      </ResultLine>
                       <ResultItem>
                         Date :{" "}
                         <Normal>
@@ -177,7 +177,7 @@ const AppointmentConfirmation = ({
                 {infoList.map((i: any) => (
                   <ShowDiv>
                     <NameAndValue>
-                      <p>{i.Name} </p> : <Value> {i.Value}</Value>
+                      <p>{i.Name} :</p> <Value> {i.Value}</Value>
                     </NameAndValue>
                   </ShowDiv>
                 ))}
@@ -220,6 +220,9 @@ const Layout = styled.div`
   /* padding: 30px; */
 
   font-weight: bold;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const Padding = styled.div`
   height: 100%;
@@ -230,6 +233,9 @@ const Padding = styled.div`
   justify-content: center;
   align-items: center;
   row-gap: 20px;
+  @media screen and (max-width: 540px) {
+    row-gap: 10px;
+  } ;
 `;
 const HeaderDiv = styled.div`
   width: 100%;
@@ -237,6 +243,9 @@ const HeaderDiv = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: bold;
+  @media screen and (max-width: 540px) {
+    font-size: 16px;
+  } ;
 `;
 const ContentDiv = styled.div`
   width: 100%;
@@ -252,8 +261,8 @@ const ContentHeader = styled.div`
   align-items: center;
 `;
 const ContentContent = styled.div`
+  background-color: ${COLOR["gray/100"]};
   width: 100%;
-  height: 100%;
   flex: 1;
   border-radius: 0px 0px 20px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
@@ -314,22 +323,27 @@ const PrevButton = styled.div`
 `;
 const ShowDiv = styled.div`
   margin-top: 4px;
-
   margin-bottom: 4px;
   display: flex;
+  @media screen and (max-width: 540px) {
+    margin-bottom: 8px;
+  }
 `;
 const NameAndValue = styled.div`
   display: flex;
   column-gap: 4px;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
 const Value = styled.p`
   font-weight: normal;
 `;
 
 const AppointmentResult = styled.div`
+  background-color: white;
   width: 100%;
   min-height: 120px;
-  /* background-color: red; */
   padding: 15px;
   border-radius: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
@@ -338,11 +352,18 @@ const AppointmentResult = styled.div`
   flex-direction: column;
   justify-content: center;
   font-weight: bold;
+  overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    padding: 8px;
+  }
 `;
 const ResultLine = styled.div`
   display: flex;
   column-gap: 10px;
   flex-wrap: wrap;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
 `;
 const ResultItem = styled.div`
   display: flex;
@@ -354,6 +375,9 @@ const Normal = styled.p`
 const Appointments = styled.div`
   height: 360px;
   overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    height: 380px;
+  }
 `;
 const ShowInfo = styled.div`
   width: 100%;
@@ -368,5 +392,8 @@ const Scroll = styled.div`
   width: 100%;
   height: 360px;
   overflow-y: auto;
+  @media screen and (max-width: 540px) {
+    height: 380px;
+  }
 `;
 export default AppointmentConfirmation;

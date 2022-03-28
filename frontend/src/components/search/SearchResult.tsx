@@ -64,6 +64,7 @@ const SearchResult = ({ person, onClick, selected = false }: any) => {
 };
 
 const Layout = styled("div")<LayoutPropType>`
+  cursor: pointer;
   min-height: 121px;
   display: flex;
   align-items: center;

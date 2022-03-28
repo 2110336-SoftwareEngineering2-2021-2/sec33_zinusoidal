@@ -20,6 +20,10 @@ const Appointment = () => {
       alert("You must be logged in");
       navigate(`/`);
     }
+    if (user.user_id.slice(0, 1) == "P") {
+      alert("You can't make appointment beacuse you are a provider");
+      navigate(`/`);
+    }
   }, []);
 
   if (typeof user == "undefined") return <></>;

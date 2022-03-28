@@ -24,34 +24,39 @@ const AppointmentCalendar = ({
   return (
     <Layout>
       <HeaderDiv>
-        <img
-          src={profilePicUrl}
-          style={{
-            width: 80,
-            height: 80,
-            marginRight: 8,
-            borderRadius: 10000,
-            objectFit: "cover",
-          }}
-        />
+        <Img src={profilePicUrl} />
         <div style={{ marginLeft: 8 }}>
           <NameDiv>
             <Name>
               {userInfo.Name}
               {userInfo.Surname}
             </Name>
-            <Username style={{ marginLeft: 8 }}>@{userInfo.Username}</Username>
+            <Username>@{userInfo.Username}</Username>
           </NameDiv>
-          {userInfo.rating}
+          <RatingDiv>
+            <div className="ratings">
+              <div className="empty-stars"></div>
+              <div
+                className="full-stars"
+                style={{ width: `${(userInfo.rating * 100) / 5}%` }}
+              ></div>
+            </div>
+            <p style={{ fontSize: 16, marginLeft: 8 }}>{userInfo.rating}</p>
+          </RatingDiv>
           <PriceRateDiv>
-            Price rate :
+            <div style={{ display: "flex" }}>
+              Price rate :<SmallScreenText>per 30 min</SmallScreenText>
+            </div>
             <PriceRate style={{ marginLeft: 4 }}>
-              {" "}
-              {userInfo.minPrice}-{userInfo.maxPrice} baht (per 30 min)
+              <p>
+                {userInfo.minPrice}-{userInfo.maxPrice} baht
+              </p>
+              <LargeScreenText>(per 30 min)</LargeScreenText>
             </PriceRate>
           </PriceRateDiv>
         </div>
       </HeaderDiv>
+
       <ContentDiv>
         {" "}
         <Calender
@@ -84,6 +89,10 @@ const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+    padding: 20px;
+  } ;
 `;
 const HeaderDiv = styled.div`
   width: 100%;
@@ -97,9 +106,20 @@ const ContentDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const NameDiv = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+    align-items: flex-start;
+  } ;
+`;
+const RatingDiv = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -114,9 +134,38 @@ const Username = styled.p`
 const PriceRateDiv = styled.p`
   display: flex;
   font-size: 16px;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+    align-items: flex-start;
+  } ;
 `;
 const PriceRate = styled.p`
   margin-left: 16px;
   font-weight: normal;
+  display: flex;
 `;
+const Img = styled.img`
+  width: 80px;
+  height: 80px;
+  margin-right: 8px;
+  border-radius: 10000px;
+  object-fit: cover;
+  @media screen and (max-width: 540px) {
+    width: 64px;
+    height: 64px;
+  } ;
+`;
+const SmallScreenText = styled.p`
+  margin-left: 8px;
+  font-weight: normal;
+  @media screen and (min-width: 540px) {
+    display: none;
+  } ;
+`;
+const LargeScreenText = styled.p`
+  @media screen and (max-width: 540px) {
+    display: none;
+  } ;
+`;
+
 export default AppointmentCalendar;

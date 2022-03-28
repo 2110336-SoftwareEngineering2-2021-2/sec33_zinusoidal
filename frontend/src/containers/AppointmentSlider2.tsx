@@ -24,11 +24,13 @@ const AppointmentSlider1 = ({
   setOpenOneAppointmentError,
   providerID,
   selected,
+  setSelected,
 }: any) => {
   return (
     <Layout>
       <Slider idx={current}>
         <AppointmentInput
+          setSelected={setSelected}
           selected={selected}
           userInfo={userInfo}
           a={a}
@@ -72,6 +74,12 @@ const Layout = styled.div`
   p {
     margin-left: initial;
   }
+  @media screen and (max-width: 1100px) {
+    position: absolute;
+  }
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 
 const Slider = styled("div")<SliderProp>`
@@ -79,6 +87,9 @@ const Slider = styled("div")<SliderProp>`
   transform: ${(props) => `translateX(-${536 * props.idx}px)`};
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 540px) {
+    transform: ${(props) => `translateX(-${300 * props.idx}px)`};
+  } ;
 `;
 
 export default AppointmentSlider1;

@@ -10,11 +10,13 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/chat_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/profile_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/schedule_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/chat"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
@@ -95,7 +97,14 @@ func main() {
 	appointment_handler := appointment.NewHandler(*appointment.NewService(appointment_repo.New(db, client)))
 	{
 		v1fortune.POST("/make_appointment", appointment_handler.MakeAppointmentHandler)
-		v1fortune.POST("/response_appointment/:app_id/:is_accept", appointment_handler.ResponseAppointmentHandler)
+		v1fortune.POST("/response_appointment/:app_id/:status", appointment_handler.ResponseAppointmentHandler)
+	}
+
+	chat_handler := chat.NewHandler(*chat.NewService(chat_repo.New(db, client)))
+	{
+		v1fortune.POST("/send_message", chat_handler.SendMessageHandler)
+		v1fortune.POST("/block", chat_handler.BlockHandler)
+		v1fortune.POST("/unblock", chat_handler.UnBlockHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))

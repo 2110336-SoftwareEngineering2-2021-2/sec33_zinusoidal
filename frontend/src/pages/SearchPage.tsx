@@ -87,6 +87,7 @@ const SearchPage = () => {
       data: data,
     })
       .then(function (response) {
+        console.log(response.data);
         if (!pressed) setPressed(true);
 
         setSEARCHRESULT(response.data);

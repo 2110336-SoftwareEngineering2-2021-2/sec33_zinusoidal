@@ -35,6 +35,9 @@ const Layout = styled.div`
   height: 668px;
   border-radius: 20px;
   font-weight: bold;
+  @media screen and (max-width: 540px) {
+    width: 300px;
+  } ;
 `;
 const Padding = styled.div`
   padding: 30px;
@@ -51,6 +54,7 @@ const Text = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 `;
 const Button = styled.button`
   width: 100px;

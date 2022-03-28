@@ -11,6 +11,7 @@ interface Current {
 }
 const CustomerRegister = () => {
   const register = () => {
+    setCurrent(3);
     var customerInput = new FormData();
 
     if (profilePicUrl != null) {
@@ -30,8 +31,8 @@ const CustomerRegister = () => {
       headers: { "Content-type": "multipart/form-data" },
     })
       .then(function (response) {
+        setLoading(false);
         console.log("register success");
-        setCurrent(3);
       })
       .catch(function (error) {
         console.log(error.response);
@@ -45,6 +46,7 @@ const CustomerRegister = () => {
         }
       });
   };
+  const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [clicked, setClicked] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(null as any);
@@ -95,6 +97,8 @@ const CustomerRegister = () => {
       </Header>
       <Form>
         <CustomerRegisterContainer
+          //Loading
+          loading={loading}
           //Register Form
           userData={userInput}
           changeUserData={setUserInput}

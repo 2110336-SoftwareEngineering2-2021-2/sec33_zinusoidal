@@ -24,6 +24,7 @@ const CustomerProfileUpload = ({ profilePicUrl, setProfilePicUrl }: any) => {
         <ProfilePicture>Profile Picture</ProfilePicture>
         <Flex>
           <img
+            style={{ objectFit: "cover" }}
             src={
               profilePicUrl == null
                 ? selectedImg

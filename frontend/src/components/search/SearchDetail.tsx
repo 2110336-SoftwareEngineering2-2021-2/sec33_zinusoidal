@@ -28,10 +28,10 @@ const SearchDetail = ({ person, onClickBack }: any) => {
           <Link
             to={{
               //send provider ID here
-              pathname: `/chat`,
+              pathname: `/chat/${person.userId}`,
             }}
           >
-            <Button>Message</Button>
+            {typeof user != "undefined" && <Button>Message</Button>}
           </Link>
           <Link
             to={{
