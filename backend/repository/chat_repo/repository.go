@@ -34,6 +34,21 @@ func (db *DB) SendMessage(senderId, receiverId, text string) error {
 	}
 
 	ctx := context.Background()
+	room, err := db.client.Collection("chatRoom").Doc(roomId).Get(ctx)
+
+	if err != nil {
+		return errors.New("No chatroom")
+	}
+
+	var roomData model.ChatRoom
+	err = room.DataTo(&roomData)
+	if err != nil {
+		return err
+	}
+	if roomData.IsBlocked {
+		return errors.New("can't send message. This chat room is blocked")
+	}
+
 	sendTime := time.Now()
 	message := model.Message{
 		MessageSentBy:   senderId,
