@@ -60,6 +60,7 @@ func (h *Handler) ResponseAppointmentHandler(c *gin.Context) {
 		})
 		return
 	}
+
 	providerId := claim.UserID
 
 	appointmentId := c.Param("app_id")
