@@ -6,7 +6,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { SDK_VERSION } from "firebase/app";
 import { Link } from "react-router-dom";
-
+import CreateReviewModal from "../review/CreateReviewModal";
 const cookies = new Cookies();
 const MonthName = [
   "January",
@@ -38,12 +38,10 @@ const Notification = ({ person, content, data }: any) => {
   const user = cookies.get("user");
   const [showNotification, setShowNotification] = useState(false);
   const [partner, setPartner] = useState({} as any);
+  const [showReview, setShowReview] = useState(false);
   const onClick = () => {
-    console.log("call this");
     setShowNotification(false);
   };
-
-  console.log("DATA", data);
 
   const HandleRequest = async (accept: string) => {
     await axios({
@@ -54,7 +52,6 @@ const Notification = ({ person, content, data }: any) => {
       },
     })
       .then(function (response) {
-        console.log("FINIsh");
         alert("Finish");
         setShowNotification(false);
       })
@@ -210,16 +207,9 @@ const Notification = ({ person, content, data }: any) => {
         {typeof user != "undefined" &&
           user.user_id.slice(0, 1) == "C" &&
           data.status == 3 && (
-            <Link
-              to={{
-                pathname: `/review/${data.id}`,
-              }}
-              target="_blank"
-            >
-              <PayButton type="button" onClick={() => {}}>
-                Review
-              </PayButton>
-            </Link>
+            <PayButton type="button" onClick={() => setShowReview(true)}>
+              Review
+            </PayButton>
           )}
       </Content>
       {showNotification && (
@@ -231,12 +221,20 @@ const Notification = ({ person, content, data }: any) => {
           />
         </Backdrop>
       )}
+      {showReview && (
+        <Backdrop onClick={() => setShowReview(false)}>
+          <CreateReviewModal
+            providerID={partner.provider.userId}
+            data={data}
+            callback={() => setShowReview(false)}
+          />
+        </Backdrop>
+      )}
     </Layout>
   );
 };
 
 const AppointMent = ({ data, handleRequest, customer }: any) => {
-  console.log("DATA is ", data);
   let detail = [];
   for (let i = 0; i < data.information.length; i++) {
     detail.push({ info: data.information[i], value: data.value[i] });
@@ -246,8 +244,7 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
   const d = new Date(data.appointment_time[0].start_time.seconds * 1000);
   const g = new Date(data.appointment_time[0].end_time.seconds * 1000);
   var seconds = (g.getTime() - d.getTime()) / 1000;
-  console.log("second", seconds);
-  console.log("pp", d, g);
+
   return (
     <AppointmentDetailBox
       onClick={(e) => {
