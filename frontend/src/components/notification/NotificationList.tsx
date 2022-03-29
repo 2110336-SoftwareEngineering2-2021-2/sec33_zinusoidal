@@ -17,6 +17,7 @@ const NotificationList = ({ setDropDown }: any) => {
   const user = cookies.get("user");
   const [loading, setLoading] = useState(true);
   const [li, setLi] = useState([]);
+
   console.log(loading);
   useEffect(() => {
     const fetch = async () => {
@@ -72,7 +73,7 @@ const NotificationList = ({ setDropDown }: any) => {
     }, [ref]);
   }
   useOutsideAlerter(wrapperRef);
-
+  console.log("li size ", li.length);
   return (
     <Layout
       ref={wrapperRef}
@@ -80,11 +81,7 @@ const NotificationList = ({ setDropDown }: any) => {
       animate={{ opacity: 1, scale: 1, y: 0 }}
     >
       {li.map((item, index) => (
-        <Notification
-          key={index}
-          content="KirkPig has request you an fortune telling 's appointmentscssdsdsdds"
-          data={item}
-        />
+        <Notification key={index} data={item} />
       ))}
       {li.length == 0 && (
         <p>{loading ? "Loading" : "There is no notification"}</p>

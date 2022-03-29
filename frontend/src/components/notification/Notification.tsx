@@ -34,7 +34,7 @@ const customStyles = {
   },
 };
 
-const Notification = ({ person, content, data }: any) => {
+const Notification = ({ data }: any) => {
   const user = cookies.get("user");
   const [showNotification, setShowNotification] = useState(false);
   const [partner, setPartner] = useState({} as any);
@@ -259,14 +259,27 @@ const Notification = ({ person, content, data }: any) => {
 
 const AppointMent = ({ data, handleRequest, customer }: any) => {
   let detail = [];
-  for (let i = 0; i < data.information.length; i++) {
-    detail.push({ info: data.information[i], value: data.value[i] });
+  let services = [];
+  for (let j = 0; j < data.information.length; j++) {
+    detail.push({ info: data.information[j], value: data.value[j] });
   }
-  const [show, setShow] = useState(false);
+  for (let i = 0; i < data.service.length; i++) {
+    let d = new Date(data.appointment_time[i].start_time.seconds * 1000);
+    let g = new Date(data.appointment_time[i].end_time.seconds * 1000);
 
-  const d = new Date(data.appointment_time[0].start_time.seconds * 1000);
-  const g = new Date(data.appointment_time[0].end_time.seconds * 1000);
-  var seconds = (g.getTime() - d.getTime()) / 1000;
+    services.push({
+      service: data.service[i],
+      Date1: d,
+      Date2: g,
+      seconds: (g.getTime() - d.getTime()) / 1000,
+    });
+  }
+  console.log("GGGGO", services.length);
+  const [show, setShow] = useState(false);
+  console.log("DATA is", data);
+  // const d = new Date(data.appointment_time[0].start_time.seconds * 1000);
+  // const g = new Date(data.appointment_time[0].end_time.seconds * 1000);
+  // var seconds = (g.getTime() - d.getTime()) / 1000;
 
   return (
     <AppointmentDetailBox
@@ -299,38 +312,51 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
             Information
           </div>
         </AppointmentListHeader>
-        <div style={{ flex: 1, padding: 20 }}>
-          {show ? (
-            detail.map((item, index) => (
-              <p>
-                <b>{item.info}</b> : {item.value}
-              </p>
-            ))
-          ) : (
-            <DetailBox>
-              <p>
-                <b>Service:</b> <b>Customer:</b> {customer.firstName}{" "}
-                {customer.lastName}
-              </p>
-              <p>
-                <b>Date: </b>
-                {d.getDate()} {MonthName[d.getMonth()]} {d.getFullYear()}
-                <b> Time: </b> {d.getHours() < 10 ? "0" : ""}
-                {d.getHours()}:{d.getMinutes() < 10 ? "0" : ""}
-                {d.getMinutes()} - {g.getHours() < 10 ? "0" : ""}
-                {g.getHours()}:{g.getMinutes() < 10 ? "0" : ""}
-                {g.getMinutes()}
-                <b> Duration: </b>
-                {seconds / 3600 >= 1 ? `${seconds / 3600} hours` : ""}
-                {(seconds % 3600) / 60} minutes
-              </p>
+        <div
+          style={{
+            flex: 1,
+            padding: 20,
+            overflow: "auto",
+            height: 403,
+          }}
+        >
+          {show
+            ? detail.map((item, index) => (
+                <p>
+                  <b>{item.info}</b> : {item.value}
+                </p>
+              ))
+            : services.map((item, index) => (
+                <DetailBox>
+                  <p>
+                    <b>Service: {item.service.service_type}</b> <b>Customer:</b>{" "}
+                    {customer.firstName} {customer.lastName}
+                  </p>
+                  <p>
+                    <b>Date: </b>
+                    {item.Date1.getDate()} {MonthName[item.Date1.getMonth()]}{" "}
+                    {item.Date1.getFullYear()}
+                    <b> Time: </b> {item.Date1.getHours() < 10 ? "0" : ""}
+                    {item.Date1.getHours()}:
+                    {item.Date1.getMinutes() < 10 ? "0" : ""}
+                    {item.Date1.getMinutes()} -{" "}
+                    {item.Date2.getHours() < 10 ? "0" : ""}
+                    {item.Date2.getHours()}:
+                    {item.Date2.getMinutes() < 10 ? "0" : ""}
+                    {item.Date2.getMinutes()}
+                    <b> Duration: </b>
+                    {item.seconds / 3600 >= 1
+                      ? `${item.seconds / 3600} hours`
+                      : ""}
+                    {(item.seconds % 3600) / 60} minutes
+                  </p>
 
-              <p>
-                <b>Price: </b>
-                {data.total_price}
-              </p>
-            </DetailBox>
-          )}
+                  <p>
+                    <b>Price: </b>
+                    {item.service.price}
+                  </p>
+                </DetailBox>
+              ))}
         </div>
       </AppointmentList>
       <P>Total price : {data.total_price} baht</P>
@@ -456,6 +482,7 @@ const DetailBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 10px;
 `;
 
 const PayButton = styled.button`
