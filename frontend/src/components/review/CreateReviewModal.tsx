@@ -74,7 +74,11 @@ const CreateReviewModal = ({ providerID, data, callback }: any) => {
   };
 
   return (
-    <Layout>
+    <Layout
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       {status == false ? (
         <>
           <Header>Provider Review</Header>

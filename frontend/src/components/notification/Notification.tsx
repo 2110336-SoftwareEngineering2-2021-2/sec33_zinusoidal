@@ -172,29 +172,60 @@ const Notification = ({ person, content, data }: any) => {
     }
   };
   return (
-    <Layout
-      onClick={() => {
-        if (
-          user.user_id.slice(0, 1) == "P" &&
-          data.status == 0 &&
-          showNotification == false
-        )
-          setShowNotification(true);
-      }}
-    >
-      <Image
-        src={
-          typeof user != "undefined" && user.user_id.slice(0, 1) == "C"
-            ? partner.provider?.profilePicUrl
-            : partner.customer?.profilePicUrl
-        }
-        alt="profilePic"
-      />
-      <Content>
-        <Detail />
-        {typeof user != "undefined" &&
-          user.user_id.slice(0, 1) == "C" &&
-          data.status == 2 && (
+    <>
+      <Layout
+        onClick={() => {
+          if (
+            user.user_id.slice(0, 1) == "P" &&
+            data.status == 0 &&
+            showNotification == false
+          )
+            setShowNotification(true);
+        }}
+      >
+        <Image
+          src={
+            typeof user != "undefined" && user.user_id.slice(0, 1) == "C"
+              ? partner.provider?.profilePicUrl
+              : partner.customer?.profilePicUrl
+          }
+          alt="profilePic"
+        />
+
+        <Content>
+          <Detail />
+        </Content>
+
+        {showNotification && (
+          <Backdrop onClick={onClick}>
+            <AppointMent
+              customer={partner.customer}
+              data={data}
+              handleRequest={HandleRequest}
+            />
+          </Backdrop>
+        )}
+        {showReview && (
+          <Backdrop onClick={() => setShowReview(false)}>
+            <CreateReviewModal
+              providerID={partner.provider.userId}
+              data={data}
+              callback={() => setShowReview(false)}
+            />
+          </Backdrop>
+        )}
+      </Layout>
+      {typeof user != "undefined" &&
+        user.user_id.slice(0, 1) == "C" &&
+        data.status == 2 && (
+          <div
+            style={{
+              display: "flex",
+              alignSelf: "flex-end",
+              marginRight: 8,
+              marginBottom: 8,
+            }}
+          >
             <PayButton
               type="button"
               onClick={() => {
@@ -203,34 +234,26 @@ const Notification = ({ person, content, data }: any) => {
             >
               Pay
             </PayButton>
-          )}
-        {typeof user != "undefined" &&
-          user.user_id.slice(0, 1) == "C" &&
-          data.status == 3 && (
+          </div>
+        )}
+      {typeof user != "undefined" &&
+        user.user_id.slice(0, 1) == "C" &&
+        data.status == 3 && (
+          <div
+            style={{
+              display: "flex",
+              alignSelf: "flex-end",
+              marginRight: 8,
+              marginBottom: 8,
+            }}
+          >
             <PayButton type="button" onClick={() => setShowReview(true)}>
               Review
             </PayButton>
-          )}
-      </Content>
-      {showNotification && (
-        <Backdrop onClick={onClick}>
-          <AppointMent
-            customer={partner.customer}
-            data={data}
-            handleRequest={HandleRequest}
-          />
-        </Backdrop>
-      )}
-      {showReview && (
-        <Backdrop onClick={() => setShowReview(false)}>
-          <CreateReviewModal
-            providerID={partner.provider.userId}
-            data={data}
-            callback={() => setShowReview(false)}
-          />
-        </Backdrop>
-      )}
-    </Layout>
+            <CancleButton>Cancel</CancleButton>
+          </div>
+        )}
+    </>
   );
 };
 
@@ -446,5 +469,19 @@ const PayButton = styled.button`
   border: none;
   font-weight: bold;
   align-self: flex-end;
+`;
+
+const CancleButton = styled.button`
+  width: 68px;
+  height: 28px;
+  border-radius: 10000px;
+  font-size: 12px;
+  line-height: 19px;
+  color: ${COLOR["violet/400"]};
+  border: 1px solid ${COLOR["violet/400"]};
+  font-weight: bold;
+  align-self: flex-end;
+  margin-left: 20px;
+  background-color: white;
 `;
 export default Notification;
