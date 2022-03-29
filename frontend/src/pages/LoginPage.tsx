@@ -14,7 +14,7 @@ const LoginPage = () => {
     const data = cookies.get("user");
     if (typeof data != "undefined") {
       alert("You are already logged in");
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, []);
   return (
