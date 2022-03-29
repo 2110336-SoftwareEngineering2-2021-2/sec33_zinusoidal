@@ -19,6 +19,26 @@ func New(db *gorm.DB) *GromDB {
 	return &GromDB{database: db}
 }
 
+func (db *GromDB) GetRating(userID string) (float64, error) {
+
+	query := `SELECT AVG(R.score) as score
+	FROM review R left join appointment A on R.appointment_id = A.appointment_id
+	WHERE A.provider_id = ?;`
+
+	type Result struct {
+		AverageScore float64 `gorm:"column:score"`
+	}
+
+	var r Result
+
+	if err := db.database.Raw(query, userID).First(&r).Error; err != nil {
+		return 0.0, err
+	}
+
+	return r.AverageScore, nil
+
+}
+
 func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error) {
 
 	var providerProfiles []profile.ProviderDB
@@ -74,7 +94,7 @@ func (db *GromDB) GetProviderByID(userID string) (profile.ProviderProfile, error
 	returnProfile.FirstName = providerProfiles[0].FirstName
 	returnProfile.LastName = providerProfiles[0].LastName
 	returnProfile.ProfilePicUrl = providerProfiles[0].ProfilePicUrl
-	returnProfile.Rating = providerProfiles[0].Rating
+	returnProfile.Rating, err = db.GetRating(userID)
 	returnProfile.Username = providerProfiles[0].Username
 	returnProfile.WorkSchedule, err = model.ParseStringBackToSchedule(providerProfiles[0].WorkSchedule)
 	if providerProfiles[0].FortuneType != "" && providerProfiles[0].Price != 0 {

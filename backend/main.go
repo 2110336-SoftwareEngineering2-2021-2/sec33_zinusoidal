@@ -12,12 +12,14 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/chat_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/profile_repo"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/review_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/schedule_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/chat"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/profile"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/review"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/schedule"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/search"
 	"github.com/aws/aws-sdk-go/aws"
@@ -105,6 +107,12 @@ func main() {
 		v1fortune.POST("/send_message", chat_handler.SendMessageHandler)
 		v1fortune.POST("/block", chat_handler.BlockHandler)
 		v1fortune.POST("/unblock", chat_handler.UnBlockHandler)
+	}
+
+	review_handler := review.NewHandler(*review.NewService(review_repo.New(db)))
+	{
+		v1fortune.POST("/review", review_handler.ReviewRatingHandler)
+		v1fortune.GET("/review/:user_id", review_handler.GetReviewHandler)
 	}
 
 	router.Run(":" + viper.GetString("app.port"))
