@@ -31,6 +31,10 @@ const CalenderTest = () => {
       alert("You must be logged in");
       navigate(`/`);
     }
+    if (typeof user != "undefined" && user.user_id.slice(0, 1) == "C") {
+      alert("You are not provider");
+      navigate("/", { replace: true });
+    }
   }, []);
 
   const handleDay = (payload: number) => {
