@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { COLOR } from "../../CONSTANT";
@@ -10,12 +10,24 @@ import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import AvailableTimeCalendar from "../calendar/AvailableTimeCalendar";
 import ReviewBlock from "../review/ReviewBlock";
+import axios from "axios";
 
-const REVIEWMOCK = [1, 2, 3, 4, 5];
 const cookies = new Cookies();
 const SearchDetail = ({ person, onClickBack }: any) => {
   const user = cookies.get("user");
-  console.log(person);
+
+  const [reviewList, setReviewList] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/review/${person.userId}`,
+    })
+      .then(function (response) {
+        setReviewList(response.data.reviewList);
+      })
+      .catch(function (error) {});
+  }, [person]);
   return (
     <Layout style={{ maxHeight: 700, overflowY: "scroll" }}>
       <ReturnBackButton onClick={() => onClickBack(null)}>
@@ -56,8 +68,8 @@ const SearchDetail = ({ person, onClickBack }: any) => {
       <ContentContainer>
         <h1>Reviews</h1>
         <ReviewBox>
-          {REVIEWMOCK.map((item, index) => (
-            <ReviewBlock key={index} />
+          {reviewList.map((item, index) => (
+            <ReviewBlock data={item} key={index} />
           ))}
         </ReviewBox>
       </ContentContainer>
