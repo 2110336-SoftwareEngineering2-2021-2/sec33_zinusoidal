@@ -29,13 +29,13 @@ func (db *GromDB) GetRating(userID string) (float64, error) {
 		AverageScore float64 `gorm:"column:score"`
 	}
 
-	var r Result
+	var r []Result
 
-	if err := db.database.Raw(query, userID).First(&r).Error; err != nil {
+	if err := db.database.Raw(query, userID).Scan(&r).Error; err != nil {
 		return 0.0, err
 	}
 
-	return r.AverageScore, nil
+	return r[0].AverageScore, nil
 
 }
 
