@@ -16,6 +16,25 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+func (h *Handler) GetReviewHandler(c *gin.Context) {
+
+	user_id := c.Param("user_id")
+
+	res, err := h.service.GetReviewQuery(user_id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"reviewList": res,
+	})
+
+}
+
 func (h *Handler) ReviewRatingHandler(c *gin.Context) {
 
 	var req ReviewRatingRequest
