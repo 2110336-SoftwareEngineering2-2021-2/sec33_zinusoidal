@@ -48,7 +48,7 @@ const SearchResult = ({ person, onClick, selected = false }: any) => {
           </div>
 
           <p>
-            <b>{rating}</b>
+            <b>{rating.toFixed(2)}</b>
           </p>
         </Block>
         <Block>
