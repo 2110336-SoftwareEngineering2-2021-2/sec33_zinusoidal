@@ -135,7 +135,10 @@ const LandingNav = ({ onClickMenu, show }: any) => {
 
         <Menu
           size={32}
-          style={{ margin: "0 22px 0 24px" }}
+          style={{
+            marginRight: "22px",
+            marginLeft: typeof user != "undefined" ? "24px" : "auto",
+          }}
           onClick={() => setShowDropDown(!showDropDown)}
         />
       </Layout>
