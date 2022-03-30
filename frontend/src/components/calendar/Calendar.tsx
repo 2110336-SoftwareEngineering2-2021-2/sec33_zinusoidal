@@ -19,7 +19,7 @@ function checkYear(year: number) {
   if (year % 4 == 0) return true;
   return false;
 }
-const Calender = ({ day, setDay }: any) => {
+const Calender = ({ day, setDay, setPressed }: any) => {
   const [selectedDate, setSelectedDate] = useState({
     month: 0,
     year: 2022,
@@ -87,6 +87,7 @@ const Calender = ({ day, setDay }: any) => {
             }}
             onClick={() => {
               if (item.idx == -1) return;
+              setPressed(true);
               setDay({
                 date: item.date,
                 month: selectedDate.month,
@@ -109,12 +110,24 @@ const Layout = styled.div`
   border-radius: 20px;
   overflow: hidden;
   user-select: none;
+  position: relative;
   margin-top: 129px;
 
-  /* @media screen and (max-width: 600px) {
-    margin-left: 20px;
-    margin-right: 20px;
-  } */
+  @media screen and (max-width: 600px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 420px) {
+    width: 320px;
+    margin-top: 100px;
+  }
+
+  @media screen and (max-width: 330px) {
+    width: 300px;
+    margin-top: 100px;
+  }
 `;
 
 const CalenderContainer = styled.div`
@@ -135,6 +148,20 @@ const DateSlot = styled("div")<DatePropType>`
     font-size: 16px;
     line-height: 25px;
     font-weight: bold;
+  }
+
+  @media screen and (max-width: 600px) {
+    height: 50px;
+  }
+  @media screen and (max-width: 500px) {
+    height: 40px;
+  }
+  @media screen and (max-width: 420px) {
+    height: 30px;
+  }
+
+  @media screen and (max-width: 330px) {
+    height: 30px;
   }
 `;
 

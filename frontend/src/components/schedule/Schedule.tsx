@@ -32,7 +32,7 @@ const monthList = [
   "December",
 ];
 
-const Schedule = ({ day }: any) => {
+const Schedule = ({ day, setPressed }: any) => {
   const [Schedulelist, setScheduleList] = useState([]);
   const user = cookies.get("user");
 
@@ -58,7 +58,7 @@ const Schedule = ({ day }: any) => {
         </Circle>
       </Clip>
       <Padding>
-        <BackButton>← back</BackButton>
+        <BackButton onClick={() => setPressed(false)}>← back</BackButton>
 
         <Header>
           <p>My Schedule</p>
@@ -85,8 +85,25 @@ const Layout = styled.div`
   border-radius: 20px;
   margin-left: 31px;
   margin-top: 129px;
+  margin-bottom: 129px;
+
   @media screen and (max-width: 1150px) {
-    display: none;
+    margin-left: 0px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 420px) {
+    width: 320px;
+    margin-top: 100px;
+  }
+
+  @media screen and (max-width: 330px) {
+    width: 300px;
+    margin-top: 100px;
   }
 `;
 
@@ -144,6 +161,15 @@ const Header = styled.div`
     font-size: 20px;
     line-height: 31px;
     font-weight: bold;
+
+    @media screen and (max-width: 500px) {
+      font-size: 16px;
+      line-height: 22px;
+    }
+    @media screen and (max-width: 350px) {
+      font-size: 12px;
+      line-height: 18px;
+    }
   }
 `;
 

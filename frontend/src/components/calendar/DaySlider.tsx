@@ -187,6 +187,12 @@ const DayFrame = styled.div`
     line-height: 18px;
     height: 90px;
   }
+  @media screen and (min-width: 451px) and (max-width: 768px) {
+    font-size: 20px;
+    line-height: 31px;
+    height: 101px;
+  }
+
   @media screen and (max-width: 450px) {
     font-size: 12px;
     line-height: 18px;
