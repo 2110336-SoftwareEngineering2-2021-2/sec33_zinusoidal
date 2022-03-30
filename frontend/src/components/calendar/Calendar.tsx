@@ -112,6 +112,7 @@ const Layout = styled.div`
   user-select: none;
   position: relative;
   margin-top: 129px;
+  margin-bottom: 129px;
 
   @media screen and (max-width: 600px) {
     width: 500px;
