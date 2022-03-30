@@ -115,7 +115,7 @@ transaction transparantly"
         whileInView={typeof user == "undefined" ? "visible" : "visible_2"}
         viewport={{ once: true }}
         transition={
-          typeof user == "undefined" ? { duration: 1 } : { duration: 2 }
+          typeof user == "undefined" ? { duration: 2 } : { duration: 2 }
         }
         variants={variants}
       >

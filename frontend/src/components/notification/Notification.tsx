@@ -42,6 +42,9 @@ const Notification = ({ data }: any) => {
   const onClick = () => {
     setShowNotification(false);
   };
+  console.log("data", data);
+  let d = new Date(data.appointment_time[0].start_time.seconds * 1000);
+  let g = new Date(data.appointment_time[0].end_time.seconds * 1000);
 
   const HandleRequest = async (accept: string) => {
     await axios({
@@ -118,9 +121,14 @@ const Notification = ({ data }: any) => {
           <p>
             <b>
               {partner.provider.firstName} {partner.provider.lastName}
-            </b>{" "}
-            has <b>accept</b> your appointment's proposal in 24/02/2022 in 12.00
-            - 13.00 Please proceed to payment
+            </b>
+            has <b>accept</b> your appointment's proposal in {d.getDate()}/
+            {d.getMonth() + 1}/{d.getFullYear()} at{" "}
+            {d.getHours() < 10 ? "0" : ""}
+            {d.getHours()}:{d.getMinutes() < 10 ? "0" : ""}
+            {d.getMinutes()} - {g.getHours() < 10 ? "0" : ""}
+            {g.getHours()}:{g.getMinutes() < 10 ? "0" : ""}
+            {g.getMinutes()} <Purtext>Please proceed to payment</Purtext>
           </p>
         );
       }
@@ -145,7 +153,7 @@ const Notification = ({ data }: any) => {
             <b>
               {partner.customer.firstName} {partner.customer.lastName}
             </b>{" "}
-            has request you an fortune telling's appointment
+            requests you an fortune telling's appointment
           </p>
         );
       } else if (data.status == 1) {
@@ -386,8 +394,9 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   padding: 0 12px;
-  min-height: 60px;
-  margin: 2px 0;
+  /* min-height: 60px; */
+  margin: 2px 0px 0px;
+  /* border: 1px solid black; */
 `;
 
 const Image = styled.img`
@@ -510,5 +519,9 @@ const CancleButton = styled.button`
   align-self: flex-end;
   margin-left: 20px;
   background-color: white;
+`;
+
+const Purtext = styled.span`
+  color: ${COLOR["violet/400"]};
 `;
 export default Notification;
