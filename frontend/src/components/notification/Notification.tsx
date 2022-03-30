@@ -467,6 +467,10 @@ const AppointmentDetailBox = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 600px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 `;
 
 const AppointmentList = styled.div`
@@ -528,7 +532,7 @@ const Button = styled.button`
 `;
 
 const DetailBox = styled.div`
-  height: 117px;
+  min-height: 117px;
   background-color: white;
   border-radius: 20px;
   padding: 15px;

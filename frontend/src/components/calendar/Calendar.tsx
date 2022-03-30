@@ -109,6 +109,12 @@ const Layout = styled.div`
   border-radius: 20px;
   overflow: hidden;
   user-select: none;
+  margin-top: 129px;
+
+  /* @media screen and (max-width: 600px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  } */
 `;
 
 const CalenderContainer = styled.div`

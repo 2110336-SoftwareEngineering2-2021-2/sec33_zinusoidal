@@ -112,5 +112,12 @@ const Layout = styled(motion.div)`
   max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
+  right: 0px;
+  @media screen and (max-width: 600px) {
+    right: -40px;
+  }
+  @media screen and (max-width: 400px) {
+    right: -60px;
+  }
 `;
 export default NotificationList;
