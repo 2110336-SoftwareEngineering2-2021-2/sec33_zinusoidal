@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -29,7 +29,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
   const [showDropDown, setShowDropDown] = useState(true);
   const [showWideDropDown, setShowWideDropDown] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-
+  console.log("FFF", showNotification);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -50,6 +50,24 @@ const LandingNav = ({ onClickMenu, show }: any) => {
       window.removeEventListener("resize", windowWidthDetect);
     };
   }, [showDropDown]);
+
+  const wrapperRef = useRef(null);
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          // if (visibility == true) setDropDown(false);
+          setShowNotification(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(wrapperRef);
   return (
     <Frame>
       <Layout>
@@ -66,6 +84,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
         </StyledLink>
         {typeof user != "undefined" && (
           <BellDiv
+            ref={wrapperRef}
             style={{
               position: "relative",
               marginLeft: "auto",

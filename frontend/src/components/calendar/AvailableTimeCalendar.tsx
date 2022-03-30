@@ -44,6 +44,7 @@ const Layout = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 15px;
+  margin-top: 10px;
 `;
 
 export default AvailableTimeCalendar;
