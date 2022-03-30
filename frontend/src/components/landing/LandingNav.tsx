@@ -65,14 +65,24 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           </motion.h1>
         </StyledLink>
         {typeof user != "undefined" && (
-          <div style={{ position: "relative", marginLeft: "auto" }}>
+          <div
+            style={{
+              position: "relative",
+              marginLeft: "auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <IoMdNotificationsOutline
               size={24}
               onClick={() => setShowNotification((show) => !show)}
             />
-            {showNotification && (
-              <NotificationList setDropDown={setShowNotification} />
-            )}
+
+            <NotificationList
+              setDropDown={setShowNotification}
+              visibility={showNotification}
+            />
           </div>
         )}
 

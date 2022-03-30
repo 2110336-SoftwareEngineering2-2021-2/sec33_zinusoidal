@@ -13,10 +13,11 @@ import {
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-const NotificationList = ({ setDropDown }: any) => {
+const NotificationList = ({ setDropDown, visibility }: any) => {
   const user = cookies.get("user");
   const [loading, setLoading] = useState(true);
   const [li, setLi] = useState([]);
+  const first = useRef(true);
 
   useEffect(() => {
     const fetch = async () => {
@@ -40,20 +41,22 @@ const NotificationList = ({ setDropDown }: any) => {
 
       onSnapshot(q, (snapshot) => {
         // console.log("DOCS is ", snapshot.docs);
-        setLi(
-          (
-            snapshot.docs.map((doc) => {
-              return { id: doc.id, ...doc.data() };
-            }) as any
-          ).sort((a: any, b: any) => {
-            if (a.updated_at > b.updated_at) {
-              return -1;
-            } else {
-              return 1;
-            }
-          })
-        );
+        console.log("CHANGED");
+        const p = (
+          snapshot.docs.map((doc) => {
+            return { id: doc.id, ...doc.data() };
+          }) as any
+        ).sort((a: any, b: any) => {
+          if (a.updated_at > b.updated_at) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        setLi(p);
+        if (!first.current) setDropDown(true);
         setLoading(false);
+        first.current = false;
       });
     };
     const run = async () => {
@@ -79,8 +82,10 @@ const NotificationList = ({ setDropDown }: any) => {
     }, [ref]);
   }
   useOutsideAlerter(wrapperRef);
+  console.log(first.current);
   return (
     <Layout
+      style={{ visibility: visibility ? "visible" : "hidden" }}
       ref={wrapperRef}
       initial={{ opacity: 0, scale: 1, y: -20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
