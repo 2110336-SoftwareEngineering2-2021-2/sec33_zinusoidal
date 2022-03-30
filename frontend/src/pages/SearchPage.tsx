@@ -42,8 +42,6 @@ const SearchPage = () => {
   const [range, setRange] = useState(null);
   const [rating, setRating] = useState(null);
 
-  // console.log("SEARCHRESULT", SEARCHRESULT);
-
   const searchRequestHandler = async () => {
     setSelectedPerson(null);
     let data = {};
@@ -79,23 +77,18 @@ const SearchPage = () => {
 
     data = { ...data, keyword: searchWord };
 
-    // console.log("data", data);
-
     await axios({
       method: "post",
       url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/search`,
       data: data,
     })
       .then(function (response) {
-        console.log(response.data);
         if (!pressed) setPressed(true);
 
         setSEARCHRESULT(response.data);
-        console.log("success");
+        console.log("RESST", response.data);
       })
-      .catch(function (error) {
-        console.log("error");
-      });
+      .catch(function (error) {});
   };
 
   return (

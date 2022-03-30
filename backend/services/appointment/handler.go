@@ -63,7 +63,7 @@ func (h *Handler) ResponseAppointmentHandler(c *gin.Context) {
 	providerId := claim.UserID
 
 	appointmentId := c.Param("app_id")
-	status := c.Param("is_accept")
+	status := c.Param("status")
 	if len(status) != 1 {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"log": "invalid status. status should be between 1 and 4",

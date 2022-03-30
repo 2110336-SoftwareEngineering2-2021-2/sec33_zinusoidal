@@ -17,7 +17,7 @@ const NotificationList = ({ setDropDown }: any) => {
   const user = cookies.get("user");
   const [loading, setLoading] = useState(true);
   const [li, setLi] = useState([]);
-  console.log(loading);
+
   useEffect(() => {
     const fetch = async () => {
       let q;
@@ -27,7 +27,6 @@ const NotificationList = ({ setDropDown }: any) => {
         q = query(
           collection(db, "appointments"),
           where("providerID", "==", user.user_id)
-          // orderBy("status")
         );
       } else {
         //user.user_id
@@ -35,6 +34,7 @@ const NotificationList = ({ setDropDown }: any) => {
         q = query(
           collection(db, "appointments"),
           where("customerID", "==", user.user_id)
+
           // orderBy("status")
         );
       }
@@ -42,9 +42,17 @@ const NotificationList = ({ setDropDown }: any) => {
       onSnapshot(q, (snapshot) => {
         // console.log("DOCS is ", snapshot.docs);
         setLi(
-          snapshot.docs.map((doc) => {
-            return { id: doc.id, ...doc.data() };
-          }) as never
+          (
+            snapshot.docs.map((doc) => {
+              return { id: doc.id, ...doc.data() };
+            }) as any
+          ).sort((a: any, b: any) => {
+            if (a.updated_at > b.updated_at) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
         );
         setLoading(false);
       });
@@ -72,7 +80,7 @@ const NotificationList = ({ setDropDown }: any) => {
     }, [ref]);
   }
   useOutsideAlerter(wrapperRef);
-
+  console.log("li size ", li.length);
   return (
     <Layout
       ref={wrapperRef}
@@ -80,11 +88,7 @@ const NotificationList = ({ setDropDown }: any) => {
       animate={{ opacity: 1, scale: 1, y: 0 }}
     >
       {li.map((item, index) => (
-        <Notification
-          key={index}
-          content="KirkPig has request you an fortune telling 's appointmentscssdsdsdds"
-          data={item}
-        />
+        <Notification key={index} data={item} />
       ))}
       {li.length == 0 && (
         <p>{loading ? "Loading" : "There is no notification"}</p>
