@@ -15,7 +15,7 @@ const REVIEWMOCK = [1, 2, 3, 4, 5];
 const cookies = new Cookies();
 const SearchDetail = ({ person, onClickBack }: any) => {
   const user = cookies.get("user");
-  console.log(person);
+  console.log(person.userId, user.user_id);
   return (
     <Layout style={{ maxHeight: 700, overflowY: "scroll" }}>
       <ReturnBackButton onClick={() => onClickBack(null)}>
@@ -31,7 +31,9 @@ const SearchDetail = ({ person, onClickBack }: any) => {
               pathname: `/chat/${person.userId}`,
             }}
           >
-            {typeof user != "undefined" && <Button>Message</Button>}
+            {typeof user != "undefined" && user.user_id != person.userId && (
+              <Button>Message</Button>
+            )}
           </Link>
           <Link
             to={{
