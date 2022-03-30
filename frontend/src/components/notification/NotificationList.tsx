@@ -30,7 +30,6 @@ const NotificationList = ({ setDropDown }: any) => {
         );
       } else {
         //user.user_id
-        console.log("cone here");
         q = query(
           collection(db, "appointments"),
           where("customerID", "==", user.user_id)
@@ -80,7 +79,6 @@ const NotificationList = ({ setDropDown }: any) => {
     }, [ref]);
   }
   useOutsideAlerter(wrapperRef);
-  console.log("li size ", li.length);
   return (
     <Layout
       ref={wrapperRef}

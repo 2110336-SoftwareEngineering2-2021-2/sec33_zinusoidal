@@ -42,7 +42,6 @@ const Notification = ({ data }: any) => {
   const onClick = () => {
     setShowNotification(false);
   };
-  console.log("data", data);
   let d = new Date(data.appointment_time[0].start_time.seconds * 1000);
   let g = new Date(data.appointment_time[0].end_time.seconds * 1000);
 
@@ -133,7 +132,7 @@ const Notification = ({ data }: any) => {
         );
       }
 
-      if (data.status == 3) {
+      if (data.status == 3 || data.status == 4) {
         return (
           <p>
             Your appointment with{" "}
@@ -258,7 +257,9 @@ const Notification = ({ data }: any) => {
             <PayButton type="button" onClick={() => setShowReview(true)}>
               Review
             </PayButton>
-            <CancleButton>Cancel</CancleButton>
+            <CancleButton type="button" onClick={() => HandleRequest("4")}>
+              Cancel
+            </CancleButton>
           </div>
         )}
     </>

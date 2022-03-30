@@ -5,6 +5,9 @@ import { COLOR } from "../../CONSTANT";
 import axios from "axios";
 import { BsCheck2Circle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 const MonthName = [
   "January",
   "February",
@@ -20,6 +23,7 @@ const MonthName = [
   "December",
 ];
 const CreateReviewModal = ({ providerID, data, callback }: any) => {
+  const user = cookies.get("user");
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [status, setStatus] = useState(false);
@@ -65,8 +69,20 @@ const CreateReviewModal = ({ providerID, data, callback }: any) => {
       },
     })
       .then(function (response) {
-        console.log("Finish");
-        setStatus(true);
+        axios({
+          method: "post",
+          url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/response_appointment/${data.id}/4`,
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+          .then(function (response) {
+            alert("Finish");
+            setStatus(true);
+          })
+          .catch(function (error) {
+            console.log("error");
+          });
       })
       .catch(function (error) {
         console.log("ERROR");
