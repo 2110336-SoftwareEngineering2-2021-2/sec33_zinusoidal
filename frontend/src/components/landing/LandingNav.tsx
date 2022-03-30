@@ -230,7 +230,7 @@ const Image = styled.img`
 
 const LandingDropDownDiv = styled(motion.div)`
   box-shadow: 0px 4px rgba(0, 0, 0, 0.25);
-  z-index: 1;
+  z-index: 100;
   position: relative;
   width: 100%;
   background-color: ${COLOR["violet/100"]};
