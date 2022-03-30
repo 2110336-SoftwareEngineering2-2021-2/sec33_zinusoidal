@@ -6,6 +6,7 @@ import { BsCalendarCheck } from "react-icons/bs";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
+const bagImg = require("../../assets/bag.png");
 const cookies = new Cookies();
 
 //prettier-ignore
@@ -71,6 +72,13 @@ const Schedule = ({ day, setPressed }: any) => {
           {Schedulelist.map((item, index) => (
             <BookedSlot key={index} data={item} idx={index} />
           ))}
+          {Schedulelist.length == 0 && (
+            <img
+              src={bagImg}
+              alt=""
+              style={{ width: 226, height: 226, marginTop: 80 }}
+            />
+          )}
         </Content>
       </Padding>
     </Layout>
@@ -142,6 +150,7 @@ const Content = styled.div`
   flex-direction: column;
   height: 410px;
   overflow-y: auto;
+  align-items: center;
   /* ::-webkit-scrollbar {
     display: none;
   } */
