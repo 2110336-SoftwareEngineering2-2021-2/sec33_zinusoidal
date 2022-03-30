@@ -13,6 +13,9 @@ const cookies = new Cookies();
 const endMonth_1 = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const endMonth_2 = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
+interface FrameSmallPropType {
+  pressed: boolean;
+}
 function checkYear(year: number) {
   if (year % 400 == 0) return true;
 
@@ -24,7 +27,7 @@ function checkYear(year: number) {
 
 const CalenderTest = () => {
   const [day, setDay] = useState({ date: 1, month: 0, year: 2022 });
-
+  const [pressed, setPressed] = useState(false);
   let navigate = useNavigate();
   const user = cookies.get("user");
   useEffect(() => {
@@ -126,17 +129,22 @@ const CalenderTest = () => {
     <OuterContainer>
       <LandingNav />
       <Layout>
-        <Frame>
-          <Calendar day={day} setDay={setDay} />
-          {/* <img
+        <Frame pressed={pressed}>
+          <Calendar day={day} setDay={setDay} setPressed={setPressed} />
+          <Img
             style={{ position: "absolute", bottom: 0, width: 280, height: 280 }}
             src={logo}
             alt="logo"
-          /> */}
+          />
         </Frame>
-        <Frame>
-          <Schedule day={day} />
-        </Frame>
+        <FrameBig>
+          <Schedule day={day} setPressed={setPressed} />
+        </FrameBig>
+        {pressed && (
+          <FrameSmall pressed={pressed}>
+            <Schedule day={day} setPressed={setPressed} />
+          </FrameSmall>
+        )}
       </Layout>
     </OuterContainer>
   );
@@ -146,6 +154,7 @@ const OuterContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: ${COLOR["magenta/100"]};
 `;
 
 const Layout = styled.div`
@@ -157,22 +166,42 @@ const Layout = styled.div`
 
   background-color: ${COLOR["magenta/100"]};
 `;
-const Frame = styled.div`
+const Frame = styled("div")<FrameSmallPropType>`
+  height: 100%;
+  display: ${(prop) => (prop.pressed ? "none" : "flex")};
+  flex-direction: column;
+  align-items: center;
+
+  @media screen and (min-width: 1151px) {
+    display: flex;
+  }
+`;
+
+const FrameSmall = styled("div")<FrameSmallPropType>`
+  height: 100%;
+  display: ${(prop) => (prop.pressed ? "flex" : "none")};
+  flex-direction: column;
+  align-items: center;
+
+  @media screen and (min-width: 1151px) {
+    display: none;
+  }
+`;
+
+const Img = styled.img`
+  @media screen and (max-height: 1020px) {
+    display: none;
+  }
+`;
+
+const FrameBig = styled("div")`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: green;
   align-items: center;
-  /* @media screen and (max-width: 600px) {
-    background-color: red;
-    width: 100%;
-  } */
-  @media screen and (max-width: 600px) {
-    /* background-color: red; */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+  @media screen and (max-width: 1150px) {
+    display: none;
   }
 `;
 export default CalenderTest;
