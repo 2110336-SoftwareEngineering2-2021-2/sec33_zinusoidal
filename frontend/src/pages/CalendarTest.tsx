@@ -7,6 +7,7 @@ import LandingNav from "../components/landing/LandingNav";
 import { YEARCOLLECTION } from "../CONSTANT";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+const logo = require("../assets/scheduleIcon.png");
 const cookies = new Cookies();
 
 const endMonth_1 = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -125,8 +126,17 @@ const CalenderTest = () => {
     <OuterContainer>
       <LandingNav />
       <Layout>
-        <Calendar day={day} setDay={setDay} />
-        <Schedule day={day} />
+        <Frame>
+          <Calendar day={day} setDay={setDay} />
+          {/* <img
+            style={{ position: "absolute", bottom: 0, width: 280, height: 280 }}
+            src={logo}
+            alt="logo"
+          /> */}
+        </Frame>
+        <Frame>
+          <Schedule day={day} />
+        </Frame>
       </Layout>
     </OuterContainer>
   );
@@ -147,5 +157,22 @@ const Layout = styled.div`
 
   background-color: ${COLOR["magenta/100"]};
 `;
-
+const Frame = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: green;
+  align-items: center;
+  /* @media screen and (max-width: 600px) {
+    background-color: red;
+    width: 100%;
+  } */
+  @media screen and (max-width: 600px) {
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 export default CalenderTest;

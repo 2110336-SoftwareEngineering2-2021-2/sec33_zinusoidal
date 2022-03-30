@@ -58,6 +58,8 @@ const Schedule = ({ day }: any) => {
         </Circle>
       </Clip>
       <Padding>
+        <BackButton>← back</BackButton>
+
         <Header>
           <p>My Schedule</p>
           <DateBlock>
@@ -82,6 +84,10 @@ const Layout = styled.div`
   flex-direction: column;
   border-radius: 20px;
   margin-left: 31px;
+  margin-top: 129px;
+  @media screen and (max-width: 1150px) {
+    display: none;
+  }
 `;
 
 const Clip = styled.div`
@@ -153,5 +159,18 @@ const DateBlock = styled.div`
   font-size: 16px;
   line-height: 25px;
   padding: 0 5px;
+`;
+
+const BackButton = styled.div`
+  color: #f44336;
+  font-size: 20px;
+  line-height: 31px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  @media screen and (min-width: 1151px) {
+    display: none;
+  }
 `;
 export default Schedule;

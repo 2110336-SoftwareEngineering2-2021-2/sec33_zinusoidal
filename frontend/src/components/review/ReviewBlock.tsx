@@ -42,12 +42,13 @@ const Image = styled.img`
 
 const Detail = styled.div`
   flex: 1;
-  /* background-color: red; */
   align-self: stretch;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  /* display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; */
+  /* line-height: 50%; */
 
   h1 {
     font-size: 16px;

@@ -65,7 +65,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
           </motion.h1>
         </StyledLink>
         {typeof user != "undefined" && (
-          <div
+          <BellDiv
             style={{
               position: "relative",
               marginLeft: "auto",
@@ -83,7 +83,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
               setDropDown={setShowNotification}
               visibility={showNotification}
             />
-          </div>
+          </BellDiv>
         )}
 
         <NameDiv
@@ -116,7 +116,7 @@ const LandingNav = ({ onClickMenu, show }: any) => {
 
         <Menu
           size={32}
-          style={{ margin: "0 22px 0 auto" }}
+          style={{ margin: "0 22px 0 24px" }}
           onClick={() => setShowDropDown(!showDropDown)}
         />
       </Layout>
@@ -284,5 +284,11 @@ const LogoutButton = styled.div`
     font-weight: bold;
   }
 `;
-
+const BellDiv = styled.div`
+  position: relative;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 export default LandingNav;

@@ -17,7 +17,7 @@ const SearchDetail = ({ person, onClickBack }: any) => {
   const user = cookies.get("user");
 
   const [reviewList, setReviewList] = useState([]);
-
+  console.log("reviewList", reviewList);
   useEffect(() => {
     axios({
       method: "get",
