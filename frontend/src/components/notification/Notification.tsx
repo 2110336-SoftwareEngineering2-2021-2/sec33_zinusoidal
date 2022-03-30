@@ -39,6 +39,7 @@ const Notification = ({ data }: any) => {
   const [showNotification, setShowNotification] = useState(false);
   const [partner, setPartner] = useState({} as any);
   const [showReview, setShowReview] = useState(false);
+  const [loading, setLoading] = useState(true);
   const onClick = () => {
     setShowNotification(false);
   };
@@ -79,6 +80,7 @@ const Notification = ({ data }: any) => {
           .then(function (response) {
             provider = response.data;
             setPartner({ customer: customer, provider: provider } as any);
+            setLoading(false);
           })
           .catch(function (error) {
             console.log("error");
@@ -165,7 +167,7 @@ const Notification = ({ data }: any) => {
             an fortune telling's appointment
           </p>
         );
-      } else {
+      } else if (data.status == 2) {
         return (
           <p>
             You <b>accepted</b>{" "}
@@ -175,21 +177,32 @@ const Notification = ({ data }: any) => {
             an fortune telling's appointment
           </p>
         );
+      } else if (data.status == 3) {
+        return (
+          <p>
+            <b>
+              {partner.customer.firstName} {partner.customer.lastName}
+            </b>{" "}
+            paid you an appointment's fee
+          </p>
+        );
+      } else {
+        return (
+          <p>
+            <b>
+              {partner.customer.firstName} {partner.customer.lastName}
+            </b>{" "}
+            completed an appointment
+          </p>
+        );
       }
     }
   };
+
+  if (loading) return null;
   return (
     <>
-      <Layout
-        onClick={() => {
-          if (
-            user.user_id.slice(0, 1) == "P" &&
-            data.status == 0 &&
-            showNotification == false
-          )
-            setShowNotification(true);
-        }}
-      >
+      <Layout>
         <Image
           src={
             typeof user != "undefined" && user.user_id.slice(0, 1) == "C"
@@ -222,6 +235,33 @@ const Notification = ({ data }: any) => {
           </Backdrop>
         )}
       </Layout>
+      {typeof user != "undefined" &&
+        user.user_id.slice(0, 1) == "P" &&
+        data.status == 0 && (
+          <div
+            style={{
+              display: "flex",
+              alignSelf: "flex-end",
+              marginRight: 8,
+              marginBottom: 8,
+            }}
+          >
+            <PayButton
+              style={{ width: 93 }}
+              type="button"
+              onClick={() => {
+                if (
+                  user.user_id.slice(0, 1) == "P" &&
+                  data.status == 0 &&
+                  showNotification == false
+                )
+                  setShowNotification(true);
+              }}
+            >
+              View Detail
+            </PayButton>
+          </div>
+        )}
       {typeof user != "undefined" &&
         user.user_id.slice(0, 1) == "C" &&
         data.status == 2 && (
@@ -338,7 +378,7 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
             : services.map((item, index) => (
                 <DetailBox>
                   <p>
-                    <b>Service: {item.service.service_type}</b> <b>Customer:</b>{" "}
+                    <b>Service:</b> {item.service.service_type} <b>Customer:</b>{" "}
                     {customer.firstName} {customer.lastName}
                   </p>
                   <p>
@@ -355,9 +395,13 @@ const AppointMent = ({ data, handleRequest, customer }: any) => {
                     {item.Date2.getMinutes()}
                     <b> Duration: </b>
                     {item.seconds / 3600 >= 1
-                      ? `${item.seconds / 3600} hours`
-                      : ""}
-                    {(item.seconds % 3600) / 60} minutes
+                      ? `${Math.floor(item.seconds / 3600)} hour`
+                      : // {Math.floor(item.seconds / 3600) > 1 ? && "s"}
+
+                        ""}
+                    {(item.seconds % 3600) / 60 != 0 && (
+                      <>{(item.seconds % 3600) / 60} minutes</>
+                    )}
                   </p>
 
                   <p>
@@ -506,6 +550,7 @@ const PayButton = styled.button`
   border: none;
   font-weight: bold;
   align-self: flex-end;
+  cursor: pointer;
 `;
 
 const CancleButton = styled.button`
@@ -520,6 +565,7 @@ const CancleButton = styled.button`
   align-self: flex-end;
   margin-left: 20px;
   background-color: white;
+  cursor: pointer;
 `;
 
 const Purtext = styled.span`

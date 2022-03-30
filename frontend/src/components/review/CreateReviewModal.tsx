@@ -41,7 +41,6 @@ const CreateReviewModal = ({ providerID, data, callback }: any) => {
       url: `https://zinusoidal-fortune.kirkpig.dev/api/fortune168/v1/provider/${providerID}`,
     })
       .then(function (response) {
-        console.log("PROIV", response.data);
         setProviderInfo(response.data);
       })
       .catch(function (error) {
