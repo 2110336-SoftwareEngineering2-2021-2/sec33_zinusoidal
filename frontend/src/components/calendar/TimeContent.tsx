@@ -47,7 +47,6 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
         })
           .then(function (response) {
             const notwang = response.data;
-            console.log("NOT WANG", notwang);
             for (let i = 0; i < notwang.length; i++) {
               list.push({
                 startTime: notwang[i].time[0],
@@ -64,7 +63,6 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
                 return -1;
               return 1;
             });
-            console.log("PPP", list);
             let realList = [];
 
             for (let i = 0; i < list.length; i++) {
@@ -97,7 +95,6 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
                 topic: "no",
               });
             }
-            console.log("REALLIST", realList);
 
             setRealList(realList as any);
           })
