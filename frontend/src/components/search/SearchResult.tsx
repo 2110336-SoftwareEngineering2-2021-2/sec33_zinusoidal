@@ -73,7 +73,6 @@ const Layout = styled("div")<LayoutPropType>`
   background-color: ${(props) =>
     props.selected ? COLOR["violet/200"] : "transparent"};
   border-radius: 8px;
-
   flex: 1;
 `;
 

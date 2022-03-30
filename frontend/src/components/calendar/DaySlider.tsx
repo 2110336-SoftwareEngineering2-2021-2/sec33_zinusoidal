@@ -168,6 +168,7 @@ const Layout = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
+  align-items: center;
 `;
 
 const DayFrame = styled.div`
@@ -179,5 +180,22 @@ const DayFrame = styled.div`
   line-height: 31px;
   border-radius: 4px;
   cursor: pointer;
+  justify-content: center;
+
+  @media screen and (min-width: 769px) and (max-width: 1050px) {
+    font-size: 12px;
+    line-height: 18px;
+    height: 90px;
+  }
+  @media screen and (max-width: 450px) {
+    font-size: 12px;
+    line-height: 18px;
+    height: 90px;
+  }
+  @media screen and (max-width: 350px) {
+    font-size: 10px;
+    line-height: 18px;
+    height: 90px;
+  }
 `;
 export default DaySlider;

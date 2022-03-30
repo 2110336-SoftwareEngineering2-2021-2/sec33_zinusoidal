@@ -14,7 +14,9 @@ const ReviewBlock = ({ data }: any) => {
             style={{ width: `${(data.score * 100) / 5}%` }}
           ></div>
         </div>
-        <P>{data.text}</P>
+        <div>
+          <P>{data.text}</P>
+        </div>
       </Detail>
     </Layout>
   );
@@ -30,6 +32,15 @@ const Layout = styled.div`
   border-radius: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-right: 28px;
+
+  @media screen and (max-width: 1050px) {
+    height: 129px;
+    min-width: 400px;
+  }
+  @media screen and (max-width: 1050px) {
+    height: 129px;
+    min-width: 300px;
+  }
 `;
 
 const Image = styled.img`
@@ -43,7 +54,7 @@ const Image = styled.img`
 const Detail = styled.div`
   flex: 1;
   align-self: stretch;
-  overflow: hidden;
+  overflow: auto;
   overflow-wrap: break-word;
   /* display: -webkit-box;
   -webkit-line-clamp: 2;

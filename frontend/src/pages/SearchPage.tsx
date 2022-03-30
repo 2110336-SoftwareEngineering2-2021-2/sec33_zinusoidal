@@ -252,6 +252,9 @@ const SearchResultList = styled("div")<SearchResultListPropType>`
   @media screen and (max-width: 930px) {
     width: 400px;
   }
+  @media screen and (max-width: 800px) {
+    width: 370px;
+  }
   @media screen and (max-width: 768px) {
     width: 100%;
     display: ${(props) => (props.selected == true ? "none" : "initial")};

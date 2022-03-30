@@ -174,6 +174,7 @@ const ReviewBox = styled.div`
   display: flex;
   overflow-x: scroll;
   padding-bottom: 10px;
+  margin-top: 10px;
 `;
 
 export default SearchDetail;

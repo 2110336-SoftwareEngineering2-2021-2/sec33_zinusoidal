@@ -47,6 +47,7 @@ const TimeContent = ({ selectedDay, providerID }: any) => {
         })
           .then(function (response) {
             const notwang = response.data;
+            // console.log("NOT WANG", notwang);
             for (let i = 0; i < notwang.length; i++) {
               list.push({
                 startTime: notwang[i].time[0],

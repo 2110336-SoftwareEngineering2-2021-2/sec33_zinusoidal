@@ -71,7 +71,7 @@ const NotificationList = ({ setDropDown, visibility }: any) => {
     useEffect(() => {
       function handleClickOutside(event: Event) {
         if (ref.current && !ref.current.contains(event.target)) {
-          setDropDown(false);
+          // if (visibility == true) setDropDown(false);
         }
       }
 
@@ -82,11 +82,10 @@ const NotificationList = ({ setDropDown, visibility }: any) => {
     }, [ref]);
   }
   useOutsideAlerter(wrapperRef);
-  console.log(first.current);
   return (
     <Layout
       style={{ visibility: visibility ? "visible" : "hidden" }}
-      ref={wrapperRef}
+      // ref={wrapperRef}
       initial={{ opacity: 0, scale: 1, y: -20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
     >

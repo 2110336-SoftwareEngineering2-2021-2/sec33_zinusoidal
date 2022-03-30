@@ -42,6 +42,7 @@ const Layout = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  line-height: normal;
 `;
 
 export default TimeSlotDetail;
