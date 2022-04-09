@@ -82,7 +82,7 @@ const docTemplate = `{
         },
         "/api/fortune168/v1/confirm_email/{key}": {
             "post": {
-                "description": "send the key from confirmation email to activate",
+                "description": "Send the key from confirmation email to activate",
                 "consumes": [
                     "application/json"
                 ],
@@ -92,7 +92,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "use the key in the confirmation email to activate",
+                "summary": "Use the key in the confirmation email to activate",
                 "operationId": "ActivateEmailHandler",
                 "parameters": [
                     {
@@ -182,7 +182,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "customer registeration and send confirmation email",
+                "summary": "Customer registeration and send confirmation email",
                 "operationId": "CustomerRegisterHandler",
                 "parameters": [
                     {
@@ -251,7 +251,7 @@ const docTemplate = `{
         },
         "/api/fortune168/v1/delete_account": {
             "post": {
-                "description": "just send the request to delete account. Note that this is a hard delete, no way to recover account later.",
+                "description": "Just send the request to delete account. Note that this is a hard delete, no way to recover account later.",
                 "consumes": [
                     "application/json"
                 ],
@@ -267,7 +267,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Send token if log-in, to check authority to send message",
+                        "description": "Send token if log-in, to check authority to delete account",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -596,7 +596,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "provider registeration and send confirmation email",
+                "summary": "Provider registeration and send confirmation email",
                 "operationId": "ProviderRegisterHandler",
                 "parameters": [
                     {
@@ -797,6 +797,33 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/test": {
+            "get": {
+                "description": "Dummy function for testing, will return the time at midnigth of 2014-05-22",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Dummy function, will return the time at midnigth of 2014-05-22",
+                "operationId": "TestHandler",
+                "responses": {
+                    "200": {
+                        "description": "2014-05-22T00:00:00Z",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "should not happened?",
                         "schema": {
                             "type": "string"
                         }

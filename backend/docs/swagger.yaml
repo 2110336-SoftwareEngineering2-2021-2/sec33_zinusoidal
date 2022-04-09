@@ -214,7 +214,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: send the key from confirmation email to activate
+      description: Send the key from confirmation email to activate
       operationId: ActivateEmailHandler
       parameters:
       - description: uuid values
@@ -237,7 +237,7 @@ paths:
           description: error message
           schema:
             type: string
-      summary: use the key in the confirmation email to activate
+      summary: Use the key in the confirmation email to activate
       tags:
       - auth
   /api/fortune168/v1/customer/{id}:
@@ -320,19 +320,19 @@ paths:
           description: registration is not successful
           schema:
             type: string
-      summary: customer registeration and send confirmation email
+      summary: Customer registeration and send confirmation email
       tags:
       - auth
   /api/fortune168/v1/delete_account:
     post:
       consumes:
       - application/json
-      description: just send the request to delete account. Note that this is a hard
+      description: Just send the request to delete account. Note that this is a hard
         delete, no way to recover account later.
       operationId: DeleteAccountHandler
       parameters:
       - default: Bearer <Add access token here>
-        description: Send token if log-in, to check authority to send message
+        description: Send token if log-in, to check authority to delete account
         in: header
         name: Authorization
         required: true
@@ -610,7 +610,7 @@ paths:
           description: registration is not successful
           schema:
             type: string
-      summary: provider registeration and send confirmation email
+      summary: Provider registeration and send confirmation email
       tags:
       - auth
   /api/fortune168/v1/response_appointment/{app_id}/{status}:
@@ -699,6 +699,25 @@ paths:
       summary: send message to other users
       tags:
       - chat
+  /api/fortune168/v1/test:
+    get:
+      consumes:
+      - application/json
+      description: Dummy function for testing, will return the time at midnigth of
+        2014-05-22
+      operationId: TestHandler
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: "2014-05-22T00:00:00Z"
+          schema:
+            type: string
+        "400":
+          description: should not happened?
+          schema:
+            type: string
+      summary: Dummy function, will return the time at midnigth of 2014-05-22
   /api/fortune168/v1/unblock:
     post:
       consumes:

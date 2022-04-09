@@ -18,8 +18,8 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
-// CustomerRegisterHandler customer register
-// @Summary customer registeration and send confirmation email
+// CustomerRegisterHandler Customer register
+// @Summary Customer registeration and send confirmation email
 // @Description See body for request details. Return message if registration is success. Also send the confirmation email
 // @Param CustomerRegisterReq formData CustomerRegisterRequest true "Data for creating customer account"
 // @Param profilePic formData file false "profile pic file"
@@ -51,8 +51,8 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	})
 }
 
-// ProviderRegisterHandler provider register
-// @Summary provider registeration and send confirmation email
+// ProviderRegisterHandler Provider register
+// @Summary Provider registeration and send confirmation email
 // @Description See body for request details. Return message if registration is success and send confirmation email
 // @Param ProviderRegisterReq formData ProviderRegisterRequest true "Data for creating provider account"
 // @Param profilePic formData file false "profile pic file"
@@ -131,9 +131,9 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 
 }
 
-// ActivateEmailHandler active(confirm) email
-// @Summary use the key in the confirmation email to activate
-// @Description send the key from confirmation email to activate
+// ActivateEmailHandler Active(confirm) email
+// @Summary Use the key in the confirmation email to activate
+// @Description Send the key from confirmation email to activate
 // @Tags auth
 // @Param key path string true "uuid values"
 // @ID ActivateEmailHandler
@@ -163,6 +163,15 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 	})
 }
 
+// TestHandler Dummy function
+// @Summary Dummy function, will return the time at midnigth of 2014-05-22
+// @Description Dummy function for testing, will return the time at midnigth of 2014-05-22
+// @ID TestHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "2014-05-22T00:00:00Z"
+// @Failure 400 {object} string "should not happened?"
+// @Router /api/fortune168/v1/test [get]
 func (h *Handler) TestHandler(c *gin.Context) {
 	layout := "2006-01-02"
 	t, err := time.Parse(layout, "2014-05-22")
@@ -181,9 +190,9 @@ func (h *Handler) TestHandler(c *gin.Context) {
 
 // DeleteAccountHandler delete account
 // @Summary Delete account for both customer and provider
-// @Description just send the request to delete account. Note that this is a hard delete, no way to recover account later.
+// @Description Just send the request to delete account. Note that this is a hard delete, no way to recover account later.
 // @Tags auth
-// @Param Authorization header string true "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
+// @Param Authorization header string true "Send token if log-in, to check authority to delete account" default(Bearer <Add access token here>)
 // @ID DeleteAccountHandler
 // @Accept  json
 // @Produce  json

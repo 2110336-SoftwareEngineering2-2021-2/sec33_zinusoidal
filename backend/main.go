@@ -121,7 +121,7 @@ func main() {
 		v1fortune.POST("/confirm_email/:key", auth_handler.ActivateEmailHandler)
 		v1fortune.POST("/delete_account", auth_handler.DeleteAccountHandler)
 	}
-	v1fortune.POST("/test", auth_handler.TestHandler)
+	v1fortune.GET("/test", auth_handler.TestHandler)
 
 	search_handler := search.NewHandler(*search.NewService(profile_repo.New(db), *profile.NewService(profile_repo.New(db),
 		*services.NewService(sess), *auth.NewService(auth_repo.New(db), *services.NewService(sess), profile_repo.New(db)))))
