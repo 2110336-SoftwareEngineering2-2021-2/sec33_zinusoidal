@@ -81,6 +81,84 @@ definitions:
           type: string
         type: array
     type: object
+  model.Fortune:
+    properties:
+      fortuneType:
+        type: string
+      price:
+        type: integer
+    type: object
+  model.WorkSchedule:
+    properties:
+      day:
+        type: string
+      timeList:
+        items:
+          items:
+            type: string
+          type: array
+        type: array
+    type: object
+  profile.CustomerProfile:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      profilePicUrl:
+        type: string
+      userId:
+        type: string
+      username:
+        type: string
+    type: object
+  profile.PasswordEditRequest:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    type: object
+  profile.ProviderProfile:
+    properties:
+      biography:
+        type: string
+      bookedService:
+        items:
+          type: string
+        type: array
+      email:
+        type: string
+      firstName:
+        type: string
+      fortuneList:
+        items:
+          $ref: '#/definitions/model.Fortune'
+        type: array
+      lastName:
+        type: string
+      maxPrice:
+        type: integer
+      minPrice:
+        type: integer
+      profilePicUrl:
+        type: string
+      rating:
+        type: number
+      userId:
+        type: string
+      username:
+        type: string
+      workSchedule:
+        items:
+          $ref: '#/definitions/model.WorkSchedule'
+        type: array
+    type: object
 host: localhost:1323
 info:
   contact:
@@ -93,7 +171,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
   title: Swagger Example API
-  version: "1.0"
+  version: "2.0"
 paths:
   /api/fortune168/v1/block:
     post:
@@ -109,9 +187,10 @@ paths:
         schema:
           $ref: '#/definitions/chat.BlockRequest'
       - default: Bearer <Add access token here>
-        description: Send token if log-in, to check authority to send message
+        description: Send token if log-in, to check authority to block user
         in: header
         name: Authorization
+        required: true
         type: string
       produces:
       - application/json
@@ -161,6 +240,36 @@ paths:
       summary: use the key in the confirmation email to activate
       tags:
       - auth
+  /api/fortune168/v1/customer/{id}:
+    get:
+      consumes:
+      - application/json
+      description: send id to get customer profile
+      operationId: GetCustomerProfileHandler
+      parameters:
+      - description: customer id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/profile.CustomerProfile'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: 'error message, ex: customer not found'
+          schema:
+            type: string
+      summary: Get customer profile
+      tags:
+      - profile
   /api/fortune168/v1/customer_register:
     post:
       consumes:
@@ -226,6 +335,7 @@ paths:
         description: Send token if log-in, to check authority to send message
         in: header
         name: Authorization
+        required: true
         type: string
       produces:
       - application/json
@@ -291,10 +401,11 @@ paths:
         schema:
           $ref: '#/definitions/appointment.AppointmentRequest'
       - default: Bearer <Add access token here>
-        description: Send token if log-in, to check authority to send message, also
-          this must be customer token
+        description: Send token if log-in, to check authority to make appointment,
+          also this must be customer token
         in: header
         name: Authorization
+        required: true
         type: string
       produces:
       - application/json
@@ -314,6 +425,129 @@ paths:
       summary: Customer make appointment with provider
       tags:
       - appointment
+  /api/fortune168/v1/password_edit:
+    patch:
+      consumes:
+      - application/json
+      description: send jwt token to verify, and re-enter password again
+      operationId: EditPasswordHandler
+      parameters:
+      - description: customer id
+        in: body
+        name: PasswordEditReq
+        required: true
+        schema:
+          $ref: '#/definitions/profile.PasswordEditRequest'
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to edit password
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password Updated
+          schema:
+            type: string
+        "400":
+          description: invalid request or invalid jwt
+          schema:
+            type: string
+        "500":
+          description: 'error message, ex: customer not found'
+          schema:
+            type: string
+      summary: edit password
+      tags:
+      - profile
+  /api/fortune168/v1/provider/{id}:
+    get:
+      consumes:
+      - application/json
+      description: send id to get provider profile
+      operationId: GetProviderProfileHandler
+      parameters:
+      - description: provider id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/profile.ProviderProfile'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: 'error message, ex: provider not found'
+          schema:
+            type: string
+      summary: Get provider profile
+      tags:
+      - profile
+  /api/fortune168/v1/provider_edit:
+    patch:
+      consumes:
+      - application/json
+      description: send jwt token to edit profile of provider
+      operationId: EditProviderHandler
+      parameters:
+      - in: formData
+        name: biography
+        type: string
+      - in: formData
+        name: email
+        type: string
+      - in: formData
+        name: firstName
+        type: string
+      - in: formData
+        name: fortuneList
+        type: string
+      - in: formData
+        name: lastName
+        type: string
+      - in: formData
+        name: schedule
+        type: string
+      - in: formData
+        name: workSchedule
+        type: string
+      - description: profile pic file
+        in: formData
+        name: profilePic
+        type: file
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to edit profile
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/profile.ProviderProfile'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: edit provider profile
+      tags:
+      - profile
   /api/fortune168/v1/provider_register:
     post:
       consumes:
@@ -392,16 +626,22 @@ paths:
         name: app_id
         required: true
         type: string
-      - description: status to be changed
+      - description: status to be changed, 1 reject, 2 accepted, 3 complete, 4 reviewed
+        enum:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
         in: path
         name: status
         required: true
         type: string
       - default: Bearer <Add access token here>
-        description: Send token if log-in, to check authority to send message, also
+        description: Send token if log-in, to check authority to change status, also
           this must be customer token
         in: header
         name: Authorization
+        required: true
         type: string
       produces:
       - application/json
@@ -439,6 +679,7 @@ paths:
         description: Send token if log-in, to check authority to send message
         in: header
         name: Authorization
+        required: true
         type: string
       produces:
       - application/json
@@ -465,16 +706,17 @@ paths:
       description: unblock user to allow message from them
       operationId: UnBlockHandler
       parameters:
-      - description: id of person to be blocked
+      - description: id of person to be unblocked
         in: body
         name: UnBlockReq
         required: true
         schema:
           $ref: '#/definitions/chat.BlockRequest'
       - default: Bearer <Add access token here>
-        description: Send token if log-in, to check authority to send message
+        description: Send token if log-in, to check authority to unblock user
         in: header
         name: Authorization
+        required: true
         type: string
       produces:
       - application/json

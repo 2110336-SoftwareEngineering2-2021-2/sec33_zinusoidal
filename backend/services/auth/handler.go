@@ -183,7 +183,7 @@ func (h *Handler) TestHandler(c *gin.Context) {
 // @Summary Delete account for both customer and provider
 // @Description just send the request to delete account. Note that this is a hard delete, no way to recover account later.
 // @Tags auth
-// @Param Authorization header string false "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
+// @Param Authorization header string true "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
 // @ID DeleteAccountHandler
 // @Accept  json
 // @Produce  json

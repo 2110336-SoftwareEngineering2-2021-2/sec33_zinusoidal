@@ -48,7 +48,7 @@ func init() {
 }
 
 // @title           Swagger Example API
-// @version         1.0
+// @version         2.0
 // @description     This is a sample server celler server.
 // @termsOfService  http://swagger.io/terms/
 

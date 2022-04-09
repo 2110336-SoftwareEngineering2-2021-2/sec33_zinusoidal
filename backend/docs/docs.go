@@ -52,9 +52,10 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Send token if log-in, to check authority to send message",
+                        "description": "Send token if log-in, to check authority to block user",
                         "name": "Authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -117,6 +118,51 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/customer/{id}": {
+            "get": {
+                "description": "send id to get customer profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Get customer profile",
+                "operationId": "GetCustomerProfileHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "customer id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/profile.CustomerProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message, ex: customer not found",
                         "schema": {
                             "type": "string"
                         }
@@ -223,7 +269,8 @@ const docTemplate = `{
                         "default": "Bearer \u003cAdd access token here\u003e",
                         "description": "Send token if log-in, to check authority to send message",
                         "name": "Authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -322,9 +369,10 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Send token if log-in, to check authority to send message, also this must be customer token",
+                        "description": "Send token if log-in, to check authority to make appointment, also this must be customer token",
                         "name": "Authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -336,6 +384,193 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "invalid request or invalid jwt(must be customer)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/password_edit": {
+            "patch": {
+                "description": "send jwt token to verify, and re-enter password again",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "edit password",
+                "operationId": "EditPasswordHandler",
+                "parameters": [
+                    {
+                        "description": "customer id",
+                        "name": "PasswordEditReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/profile.PasswordEditRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to edit password",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password Updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request or invalid jwt",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message, ex: customer not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/provider/{id}": {
+            "get": {
+                "description": "send id to get provider profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Get provider profile",
+                "operationId": "GetProviderProfileHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "provider id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/profile.ProviderProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message, ex: provider not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/provider_edit": {
+            "patch": {
+                "description": "send jwt token to edit profile of provider",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "edit provider profile",
+                "operationId": "EditProviderHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "biography",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "email",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "firstName",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "fortuneList",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "lastName",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "schedule",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "workSchedule",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "profile pic file",
+                        "name": "profilePic",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to edit profile",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/profile.ProviderProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
                         "schema": {
                             "type": "string"
                         }
@@ -471,8 +706,14 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "enum": [
+                            "1",
+                            "2",
+                            "3",
+                            "4"
+                        ],
                         "type": "string",
-                        "description": "status to be changed",
+                        "description": "status to be changed, 1 reject, 2 accepted, 3 complete, 4 reviewed",
                         "name": "status",
                         "in": "path",
                         "required": true
@@ -480,9 +721,10 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Send token if log-in, to check authority to send message, also this must be customer token",
+                        "description": "Send token if log-in, to check authority to change status, also this must be customer token",
                         "name": "Authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -536,7 +778,8 @@ const docTemplate = `{
                         "default": "Bearer \u003cAdd access token here\u003e",
                         "description": "Send token if log-in, to check authority to send message",
                         "name": "Authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -577,7 +820,7 @@ const docTemplate = `{
                 "operationId": "UnBlockHandler",
                 "parameters": [
                     {
-                        "description": "id of person to be blocked",
+                        "description": "id of person to be unblocked",
                         "name": "UnBlockReq",
                         "in": "body",
                         "required": true,
@@ -588,9 +831,10 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Send token if log-in, to check authority to send message",
+                        "description": "Send token if log-in, to check authority to unblock user",
                         "name": "Authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -740,6 +984,125 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "model.Fortune": {
+            "type": "object",
+            "properties": {
+                "fortuneType": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.WorkSchedule": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "string"
+                },
+                "timeList": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "profile.CustomerProfile": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "profilePicUrl": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "profile.PasswordEditRequest": {
+            "type": "object",
+            "required": [
+                "newPassword",
+                "oldPassword"
+            ],
+            "properties": {
+                "newPassword": {
+                    "type": "string"
+                },
+                "oldPassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "profile.ProviderProfile": {
+            "type": "object",
+            "properties": {
+                "biography": {
+                    "type": "string"
+                },
+                "bookedService": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "fortuneList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Fortune"
+                    }
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "maxPrice": {
+                    "type": "integer"
+                },
+                "minPrice": {
+                    "type": "integer"
+                },
+                "profilePicUrl": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "workSchedule": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.WorkSchedule"
+                    }
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -793,7 +1156,7 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "2.0",
 	Host:             "localhost:1323",
 	BasePath:         "/",
 	Schemes:          []string{},

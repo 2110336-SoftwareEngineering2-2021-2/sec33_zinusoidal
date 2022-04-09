@@ -14,7 +14,7 @@ type ProviderEditRequest struct {
 	Schedule     string                `form:"schedule" json:"schedule"`
 	WorkSchedule string                `form:"workSchedule" json:"workSchedule"`
 	Email        string                `form:"email" json:"email"`
-	ProfilePic   *multipart.FileHeader `form:"profilePic"`
+	ProfilePic   *multipart.FileHeader `form:"profilePic" swaggerignore:"true"`
 }
 
 type Logger struct {

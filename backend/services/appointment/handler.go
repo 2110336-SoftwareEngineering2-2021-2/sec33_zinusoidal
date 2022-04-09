@@ -22,7 +22,7 @@ func NewHandler(s Service) *Handler {
 // @Description customer provider information about service they want and make request to provider
 // @Tags appointment
 // @Param AppointmentReq body AppointmentRequest true "Detail of services"
-// @Param Authorization header string false "Send token if log-in, to check authority to send message, also this must be customer token" default(Bearer <Add access token here>)
+// @Param Authorization header string true "Send token if log-in, to check authority to make appointment, also this must be customer token" default(Bearer <Add access token here>)
 // @ID MakeAppointmentHandler
 // @Accept  json
 // @Produce  json
@@ -70,8 +70,8 @@ func (h *Handler) MakeAppointmentHandler(c *gin.Context) {
 // @Description provider can accept and reject the request. The status can be complete after the service and reviewed if customer submit review
 // @Tags appointment
 // @Param app_id path string true "appointment_id"
-// @Param status path string true "status to be changed"
-// @Param Authorization header string false "Send token if log-in, to check authority to send message, also this must be customer token" default(Bearer <Add access token here>)
+// @Param status path string true "status to be changed, 1 reject, 2 accepted, 3 complete, 4 reviewed" Enums(1, 2, 3, 4)
+// @Param Authorization header string true "Send token if log-in, to check authority to change status, also this must be customer token" default(Bearer <Add access token here>)
 // @ID ResponseAppointmentHandler
 // @Accept  json
 // @Produce  json
