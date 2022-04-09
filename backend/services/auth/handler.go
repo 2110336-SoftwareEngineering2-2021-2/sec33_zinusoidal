@@ -28,6 +28,7 @@ func NewHandler(s Service) *Handler {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} string "OK"
+// @Failure 400 {object} string "invalid request"
 // @Failure 500 {object} string "registration is not successful"
 // @Router /api/fortune168/v1/customer_register [post]
 func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
@@ -60,6 +61,7 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} string "OK"
+// @Failure 400 {object} string "invalid request"
 // @Failure 500 {object} string "registration is not successful"
 // @Router /api/fortune168/v1/provider_register [post]
 func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
@@ -92,6 +94,7 @@ func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} LoginResponse
+// @Failure 400 {object} string "invalid request"
 // @Failure 500 {object} string "error message"
 // @Router /api/fortune168/v1/login [post]
 func (h *Handler) LoginHandler(c *gin.Context) {
@@ -137,6 +140,7 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} string "email confirmed"
+// @Failure 400 {object} string "invalid key"
 // @Failure 500 {object} string "error message"
 // @Router /api/fortune168/v1/confirm_email/{key} [post]
 func (h *Handler) ActivateEmailHandler(c *gin.Context) {
@@ -184,6 +188,7 @@ func (h *Handler) TestHandler(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} string "ok"
+// @Failure 400 {object} string "invalid jwt token"
 // @Failure 500 {object} string "error message"
 // @Router /api/fortune168/v1/delete_account [post]
 func (h *Handler) DeleteAccountHandler(c *gin.Context) {

@@ -25,6 +25,60 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/fortune168/v1/block": {
+            "post": {
+                "description": "provider the id of person to be blocked",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "block user from sending message to you",
+                "operationId": "BlockHandler",
+                "parameters": [
+                    {
+                        "description": "id of person to be blocked",
+                        "name": "BlockRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/chat.BlockRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to send message",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request or invalid jwt",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/fortune168/v1/confirm_email/{key}": {
             "post": {
                 "description": "send the key from confirmation email to activate",
@@ -51,6 +105,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "email confirmed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid key",
                         "schema": {
                             "type": "string"
                         }
@@ -128,6 +188,12 @@ const docTemplate = `{
                             "type": "string"
                         }
                     },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "500": {
                         "description": "registration is not successful",
                         "schema": {
@@ -163,6 +229,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid jwt token",
                         "schema": {
                             "type": "string"
                         }
@@ -206,6 +278,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/auth.LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     "500": {
@@ -301,6 +379,12 @@ const docTemplate = `{
                             "type": "string"
                         }
                     },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "500": {
                         "description": "registration is not successful",
                         "schema": {
@@ -326,7 +410,7 @@ const docTemplate = `{
                 "operationId": "SendMessageHandler",
                 "parameters": [
                     {
-                        "description": "Data for creating customer account",
+                        "description": "id to person who will receive message and text",
                         "name": "SendMessageReq",
                         "in": "body",
                         "required": true,
@@ -345,6 +429,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request or invalid jwt",
                         "schema": {
                             "type": "string"
                         }
@@ -394,6 +484,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "chat.BlockRequest": {
+            "type": "object",
+            "required": [
+                "blockedUserId"
+            ],
+            "properties": {
+                "blockedUserId": {
                     "type": "string"
                 }
             }
