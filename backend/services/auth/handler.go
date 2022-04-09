@@ -19,8 +19,8 @@ func NewHandler(s Service) *Handler {
 }
 
 // CustomerRegisterHandler customer register
-// @Summary customer registeration
-// @Description See body for request details. Return message if registration is success.
+// @Summary customer registeration and send confirmation email
+// @Description See body for request details. Return message if registration is success. Also send the confirmation email
 // @Param CustomerRegisterReq formData CustomerRegisterRequest true "Data for creating customer account"
 // @Param profilePic formData file false "profile pic file"
 // @ID CustomerRegisterHandler
@@ -51,8 +51,8 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 }
 
 // ProviderRegisterHandler provider register
-// @Summary provider registeration
-// @Description See body for request details. Return message if registration is success.
+// @Summary provider registeration and send confirmation email
+// @Description See body for request details. Return message if registration is success and send confirmation email
 // @Param ProviderRegisterReq formData ProviderRegisterRequest true "Data for creating provider account"
 // @Param profilePic formData file false "profile pic file"
 // @ID ProviderRegisterHandler
@@ -128,6 +128,17 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 
 }
 
+// ActivateEmailHandler active(confirm) email
+// @Summary use the key in the confirmation email to activate
+// @Description send the key from confirmation email to activate
+// @Tags auth
+// @Param key path string true "uuid values"
+// @ID ActivateEmailHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "email confirmed"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/confirm_email/{key} [post]
 func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 	key := c.Param("key")
 	if key == "" {
@@ -164,6 +175,17 @@ func (h *Handler) TestHandler(c *gin.Context) {
 
 }
 
+// DeleteAccountHandler delete account
+// @Summary Delete account for both customer and provider
+// @Description just send the request to delete account. Note that this is a hard delete, no way to recover account later.
+// @Tags auth
+// @Param Authorization header string false "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
+// @ID DeleteAccountHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/delete_account [post]
 func (h *Handler) DeleteAccountHandler(c *gin.Context) {
 	claim, err := jwt.VerifyToken(c)
 

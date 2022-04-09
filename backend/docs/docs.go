@@ -25,9 +25,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/fortune168/v1/customer_register": {
+        "/api/fortune168/v1/confirm_email/{key}": {
             "post": {
-                "description": "See body for request details. Return message if registration is success.",
+                "description": "send the key from confirmation email to activate",
                 "consumes": [
                     "application/json"
                 ],
@@ -37,7 +37,46 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "customer registeration",
+                "summary": "use the key in the confirmation email to activate",
+                "operationId": "ActivateEmailHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "uuid values",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "email confirmed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/customer_register": {
+            "post": {
+                "description": "See body for request details. Return message if registration is success. Also send the confirmation email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "customer registeration and send confirmation email",
                 "operationId": "CustomerRegisterHandler",
                 "parameters": [
                     {
@@ -98,6 +137,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/fortune168/v1/delete_account": {
+            "post": {
+                "description": "just send the request to delete account. Note that this is a hard delete, no way to recover account later.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Delete account for both customer and provider",
+                "operationId": "DeleteAccountHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to send message",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/fortune168/v1/login": {
             "post": {
                 "description": "login by username and password, return jwt token",
@@ -141,7 +219,7 @@ const docTemplate = `{
         },
         "/api/fortune168/v1/provider_register": {
             "post": {
-                "description": "See body for request details. Return message if registration is success.",
+                "description": "See body for request details. Return message if registration is success and send confirmation email",
                 "consumes": [
                     "application/json"
                 ],
@@ -151,7 +229,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "provider registeration",
+                "summary": "provider registeration and send confirmation email",
                 "operationId": "ProviderRegisterHandler",
                 "parameters": [
                     {

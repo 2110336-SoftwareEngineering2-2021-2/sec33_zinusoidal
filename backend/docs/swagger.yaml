@@ -48,12 +48,38 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /api/fortune168/v1/confirm_email/{key}:
+    post:
+      consumes:
+      - application/json
+      description: send the key from confirmation email to activate
+      operationId: ActivateEmailHandler
+      parameters:
+      - description: uuid values
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: email confirmed
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: use the key in the confirmation email to activate
+      tags:
+      - auth
   /api/fortune168/v1/customer_register:
     post:
       consumes:
       - application/json
       description: See body for request details. Return message if registration is
-        success.
+        success. Also send the confirmation email
       operationId: CustomerRegisterHandler
       parameters:
       - in: formData
@@ -94,7 +120,34 @@ paths:
           description: registration is not successful
           schema:
             type: string
-      summary: customer registeration
+      summary: customer registeration and send confirmation email
+      tags:
+      - auth
+  /api/fortune168/v1/delete_account:
+    post:
+      consumes:
+      - application/json
+      description: just send the request to delete account. Note that this is a hard
+        delete, no way to recover account later.
+      operationId: DeleteAccountHandler
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to send message
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: Delete account for both customer and provider
       tags:
       - auth
   /api/fortune168/v1/login:
@@ -129,7 +182,7 @@ paths:
       consumes:
       - application/json
       description: See body for request details. Return message if registration is
-        success.
+        success and send confirmation email
       operationId: ProviderRegisterHandler
       parameters:
       - in: formData
@@ -182,7 +235,7 @@ paths:
           description: registration is not successful
           schema:
             type: string
-      summary: provider registeration
+      summary: provider registeration and send confirmation email
       tags:
       - auth
   /api/fortune168/v1/send_message:
