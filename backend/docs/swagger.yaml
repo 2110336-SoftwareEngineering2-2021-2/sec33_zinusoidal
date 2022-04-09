@@ -1,0 +1,142 @@
+basePath: /
+definitions:
+  chat.SendMessageRequest:
+    properties:
+      message:
+        type: string
+      receiverId:
+        type: string
+    type: object
+host: localhost:1323
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /api/fortune168/v1/customer_register:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details. Return message if registration is
+        success.
+      operationId: CustomerRegisterHandler
+      parameters:
+      - in: formData
+        name: citizenId
+        type: string
+      - in: formData
+        name: email
+        required: true
+        type: string
+      - in: formData
+        name: firstName
+        required: true
+        type: string
+      - in: formData
+        name: lastName
+        required: true
+        type: string
+      - in: formData
+        name: password
+        required: true
+        type: string
+      - in: formData
+        name: username
+        required: true
+        type: string
+      - description: profile pic file
+        in: formData
+        name: profilePic
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: registration is not successful
+          schema:
+            type: string
+      summary: customer registeration
+      tags:
+      - auth
+  /api/fortune168/v1/send_message:
+    post:
+      consumes:
+      - application/json
+      description: if message is not null, the endpoint will send message, otherwise
+        create new chatroom(if not exist)
+      operationId: SendMessageHandler
+      parameters:
+      - description: Data for creating customer account
+        in: body
+        name: SendMessageReq
+        required: true
+        schema:
+          $ref: '#/definitions/chat.SendMessageRequest'
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to send message
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: send message to other users
+      tags:
+      - chat
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"

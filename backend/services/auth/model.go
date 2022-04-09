@@ -12,7 +12,7 @@ type CustomerRegisterRequest struct {
 	Email      string                `json:"email" form:"email" binding:"required"`
 	FirstName  string                `json:"firstName" form:"firstName" binding:"required"`
 	LastName   string                `json:"lastName" form:"lastName" binding:"required"`
-	ProfilePic *multipart.FileHeader `form:"profilePic"`
+	ProfilePic *multipart.FileHeader `form:"profilePic" swaggerignore:"true"`
 	CitizenId  string                `json:"citizenId" form:"citizenId"`
 }
 
@@ -25,7 +25,7 @@ type ProviderRegisterRequest struct {
 	Schedule     string                `json:"schedule" form:"schedule"`
 	WorkSchedule string                `json:"workSchedule" form:"workSchedule"`
 	Fortune      string                `json:"fortuneList" form:"fortuneList"`
-	ProfilePic   *multipart.FileHeader `form:"profilePic"`
+	ProfilePic   *multipart.FileHeader `form:"profilePic" swaggerignore:"true"`
 	Biography    string                `json:"biography" form:"biography"`
 	CitizenId    string                `json:"citizenId" form:"citizenId"`
 }

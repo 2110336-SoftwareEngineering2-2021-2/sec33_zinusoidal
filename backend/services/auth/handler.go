@@ -18,6 +18,18 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+// CustomerRegisterHandler customer register
+// @Summary customer registeration
+// @Description See body for request details. Return message if registration is success.
+// @Param CustomerRegisterReq formData CustomerRegisterRequest true "Data for creating customer account"
+// @Param profilePic formData file false "profile pic file"
+// @ID CustomerRegisterHandler
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "OK"
+// @Failure 500 {object} string "registration is not successful"
+// @Router api/fortune168/v1/customer_register [post]
 func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	var req CustomerRegisterRequest
 	var err error

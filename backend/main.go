@@ -7,6 +7,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/docs"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo"
@@ -30,6 +31,8 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"google.golang.org/api/option"
 )
 
@@ -44,6 +47,47 @@ func init() {
 
 }
 
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:1323
+// @BasePath  /
+
+// @securityDefinitions.basic BasicAuth
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
+// @securitydefinitions.oauth2.application OAuth2Application
+// @tokenUrl https://example.com/oauth/token
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.implicit OAuth2Implicit
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.password OAuth2Password
+// @tokenUrl https://example.com/oauth/token
+// @scope.read Grants read access
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.accessCode OAuth2AccessCode
+// @tokenUrl https://example.com/oauth/token
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.admin Grants read and write access to administrative information
 func main() {
 
 	router := gin.Default()
@@ -54,7 +98,12 @@ func main() {
 	config.AllowHeaders = []string{"Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"}
 	//config.AllowHeaders = []string{"*"}
 
+	/// make this runable in local
+
 	router.Use(cors.New(config))
+	// init swagger
+	docs.SwaggerInfo.BasePath = "/"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	/* Router */
 	db := NewSQLConn() /// connect database

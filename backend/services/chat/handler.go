@@ -17,6 +17,18 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+// SendMessageHandler send message endpoint
+// @Summary send message to other users
+// @Description if message is not null, the endpoint will send message, otherwise create new chatroom(if not exist)
+// @Tags chat
+// @Param SendMessageReq body SendMessageRequest true "Data for creating customer account"
+// @Param Authorization header string false "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
+// @ID SendMessageHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 500 {object} string "error message"
+// @Router api/fortune168/v1/send_message [post]
 func (h *Handler) SendMessageHandler(c *gin.Context) {
 	token, err := jwt.VerifyToken(c)
 	if err != nil {
