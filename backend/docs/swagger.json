@@ -35,7 +35,7 @@
                 "parameters": [
                     {
                         "description": "id of person to be blocked",
-                        "name": "BlockRequest",
+                        "name": "BlockReq",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -288,6 +288,60 @@
                 }
             }
         },
+        "/api/fortune168/v1/make_appointment": {
+            "post": {
+                "description": "customer provider information about service they want and make request to provider",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "Customer make appointment with provider",
+                "operationId": "MakeAppointmentHandler",
+                "parameters": [
+                    {
+                        "description": "Detail of services",
+                        "name": "AppointmentReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appointment.AppointmentRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to send message, also this must be customer token",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request or invalid jwt(must be customer)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/fortune168/v1/provider_register": {
             "post": {
                 "description": "See body for request details. Return message if registration is success and send confirmation email",
@@ -387,6 +441,65 @@
                 }
             }
         },
+        "/api/fortune168/v1/response_appointment/{app_id}/{status}": {
+            "post": {
+                "description": "provider can accept and reject the request. The status can be complete after the service and reviewed if customer submit review",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "change status of request",
+                "operationId": "ResponseAppointmentHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "appointment_id",
+                        "name": "app_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "status to be changed",
+                        "name": "status",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to send message, also this must be customer token",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request or invalid jwt",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/fortune168/v1/send_message": {
             "post": {
                 "description": "if message is not null, the endpoint will send message, otherwise create new chatroom(if not exist)",
@@ -440,9 +553,81 @@
                     }
                 }
             }
+        },
+        "/api/fortune168/v1/unblock": {
+            "post": {
+                "description": "unblock user to allow message from them",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "unblock user",
+                "operationId": "UnBlockHandler",
+                "parameters": [
+                    {
+                        "description": "id of person to be blocked",
+                        "name": "UnBlockReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/chat.BlockRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Send token if log-in, to check authority to send message",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request or invalid jwt",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "appointment.AppointmentRequest": {
+            "type": "object",
+            "required": [
+                "date",
+                "providerId"
+            ],
+            "properties": {
+                "appointment": {
+                    "$ref": "#/definitions/model.Appointment"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            }
+        },
         "auth.LoginRequest": {
             "type": "object",
             "required": [
@@ -503,6 +688,49 @@
                 },
                 "receiverId": {
                     "type": "string"
+                }
+            }
+        },
+        "model.Appointment": {
+            "type": "object",
+            "properties": {
+                "appointmentList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AppointmentInfo"
+                    }
+                },
+                "information": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "model.AppointmentInfo": {
+            "type": "object",
+            "properties": {
+                "appointmentId": {
+                    "type": "string"
+                },
+                "fortuneType": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }

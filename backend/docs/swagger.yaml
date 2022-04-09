@@ -1,5 +1,17 @@
 basePath: /
 definitions:
+  appointment.AppointmentRequest:
+    properties:
+      appointment:
+        $ref: '#/definitions/model.Appointment'
+      date:
+        type: string
+      providerId:
+        type: string
+    required:
+    - date
+    - providerId
+    type: object
   auth.LoginRequest:
     properties:
       password:
@@ -41,6 +53,34 @@ definitions:
     required:
     - receiverId
     type: object
+  model.Appointment:
+    properties:
+      appointmentList:
+        items:
+          $ref: '#/definitions/model.AppointmentInfo'
+        type: array
+      information:
+        items:
+          type: string
+        type: array
+      value:
+        items:
+          type: string
+        type: array
+    type: object
+  model.AppointmentInfo:
+    properties:
+      appointmentId:
+        type: string
+      fortuneType:
+        type: string
+      price:
+        type: integer
+      time:
+        items:
+          type: string
+        type: array
+    type: object
 host: localhost:1323
 info:
   contact:
@@ -64,7 +104,7 @@ paths:
       parameters:
       - description: id of person to be blocked
         in: body
-        name: BlockRequest
+        name: BlockReq
         required: true
         schema:
           $ref: '#/definitions/chat.BlockRequest'
@@ -236,6 +276,44 @@ paths:
       summary: login by unsername and password
       tags:
       - auth
+  /api/fortune168/v1/make_appointment:
+    post:
+      consumes:
+      - application/json
+      description: customer provider information about service they want and make
+        request to provider
+      operationId: MakeAppointmentHandler
+      parameters:
+      - description: Detail of services
+        in: body
+        name: AppointmentReq
+        required: true
+        schema:
+          $ref: '#/definitions/appointment.AppointmentRequest'
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to send message, also
+          this must be customer token
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: invalid request or invalid jwt(must be customer)
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: Customer make appointment with provider
+      tags:
+      - appointment
   /api/fortune168/v1/provider_register:
     post:
       consumes:
@@ -301,6 +379,48 @@ paths:
       summary: provider registeration and send confirmation email
       tags:
       - auth
+  /api/fortune168/v1/response_appointment/{app_id}/{status}:
+    post:
+      consumes:
+      - application/json
+      description: provider can accept and reject the request. The status can be complete
+        after the service and reviewed if customer submit review
+      operationId: ResponseAppointmentHandler
+      parameters:
+      - description: appointment_id
+        in: path
+        name: app_id
+        required: true
+        type: string
+      - description: status to be changed
+        in: path
+        name: status
+        required: true
+        type: string
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to send message, also
+          this must be customer token
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: invalid request or invalid jwt
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: change status of request
+      tags:
+      - appointment
   /api/fortune168/v1/send_message:
     post:
       consumes:
@@ -336,6 +456,42 @@ paths:
           schema:
             type: string
       summary: send message to other users
+      tags:
+      - chat
+  /api/fortune168/v1/unblock:
+    post:
+      consumes:
+      - application/json
+      description: unblock user to allow message from them
+      operationId: UnBlockHandler
+      parameters:
+      - description: id of person to be blocked
+        in: body
+        name: UnBlockReq
+        required: true
+        schema:
+          $ref: '#/definitions/chat.BlockRequest'
+      - default: Bearer <Add access token here>
+        description: Send token if log-in, to check authority to send message
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: invalid request or invalid jwt
+          schema:
+            type: string
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: unblock user
       tags:
       - chat
 securityDefinitions:

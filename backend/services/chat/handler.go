@@ -61,7 +61,7 @@ func (h *Handler) SendMessageHandler(c *gin.Context) {
 // @Summary block user from sending message to you
 // @Description provider the id of person to be blocked
 // @Tags chat
-// @Param BlockRequest body BlockRequest true "id of person to be blocked"
+// @Param BlockReq body BlockRequest true "id of person to be blocked"
 // @Param Authorization header string false "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
 // @ID BlockHandler
 // @Accept  json
@@ -106,11 +106,11 @@ func (h *Handler) BlockHandler(c *gin.Context) {
 
 }
 
-// UnBlockHandler block user chat
+// UnBlockHandler unblock user chat
 // @Summary unblock user
 // @Description unblock user to allow message from them
 // @Tags chat
-// @Param BlockRequest body BlockRequest true "id of person to be blocked"
+// @Param UnBlockReq body BlockRequest true "id of person to be blocked"
 // @Param Authorization header string false "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
 // @ID UnBlockHandler
 // @Accept  json
