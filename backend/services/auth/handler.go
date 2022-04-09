@@ -29,7 +29,7 @@ func NewHandler(s Service) *Handler {
 // @Produce  json
 // @Success 200 {object} string "OK"
 // @Failure 500 {object} string "registration is not successful"
-// @Router api/fortune168/v1/customer_register [post]
+// @Router /api/fortune168/v1/customer_register [post]
 func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	var req CustomerRegisterRequest
 	var err error

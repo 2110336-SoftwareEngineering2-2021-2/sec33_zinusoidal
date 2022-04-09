@@ -28,7 +28,7 @@ func NewHandler(s Service) *Handler {
 // @Produce  json
 // @Success 200 {object} string "ok"
 // @Failure 500 {object} string "error message"
-// @Router api/fortune168/v1/send_message [post]
+// @Router /api/fortune168/v1/send_message [post]
 func (h *Handler) SendMessageHandler(c *gin.Context) {
 	token, err := jwt.VerifyToken(c)
 	if err != nil {

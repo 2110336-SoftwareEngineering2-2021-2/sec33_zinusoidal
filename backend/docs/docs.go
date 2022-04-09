@@ -150,6 +150,9 @@ const docTemplate = `{
     "definitions": {
         "chat.SendMessageRequest": {
             "type": "object",
+            "required": [
+                "receiverId"
+            ],
             "properties": {
                 "message": {
                     "type": "string"
