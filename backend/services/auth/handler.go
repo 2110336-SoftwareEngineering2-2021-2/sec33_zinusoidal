@@ -50,6 +50,18 @@ func (h *Handler) CustomerRegisterHandler(c *gin.Context) {
 	})
 }
 
+// ProviderRegisterHandler provider register
+// @Summary provider registeration
+// @Description See body for request details. Return message if registration is success.
+// @Param ProviderRegisterReq formData ProviderRegisterRequest true "Data for creating provider account"
+// @Param profilePic formData file false "profile pic file"
+// @ID ProviderRegisterHandler
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "OK"
+// @Failure 500 {object} string "registration is not successful"
+// @Router /api/fortune168/v1/provider_register [post]
 func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	var req ProviderRegisterRequest
 	var err error
@@ -71,6 +83,17 @@ func (h *Handler) ProviderRegisterHandler(c *gin.Context) {
 	})
 }
 
+// LoginHandler login handler
+// @Summary login by unsername and password
+// @Description login by username and password, return jwt token
+// @Tags auth
+// @Param LoginReq body LoginRequest true "username and password for login"
+// @ID LoginHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} LoginResponse
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/login [post]
 func (h *Handler) LoginHandler(c *gin.Context) {
 	var req LoginRequest
 	var err error
@@ -94,14 +117,15 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"token":         token,
-		"user_id":       resp.UserId,
-		"username":      resp.Username,
-		"first_name":    resp.FirstName,
-		"last_name":     resp.LastName,
-		"profile_image": resp.ProfileImage,
+	c.JSON(http.StatusOK, LoginResponse{
+		Token:        token,
+		UserId:       resp.UserId,
+		Username:     resp.Username,
+		FirstName:    resp.FirstName,
+		LastName:     resp.LastName,
+		ProfileImage: resp.ProfileImage,
 	})
+
 }
 
 func (h *Handler) ActivateEmailHandler(c *gin.Context) {

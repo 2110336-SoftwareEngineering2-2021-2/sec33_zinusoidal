@@ -42,3 +42,12 @@ type LoginRequest struct {
 type Logger struct {
 	Log string `json:"log"`
 }
+
+type LoginResponse struct {
+	Token        string `json:"token"`
+	UserId       string `json:"user_id"`
+	Username     string `json:"username"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	ProfileImage string `json:"profile_image"`
+}

@@ -1,5 +1,30 @@
 basePath: /
 definitions:
+  auth.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  auth.LoginResponse:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      profile_image:
+        type: string
+      token:
+        type: string
+      user_id:
+        type: string
+      username:
+        type: string
+    type: object
   chat.SendMessageRequest:
     properties:
       message:
@@ -70,6 +95,94 @@ paths:
           schema:
             type: string
       summary: customer registeration
+      tags:
+      - auth
+  /api/fortune168/v1/login:
+    post:
+      consumes:
+      - application/json
+      description: login by username and password, return jwt token
+      operationId: LoginHandler
+      parameters:
+      - description: username and password for login
+        in: body
+        name: LoginReq
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.LoginResponse'
+        "500":
+          description: error message
+          schema:
+            type: string
+      summary: login by unsername and password
+      tags:
+      - auth
+  /api/fortune168/v1/provider_register:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details. Return message if registration is
+        success.
+      operationId: ProviderRegisterHandler
+      parameters:
+      - in: formData
+        name: biography
+        type: string
+      - in: formData
+        name: citizenId
+        type: string
+      - in: formData
+        name: email
+        required: true
+        type: string
+      - in: formData
+        name: firstName
+        required: true
+        type: string
+      - in: formData
+        name: fortuneList
+        type: string
+      - in: formData
+        name: lastName
+        required: true
+        type: string
+      - in: formData
+        name: password
+        required: true
+        type: string
+      - in: formData
+        name: schedule
+        type: string
+      - in: formData
+        name: username
+        required: true
+        type: string
+      - in: formData
+        name: workSchedule
+        type: string
+      - description: profile pic file
+        in: formData
+        name: profilePic
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: registration is not successful
+          schema:
+            type: string
+      summary: provider registeration
       tags:
       - auth
   /api/fortune168/v1/send_message:
