@@ -17,6 +17,19 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+// MakeAppointmentHandler make appointment
+// @Summary Customer make appointment with provider
+// @Description customer provider information about service they want and make request to provider
+// @Tags appointment
+// @Param AppointmentReq body AppointmentRequest true "Detail of services"
+// @Param Authorization header string true "Send token if log-in, to check authority to make appointment, also this must be customer token" default(Bearer <Add access token here>)
+// @ID MakeAppointmentHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 400 {object} string "invalid request or invalid jwt(must be customer)"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/make_appointment [post]
 func (h *Handler) MakeAppointmentHandler(c *gin.Context) {
 	claim, err := jwt.VerifyToken(c)
 	customerId := claim.UserID
@@ -52,6 +65,20 @@ func (h *Handler) MakeAppointmentHandler(c *gin.Context) {
 	})
 }
 
+// ResponseAppointmentHandler response to appointment, in general change status of request
+// @Summary change status of request
+// @Description provider can accept and reject the request. The status can be complete after the service and reviewed if customer submit review
+// @Tags appointment
+// @Param app_id path string true "appointment_id"
+// @Param status path string true "status to be changed, 1 reject, 2 accepted, 3 complete, 4 reviewed" Enums(1, 2, 3, 4)
+// @Param Authorization header string true "Send token if log-in, to check authority to change status, also this must be customer token" default(Bearer <Add access token here>)
+// @ID ResponseAppointmentHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 400 {object} string "invalid request or invalid jwt"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/response_appointment/{app_id}/{status} [post]
 func (h *Handler) ResponseAppointmentHandler(c *gin.Context) {
 	claim, err := jwt.VerifyToken(c)
 	if err != nil {

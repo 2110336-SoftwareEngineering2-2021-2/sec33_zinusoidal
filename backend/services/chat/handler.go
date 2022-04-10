@@ -17,6 +17,19 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+// SendMessageHandler send message endpoint
+// @Summary send message to other users
+// @Description if message is not null, the endpoint will send message, otherwise create new chatroom(if not exist)
+// @Tags chat
+// @Param SendMessageReq body SendMessageRequest true "id to person who will receive message and text"
+// @Param Authorization header string true "Send token if log-in, to check authority to send message" default(Bearer <Add access token here>)
+// @ID SendMessageHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 400 {object} string "invalid request or invalid jwt"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/send_message [post]
 func (h *Handler) SendMessageHandler(c *gin.Context) {
 	token, err := jwt.VerifyToken(c)
 	if err != nil {
@@ -43,6 +56,20 @@ func (h *Handler) SendMessageHandler(c *gin.Context) {
 		"log": "ok",
 	})
 }
+
+// BlockHandler block user chat
+// @Summary block user from sending message to you
+// @Description provider the id of person to be blocked
+// @Tags chat
+// @Param BlockReq body BlockRequest true "id of person to be blocked"
+// @Param Authorization header string true "Send token if log-in, to check authority to block user" default(Bearer <Add access token here>)
+// @ID BlockHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 400 {object} string "invalid request or invalid jwt"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/block [post]
 func (h *Handler) BlockHandler(c *gin.Context) {
 
 	var req BlockRequest
@@ -79,6 +106,19 @@ func (h *Handler) BlockHandler(c *gin.Context) {
 
 }
 
+// UnBlockHandler unblock user chat
+// @Summary unblock user
+// @Description unblock user to allow message from them
+// @Tags chat
+// @Param UnBlockReq body BlockRequest true "id of person to be unblocked"
+// @Param Authorization header string true "Send token if log-in, to check authority to unblock user" default(Bearer <Add access token here>)
+// @ID UnBlockHandler
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "ok"
+// @Failure 400 {object} string "invalid request or invalid jwt"
+// @Failure 500 {object} string "error message"
+// @Router /api/fortune168/v1/unblock [post]
 func (h *Handler) UnBlockHandler(c *gin.Context) {
 
 	var req BlockRequest

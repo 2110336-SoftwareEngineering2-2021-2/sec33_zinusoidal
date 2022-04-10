@@ -180,7 +180,7 @@ func (s *Service) DeleteAccount(userId string) error {
 	}
 
 	if before_delete.CustomerCnt+before_delete.FortuneCnt == after_delete.CustomerCnt+after_delete.FortuneCnt {
-		return errors.New("No delete")
+		return errors.New("no delete")
 	}
 
 	return nil

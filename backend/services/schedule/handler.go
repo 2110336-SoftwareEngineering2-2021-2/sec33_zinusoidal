@@ -16,6 +16,19 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+// ScheduleHandler Get schedule in month
+// @Summary Get schedule in calendar's month format
+// @Description See body for request details and uuid in param. Return calendar in format if success
+// @Param ScheduleRequest formData ScheduleRequest true "time to get schedule"
+// @Param id path string true "uuid values"
+// @ID ScheduleHandler
+// @Tags schedule
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} ScheduleDto
+// @Failure 400 {object} string "invalid request"
+// @Failure 500 {object} string "error logs"
+// @Router /api/fortune168/v1/available_schedule/{id} [post]
 func (h *Handler) ScheduleHandler(c *gin.Context) {
 
 	var req ScheduleRequest
@@ -52,6 +65,19 @@ func (h *Handler) ScheduleHandler(c *gin.Context) {
 
 }
 
+// MyScheduleHandler Get schedule in day
+// @Summary Get schedule in calendar's day format
+// @Description See body for request details and uuid in param. Return calendar in day format if success
+// @Param MyScheduleRequest formData MyScheduleRequest true "time to get schedule"
+// @Param id path string true "uuid values"
+// @ID MyScheduleHandler
+// @Tags schedule
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} Appointment
+// @Failure 400 {object} string "invalid request"
+// @Failure 500 {object} string "error logs"
+// @Router /api/fortune168/v1/my_schedule/{id} [post]
 func (h *Handler) MyScheduleHandler(c *gin.Context) {
 
 	var req MyScheduleRequest
@@ -80,6 +106,19 @@ func (h *Handler) MyScheduleHandler(c *gin.Context) {
 
 }
 
+// FreeTimeHandler Get free time of this provider
+// @Summary Get free time of this provider
+// @Description See body for request details and uuid in param. Return freetime in day format if success
+// @Param MyScheduleRequest formData MyScheduleRequest true "time to get schedule"
+// @Param id path string true "uuid values"
+// @ID FreeTimeHandler
+// @Tags schedule
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} string "free time"
+// @Failure 400 {object} string "invalid request"
+// @Failure 500 {object} string "error logs"
+// @Router /api/fortune168/v1/available_time/{id} [post]
 func (h *Handler) FreeTimeHandler(c *gin.Context) {
 
 	var req MyScheduleRequest

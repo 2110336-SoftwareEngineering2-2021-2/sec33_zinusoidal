@@ -17,3 +17,9 @@ type SearchResult struct {
 type SearchDB struct {
 	Id string `gorm:"column:id"`
 }
+
+type LandingPageInfo struct {
+	CustomerCnt int `gorm:"column:total_customer" json:"totalCustomer"`
+	ProviderCnt int `gorm:"column:total_provider" json:"totalProvider"`
+	FortuneCnt  int `gorm:"column:total_fortune_service" json:"totalFortuneService"`
+}
