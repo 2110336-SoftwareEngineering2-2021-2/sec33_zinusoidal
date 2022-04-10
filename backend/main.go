@@ -103,7 +103,7 @@ func main() {
 	router.Use(cors.New(config))
 	// init swagger
 	docs.SwaggerInfo.BasePath = "/"
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("api/fortune168/v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	/* Router */
 	db := NewSQLConn() /// connect database
