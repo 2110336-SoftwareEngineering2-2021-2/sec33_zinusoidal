@@ -26,10 +26,9 @@ require (
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/spf13/afero v1.8.1 // indirect
 	github.com/spf13/viper v1.10.1
-	github.com/swaggo/gin-swagger v1.4.1 // indirect
-	github.com/swaggo/swag v1.8.1 // indirect
+	github.com/swaggo/gin-swagger v1.4.1
+	github.com/swaggo/swag v1.8.1
 	github.com/ugorji/go v1.2.6 // indirect
-	github.com/urfave/cli/v2 v2.4.0 // indirect
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 	golang.org/x/net v0.0.0-20220403103023-749bd193bc2b // indirect
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect

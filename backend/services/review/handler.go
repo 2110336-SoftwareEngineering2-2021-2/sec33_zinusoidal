@@ -16,6 +16,17 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
+// GetReviewHandler Get review
+// @Summary Get Provider review
+// @Description Enter provider's provider in param. Return all review of this provider
+// @Param user_id path string true "uuid values"
+// @ID GetReviewHandler
+// @Tags review
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} ProviderReview
+// @Failure 400 {object} string "invalid request"
+// @Router /api/fortune168/v1/review/{user_id} [get]
 func (h *Handler) GetReviewHandler(c *gin.Context) {
 
 	user_id := c.Param("user_id")
@@ -29,12 +40,24 @@ func (h *Handler) GetReviewHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{
-		"reviewList": res,
+	c.JSON(http.StatusAccepted, ProviderReview{
+		ReviewList: res,
 	})
 
 }
 
+// ReviewRatingHandler Post review
+// @Summary Post review for this appointment
+// @Description See body for request details. Return message if review is success
+// @Param ReviewRatingRequest formData ReviewRatingRequest true "review info to be post"
+// @ID ReviewRatingHandler
+// @Tags review
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} string "OK"
+// @Failure 400 {object} string "invalid request"
+// @Failure 400 {object} string "error logs"
+// @Router /api/fortune168/v1/review [post]
 func (h *Handler) ReviewRatingHandler(c *gin.Context) {
 
 	var req ReviewRatingRequest
