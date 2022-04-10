@@ -43,7 +43,10 @@ const docTemplate = `{
                     "200": {
                         "description": "services",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     "400": {
@@ -71,16 +74,13 @@ const docTemplate = `{
                 "operationId": "ScheduleHandler",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "name": "month",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "year",
-                        "in": "formData",
-                        "required": true
+                        "description": "time to get schedule",
+                        "name": "ScheduleRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schedule.ScheduleRequest"
+                        }
                     },
                     {
                         "type": "string",
@@ -128,22 +128,13 @@ const docTemplate = `{
                 "operationId": "FreeTimeHandler",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "name": "date",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "month",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "year",
-                        "in": "formData",
-                        "required": true
+                        "description": "time to get schedule",
+                        "name": "MyScheduleRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schedule.MyScheduleRequest"
+                        }
                     },
                     {
                         "type": "string",
@@ -596,22 +587,13 @@ const docTemplate = `{
                 "operationId": "MyScheduleHandler",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "name": "date",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "month",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "year",
-                        "in": "formData",
-                        "required": true
+                        "description": "time to get schedule",
+                        "name": "MyScheduleRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schedule.MyScheduleRequest"
+                        }
                     },
                     {
                         "type": "string",
@@ -1014,19 +996,13 @@ const docTemplate = `{
                 "operationId": "ReviewRatingHandler",
                 "parameters": [
                     {
-                        "type": "string",
-                        "name": "appointmentId",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "score",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "name": "text",
-                        "in": "formData"
+                        "description": "review info to be post",
+                        "name": "ReviewRatingRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/review.ReviewRatingRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -1100,37 +1076,13 @@ const docTemplate = `{
                 "operationId": "SearchHandler",
                 "parameters": [
                     {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "name": "fortuneType",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "name": "keyword",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "name": "maxPrice",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "name": "maxRating",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "name": "minPrice",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "number",
-                        "name": "minRating",
-                        "in": "formData"
+                        "description": "search argument",
+                        "name": "SearchRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/search.SearchRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -1545,6 +1497,20 @@ const docTemplate = `{
                 }
             }
         },
+        "review.ReviewRatingRequest": {
+            "type": "object",
+            "properties": {
+                "appointmentId": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
         "review_repo.ReviewItem": {
             "type": "object",
             "properties": {
@@ -1582,6 +1548,25 @@ const docTemplate = `{
                 }
             }
         },
+        "schedule.MyScheduleRequest": {
+            "type": "object",
+            "required": [
+                "date",
+                "month",
+                "year"
+            ],
+            "properties": {
+                "date": {
+                    "type": "integer"
+                },
+                "month": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
         "schedule.ScheduleDto": {
             "type": "object",
             "properties": {
@@ -1596,6 +1581,21 @@ const docTemplate = `{
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "schedule.ScheduleRequest": {
+            "type": "object",
+            "required": [
+                "month",
+                "year"
+            ],
+            "properties": {
+                "month": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },
@@ -1627,6 +1627,32 @@ const docTemplate = `{
                 },
                 "totalProvider": {
                     "type": "integer"
+                }
+            }
+        },
+        "search.SearchRequest": {
+            "type": "object",
+            "properties": {
+                "fortuneType": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "keyword": {
+                    "type": "string"
+                },
+                "maxPrice": {
+                    "type": "number"
+                },
+                "maxRating": {
+                    "type": "number"
+                },
+                "minPrice": {
+                    "type": "number"
+                },
+                "minRating": {
+                    "type": "number"
                 }
             }
         }

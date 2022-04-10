@@ -166,6 +166,15 @@ definitions:
           $ref: '#/definitions/review_repo.ReviewItem'
         type: array
     type: object
+  review.ReviewRatingRequest:
+    properties:
+      appointmentId:
+        type: string
+      score:
+        type: integer
+      text:
+        type: string
+    type: object
   review_repo.ReviewItem:
     properties:
       name:
@@ -190,6 +199,19 @@ definitions:
       topic:
         type: string
     type: object
+  schedule.MyScheduleRequest:
+    properties:
+      date:
+        type: integer
+      month:
+        type: integer
+      year:
+        type: integer
+    required:
+    - date
+    - month
+    - year
+    type: object
   schedule.ScheduleDto:
     properties:
       available_date:
@@ -200,6 +222,16 @@ definitions:
         items:
           type: integer
         type: array
+    type: object
+  schedule.ScheduleRequest:
+    properties:
+      month:
+        type: integer
+      year:
+        type: integer
+    required:
+    - month
+    - year
     type: object
   schedule.WorkingDay:
     properties:
@@ -220,6 +252,23 @@ definitions:
         type: integer
       totalProvider:
         type: integer
+    type: object
+  search.SearchRequest:
+    properties:
+      fortuneType:
+        items:
+          type: string
+        type: array
+      keyword:
+        type: string
+      maxPrice:
+        type: number
+      maxRating:
+        type: number
+      minPrice:
+        type: number
+      minRating:
+        type: number
     type: object
 host: zinusoidal-fortune.kirkpig.dev
 info:
@@ -247,7 +296,9 @@ paths:
         "200":
           description: services
           schema:
-            type: string
+            items:
+              type: string
+            type: array
         "400":
           description: invalid request
           schema:
@@ -263,14 +314,12 @@ paths:
         in format if success
       operationId: ScheduleHandler
       parameters:
-      - in: formData
-        name: month
+      - description: time to get schedule
+        in: body
+        name: ScheduleRequest
         required: true
-        type: integer
-      - in: formData
-        name: year
-        required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/schedule.ScheduleRequest'
       - description: uuid values
         in: path
         name: id
@@ -302,18 +351,12 @@ paths:
         in day format if success
       operationId: FreeTimeHandler
       parameters:
-      - in: formData
-        name: date
+      - description: time to get schedule
+        in: body
+        name: MyScheduleRequest
         required: true
-        type: integer
-      - in: formData
-        name: month
-        required: true
-        type: integer
-      - in: formData
-        name: year
-        required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/schedule.MyScheduleRequest'
       - description: uuid values
         in: path
         name: id
@@ -619,18 +662,12 @@ paths:
         in day format if success
       operationId: MyScheduleHandler
       parameters:
-      - in: formData
-        name: date
+      - description: time to get schedule
+        in: body
+        name: MyScheduleRequest
         required: true
-        type: integer
-      - in: formData
-        name: month
-        required: true
-        type: integer
-      - in: formData
-        name: year
-        required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/schedule.MyScheduleRequest'
       - description: uuid values
         in: path
         name: id
@@ -899,15 +936,12 @@ paths:
       description: See body for request details. Return message if review is success
       operationId: ReviewRatingHandler
       parameters:
-      - in: formData
-        name: appointmentId
-        type: string
-      - in: formData
-        name: score
-        type: integer
-      - in: formData
-        name: text
-        type: string
+      - description: review info to be post
+        in: body
+        name: ReviewRatingRequest
+        required: true
+        schema:
+          $ref: '#/definitions/review.ReviewRatingRequest'
       produces:
       - application/json
       responses:
@@ -956,26 +990,12 @@ paths:
         success
       operationId: SearchHandler
       parameters:
-      - in: formData
-        items:
-          type: string
-        name: fortuneType
-        type: array
-      - in: formData
-        name: keyword
-        type: string
-      - in: formData
-        name: maxPrice
-        type: number
-      - in: formData
-        name: maxRating
-        type: number
-      - in: formData
-        name: minPrice
-        type: number
-      - in: formData
-        name: minRating
-        type: number
+      - description: search argument
+        in: body
+        name: SearchRequest
+        required: true
+        schema:
+          $ref: '#/definitions/search.SearchRequest'
       produces:
       - application/json
       responses:
