@@ -1686,8 +1686,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "zinusoidal-fortune.kirkpig.dev",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Swagger Example API",
-	Description:      "This is a sample server celler server.",
+	Title:            "Fortune168 API documentation",
+	Description:      "This is API documentation for zinusoidal-fortune.kirkpig.dev server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
