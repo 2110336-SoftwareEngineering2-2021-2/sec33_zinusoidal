@@ -25,6 +25,159 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/fortune168/v1/all_services": {
+            "get": {
+                "description": "Return array of search result if success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Get all services in platform",
+                "operationId": "GetAllServicesHandler",
+                "responses": {
+                    "200": {
+                        "description": "services",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/available_schedule/{id}": {
+            "post": {
+                "description": "See body for request details and uuid in param. Return calendar in format if success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule"
+                ],
+                "summary": "Get schedule in calendar's month format",
+                "operationId": "ScheduleHandler",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "month",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "year",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uuid values",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schedule.ScheduleDto"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error logs",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/available_time/{id}": {
+            "post": {
+                "description": "See body for request details and uuid in param. Return freetime in day format if success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule"
+                ],
+                "summary": "Get free time of this provider",
+                "operationId": "FreeTimeHandler",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "date",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "month",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "year",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uuid values",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "free time",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error logs",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/fortune168/v1/block": {
             "post": {
                 "description": "provider the id of person to be blocked",
@@ -295,6 +448,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/fortune168/v1/landing_page_info": {
+            "get": {
+                "description": "Return all info that in landing page if success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Get all info for landing page",
+                "operationId": "GetLandingPageInfoHandler",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/search.LandingPageInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "error log",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/fortune168/v1/login": {
             "post": {
                 "description": "login by username and password, return jwt token",
@@ -390,6 +573,72 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/my_schedule/{id}": {
+            "post": {
+                "description": "See body for request details and uuid in param. Return calendar in day format if success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule"
+                ],
+                "summary": "Get schedule in calendar's day format",
+                "operationId": "MyScheduleHandler",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "date",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "month",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "year",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uuid values",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schedule.Appointment"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error logs",
                         "schema": {
                             "type": "string"
                         }
@@ -742,6 +991,160 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/review": {
+            "post": {
+                "description": "See body for request details. Return message if review is success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "review"
+                ],
+                "summary": "Post review for this appointment",
+                "operationId": "ReviewRatingHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "appointmentId",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "score",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "text",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error logs",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/review/{user_id}": {
+            "get": {
+                "description": "Enter provider's provider in param. Return all review of this provider",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "review"
+                ],
+                "summary": "Get Provider review",
+                "operationId": "GetReviewHandler",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "uuid values",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/review.ProviderReview"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fortune168/v1/search": {
+            "post": {
+                "description": "See body for request details. Return array of search result if success",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Search for provider by search argument",
+                "operationId": "SearchHandler",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "fortuneType",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "keyword",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "name": "maxPrice",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "name": "maxRating",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "name": "minPrice",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "number",
+                        "name": "minRating",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/profile.ProviderProfile"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
                         "schema": {
                             "type": "string"
                         }
@@ -1130,6 +1533,102 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "review.ProviderReview": {
+            "type": "object",
+            "properties": {
+                "reviewList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/review_repo.ReviewItem"
+                    }
+                }
+            }
+        },
+        "review_repo.ReviewItem": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "profilePic": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "schedule.Appointment": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "topic": {
+                    "type": "string"
+                }
+            }
+        },
+        "schedule.ScheduleDto": {
+            "type": "object",
+            "properties": {
+                "available_date": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schedule.WorkingDay"
+                    }
+                },
+                "not_available_date": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "schedule.WorkingDay": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "integer"
+                },
+                "timeList": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "search.LandingPageInfo": {
+            "type": "object",
+            "properties": {
+                "totalCustomer": {
+                    "type": "integer"
+                },
+                "totalFortuneService": {
+                    "type": "integer"
+                },
+                "totalProvider": {
+                    "type": "integer"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -1184,7 +1683,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
-	Host:             "localhost:1323",
+	Host:             "zinusoidal-fortune.kirkpig.dev",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
