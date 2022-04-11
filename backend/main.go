@@ -47,9 +47,9 @@ func init() {
 
 }
 
-// @title           Swagger Example API
+// @title           Fortune168 API documentation
 // @version         2.0
-// @description     This is a sample server celler server.
+// @description     This is API documentation for zinusoidal-fortune.kirkpig.dev server.
 // @termsOfService  http://swagger.io/terms/
 
 // @contact.name   API Support
@@ -59,7 +59,7 @@ func init() {
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:1323
+// @host      zinusoidal-fortune.kirkpig.dev
 // @BasePath  /
 
 // @securityDefinitions.basic BasicAuth

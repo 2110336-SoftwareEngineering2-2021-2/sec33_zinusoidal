@@ -159,20 +159,229 @@ definitions:
           $ref: '#/definitions/model.WorkSchedule'
         type: array
     type: object
-host: localhost:1323
+  review.ProviderReview:
+    properties:
+      reviewList:
+        items:
+          $ref: '#/definitions/review_repo.ReviewItem'
+        type: array
+    type: object
+  review.ReviewRatingRequest:
+    properties:
+      appointmentId:
+        type: string
+      score:
+        type: integer
+      text:
+        type: string
+    type: object
+  review_repo.ReviewItem:
+    properties:
+      name:
+        type: string
+      profilePic:
+        type: string
+      score:
+        type: integer
+      text:
+        type: string
+    type: object
+  schedule.Appointment:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      time:
+        items:
+          type: string
+        type: array
+      topic:
+        type: string
+    type: object
+  schedule.MyScheduleRequest:
+    properties:
+      date:
+        type: integer
+      month:
+        type: integer
+      year:
+        type: integer
+    required:
+    - date
+    - month
+    - year
+    type: object
+  schedule.ScheduleDto:
+    properties:
+      available_date:
+        items:
+          $ref: '#/definitions/schedule.WorkingDay'
+        type: array
+      not_available_date:
+        items:
+          type: integer
+        type: array
+    type: object
+  schedule.ScheduleRequest:
+    properties:
+      month:
+        type: integer
+      year:
+        type: integer
+    required:
+    - month
+    - year
+    type: object
+  schedule.WorkingDay:
+    properties:
+      date:
+        type: integer
+      timeList:
+        items:
+          items:
+            type: string
+          type: array
+        type: array
+    type: object
+  search.LandingPageInfo:
+    properties:
+      totalCustomer:
+        type: integer
+      totalFortuneService:
+        type: integer
+      totalProvider:
+        type: integer
+    type: object
+  search.SearchRequest:
+    properties:
+      fortuneType:
+        items:
+          type: string
+        type: array
+      keyword:
+        type: string
+      maxPrice:
+        type: number
+      maxRating:
+        type: number
+      minPrice:
+        type: number
+      minRating:
+        type: number
+    type: object
+host: zinusoidal-fortune.kirkpig.dev
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a sample server celler server.
+  description: This is API documentation for zinusoidal-fortune.kirkpig.dev server.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
+  title: Fortune168 API documentation
   version: "2.0"
 paths:
+  /api/fortune168/v1/all_services:
+    get:
+      consumes:
+      - application/json
+      description: Return array of search result if success
+      operationId: GetAllServicesHandler
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: services
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: invalid request
+          schema:
+            type: string
+      summary: Get all services in platform
+      tags:
+      - search
+  /api/fortune168/v1/available_schedule/{id}:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details and uuid in param. Return calendar
+        in format if success
+      operationId: ScheduleHandler
+      parameters:
+      - description: time to get schedule
+        in: body
+        name: ScheduleRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schedule.ScheduleRequest'
+      - description: uuid values
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schedule.ScheduleDto'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: error logs
+          schema:
+            type: string
+      summary: Get schedule in calendar's month format
+      tags:
+      - schedule
+  /api/fortune168/v1/available_time/{id}:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details and uuid in param. Return freetime
+        in day format if success
+      operationId: FreeTimeHandler
+      parameters:
+      - description: time to get schedule
+        in: body
+        name: MyScheduleRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schedule.MyScheduleRequest'
+      - description: uuid values
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: free time
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: error logs
+          schema:
+            type: string
+      summary: Get free time of this provider
+      tags:
+      - schedule
   /api/fortune168/v1/block:
     post:
       consumes:
@@ -355,6 +564,26 @@ paths:
       summary: Delete account for both customer and provider
       tags:
       - auth
+  /api/fortune168/v1/landing_page_info:
+    get:
+      consumes:
+      - application/json
+      description: Return all info that in landing page if success
+      operationId: GetLandingPageInfoHandler
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/search.LandingPageInfo'
+        "500":
+          description: error log
+          schema:
+            type: string
+      summary: Get all info for landing page
+      tags:
+      - search
   /api/fortune168/v1/login:
     post:
       consumes:
@@ -425,6 +654,45 @@ paths:
       summary: Customer make appointment with provider
       tags:
       - appointment
+  /api/fortune168/v1/my_schedule/{id}:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details and uuid in param. Return calendar
+        in day format if success
+      operationId: MyScheduleHandler
+      parameters:
+      - description: time to get schedule
+        in: body
+        name: MyScheduleRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schedule.MyScheduleRequest'
+      - description: uuid values
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schedule.Appointment'
+            type: array
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: error logs
+          schema:
+            type: string
+      summary: Get schedule in calendar's day format
+      tags:
+      - schedule
   /api/fortune168/v1/password_edit:
     patch:
       consumes:
@@ -661,6 +929,89 @@ paths:
       summary: change status of request
       tags:
       - appointment
+  /api/fortune168/v1/review:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details. Return message if review is success
+      operationId: ReviewRatingHandler
+      parameters:
+      - description: review info to be post
+        in: body
+        name: ReviewRatingRequest
+        required: true
+        schema:
+          $ref: '#/definitions/review.ReviewRatingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: error logs
+          schema:
+            type: string
+      summary: Post review for this appointment
+      tags:
+      - review
+  /api/fortune168/v1/review/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Enter provider's provider in param. Return all review of this provider
+      operationId: GetReviewHandler
+      parameters:
+      - description: uuid values
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/review.ProviderReview'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+      summary: Get Provider review
+      tags:
+      - review
+  /api/fortune168/v1/search:
+    post:
+      consumes:
+      - application/json
+      description: See body for request details. Return array of search result if
+        success
+      operationId: SearchHandler
+      parameters:
+      - description: search argument
+        in: body
+        name: SearchRequest
+        required: true
+        schema:
+          $ref: '#/definitions/search.SearchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/profile.ProviderProfile'
+            type: array
+        "400":
+          description: invalid request
+          schema:
+            type: string
+      summary: Search for provider by search argument
+      tags:
+      - search
   /api/fortune168/v1/send_message:
     post:
       consumes:

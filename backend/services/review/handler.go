@@ -49,7 +49,7 @@ func (h *Handler) GetReviewHandler(c *gin.Context) {
 // ReviewRatingHandler Post review
 // @Summary Post review for this appointment
 // @Description See body for request details. Return message if review is success
-// @Param ReviewRatingRequest formData ReviewRatingRequest true "review info to be post"
+// @Param ReviewRatingRequest body ReviewRatingRequest true "review info to be post"
 // @ID ReviewRatingHandler
 // @Tags review
 // @Accept  json

@@ -19,7 +19,7 @@ func NewHandler(s Service) *Handler {
 // ScheduleHandler Get schedule in month
 // @Summary Get schedule in calendar's month format
 // @Description See body for request details and uuid in param. Return calendar in format if success
-// @Param ScheduleRequest formData ScheduleRequest true "time to get schedule"
+// @Param ScheduleRequest body ScheduleRequest true "time to get schedule"
 // @Param id path string true "uuid values"
 // @ID ScheduleHandler
 // @Tags schedule
@@ -68,7 +68,7 @@ func (h *Handler) ScheduleHandler(c *gin.Context) {
 // MyScheduleHandler Get schedule in day
 // @Summary Get schedule in calendar's day format
 // @Description See body for request details and uuid in param. Return calendar in day format if success
-// @Param MyScheduleRequest formData MyScheduleRequest true "time to get schedule"
+// @Param MyScheduleRequest body MyScheduleRequest true "time to get schedule"
 // @Param id path string true "uuid values"
 // @ID MyScheduleHandler
 // @Tags schedule
@@ -109,7 +109,7 @@ func (h *Handler) MyScheduleHandler(c *gin.Context) {
 // FreeTimeHandler Get free time of this provider
 // @Summary Get free time of this provider
 // @Description See body for request details and uuid in param. Return freetime in day format if success
-// @Param MyScheduleRequest formData MyScheduleRequest true "time to get schedule"
+// @Param MyScheduleRequest body MyScheduleRequest true "time to get schedule"
 // @Param id path string true "uuid values"
 // @ID FreeTimeHandler
 // @Tags schedule

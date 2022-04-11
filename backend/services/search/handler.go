@@ -20,7 +20,7 @@ func NewHandler(s Service) *Handler {
 // SearchHandler Searching
 // @Summary Search for provider by search argument
 // @Description See body for request details. Return array of search result if success
-// @Param SearchRequest formData SearchRequest true "search argument"
+// @Param SearchRequest body SearchRequest true "search argument"
 // @ID SearchHandler
 // @Tags search
 // @Accept  json
@@ -54,7 +54,7 @@ func (h *Handler) SearchHandler(c *gin.Context) {
 // @Tags search
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} string "services"
+// @Success 200 {array} string "services"
 // @Failure 400 {object} string "invalid request"
 // @Router /api/fortune168/v1/all_services [get]
 func (h *Handler) GetAllServicesHandler(c *gin.Context) {
