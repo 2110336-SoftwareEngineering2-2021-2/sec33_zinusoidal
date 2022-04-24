@@ -47,49 +47,7 @@ func init() {
 
 }
 
-// @title           Fortune168 API documentation
-// @version         2.0
-// @description     This is API documentation for zinusoidal-fortune.kirkpig.dev server.
-// @termsOfService  http://swagger.io/terms/
-
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
-
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
-
-// @host      zinusoidal-fortune.kirkpig.dev
-// @BasePath  /
-
-// @securityDefinitions.basic BasicAuth
-
-// @securityDefinitions.apikey ApiKeyAuth
-// @in header
-// @name Authorization
-
-// @securitydefinitions.oauth2.application OAuth2Application
-// @tokenUrl https://example.com/oauth/token
-// @scope.write Grants write access
-// @scope.admin Grants read and write access to administrative information
-
-// @securitydefinitions.oauth2.implicit OAuth2Implicit
-// @authorizationurl https://example.com/oauth/authorize
-// @scope.write Grants write access
-// @scope.admin Grants read and write access to administrative information
-
-// @securitydefinitions.oauth2.password OAuth2Password
-// @tokenUrl https://example.com/oauth/token
-// @scope.read Grants read access
-// @scope.write Grants write access
-// @scope.admin Grants read and write access to administrative information
-
-// @securitydefinitions.oauth2.accessCode OAuth2AccessCode
-// @tokenUrl https://example.com/oauth/token
-// @authorizationurl https://example.com/oauth/authorize
-// @scope.admin Grants read and write access to administrative information
-func main() {
-
+func SetupRouter() *gin.Engine {
 	router := gin.Default()
 	config := cors.DefaultConfig()
 	config.AllowOriginFunc = func(origin string) bool { return true }
@@ -163,7 +121,52 @@ func main() {
 		v1fortune.POST("/review", review_handler.ReviewRatingHandler)
 		v1fortune.GET("/review/:user_id", review_handler.GetReviewHandler)
 	}
+	return router
+}
 
+// @title           Fortune168 API documentation
+// @version         2.0
+// @description     This is API documentation for zinusoidal-fortune.kirkpig.dev server.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      zinusoidal-fortune.kirkpig.dev
+// @BasePath  /
+
+// @securityDefinitions.basic BasicAuth
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
+// @securitydefinitions.oauth2.application OAuth2Application
+// @tokenUrl https://example.com/oauth/token
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.implicit OAuth2Implicit
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.password OAuth2Password
+// @tokenUrl https://example.com/oauth/token
+// @scope.read Grants read access
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.accessCode OAuth2AccessCode
+// @tokenUrl https://example.com/oauth/token
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.admin Grants read and write access to administrative information
+func main() {
+	router := SetupRouter()
 	router.Run(":" + viper.GetString("app.port"))
 }
 
@@ -189,7 +192,6 @@ func NewFirestoreConn() *firestore.Client {
 }
 
 func NewSQLConn() *gorm.DB {
-
 	conf := mysql.Config{
 		DBName: viper.GetString("mysql.db_name"),
 		User:   viper.GetString("mysql.username"),
@@ -198,18 +200,13 @@ func NewSQLConn() *gorm.DB {
 		Addr:   viper.GetString("mysql.host") + ":" + viper.GetString("mysql.port"),
 		Loc:    time.Local,
 	}
-
 	conn, err := gorm.Open("mysql", conf.FormatDSN())
-
 	if err != nil {
 		log.Println("connection error")
 		log.Fatalln(err.Error())
 	}
-
 	log.Println("db connected!! 🎉")
-
 	return conn
-
 }
 
 func ConnectAws() *session.Session {

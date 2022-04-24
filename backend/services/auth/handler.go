@@ -174,18 +174,10 @@ func (h *Handler) ActivateEmailHandler(c *gin.Context) {
 // @Router /api/fortune168/v1/test [get]
 func (h *Handler) TestHandler(c *gin.Context) {
 	layout := "2006-01-02"
-	t, err := time.Parse(layout, "2014-05-22")
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"log": err.Error(),
-		})
-		return
-	}
+	t, _ := time.Parse(layout, "2014-05-22")
 	c.JSON(200, gin.H{
 		"log": t,
 	})
-
 }
 
 // DeleteAccountHandler delete account
