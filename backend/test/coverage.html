@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go (52.2%)</option>
+				<option value="file0">github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -100,7 +100,7 @@ type LoginResponse struct {
 func LoginHandler(c *gin.Context) <span class="cov8" title="1">{
         req := LoginRequest{}
         var err error
-        if err = c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+        if err = c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov8" title="1">{
                 c.JSON(http.StatusBadRequest, gin.H{
                         "log": "invalid request",
                 })
@@ -113,14 +113,8 @@ func LoginHandler(c *gin.Context) <span class="cov8" title="1">{
                 })
                 return
         }</span>
-        <span class="cov0" title="0">token, err := jwt.CreateToken(resp.UserId)
-        if err != nil </span><span class="cov0" title="0">{
-                c.JSON(http.StatusBadRequest, gin.H{
-                        "log": err.Error(),
-                })
-                return
-        }</span>
-        <span class="cov0" title="0">c.JSON(http.StatusOK, LoginResponse{
+        <span class="cov8" title="1">token, err := jwt.CreateToken(resp.UserId)
+        c.JSON(http.StatusOK, LoginResponse{
                 Token:        token,
                 UserId:       resp.UserId,
                 Username:     resp.Username,
@@ -146,12 +140,12 @@ SELECT U.id, U.username, U.password, P.first_name, P.last_name, P.profile_image
                 return model.LoginQuery{}, err
         }</span>
 
-        <span class="cov0" title="0">err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(password))
-        if err != nil </span><span class="cov0" title="0">{
+        <span class="cov8" title="1">err = bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(password))
+        if err != nil </span><span class="cov8" title="1">{
                 return model.LoginQuery{}, err
         }</span>
 
-        <span class="cov0" title="0">return result, err</span>
+        <span class="cov8" title="1">return result, err</span>
 }
 </pre>
 		

@@ -1,13 +1,11 @@
 mode: set
 github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:29.35,32.46 3 1
 github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:38.2,39.16 2 1
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:45.2,46.16 2 0
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:52.2,59.4 1 0
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:32.46,37.3 2 0
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:45.2,53.4 2 1
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:32.46,37.3 2 1
 github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:39.16,44.3 2 1
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:46.16,51.3 2 0
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:62.65,74.16 4 1
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:78.2,79.16 2 0
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:83.2,83.20 1 0
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:74.16,76.3 1 1
-github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:79.16,81.3 1 0
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:56.65,68.16 4 1
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:72.2,73.16 2 1
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:77.2,77.20 1 1
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:68.16,70.3 1 1
+github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go:73.16,75.3 1 1

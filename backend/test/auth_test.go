@@ -37,22 +37,50 @@ func MockJsonPost(c *gin.Context, content interface{}) {
 	c.Request.Body = io.NopCloser(bytes.NewBuffer(jsonbytes))
 }
 
-func TestPing(t *testing.T) {
-	w := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(w)
+/**
+assumption: assumed that in database, there is username "ryuio" with password "123456"
+and username "kirkpig" is not existed
+*/
+type LoginTestcase struct {
+	Username     string
+	Password     string
+	ResponseCode int
+}
 
-	c.Request = &http.Request{
-		Header: make(http.Header),
+var loginTestcases = []LoginTestcase{
+	{"", "123456", 400}, {"kirkpig", "451312", 400}, {"ryuio", "456522", 400}, {"ryuio", "123456", 200},
+}
+
+/**
+test command
+test
+	go test
+coverage
+	go test -cover
+	go test -coverprofile=coverage
+	go tool cover -func=coverage
+	go tool cover -html=coverage
+	go tool cover -html=coverage -o coverage.html
+*/
+
+func TestLogin(t *testing.T) {
+	for id, testcase := range loginTestcases {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+
+		c.Request = &http.Request{
+			Header: make(http.Header),
+		}
+
+		MockJsonPost(c, map[string]interface{}{
+			"username": testcase.Username,
+			"password": testcase.Password,
+		})
+		LoginHandler(c)
+
+		assert.Equal(t, w.Code, testcase.ResponseCode)
+		log.Printf("case ID: %d passed\n", id+1)
 	}
-
-	MockJsonPost(c, map[string]interface{}{
-		"username": "ryuio",
-		"password": "123456",
-	})
-	log.Println("OK_________________________________")
-	LoginHandler(c)
-
-	assert.Equal(t, w.Code, 400)
 
 }
 
