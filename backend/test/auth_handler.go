@@ -43,12 +43,6 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	token, err := jwt.CreateToken(resp.UserId)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"log": err.Error(),
-		})
-		return
-	}
 	c.JSON(http.StatusOK, LoginResponse{
 		Token:        token,
 		UserId:       resp.UserId,
