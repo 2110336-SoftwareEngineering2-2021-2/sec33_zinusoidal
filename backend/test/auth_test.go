@@ -57,6 +57,7 @@ var loginTestcases = []LoginTestcase{
 test command
 test
 	go test
+	go test -run TestLogin -v [for specific run]
 coverage
 	go test -cover
 	go test -coverprofile=coverage

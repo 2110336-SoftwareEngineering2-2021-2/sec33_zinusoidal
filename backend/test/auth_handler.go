@@ -5,6 +5,7 @@ import (
 
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
@@ -12,22 +13,8 @@ import (
 
 var db *gorm.DB
 
-type LoginRequest struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
-
-type LoginResponse struct {
-	Token        string `json:"token"`
-	UserId       string `json:"user_id"`
-	Username     string `json:"username"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	ProfileImage string `json:"profile_image"`
-}
-
 func LoginHandler(c *gin.Context) {
-	req := LoginRequest{}
+	req := auth.LoginRequest{}
 	var err error
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -43,7 +30,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	token, err := jwt.CreateToken(resp.UserId)
-	c.JSON(http.StatusOK, LoginResponse{
+	c.JSON(http.StatusOK, auth.LoginResponse{
 		Token:        token,
 		UserId:       resp.UserId,
 		Username:     resp.Username,
