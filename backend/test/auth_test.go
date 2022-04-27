@@ -27,6 +27,8 @@ func init() {
 	db = NewSQLConn() /// connect database
 }
 
+// ref: https://stackoverflow.com/questions/57733801/how-to-set-mock-gin-context-for-bindjson/67034058#67034058
+// see this, if you want to mock form-data https://stackoverflow.com/questions/66952761/how-to-unit-test-a-go-gin-handler-function
 func MockJsonPost(c *gin.Context, content interface{}) {
 	c.Request.Method = "POST" // or PUT
 	c.Request.Header.Set("Content-Type", "application/json")
@@ -38,9 +40,9 @@ func MockJsonPost(c *gin.Context, content interface{}) {
 }
 
 /**
-assumption: assumed that in database, there is username "ryuio" with password "123456"
-and username "kirkpig" is not existed
-*/
+ * assumption: assumed that in database, there is username "ryuio" with password "123456"
+ * and username "kirkpig" is not existed
+**/
 type LoginTestcase struct {
 	Username     string
 	Password     string
@@ -81,7 +83,6 @@ func TestLogin(t *testing.T) {
 		assert.Equal(t, w.Code, testcase.ResponseCode)
 		log.Printf("case ID: %d passed\n", id+1)
 	}
-
 }
 
 func NewSQLConn() *gorm.DB {
