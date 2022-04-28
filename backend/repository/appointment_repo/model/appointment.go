@@ -1,15 +1,16 @@
 package model
 
 import (
+	"errors"
+	"fmt"
 	"strconv"
 	"time"
 )
 
 type AppointmentInfo struct {
-	AppointmentId string   `json:"appointmentId"`
-	FortuneType   string   `json:"fortuneType"`
-	Price         int      `json:"price"`
-	Time          []string `json:"time"`
+	FortuneType string   `json:"fortuneType"`
+	Price       int      `json:"price"`
+	Time        []string `json:"time"`
 }
 
 type Appointment struct {
@@ -51,6 +52,10 @@ func GetTimes(tim string) (int, int, error) {
 	if err != nil {
 		return -1, -1, err
 	}
+	if (mins == 59 && hours != 23) || !(mins == 30 || mins == 0) || (hours > 23) {
+		return -1, -1, errors.New("invalid format " + fmt.Sprintf("%d", hours) + ":" + fmt.Sprintf("%d", mins))
+	}
+
 	return hours, mins, nil
 }
 

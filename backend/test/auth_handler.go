@@ -7,11 +7,8 @@ import (
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
 	"github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
-
-var db *gorm.DB
 
 func LoginHandler(c *gin.Context) {
 	req := auth.LoginRequest{}
@@ -51,7 +48,7 @@ SELECT U.id, U.username, U.password, P.first_name, P.last_name, P.profile_image
     WHERE U.username = ?;`
 	var result model.LoginQuery
 
-	err := db.Raw(login_command, username, username).Scan(&result).Error
+	err := DB.Raw(login_command, username, username).Scan(&result).Error
 	if err != nil {
 		return model.LoginQuery{}, err
 	}

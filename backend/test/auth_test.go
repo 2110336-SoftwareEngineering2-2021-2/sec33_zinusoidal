@@ -8,11 +8,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 	"github.com/magiconair/properties/assert"
 	"github.com/spf13/viper"
 )
@@ -24,25 +21,9 @@ func init() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("[ERROR] Cannot read in viper config: %s", err)
 	}
-	db = NewSQLConn() /// connect database
+	DB = NewSQLConn() /// connect database
 }
 
-// ref: https://stackoverflow.com/questions/57733801/how-to-set-mock-gin-context-for-bindjson/67034058#67034058
-// see this, if you want to mock form-data https://stackoverflow.com/questions/66952761/how-to-unit-test-a-go-gin-handler-function
-func MockJsonPost(c *gin.Context, content interface{}) {
-	c.Request.Method = "POST" // or PUT
-	c.Request.Header.Set("Content-Type", "application/json")
-	jsonbytes, _ := json.Marshal(content)
-	// the request body must be an io.ReadCloser
-	// the bytes buffer though doesn't implement io.Closer,
-	// so you wrap it in a no-op closer
-	c.Request.Body = io.NopCloser(bytes.NewBuffer(jsonbytes))
-}
-
-/**
- * assumption: assumed that in database, there is username "ryuio" with password "123456"
- * and username "kirkpig" is not existed
-**/
 type LoginTestcase struct {
 	Username     string
 	Password     string
@@ -51,6 +32,16 @@ type LoginTestcase struct {
 
 var loginTestcases = []LoginTestcase{
 	{"", "123456", 400}, {"kirkpig", "451312", 400}, {"ryuio", "456522", 400}, {"ryuio", "123456", 200},
+}
+
+func mockJsonPost(c *gin.Context, content interface{}) {
+	c.Request.Method = "POST" // or PUT
+	c.Request.Header.Set("Content-Type", "application/json")
+	jsonbytes, _ := json.Marshal(content)
+	// the request body must be an io.ReadCloser
+	// the bytes buffer though doesn't implement io.Closer,
+	// so you wrap it in a no-op closer
+	c.Request.Body = io.NopCloser(bytes.NewBuffer(jsonbytes))
 }
 
 /**
@@ -75,7 +66,7 @@ func TestLogin(t *testing.T) {
 			Header: make(http.Header),
 		}
 
-		MockJsonPost(c, map[string]interface{}{
+		mockJsonPost(c, map[string]interface{}{
 			"username": testcase.Username,
 			"password": testcase.Password,
 		})
@@ -84,22 +75,4 @@ func TestLogin(t *testing.T) {
 		assert.Equal(t, w.Code, testcase.ResponseCode)
 		log.Printf("case ID: %d passed\n", id+1)
 	}
-}
-
-func NewSQLConn() *gorm.DB {
-	conf := mysql.Config{
-		DBName: viper.GetString("mysql.db_name"),
-		User:   viper.GetString("mysql.username"),
-		Passwd: viper.GetString("mysql.password"),
-		Net:    viper.GetString("mysql.net"),
-		Addr:   viper.GetString("mysql.host") + ":" + viper.GetString("mysql.port"),
-		Loc:    time.Local,
-	}
-	conn, err := gorm.Open("mysql", conf.FormatDSN())
-	if err != nil {
-		log.Println("connection error")
-		log.Fatalln(err.Error())
-	}
-	log.Println("db connected!! 🎉")
-	return conn
 }

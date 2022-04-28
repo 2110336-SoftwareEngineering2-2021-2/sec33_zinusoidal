@@ -15,7 +15,7 @@
         },
         "version": "2.0"
     },
-    "host": "zinusoidal-fortune.kirkpig.dev",
+    "host": "localhost:1323",
     "basePath": "/",
     "paths": {
         "/api/fortune168/v1/all_services": {
@@ -1343,9 +1343,6 @@
         "model.AppointmentInfo": {
             "type": "object",
             "properties": {
-                "appointmentId": {
-                    "type": "string"
-                },
                 "fortuneType": {
                     "type": "string"
                 },

@@ -1350,9 +1350,6 @@ const docTemplate = `{
         "model.AppointmentInfo": {
             "type": "object",
             "properties": {
-                "appointmentId": {
-                    "type": "string"
-                },
                 "fortuneType": {
                     "type": "string"
                 },
@@ -1709,7 +1706,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
-	Host:             "zinusoidal-fortune.kirkpig.dev",
+	Host:             "localhost:1323",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Fortune168 API documentation",

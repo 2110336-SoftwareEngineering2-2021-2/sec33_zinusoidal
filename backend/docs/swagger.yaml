@@ -70,8 +70,6 @@ definitions:
     type: object
   model.AppointmentInfo:
     properties:
-      appointmentId:
-        type: string
       fortuneType:
         type: string
       price:
@@ -270,7 +268,7 @@ definitions:
       minRating:
         type: number
     type: object
-host: zinusoidal-fortune.kirkpig.dev
+host: localhost:1323
 info:
   contact:
     email: support@swagger.io

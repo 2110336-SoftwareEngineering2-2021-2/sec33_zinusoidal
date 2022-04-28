@@ -94,6 +94,7 @@ func (s *Service) ProviderRegister(req ProviderRegisterRequest) error {
 	var err error
 	provider := model.Provider{}
 	var ws []model.WorkSchedule
+
 	err = json.Unmarshal([]byte(req.WorkSchedule), &ws)
 	if err != nil {
 		return err
