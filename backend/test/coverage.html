@@ -55,7 +55,11 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go (100.0%)</option>
+				<option value="file0">github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/appointment_handler.go (100.0%)</option>
+				
+				<option value="file1">github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/auth_handler.go (100.0%)</option>
+				
+				<option value="file2">github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/test/mockDB.go (71.4%)</option>
 				
 				</select>
 			</div>
@@ -72,33 +76,127 @@
 		<pre class="file" id="file0" style="display: none">package test
 
 import (
+        "log"
+        "net/http"
+
+        "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
+        "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/appointment_repo/model"
+        "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/appointment"
+        "github.com/gin-gonic/gin"
+        uuid "github.com/nu7hatch/gouuid"
+)
+
+func MakeAppointmentHandler(c *gin.Context) <span class="cov8" title="1">{
+        claim, err := jwt.VerifyToken(c)
+        if err != nil </span><span class="cov8" title="1">{
+                c.JSON(http.StatusUnauthorized, gin.H{
+                        "log": err.Error(),
+                })
+                return /// wrong JWT
+        }</span>
+        <span class="cov8" title="1">customerId := claim.UserID
+
+        if customerId[0] != byte('C') </span><span class="cov8" title="1">{
+                c.JSON(http.StatusBadRequest, gin.H{
+                        "log": "must to customer token",
+                })
+                return /// USE provider ID to make appointment
+        }</span>
+
+        <span class="cov8" title="1">req := appointment.AppointmentRequest{}
+        if err = c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov8" title="1">{
+                c.JSON(http.StatusBadRequest, gin.H{
+                        "log": err.Error(),
+                })
+                return /// binding request failed
+        }</span>
+
+        <span class="cov8" title="1">log.Println(req)
+
+        if err = MakeAppointment(req.Appointment, customerId, req.ProviderId, req.Date); err != nil </span><span class="cov8" title="1">{
+                c.JSON(http.StatusInternalServerError, gin.H{
+                        "log": err.Error(),
+                })
+                return /// failed somewhere inside function
+        }</span>
+        <span class="cov8" title="1">c.JSON(http.StatusOK, gin.H{
+                "log": "ok",
+        })</span> /// everything passed
+}
+
+func MakeAppointment(appointment model.Appointment, customerId, providerId, date string) error <span class="cov8" title="1">{
+
+        insert_appointment := `INSERT INTO appointment(appointment_id,customer_id,provider_id)
+    VALUES (?, ?, ?)`
+
+        insert_service := `INSERT INTO appointment_service(appointment_id,fortune_type,price,start_time,finish_time)
+    VALUES (?, ?, ?, ?, ?)`
+
+        insert_info := `INSERT INTO appointment_info(appointment_id,info_name,info_value)
+    VALUES (?, ?, ?)`
+
+        apt_uuid, _ := uuid.NewV4()
+        apt_id := "A" + apt_uuid.String()
+
+        DB.Exec(insert_appointment, apt_id, customerId, providerId)
+
+        noti := model.AppointmentNoti{}
+        noti.CustomerId = customerId
+        noti.ProviderId = providerId
+        noti.Status = 0
+        noti.TotalPrice = 0
+        noti.Information = appointment.Information
+        noti.Value = appointment.Value
+
+        for _, apt := range appointment.AppointmentInfo </span><span class="cov8" title="1">{
+
+                start_time, err := model.ParseToTime(apt.Time[0], date)
+                if err != nil </span><span class="cov8" title="1">{
+                        return err
+                }</span> /// first date format is wrong
+
+                <span class="cov8" title="1">end_time, err := model.ParseToTime(apt.Time[1], date)
+                if err != nil </span><span class="cov8" title="1">{
+                        return err
+                }</span> /// first correct, second format is wrong
+
+                <span class="cov8" title="1">DB.Exec(insert_service, apt_id, apt.FortuneType, apt.Price, start_time, end_time)
+
+                apt_time := model.AppointmentTime{
+                        StartTime: start_time,
+                        EndTime:   end_time,
+                }
+                noti.AppointmentTime = append(noti.AppointmentTime, apt_time)
+                noti.TotalPrice += apt.Price
+                noti.Services = append(noti.Services, model.Service{
+                        FortuneType: apt.FortuneType,
+                        Price:       apt.Price,
+                })</span>
+        }
+
+        <span class="cov8" title="1">for i, info := range appointment.Information </span><span class="cov8" title="1">{
+                val := appointment.Value[i]
+                DB.Exec(insert_info, apt_id, info, val)
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package test
+
+import (
         "net/http"
 
         "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/jwt"
         "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/repository/auth_repo/model"
+        "github.com/2110336-SoftwareEngineering2-2021-2/sec33_zinusoidal/backend/services/auth"
         "github.com/gin-gonic/gin"
-        "github.com/jinzhu/gorm"
         "golang.org/x/crypto/bcrypt"
 )
 
-var db *gorm.DB
-
-type LoginRequest struct {
-        Username string `json:"username" binding:"required"`
-        Password string `json:"password" binding:"required"`
-}
-
-type LoginResponse struct {
-        Token        string `json:"token"`
-        UserId       string `json:"user_id"`
-        Username     string `json:"username"`
-        FirstName    string `json:"first_name"`
-        LastName     string `json:"last_name"`
-        ProfileImage string `json:"profile_image"`
-}
-
 func LoginHandler(c *gin.Context) <span class="cov8" title="1">{
-        req := LoginRequest{}
+        req := auth.LoginRequest{}
         var err error
         if err = c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov8" title="1">{
                 c.JSON(http.StatusBadRequest, gin.H{
@@ -114,7 +212,7 @@ func LoginHandler(c *gin.Context) <span class="cov8" title="1">{
                 return
         }</span>
         <span class="cov8" title="1">token, err := jwt.CreateToken(resp.UserId)
-        c.JSON(http.StatusOK, LoginResponse{
+        c.JSON(http.StatusOK, auth.LoginResponse{
                 Token:        token,
                 UserId:       resp.UserId,
                 Username:     resp.Username,
@@ -135,7 +233,7 @@ SELECT U.id, U.username, U.password, P.first_name, P.last_name, P.profile_image
     WHERE U.username = ?;`
         var result model.LoginQuery
 
-        err := db.Raw(login_command, username, username).Scan(&amp;result).Error
+        err := DB.Raw(login_command, username, username).Scan(&amp;result).Error
         if err != nil </span><span class="cov8" title="1">{
                 return model.LoginQuery{}, err
         }</span>
@@ -146,6 +244,38 @@ SELECT U.id, U.username, U.password, P.first_name, P.last_name, P.profile_image
         }</span>
 
         <span class="cov8" title="1">return result, err</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package test
+
+import (
+        "log"
+        "time"
+
+        "github.com/go-sql-driver/mysql"
+        "github.com/jinzhu/gorm"
+        "github.com/spf13/viper"
+)
+
+var DB *gorm.DB
+
+func NewSQLConn() *gorm.DB <span class="cov8" title="1">{
+        conf := mysql.Config{
+                DBName: viper.GetString("mysql.db_name"),
+                User:   viper.GetString("mysql.username"),
+                Passwd: viper.GetString("mysql.password"),
+                Net:    viper.GetString("mysql.net"),
+                Addr:   viper.GetString("mysql.host") + ":" + viper.GetString("mysql.port"),
+                Loc:    time.Local,
+        }
+        conn, err := gorm.Open("mysql", conf.FormatDSN())
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("connection error")
+                log.Fatalln(err.Error())
+        }</span>
+        <span class="cov8" title="1">log.Println("db connected!! 🎉")
+        return conn</span>
 }
 </pre>
 		
