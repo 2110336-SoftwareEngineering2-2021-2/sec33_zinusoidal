@@ -10,6 +10,7 @@ services:
     # volumes:
       # - /home/ubuntu/ssl:/etc/nginx/certs
   logic:
+    # NOTE: Before build please setup your system in ./backend/config.yml
     # image: kirkpig/zinusoidal-backend:latest
     build: ./backend
     ports:
