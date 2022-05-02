@@ -1,7 +1,8 @@
 version: "3"
 services:
   web:
-    image: kirkpig/zinusoidal-frontend:latest"
+    # image: kirkpig/zinusoidal-frontend:latest"
+    build: ./frontend
     ports:
       - 80:80
       - 443:443
@@ -9,7 +10,8 @@ services:
     # volumes:
       # - /home/ubuntu/ssl:/etc/nginx/certs
   logic:
-    image: kirkpig/zinusoidal-backend:latest
+    # image: kirkpig/zinusoidal-backend:latest
+    build: ./backend
     ports:
       - 1323:1323
     # Secret only for deployment (firebase database)
